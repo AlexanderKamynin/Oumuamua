@@ -18,760 +18,803 @@
     <ClCompile Include="source\main.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\a2af.c">
+    <ClCompile Include="sofa\src\a2af.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\a2tf.c">
+    <ClCompile Include="sofa\src\a2tf.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\ab.c">
+    <ClCompile Include="sofa\src\ab.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\ae2hd.c">
+    <ClCompile Include="sofa\src\ae2hd.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\af2a.c">
+    <ClCompile Include="sofa\src\af2a.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\anp.c">
+    <ClCompile Include="sofa\src\anp.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\anpm.c">
+    <ClCompile Include="sofa\src\anpm.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\apcg.c">
+    <ClCompile Include="sofa\src\apcg.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\apcg13.c">
+    <ClCompile Include="sofa\src\apcg13.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\apci.c">
+    <ClCompile Include="sofa\src\apci.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\apci13.c">
+    <ClCompile Include="sofa\src\apci13.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\apco.c">
+    <ClCompile Include="sofa\src\apco.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\apco13.c">
+    <ClCompile Include="sofa\src\apco13.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\apcs.c">
+    <ClCompile Include="sofa\src\apcs.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\apcs13.c">
+    <ClCompile Include="sofa\src\apcs13.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\aper.c">
+    <ClCompile Include="sofa\src\aper.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\aper13.c">
+    <ClCompile Include="sofa\src\aper13.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\apio.c">
+    <ClCompile Include="sofa\src\apio.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\apio13.c">
+    <ClCompile Include="sofa\src\apio13.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\atcc13.c">
+    <ClCompile Include="sofa\src\atcc13.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\atccq.c">
+    <ClCompile Include="sofa\src\atccq.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\atci13.c">
+    <ClCompile Include="sofa\src\atci13.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\atciq.c">
+    <ClCompile Include="sofa\src\atciq.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\atciqn.c">
+    <ClCompile Include="sofa\src\atciqn.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\atciqz.c">
+    <ClCompile Include="sofa\src\atciqz.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\atco13.c">
+    <ClCompile Include="sofa\src\atco13.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\atic13.c">
+    <ClCompile Include="sofa\src\atic13.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\aticq.c">
+    <ClCompile Include="sofa\src\aticq.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\aticqn.c">
+    <ClCompile Include="sofa\src\aticqn.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\atio13.c">
+    <ClCompile Include="sofa\src\atio13.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\atioq.c">
+    <ClCompile Include="sofa\src\atioq.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\atoc13.c">
+    <ClCompile Include="sofa\src\atoc13.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\atoi13.c">
+    <ClCompile Include="sofa\src\atoi13.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\atoiq.c">
+    <ClCompile Include="sofa\src\atoiq.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\bi00.c">
+    <ClCompile Include="sofa\src\bi00.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\bp00.c">
+    <ClCompile Include="sofa\src\bp00.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\bp06.c">
+    <ClCompile Include="sofa\src\bp06.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\bpn2xy.c">
+    <ClCompile Include="sofa\src\bpn2xy.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\c2i00a.c">
+    <ClCompile Include="sofa\src\c2i00a.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\c2i00b.c">
+    <ClCompile Include="sofa\src\c2i00b.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\c2i06a.c">
+    <ClCompile Include="sofa\src\c2i06a.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\c2ibpn.c">
+    <ClCompile Include="sofa\src\c2ibpn.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\c2ixy.c">
+    <ClCompile Include="sofa\src\c2ixy.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\c2ixys.c">
+    <ClCompile Include="sofa\src\c2ixys.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\c2s.c">
+    <ClCompile Include="sofa\src\c2s.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\c2t00a.c">
+    <ClCompile Include="sofa\src\c2t00a.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\c2t00b.c">
+    <ClCompile Include="sofa\src\c2t00b.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\c2t06a.c">
+    <ClCompile Include="sofa\src\c2t06a.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\c2tcio.c">
+    <ClCompile Include="sofa\src\c2tcio.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\c2teqx.c">
+    <ClCompile Include="sofa\src\c2teqx.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\c2tpe.c">
+    <ClCompile Include="sofa\src\c2tpe.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\c2txy.c">
+    <ClCompile Include="sofa\src\c2txy.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\cal2jd.c">
+    <ClCompile Include="sofa\src\cal2jd.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\cp.c">
+    <ClCompile Include="sofa\src\cp.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\cpv.c">
+    <ClCompile Include="sofa\src\cpv.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\cr.c">
+    <ClCompile Include="sofa\src\cr.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\d2dtf.c">
+    <ClCompile Include="sofa\src\d2dtf.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\d2tf.c">
+    <ClCompile Include="sofa\src\d2tf.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\dat.c">
+    <ClCompile Include="sofa\src\dat.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\dtdb.c">
+    <ClCompile Include="sofa\src\dtdb.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\dtf2d.c">
+    <ClCompile Include="sofa\src\dtf2d.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\eceq06.c">
+    <ClCompile Include="sofa\src\eceq06.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\ecm06.c">
+    <ClCompile Include="sofa\src\ecm06.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\ee00.c">
+    <ClCompile Include="sofa\src\ee00.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\ee00a.c">
+    <ClCompile Include="sofa\src\ee00a.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\ee00b.c">
+    <ClCompile Include="sofa\src\ee00b.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\ee06a.c">
+    <ClCompile Include="sofa\src\ee06a.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\eect00.c">
+    <ClCompile Include="sofa\src\eect00.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\eform.c">
+    <ClCompile Include="sofa\src\eform.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\eo06a.c">
+    <ClCompile Include="sofa\src\eo06a.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\eors.c">
+    <ClCompile Include="sofa\src\eors.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\epb.c">
+    <ClCompile Include="sofa\src\epb.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\epb2jd.c">
+    <ClCompile Include="sofa\src\epb2jd.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\epj.c">
+    <ClCompile Include="sofa\src\epj.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\epj2jd.c">
+    <ClCompile Include="sofa\src\epj2jd.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\epv00.c">
+    <ClCompile Include="sofa\src\epv00.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\eqec06.c">
+    <ClCompile Include="sofa\src\eqec06.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\eqeq94.c">
+    <ClCompile Include="sofa\src\eqeq94.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\era00.c">
+    <ClCompile Include="sofa\src\era00.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\fad03.c">
+    <ClCompile Include="sofa\src\fad03.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\fae03.c">
+    <ClCompile Include="sofa\src\fae03.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\faf03.c">
+    <ClCompile Include="sofa\src\faf03.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\faju03.c">
+    <ClCompile Include="sofa\src\faju03.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\fal03.c">
+    <ClCompile Include="sofa\src\fal03.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\falp03.c">
+    <ClCompile Include="sofa\src\falp03.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\fama03.c">
+    <ClCompile Include="sofa\src\fama03.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\fame03.c">
+    <ClCompile Include="sofa\src\fame03.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\fane03.c">
+    <ClCompile Include="sofa\src\fane03.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\faom03.c">
+    <ClCompile Include="sofa\src\faom03.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\fapa03.c">
+    <ClCompile Include="sofa\src\fapa03.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\fasa03.c">
+    <ClCompile Include="sofa\src\fasa03.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\faur03.c">
+    <ClCompile Include="sofa\src\faur03.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\fave03.c">
+    <ClCompile Include="sofa\src\fave03.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\fk5hip.c">
+    <ClCompile Include="sofa\src\fk5hip.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\fk5hz.c">
+    <ClCompile Include="sofa\src\fk5hz.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\fk45z.c">
+    <ClCompile Include="sofa\src\fk45z.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\fk52h.c">
+    <ClCompile Include="sofa\src\fk52h.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\fk54z.c">
+    <ClCompile Include="sofa\src\fk54z.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\fk425.c">
+    <ClCompile Include="sofa\src\fk425.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\fk524.c">
+    <ClCompile Include="sofa\src\fk524.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\fw2m.c">
+    <ClCompile Include="sofa\src\fw2m.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\fw2xy.c">
+    <ClCompile Include="sofa\src\fw2xy.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\g2icrs.c">
+    <ClCompile Include="sofa\src\g2icrs.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\gc2gd.c">
+    <ClCompile Include="sofa\src\gc2gd.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\gc2gde.c">
+    <ClCompile Include="sofa\src\gc2gde.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\gd2gc.c">
+    <ClCompile Include="sofa\src\gd2gc.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\gd2gce.c">
+    <ClCompile Include="sofa\src\gd2gce.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\gmst00.c">
+    <ClCompile Include="sofa\src\gmst00.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\gmst06.c">
+    <ClCompile Include="sofa\src\gmst06.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\gmst82.c">
+    <ClCompile Include="sofa\src\gmst82.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\gst00a.c">
+    <ClCompile Include="sofa\src\gst00a.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\gst00b.c">
+    <ClCompile Include="sofa\src\gst00b.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\gst06.c">
+    <ClCompile Include="sofa\src\gst06.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\gst06a.c">
+    <ClCompile Include="sofa\src\gst06a.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\gst94.c">
+    <ClCompile Include="sofa\src\gst94.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\h2fk5.c">
+    <ClCompile Include="sofa\src\h2fk5.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\hd2ae.c">
+    <ClCompile Include="sofa\src\hd2ae.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\hd2pa.c">
+    <ClCompile Include="sofa\src\hd2pa.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\hfk5z.c">
+    <ClCompile Include="sofa\src\hfk5z.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\icrs2g.c">
+    <ClCompile Include="sofa\src\icrs2g.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\ir.c">
+    <ClCompile Include="sofa\src\ir.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\jd2cal.c">
+    <ClCompile Include="sofa\src\jd2cal.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\jdcalf.c">
+    <ClCompile Include="sofa\src\jdcalf.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\ld.c">
+    <ClCompile Include="sofa\src\ld.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\ldn.c">
+    <ClCompile Include="sofa\src\ldn.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\ldsun.c">
+    <ClCompile Include="sofa\src\ldsun.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\lteceq.c">
+    <ClCompile Include="sofa\src\lteceq.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\ltecm.c">
+    <ClCompile Include="sofa\src\ltecm.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\lteqec.c">
+    <ClCompile Include="sofa\src\lteqec.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\ltp.c">
+    <ClCompile Include="sofa\src\ltp.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\ltpb.c">
+    <ClCompile Include="sofa\src\ltpb.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\ltpecl.c">
+    <ClCompile Include="sofa\src\ltpecl.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\ltpequ.c">
+    <ClCompile Include="sofa\src\ltpequ.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\moon98.c">
+    <ClCompile Include="sofa\src\moon98.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\num00a.c">
+    <ClCompile Include="sofa\src\num00a.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\num00b.c">
+    <ClCompile Include="sofa\src\num00b.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\num06a.c">
+    <ClCompile Include="sofa\src\num06a.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\numat.c">
+    <ClCompile Include="sofa\src\numat.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\nut00a.c">
+    <ClCompile Include="sofa\src\nut00a.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\nut00b.c">
+    <ClCompile Include="sofa\src\nut00b.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\nut06a.c">
+    <ClCompile Include="sofa\src\nut06a.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\nut80.c">
+    <ClCompile Include="sofa\src\nut80.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\nutm80.c">
+    <ClCompile Include="sofa\src\nutm80.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\obl06.c">
+    <ClCompile Include="sofa\src\obl06.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\obl80.c">
+    <ClCompile Include="sofa\src\obl80.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\p2pv.c">
+    <ClCompile Include="sofa\src\p2pv.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\p2s.c">
+    <ClCompile Include="sofa\src\p2s.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\p06e.c">
+    <ClCompile Include="sofa\src\p06e.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\pap.c">
+    <ClCompile Include="sofa\src\pap.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\pas.c">
+    <ClCompile Include="sofa\src\pas.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\pb06.c">
+    <ClCompile Include="sofa\src\pb06.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\pdp.c">
+    <ClCompile Include="sofa\src\pdp.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\pfw06.c">
+    <ClCompile Include="sofa\src\pfw06.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\plan94.c">
+    <ClCompile Include="sofa\src\plan94.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\pm.c">
+    <ClCompile Include="sofa\src\pm.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\pmat00.c">
+    <ClCompile Include="sofa\src\pmat00.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\pmat06.c">
+    <ClCompile Include="sofa\src\pmat06.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\pmat76.c">
+    <ClCompile Include="sofa\src\pmat76.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\pmp.c">
+    <ClCompile Include="sofa\src\pmp.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\pmpx.c">
+    <ClCompile Include="sofa\src\pmpx.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\pmsafe.c">
+    <ClCompile Include="sofa\src\pmsafe.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\pn.c">
+    <ClCompile Include="sofa\src\pn.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\pn00.c">
+    <ClCompile Include="sofa\src\pn00.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\pn00a.c">
+    <ClCompile Include="sofa\src\pn00a.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\pn00b.c">
+    <ClCompile Include="sofa\src\pn00b.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\pn06.c">
+    <ClCompile Include="sofa\src\pn06.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\pn06a.c">
+    <ClCompile Include="sofa\src\pn06a.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\pnm00a.c">
+    <ClCompile Include="sofa\src\pnm00a.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\pnm00b.c">
+    <ClCompile Include="sofa\src\pnm00b.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\pnm06a.c">
+    <ClCompile Include="sofa\src\pnm06a.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\pnm80.c">
+    <ClCompile Include="sofa\src\pnm80.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\pom00.c">
+    <ClCompile Include="sofa\src\pom00.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\ppp.c">
+    <ClCompile Include="sofa\src\ppp.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\ppsp.c">
+    <ClCompile Include="sofa\src\ppsp.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\pr00.c">
+    <ClCompile Include="sofa\src\pr00.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\prec76.c">
+    <ClCompile Include="sofa\src\prec76.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\pv2p.c">
+    <ClCompile Include="sofa\src\pv2p.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\pv2s.c">
+    <ClCompile Include="sofa\src\pv2s.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\pvdpv.c">
+    <ClCompile Include="sofa\src\pvdpv.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\pvm.c">
+    <ClCompile Include="sofa\src\pvm.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\pvmpv.c">
+    <ClCompile Include="sofa\src\pvmpv.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\pvppv.c">
+    <ClCompile Include="sofa\src\pvppv.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\pvstar.c">
+    <ClCompile Include="sofa\src\pvstar.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\pvtob.c">
+    <ClCompile Include="sofa\src\pvtob.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\pvu.c">
+    <ClCompile Include="sofa\src\pvu.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\pvup.c">
+    <ClCompile Include="sofa\src\pvup.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\pvxpv.c">
+    <ClCompile Include="sofa\src\pvxpv.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\pxp.c">
+    <ClCompile Include="sofa\src\pxp.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\refco.c">
+    <ClCompile Include="sofa\src\refco.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\rm2v.c">
+    <ClCompile Include="sofa\src\rm2v.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\rv2m.c">
+    <ClCompile Include="sofa\src\rv2m.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\rx.c">
+    <ClCompile Include="sofa\src\rx.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\rxp.c">
+    <ClCompile Include="sofa\src\rxp.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\rxpv.c">
+    <ClCompile Include="sofa\src\rxpv.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\rxr.c">
+    <ClCompile Include="sofa\src\rxr.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\ry.c">
+    <ClCompile Include="sofa\src\ry.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\rz.c">
+    <ClCompile Include="sofa\src\rz.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\s00.c">
+    <ClCompile Include="sofa\src\s00.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\s00a.c">
+    <ClCompile Include="sofa\src\s00a.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\s00b.c">
+    <ClCompile Include="sofa\src\s00b.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\s2c.c">
+    <ClCompile Include="sofa\src\s2c.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\s2p.c">
+    <ClCompile Include="sofa\src\s2p.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\s2pv.c">
+    <ClCompile Include="sofa\src\s2pv.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\s2xpv.c">
+    <ClCompile Include="sofa\src\s2xpv.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\s06.c">
+    <ClCompile Include="sofa\src\s06.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\s06a.c">
+    <ClCompile Include="sofa\src\s06a.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\sepp.c">
+    <ClCompile Include="sofa\src\sepp.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\seps.c">
+    <ClCompile Include="sofa\src\seps.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\sp00.c">
+    <ClCompile Include="sofa\src\sp00.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\starpm.c">
+    <ClCompile Include="sofa\src\starpm.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\starpv.c">
+    <ClCompile Include="sofa\src\starpv.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\sxp.c">
+    <ClCompile Include="sofa\src\sxp.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\sxpv.c">
+    <ClCompile Include="sofa\src\sxpv.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\t_sofa_c.c">
+    <ClCompile Include="sofa\src\taitt.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\taitt.c">
+    <ClCompile Include="sofa\src\taiut1.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\taiut1.c">
+    <ClCompile Include="sofa\src\taiutc.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\taiutc.c">
+    <ClCompile Include="sofa\src\tcbtdb.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\tcbtdb.c">
+    <ClCompile Include="sofa\src\tcgtt.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\tcgtt.c">
+    <ClCompile Include="sofa\src\tdbtcb.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\tdbtcb.c">
+    <ClCompile Include="sofa\src\tdbtt.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\tdbtt.c">
+    <ClCompile Include="sofa\src\tf2a.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\tf2a.c">
+    <ClCompile Include="sofa\src\tf2d.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\tf2d.c">
+    <ClCompile Include="sofa\src\tpors.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\tpors.c">
+    <ClCompile Include="sofa\src\tporv.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\tporv.c">
+    <ClCompile Include="sofa\src\tpsts.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\tpsts.c">
+    <ClCompile Include="sofa\src\tpstv.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\tpstv.c">
+    <ClCompile Include="sofa\src\tpxes.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\tpxes.c">
+    <ClCompile Include="sofa\src\tpxev.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\tpxev.c">
+    <ClCompile Include="sofa\src\tr.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\tr.c">
+    <ClCompile Include="sofa\src\trxp.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\trxp.c">
+    <ClCompile Include="sofa\src\trxpv.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\trxpv.c">
+    <ClCompile Include="sofa\src\tttai.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\tttai.c">
+    <ClCompile Include="sofa\src\tttcg.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\tttcg.c">
+    <ClCompile Include="sofa\src\tttdb.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\tttdb.c">
+    <ClCompile Include="sofa\src\ttut1.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\ttut1.c">
+    <ClCompile Include="sofa\src\ut1tai.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\ut1tai.c">
+    <ClCompile Include="sofa\src\ut1tt.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\ut1tt.c">
+    <ClCompile Include="sofa\src\ut1utc.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\ut1utc.c">
+    <ClCompile Include="sofa\src\utctai.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\utctai.c">
+    <ClCompile Include="sofa\src\utcut1.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\utcut1.c">
+    <ClCompile Include="sofa\src\xy06.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\xy06.c">
+    <ClCompile Include="sofa\src\xys00a.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\xys00a.c">
+    <ClCompile Include="sofa\src\xys00b.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\xys00b.c">
+    <ClCompile Include="sofa\src\xys06a.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\xys06a.c">
+    <ClCompile Include="sofa\src\zp.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\zp.c">
+    <ClCompile Include="sofa\src\zpv.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\zpv.c">
+    <ClCompile Include="sofa\src\zr.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\sofa\src\zr.c">
+    <ClCompile Include="source\Converter.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="source\measure\CartesianCoord.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="source\measure\CylindricalCoord.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="source\DataReader.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Observation.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="source\measure\CelestianCoord.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="source\measure\Date.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="source\sofa\src\sofa.h">
+    <ClInclude Include="sofa\src\sofa.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="source\sofa\src\sofam.h">
+    <ClInclude Include="sofa\src\sofam.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Converter.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="source\measure\CartesianCoord.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="source\measure\CylindricalCoord.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="source\DataReader.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Observation.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="source\measure\CelestianCoord.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="source\measure\Date.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="source\sofa\src\makefile" />
+    <None Include="sofa\src\makefile" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="data\observations.txt" />
+    <Text Include="data\observatory.txt" />
   </ItemGroup>
 </Project>
