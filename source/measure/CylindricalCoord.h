@@ -1,22 +1,22 @@
 #pragma once
 #include <string>
 
-//класс для цилиндрических координат
+
 class CylindricalCoord
 {
 private:
-    double longitude = 0; //долгота
+    double longitude = 0;
     double cos = 0; 
     double sin = 0; 
 public:
-    //геттеры
+    //getters
     double get_longitude();
     double get_cos();
     double get_sin();
 
-    bool is_empty(std::string value);
+    bool string_is_empty(std::string str);
 
-    //сеттеры
+    //setters
     void set_longitude_from_string(std::string value);
     void set_cos_from_string(std::string value);
     void set_sin_from_string(std::string value);

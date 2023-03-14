@@ -8,22 +8,23 @@ CelestianCoord::CelestianCoord(double h, double m, double s) {
 }
 
 
-//Получение координат из строки
-void CelestianCoord::set_from_string(std::string params) {
-    char param;
+void CelestianCoord::set_from_string(std::string coord) {
+    /*
+    read the data from string
+    */
     int prev = 0;
     for (int i = 0; i < 3; i++) {
-        for (int j = prev; j < params.length() + 1; j++) {
-            if ((params[j] == ' ') or (params[j] == '\0')) {
+        for (int j = prev; j < coord.length() + 1; j++) {
+            if ((coord[j] == ' ') or (coord[j] == '\0')) {
                 switch (i) {
                 case 0:
-                    h = std::stod(params.substr(prev, j - prev));
+                    h = std::stod(coord.substr(prev, j - prev));
                     break;
                 case 1:
-                    m = std::stod(params.substr(prev, j - prev));
+                    m = std::stod(coord.substr(prev, j - prev));
                     break;
                 case 2:
-                    s = std::stod(params.substr(prev, j - prev));
+                    s = std::stod(coord.substr(prev, j - prev));
                     break;
                 default:
                     break;

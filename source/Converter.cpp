@@ -23,39 +23,15 @@ void Converter::interpolation_date_to_tt_tdb(std::vector<Observation> observatio
     for (int i = 0; i < observations.size(); i++) {
         int j = last_min;
         for (j; j < interpolation_time.size(); j++) {
-            if (observations[i].get_julian_date().get_MJD() < interpolation_time[j].get_julian_date().get_MJD()) {
+            if ((observations.at(i)).get_julian_date().get_MJD() < interpolation_time[j].get_julian_date().get_MJD()) {
                 last_min = j - 1;
-                delta = interpolation_time[j - 1].get_TT_TDB() + (interpolation_time[j].get_TT_TDB() - interpolation_time[j - 1].get_TT_TDB()) / (interpolation_time[j].get_julian_date().get_MJD() - interpolation_time[j - 1].get_julian_date().get_MJD()) * (observations[i].get_julian_date().get_MJD() - interpolation_time[j - 1].get_julian_date().get_MJD());
-                observations[i].get_julian_date().set_TT_TDB(delta);
+                delta = interpolation_time[j - 1].get_TT_TDB() + (interpolation_time[j].get_TT_TDB() - interpolation_time[j - 1].get_TT_TDB()) / (interpolation_time[j].get_julian_date().get_MJD() - interpolation_time[j - 1].get_julian_date().get_MJD()) * ((observations.at(i)).get_julian_date().get_MJD() - interpolation_time[j - 1].get_julian_date().get_MJD());
+                (observations.at(i)).get_julian_date().set_TT_TDB(delta);
                 break;
             }
         }
     }
 }
-
-
-//»нтерпол€ци€ положени€ ’аббла
-CartesianCoord Converter::interpolation_hubble_data(Date date, std::vector<InterpolationHubbleFrame> interpolation_data) {
-    for (int i = 0; i < interpolation_data.size() - 1; i++) {
-        if ((interpolation_data[i].get_date() < date) and (interpolation_data[i + 1].get_date() > date)) {
-            CartesianCoord new_frame;
-
-            double x = interpolation_data[i].get_data().get_x() + (interpolation_data[i + 1].get_data().get_x()
-                - interpolation_data[i + 1].get_data().get_x()) * (date.get_MJD() - interpolation_data[i].get_date().get_MJD());
-
-            double y = interpolation_data[i].get_data().get_y() + (interpolation_data[i + 1].get_data().get_y()
-                - interpolation_data[i + 1].get_data().get_y()) * (date.get_MJD() - interpolation_data[i].get_date().get_MJD());
-
-            double z = interpolation_data[i].get_data().get_z() + (interpolation_data[i + 1].get_data().get_z()
-                - interpolation_data[i + 1].get_data().get_z()) * (date.get_MJD() - interpolation_data[i].get_date().get_MJD());
-
-            new_frame.set_x(x);
-            new_frame.set_y(y);
-            new_frame.set_z(z);
-            return new_frame;
-        }
-    }
-};
 
 
 //“ранспонирование матрицы 3х3

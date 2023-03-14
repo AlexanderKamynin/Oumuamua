@@ -8,12 +8,12 @@ private:
     double y = 0;
     double z = 0;
 public:
-    //геттеры
+    //getters
     double get_x();
     double get_y();
     double get_z();
 
-    //сеттеры
+    //setters
     void set_from_string(std::string);
     void set_x(double value);
     void set_y(double value);

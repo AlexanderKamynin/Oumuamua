@@ -1,28 +1,33 @@
 #include "Date.h"
 
 
-Date::Date(std::string date) {
+Date::Date(std::string date)
+{
     int prev = 0;
+    int last = 0;
     for (int i = 0; i < 4; i++) {
         for (int j = prev; j < date.length() + 1; j++) {
-            if ((date[j] == ' ') or (date[j] == '\0')) {
+            if ((date[j] == ' ' and date[j + 1] != ' ') or (date[j] == '\0')) {
+                last = j;
+                while (date[last - 1] == ' ') {
+                    last--;
+                }
                 switch (i) {
                 case 0:
-                    year = std::stoi(date.substr(prev, j - prev));
+                    year = std::stoi(date.substr(prev, last - prev));
                     break;
                 case 1:
-                    month = std::stoi(date.substr(prev, j - prev));
+                    month = std::stoi(date.substr(prev, last - prev));
                     break;
                 case 2:
-                    day = std::stoi(date.substr(prev, j - prev));
-                    day_fraction = std::stod(date.substr(prev, j - prev)) - day;
+                    day = std::stoi(date.substr(prev, last - prev));
+                    day_fraction = std::stod(date.substr(prev, last - prev)) - day;
                     break;
                 default:
                     break;
                 }
-            }
-            if ((date[j] == ' ' and date[j] != ' ') or date[j] == '\0') {
                 prev = j + 1;
+                break;
             }
         }
     }
@@ -50,10 +55,11 @@ void Date::set_time_from_fraction() {
 }
 
 void Date::set_time_from_string(std::string time) {
-
+    //
 }
 
 void Date::set_JD() {
+    // more about convert you can see here: https://ru.m.wikipedia.org/wiki/%D0%AE%D0%BB%D0%B8%D0%B0%D0%BD%D1%81%D0%BA%D0%B0%D1%8F_%D0%B4%D0%B0%D1%82%D0%B0
     int a = int((14.0 - month) / 12.0);
     double y = year + 4800 - a;
     double m = month + 12 * a - 3;

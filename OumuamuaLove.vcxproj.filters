@@ -841,5 +841,6 @@
     <Text Include="data\observations.txt" />
     <Text Include="data\observatory.txt" />
     <Text Include="data\hubble_data.txt" />
+    <Text Include="data\interpolation_time_data.txt" />
   </ItemGroup>
 </Project>

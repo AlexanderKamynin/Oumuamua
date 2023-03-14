@@ -2,18 +2,20 @@
 #include <string>
 
 
-//Небесные координаты
+//Class that interpreted celestian coordinate obj
 class CelestianCoord {
 private:
-    double h = 0;
-    double m = 0;
-    double s = 0;
+    double h = 0; // hours
+    double m = 0; // minutes
+    double s = 0; // seconds
 public:
     CelestianCoord() = default;
     CelestianCoord(double h, double m, double s);
+
+    //setters
     void set_from_string(std::string);
 
-    //геттеры
+    //getters
     double get_h();
     double get_m();
     double get_s();

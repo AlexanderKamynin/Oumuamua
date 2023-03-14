@@ -70,7 +70,7 @@ void DataReader::read_hubble_data(std::string filename) {
 
 }
 
-//—читывание данных дл€ интерпол€ции
+
 void DataReader::read_interpolation_time_data(std::string filename) {
     std::ifstream file(filename);
     std::string data_line;
@@ -82,8 +82,11 @@ void DataReader::read_interpolation_time_data(std::string filename) {
         while (getline(file, data_line)) {
             ind++;
             InterpolationTimeFrame data_frame;
-            data_frame.set_julian_date(Date(data_line.substr(0, 12)));
-            data_frame.set_TT_TDB(data_line.substr(14, 8));
+            Date observation_date(data_line.substr(0, 12));
+            observation_date.set_time_from_fraction();
+            observation_date.set_JD();
+            data_frame.set_julian_date(observation_date);
+            data_frame.set_TT_TDB(data_line.substr(13, 9));
             interpolation_time.push_back(data_frame);
         }
     }

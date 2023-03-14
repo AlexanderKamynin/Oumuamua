@@ -2,7 +2,7 @@
 #include <string>
 
 
-// ласс даты в формате "год мес€ц день.дол€ дн€"
+
 class Date {
 private:
     int year;

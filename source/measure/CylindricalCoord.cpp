@@ -14,24 +14,24 @@ double CylindricalCoord::get_sin() {
 }
 
 
-bool CylindricalCoord::is_empty(std::string value) {
-    for (char c : value) {
+bool CylindricalCoord::string_is_empty(std::string str) {
+    for (char c : str) {
         if (c != ' ') {
-            return true;
+            return false;
         }
     }
-    return false;
+    return true;
 }
 
 // Перевод считываемой строки в число
 void CylindricalCoord::set_longitude_from_string(std::string value) {
-    this->longitude = is_empty(value) ? stod(value) : 0;
+    this->longitude = string_is_empty(value) ? 0 : stod(value);
 }
 
 void CylindricalCoord::set_cos_from_string(std::string value) {
-    this->cos = is_empty(value) ? stod(value) : 0;
+    this->cos = string_is_empty(value) ? 0 : stod(value);
 }
 
 void CylindricalCoord::set_sin_from_string(std::string value) {
-    this->sin = is_empty(value) ? stod(value) : 0;
+    this->sin = string_is_empty(value) ? 0 : stod(value);
 }

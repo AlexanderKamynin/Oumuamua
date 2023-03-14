@@ -409,6 +409,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="data\hubble_data.txt" />
+    <Text Include="data\interpolation_time_data.txt" />
     <Text Include="data\observations.txt" />
     <Text Include="data\observatory.txt" />
   </ItemGroup>
