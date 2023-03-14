@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 
 
 class CartesianCoord {
@@ -13,6 +14,7 @@ public:
     double get_z();
 
     //сеттеры
+    void set_from_string(std::string);
     void set_x(double value);
     void set_y(double value);
     void set_z(double value);

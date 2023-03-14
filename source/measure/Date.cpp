@@ -20,21 +20,40 @@ Date::Date(std::string date) {
                 default:
                     break;
                 }
+            }
+            if ((date[j] == ' ' and date[j] != ' ') or date[j] == '\0') {
                 prev = j + 1;
-                break;
             }
         }
     }
+}
 
-    //Вычисление часа, минут и секунд через долю дня
+bool operator<(const Date& date1, const Date& date2) {
+    return date1.MJD < date2.MJD;
+}
+
+bool operator>(const Date& date1, const Date& date2) {
+    return date1.MJD > date2.MJD;
+}
+
+bool operator==(const Date& date1, const Date& date2) {
+    return date1.MJD == date2.MJD;
+}
+
+void Date::set_time_from_fraction() {
     double delta_t = day_fraction * 24;
     hours = int(delta_t);
     delta_t = (delta_t - hours) * 60;
     minutes = int(delta_t);
     delta_t = (delta_t - minutes) * 60;
     seconds = int(delta_t);
+}
 
-    //Юлианская дата
+void Date::set_time_from_string(std::string time) {
+
+}
+
+void Date::set_JD() {
     int a = int((14.0 - month) / 12.0);
     double y = year + 4800 - a;
     double m = month + 12 * a - 3;
@@ -45,69 +64,45 @@ Date::Date(std::string date) {
 
 int Date::get_year() {
     return year;
-}
+};
 
 int Date::get_month() {
     return month;
-}
+};
 
 int Date::get_day() {
     return day;
-}
+};
 
 double Date::get_day_fraction() {
     return day_fraction;
-}
+};
 
 double Date::get_JD() {
     return JD;
-}
+};
 
 double Date::get_MJD() {
     return MJD;
-}
+};
 
 double Date::get_TT() {
     return TT;
-}
+};
 
-double Date::get_TBD() {
-    return TBD;
-}
+double Date::get_TDB() {
+    return TDB;
+};
 
-void Date::set_year(int year)
-{
-    this->year = year;
-}
-
-void Date::set_month(int month)
-{
-    this->month = month;
-}
-
-void Date::set_day(int day)
-{
-    this->day = day;
-}
-
-void Date::set_day_fraction(double day_fraction)
-{
-    this->day_fraction = day_fraction;
-}
-
-void Date::set_JD(double JD) {
-    this->JD = JD;
-}
-
-void Date::set_MJD(double MJD)
-{
-    this->MJD = MJD;
-}
+double Date::get_TT_TDB() {
+    return TT_TDB;
+};
 
 void Date::set_TT(double TT) {
     this->TT = TT;
-}
+};
 
-void Date::set_TBD(double TBD) {
-    this->TBD = TBD;
-}
+void Date::set_TT_TDB(double TT_TDB) {
+    this->TT_TDB = TT_TDB;
+    TDB = TT + TT_TDB;
+};

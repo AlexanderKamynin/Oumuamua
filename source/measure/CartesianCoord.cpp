@@ -24,3 +24,28 @@ void CartesianCoord::set_y(double value) {
 void CartesianCoord::set_z(double value) {
     this->z = value;
 }
+
+void CartesianCoord::set_from_string(std::string coord) {
+    int prev = 0;
+    for (int i = 0; i < 4; i++) {
+        for (int j = prev; j < coord.length() + 1; j++) {
+            if ((coord[j] == ' ') or (coord[j] == '\0')) {
+                switch (i) {
+                case 0:
+                    x = std::stod(coord.substr(prev, j - prev));
+                    break;
+                case 1:
+                    y = std::stod(coord.substr(prev, j - prev));
+                    break;
+                case 2:
+                    z = std::stod(coord.substr(prev, j - prev));
+                    break;
+                default:
+                    break;
+                }
+                prev = j + 1;
+                break;
+            }
+        }
+    }
+}

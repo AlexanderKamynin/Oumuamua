@@ -18,12 +18,19 @@ private:
     double JD;
     double MJD;
     double TT;
-    double TBD;
+    double TDB;
+    double TT_TDB;
 public:
-    Date() = default;
+    Date() {};
     Date(std::string);
 
-    //геттеры
+    friend bool operator< (const Date&, const Date&);
+    friend bool operator> (const Date&, const Date&);
+    friend bool operator== (const Date&, const Date&);
+
+    void set_time_from_fraction();
+    void set_time_from_string(std::string);
+
     int get_year();
     int get_month();
     int get_day();
@@ -31,15 +38,10 @@ public:
     double get_JD();
     double get_MJD();
     double get_TT();
-    double get_TBD();
+    double get_TDB();
+    double get_TT_TDB();
 
-    //сеттеры
-    void set_year(int year);
-    void set_month(int month);
-    void set_day(int day);
-    void set_day_fraction(double day_fraction);
-    void set_JD(double JD);
-    void set_MJD(double MJD);
+    void set_JD();
     void set_TT(double TT);
-    void set_TBD(double TT);
+    void set_TT_TDB(double TT_TDB);
 };

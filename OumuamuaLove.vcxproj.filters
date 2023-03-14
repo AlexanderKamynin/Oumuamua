@@ -780,6 +780,18 @@
     <ClCompile Include="source\measure\Date.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="source\measure\InterpolationTimeFrame.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="source\HubbleInterpolator.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="source\measure\GeocentricCoord.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="source\measure\InterpolationHubbleFrame.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sofa\src\sofa.h">
@@ -809,6 +821,18 @@
     <ClInclude Include="source\measure\Date.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="source\measure\InterpolationTimeFrame.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="source\HubbleInterpolator.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="source\measure\GeocentricCoord.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="source\measure\InterpolationHubbleFrame.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="sofa\src\makefile" />
@@ -816,5 +840,6 @@
   <ItemGroup>
     <Text Include="data\observations.txt" />
     <Text Include="data\observatory.txt" />
+    <Text Include="data\hubble_data.txt" />
   </ItemGroup>
 </Project>

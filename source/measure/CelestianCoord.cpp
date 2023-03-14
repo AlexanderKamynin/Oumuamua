@@ -1,7 +1,7 @@
 #include "CelestianCoord.h"
 
 
-CelestialCoord::CelestialCoord(double h, double m, double s) {
+CelestianCoord::CelestianCoord(double h, double m, double s) {
     this->h = h;
     this->m = m;
     this->s = s;
@@ -9,7 +9,7 @@ CelestialCoord::CelestialCoord(double h, double m, double s) {
 
 
 //Получение координат из строки
-void CelestialCoord::set_from_string(std::string params) {
+void CelestianCoord::set_from_string(std::string params) {
     char param;
     int prev = 0;
     for (int i = 0; i < 3; i++) {
@@ -35,14 +35,14 @@ void CelestialCoord::set_from_string(std::string params) {
     }
 }
 
-double CelestialCoord::get_h() {
+double CelestianCoord::get_h() {
     return this->h;
 }
 
-double CelestialCoord::get_m() {
+double CelestianCoord::get_m() {
     return this->m;
 }
 
-double CelestialCoord::get_s() {
+double CelestianCoord::get_s() {
     return this->s;
 }

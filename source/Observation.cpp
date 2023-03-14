@@ -9,11 +9,11 @@ std::string Observation::get_code() {
     return this->code;
 }
 
-CelestialCoord Observation::get_ascension() {
+CelestianCoord Observation::get_ascension() {
     return this->ascension;
 }
 
-CelestialCoord Observation::get_declination() {
+CelestianCoord Observation::get_declination() {
     return this->declination;
 }
 
@@ -25,11 +25,11 @@ void Observation::set_code(std::string value) {
     this->code = value;
 }
 
-void Observation::set_ascension(CelestialCoord value) {
+void Observation::set_ascension(CelestianCoord value) {
     this->ascension = value;
 }
 
-void Observation::set_declination(CelestialCoord value) {
+void Observation::set_declination(CelestianCoord value) {
     this->declination = value;
 }
 

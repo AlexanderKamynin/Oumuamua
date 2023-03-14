@@ -129,6 +129,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="source\measure\InterpolationHubbleFrame.cpp" />
+    <ClCompile Include="source\measure\GeocentricCoord.cpp" />
+    <ClCompile Include="source\HubbleInterpolator.cpp" />
+    <ClCompile Include="source\measure\InterpolationTimeFrame.cpp" />
     <ClCompile Include="source\measure\Date.cpp" />
     <ClCompile Include="source\measure\CelestianCoord.cpp" />
     <ClCompile Include="source\Observation.cpp" />
@@ -386,6 +390,10 @@
     <ClCompile Include="sofa\src\zr.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="source\measure\InterpolationHubbleFrame.h" />
+    <ClInclude Include="source\measure\GeocentricCoord.h" />
+    <ClInclude Include="source\HubbleInterpolator.h" />
+    <ClInclude Include="source\measure\InterpolationTimeFrame.h" />
     <ClInclude Include="source\measure\Date.h" />
     <ClInclude Include="source\measure\CelestianCoord.h" />
     <ClInclude Include="source\Observation.h" />
@@ -400,6 +408,7 @@
     <None Include="sofa\src\makefile" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="data\hubble_data.txt" />
     <Text Include="data\observations.txt" />
     <Text Include="data\observatory.txt" />
   </ItemGroup>

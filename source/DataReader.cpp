@@ -2,49 +2,100 @@
 
 
 //—читывание данных наблюдений
-void DataReader::read_observations(const std::string filename) {
+void DataReader::read_observations(std::string filename) {
     std::ifstream file(filename);
-    std::string string_line;
+    std::string data_line;
+
     if (!file.is_open())
-        std::cout << "Can't read the file! Filename was:" << filename << "\n";
+        std::cout << "‘айл с данными наблюдений не может быть открыт!\n";
     else
     {
-        while (getline(file, string_line)) {
-            if (string_line[14] != 's') { //считывание 222 данных
-                Observation data;
-                data.set_julian_date(Date(string_line.substr(15, 17))); //юлианска€ дата
-                data.set_code(string_line.substr(77, 3)); //код обсерватории
-                data.set_ascension_from_string(string_line.substr(32, 12)); //пр€мое восхождение
-                data.set_declination_from_string(string_line.substr(44, 12)); //склонение
+        while (getline(file, data_line)) {
+            if (data_line[14] != 's') {
 
-                observations.push_back(data);
+                Observation data_frame;
+                Date observation_date(data_line.substr(15, 17));
+                observation_date.set_time_from_fraction();
+                observation_date.set_JD();
+                data_frame.set_julian_date(observation_date);
+                data_frame.set_code(data_line.substr(77, 3));
+                data_frame.set_ascension_from_string(data_line.substr(32, 12));
+                data_frame.set_declination_from_string(data_line.substr(44, 12));
+
+                observations.push_back(data_frame);
             }
         }
     }
     file.close();
-    std::cout << "Observation readed: " << observations.size() << " \n";
+    std::cout << "Observation succesfully read: " << observations.size() << " ";
 }
 
 
 //—читывание данных местоположений обсерваторий
 void DataReader::read_observatory_data(std::string filename) {
     std::ifstream file(filename);
-    std::string string_line;
+    std::string data_line;
     if (!file.is_open())
-        std::cout << "Can't read the file! Filename was:" << filename << "\n";
+        std::cout << "‘айл с данными обсерваторий не может быть открыт!\n";
     else
     {
-        while (getline(file, string_line))
-        {
-            CylindricalCoord data;
-            data.set_longitude_from_string(string_line.substr(5, 8)); //долгота
-            data.set_cos_from_string(string_line.substr(13, 8));
-            data.set_sin_from_string(string_line.substr(21, 9));
-
-            observatory.push_back(data);
+        while (getline(file, data_line)) {
+            CylindricalCoord data_frame;
+            data_frame.set_longitude_from_string(data_line.substr(5, 8));
+            data_frame.set_cos_from_string(data_line.substr(13, 8));
+            data_frame.set_sin_from_string(data_line.substr(21, 9));
+            observatory.push_back(data_frame);
         }
     }
     file.close();
-    std::cout << "Observatory readed: " << observatory.size() << " \n";
 }
 
+
+void DataReader::read_hubble_data(std::string filename) {
+    std::ifstream file(filename);
+    std::string data_line;
+    if (!file.is_open())
+        std::cout << "‘айл с данными ’аббла не может быть открыт!\n";
+    else
+    {
+        while (getline(file, data_line)) {
+            CartesianCoord data_frame;
+            data_frame.set_from_string(data_line.substr(28, data_line.length()));
+            Date hubble_date(data_line.substr(0, 11));
+            hubble_date.set_time_from_string(data_line.substr(11, 25));
+            hubble.set_data_frame(hubble_date, data_frame);
+        }
+    }
+    file.close();
+
+}
+
+//—читывание данных дл€ интерпол€ции
+void DataReader::read_interpolation_time_data(std::string filename) {
+    std::ifstream file(filename);
+    std::string data_line;
+    int ind = 0;
+    if (!file.is_open())
+        std::cout << "‘айл с данными дл€ интерпол€ции даты не может быть открыт!\n";
+    else
+    {
+        while (getline(file, data_line)) {
+            ind++;
+            InterpolationTimeFrame data_frame;
+            data_frame.set_julian_date(Date(data_line.substr(0, 12)));
+            data_frame.set_TT_TDB(data_line.substr(14, 8));
+            interpolation_time.push_back(data_frame);
+        }
+    }
+    file.close();
+}
+
+
+std::vector<InterpolationTimeFrame> DataReader::get_interpolation_time() {
+    return interpolation_time;
+}
+
+
+std::vector<Observation> DataReader::get_observations() {
+    return observations;
+}
