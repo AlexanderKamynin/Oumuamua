@@ -5,9 +5,11 @@
 #include "./measure/CylindricalCoord.h"
 #include "./measure/CelestianCoord.h"
 #include "./measure/GeocentricCoord.h"
+#include "./measure/BarycentricCoord.h"
 
 #include "./measure/InterpolationTimeFrame.h"
 #include "./measure/InterpolationHubbleFrame.h"
+#include "./measure/InterpolationEarthFrame.h"
 
 #include "../sofa/src/sofa.h"
 #include "Observation.h"
@@ -24,6 +26,8 @@ public:
 	void interpolation_date_to_tt_tdb(std::vector<Observation> observations, std::vector<InterpolationTimeFrame> interpolation_time);
 
 	GeocentricCoord cartesian_to_geocentric(CartesianCoord, Date);
+	BarycentricCoord interpolation_center_of_earth_for_observatory(Date date, GeocentricCoord frame, std::vector<InterpolationEarthFrame> interpolation_earth);
+
 
 	void transpose(double mtr[3][3]);
 };

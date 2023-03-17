@@ -11,6 +11,10 @@ private:
     std::string code;// код обсерватории
     CelestianCoord ascension;// прямое восхождение
     CelestianCoord declination;// склонение
+
+    double x = 0;
+    double y = 0;
+    double z = 0;
 public:
     Observation() = default;
     // геттеры 
@@ -27,4 +31,11 @@ public:
 
     void set_ascension_from_string(std::string value);
     void set_declination_from_string(std::string value);
+
+    double get_x();
+    double get_y();
+    double get_z();
+    void set_x(double value);
+    void set_y(double value);
+    void set_z(double value);
 };

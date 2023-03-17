@@ -3,14 +3,21 @@
 
 CartesianCoord Converter::cylindrical_to_cartesian(CylindricalCoord cylindrical_coord)
 {
+    /*
+        Convert cylindrical to cartesian coords for observatory
+    */
     CartesianCoord cartesian_coord;
-    if (cylindrical_coord.get_longitude() != 0) {
-        if (cylindrical_coord.get_cos() != 0) {
+    if (cylindrical_coord.get_longitude() != 0) 
+    {
+        if (cylindrical_coord.get_cos() != 0) 
+        {
             cartesian_coord.set_x(cos(cylindrical_coord.get_longitude()) * cylindrical_coord.get_cos() * EARTH_RADIUS);
             cartesian_coord.set_y(sin(cylindrical_coord.get_longitude()) * cylindrical_coord.get_cos() * EARTH_RADIUS);
         }
         if (cylindrical_coord.get_sin() != 0)
+        {
             cartesian_coord.set_z(cylindrical_coord.get_sin() * EARTH_RADIUS);
+        }
     }
     return cartesian_coord;
 }
@@ -58,7 +65,7 @@ GeocentricCoord Converter::cartesian_to_geocentric(CartesianCoord frame, Date da
     iauXy06(date.get_TT(), 0, &x, &y);
 
     iauC2t06a(date.get_TT(), 0, date.get_JD(), 0, x, y, transition_matrix);
-
+    
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 3; j++) {
             std::cout << transition_matrix[i][j] << " ";
@@ -86,3 +93,23 @@ GeocentricCoord Converter::cartesian_to_geocentric(CartesianCoord frame, Date da
     return new_frame;
 
 };
+
+
+//»нтерпол€ци€ центра «емли
+BarycentricCoord Converter::interpolation_center_of_earth_for_observatory(Date date, GeocentricCoord frame, std::vector<InterpolationEarthFrame> interpolation_earth) {
+    double delta_x;
+    double delta_y;
+    double delta_z;
+    for (int j = 0; j < interpolation_earth.size(); j++) {
+        if (date.get_MJD() < interpolation_earth[j].get_julian_date().get_MJD()) {
+            delta_x = interpolation_earth[j - 1].get_x() + (interpolation_earth[j].get_x() - interpolation_earth[j - 1].get_x()) / (interpolation_earth[j].get_julian_date().get_MJD() - interpolation_earth[j - 1].get_julian_date().get_MJD()) * (date.get_MJD() - interpolation_earth[j - 1].get_julian_date().get_MJD());
+            delta_y = interpolation_earth[j - 1].get_y() + (interpolation_earth[j].get_y() - interpolation_earth[j - 1].get_y()) / (interpolation_earth[j].get_julian_date().get_MJD() - interpolation_earth[j - 1].get_julian_date().get_MJD()) * (date.get_MJD() - interpolation_earth[j - 1].get_julian_date().get_MJD());
+            delta_z = interpolation_earth[j - 1].get_z() + (interpolation_earth[j].get_z() - interpolation_earth[j - 1].get_z()) / (interpolation_earth[j].get_julian_date().get_MJD() - interpolation_earth[j - 1].get_julian_date().get_MJD()) * (date.get_MJD() - interpolation_earth[j - 1].get_julian_date().get_MJD());
+            BarycentricCoord new_frame;
+            new_frame.set_x(frame.get_x() + delta_x);
+            new_frame.set_y(frame.get_y() + delta_y);
+            new_frame.set_z(frame.get_z() + delta_z);
+            return new_frame;
+        }
+    }
+}

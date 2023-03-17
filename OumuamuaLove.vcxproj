@@ -129,6 +129,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="source\measure\ObservatoryData.cpp" />
+    <ClCompile Include="source\measure\InterpolationEarthFrame.cpp" />
+    <ClCompile Include="source\measure\BarycentricCoord.cpp" />
+    <ClCompile Include="source\Integration.cpp" />
     <ClCompile Include="source\measure\InterpolationHubbleFrame.cpp" />
     <ClCompile Include="source\measure\GeocentricCoord.cpp" />
     <ClCompile Include="source\HubbleInterpolator.cpp" />
@@ -390,6 +394,10 @@
     <ClCompile Include="sofa\src\zr.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="source\measure\ObservatoryData.h" />
+    <ClInclude Include="source\measure\InterpolationEarthFrame.h" />
+    <ClInclude Include="source\measure\BarycentricCoord.h" />
+    <ClInclude Include="source\Integration.h" />
     <ClInclude Include="source\measure\InterpolationHubbleFrame.h" />
     <ClInclude Include="source\measure\GeocentricCoord.h" />
     <ClInclude Include="source\HubbleInterpolator.h" />
