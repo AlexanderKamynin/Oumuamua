@@ -804,6 +804,12 @@
     <ClCompile Include="source\measure\ObservatoryData.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="source\measure\Velocity.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="source\measure\IntegrationVector.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sofa\src\sofa.h">
@@ -857,6 +863,12 @@
     <ClInclude Include="source\measure\ObservatoryData.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="source\measure\Velocity.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="source\measure\IntegrationVector.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="sofa\src\makefile" />
@@ -866,5 +878,6 @@
     <Text Include="data\observatory.txt" />
     <Text Include="data\hubble_data.txt" />
     <Text Include="data\interpolation_time_data.txt" />
+    <Text Include="data\interpolation_earth.txt" />
   </ItemGroup>
 </Project>

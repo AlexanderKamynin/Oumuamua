@@ -44,4 +44,5 @@ public:
     void set_JD();
     void set_TT(double TT);
     void set_TT_TDB(double TT_TDB);
+    void set_MJD(double MJD);
 };

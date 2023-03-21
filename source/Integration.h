@@ -8,8 +8,10 @@
 class Integration
 {
 public:
-	Integration();
+	Integration() = default;
+    std::vector<IntegrationVector> dormand_prince(IntegrationVector, Date, Date, double);
 
+    IntegrationVector diff(double t, IntegrationVector);
     
 private:
     /*
