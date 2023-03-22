@@ -2,12 +2,12 @@
 
 
 //—читывание данных наблюдений
-void DataReader::read_observations(std::string filename) {
-    std::ifstream file(filename);
+void DataReader::read_observations() {
+    std::ifstream file(observations_file);
     std::string data_line;
 
     if (!file.is_open())
-        std::cout << "Error reading file! {" << filename << "}\n";
+        std::cout << "Error reading file! {" << observations_file << "}\n";
     else
     {
         while (getline(file, data_line)) {
@@ -31,11 +31,12 @@ void DataReader::read_observations(std::string filename) {
 
 
 //—читывание данных местоположений обсерваторий
-void DataReader::read_observatory_data(std::string filename) {
-    std::ifstream file(filename);
+void DataReader::read_observatory_data()
+{
+    std::ifstream file(observatory_file);
     std::string data_line;
     if (!file.is_open())
-        std::cout << "Error reading file! {" << filename << "}\n";
+        std::cout << "Error reading file! {" << observatory_file << "}\n";
     else
     {
         while (getline(file, data_line)) {
@@ -55,13 +56,13 @@ void DataReader::read_observatory_data(std::string filename) {
 }
 
 //—читывание данных дл€ интерпол€ции положени€ ’аббла
-void DataReader::read_hubble_data(std::string filename)
+void DataReader::read_hubble_data()
 {
-    std::ifstream file(filename);
+    std::ifstream file(hubble_file);
     std::string data_line;
     int counter = 0;
     if (!file.is_open())
-        std::cout << "‘айл с данными ’аббла не может быть открыт!\n";
+        std::cout << "Error reading file! {" << hubble_file << "}\n";
     else
     {
         while (getline(file, data_line))
@@ -82,12 +83,13 @@ void DataReader::read_hubble_data(std::string filename)
 }
 
 //—читывание данных дл€ интерпол€ции времени
-void DataReader::read_interpolation_time_data(std::string filename) {
-    std::ifstream file(filename);
+void DataReader::read_interpolation_time_data()
+{
+    std::ifstream file(interpolation_time_file);
     std::string data_line;
     int counter = 0;
     if (!file.is_open())
-        std::cout << "Error reading file! {" << filename << "}\n";
+        std::cout << "Error reading file! {" << interpolation_time_file << "}\n";
     else
     {
         while (getline(file, data_line)) {
@@ -102,13 +104,14 @@ void DataReader::read_interpolation_time_data(std::string filename) {
         }
     }
     file.close();
-    std::cout << "Interpolation time readed: " << counter << " \n";
+    std::cout << "Interpolation Time Readed: " << counter << " \n";
 }
 
 #include <iomanip>
 
 //—читывание данных дл€ интерпол€ции центра небесного тела
-void DataReader::read_interpolation_center_planet(std::string filename, std::string name) {
+void DataReader::read_interpolation_center_planet(std::string filename, std::string name)
+{
     std::ifstream file(filename);
     std::string data_line;
     double x;

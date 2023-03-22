@@ -8,6 +8,5 @@ int main() {
     solution.convert_observations();
     solution.convert_observatory();
     solution.integrate();
-    solution.test_reading();
     return 0;
 }

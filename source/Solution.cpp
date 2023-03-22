@@ -55,15 +55,9 @@ void Solution::integrate() {
     std::vector<IntegrationVector> base_measures;
     std::vector<IntegrationVector> model_orbits;
 
-    //std::vector<Observation>* data = dhand.get_observations();
-    //for (int i = 0; i < data->size(); i++){
-    //    std::cout<<"TDB: "<<data->at(i).get_julian_date()->get_TDB()<<"\n";
-    //}
-
     std::map<std::string, std::vector<IntegrationVector>> map_planets = cnv.interpolation_center_planet(0.1, dhand.get_observations()->at(0).get_julian_date(), dhand.get_observations()->at(221).get_julian_date(), dhand.get_interpolation_planets());
 
     model_orbits = integration.dormand_prince(x0, dhand.get_observations()->at(0).get_julian_date(), dhand.get_observations()->at(221).get_julian_date(), 0.2, map_planets);
-
     model_measures = cnv.interpolation_to_observation(dhand.get_observations_vector(), model_orbits);
 
 
@@ -72,18 +66,29 @@ void Solution::integrate() {
         IntegrationVector tmp;
         tmp.set_julian_date(*dhand.get_observations_vector()[i].get_julian_date());
         tmp.set_position(dhand.get_observations_vector()[i].get_barycentric().get_x(), dhand.get_observations_vector()[i].get_barycentric().get_y(), dhand.get_observations_vector()[i].get_barycentric().get_z());
-        // std::cout << dhand.get_observations_vector()[i].get_barycentric().get_x() << " " << tmp.get_position().get_x() << std::endl;
         base_measures.push_back(tmp);
     }
-    // base_measures = cnv.light_time_correction(dhand.get_observatory(), dhand.get_observations_vector(), dhand.get_interpolation_hubble() ,map_planets["earth"]);
-   //  base_measures = cnv.gravitational_deflection(dhand.get_observatory(), dhand.get_observations_vector(), map_planets["sun"], dhand.get_interpolation_hubble(), map_planets["earth"]);
-  //   base_measures = cnv.aberration(dhand.get_observatory(), dhand.get_observations_vector(), map_planets["sun"], dhand.get_interpolation_hubble(), map_planets["earth"]);
+    
+    this->calculate_MNK(model_measures, base_measures);
 
     std::cout << "Done" << std::endl;
 }
 
+
+void Solution::calculate_MNK(std::vector<IntegrationVector> model, std::vector<IntegrationVector> base_measures) {
+
+    for (int i = 0; i < model.size(); i++) {
+        cnv.barycentric_to_spherical(&model[i]);
+        cnv.barycentric_to_spherical(&base_measures[i]);
+    }
+
+    write_to_file(model, base_measures);
+}
+
+
 //Запись полученных модельных данных в файл
-void Solution::write_to_file(std::vector<IntegrationVector> model, std::vector<IntegrationVector> base_measures) {
+void Solution::write_to_file(std::vector<IntegrationVector> model, std::vector<IntegrationVector> base_measures)
+{
     std::ofstream model_out;
     model_out.open("./data/model_measure.txt");
     if (model_out.is_open()) {
@@ -114,27 +119,4 @@ void Solution::write_to_file(std::vector<IntegrationVector> model, std::vector<I
         codes << dhand.get_observation(ind)->get_code() << "\n";
     }
     codes.close();
-}
-
-void Solution::test_reading() {
-    std::ifstream data;
-    data.open("./data/horizon.txt");
-    std::string data_line;
-    std::vector<Observation> cel;
-    while (getline(data, data_line)) {
-
-        Observation data_frame;
-        Date observation_date(data_line.substr(0, 10));
-        observation_date.set_time_from_fraction();
-        observation_date.set_JD();
-        data_frame.set_julian_date(observation_date);
-        data_frame.set_ascension_from_string(data_line.substr(11, 12));
-        data_frame.set_declination_from_string(data_line.substr(23, 11));
-        cel.push_back(data_frame);
-    }
-    data.close();
-    for (int i = 0; i < cel.size(); i++) {
-        cnv.celestial_to_spherical(&cel[i]);
-    }
-
 }

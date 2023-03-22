@@ -422,11 +422,14 @@
     <None Include="sofa\src\makefile" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="data\base_measure.txt" />
+    <Text Include="data\code.txt" />
     <Text Include="data\hubble_data.txt" />
     <Text Include="data\interpolation_earth.txt" />
     <Text Include="data\interpolation_jupiter.txt" />
     <Text Include="data\interpolation_sun.txt" />
     <Text Include="data\interpolation_time_data.txt" />
+    <Text Include="data\model_measure.txt" />
     <Text Include="data\observations.txt" />
     <Text Include="data\observatory.txt" />
   </ItemGroup>

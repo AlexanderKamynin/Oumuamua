@@ -24,11 +24,17 @@ private:
 
     std::vector<InterpolationHubbleFrame> interpolation_hubble;
 
+    std::string observations_file = "./data/observations.txt";
+    std::string observatory_file = "./data/observatory.txt";
+    std::string hubble_file = "./data/hubble_data.txt";
+    std::string interpolation_time_file = "./data/interpolation_time_data.txt";
+
+
 public:
-    void read_observations(std::string filename = "./data/observations.txt");
-    void read_observatory_data(std::string filename = "./data/observatory.txt");
-    void read_hubble_data(std::string filename = "./data/hubble_data.txt");
-    void read_interpolation_time_data(std::string filename = "./data/interpolation_time_data.txt");
+    void read_observations();
+    void read_observatory_data();
+    void read_hubble_data();
+    void read_interpolation_time_data();
     void read_interpolation_center_planet(std::string filename, std::string name);
     std::vector<InterpolationTimeFrame> get_interpolation_time();
 
