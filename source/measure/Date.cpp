@@ -112,3 +112,8 @@ void Date::set_TT_TDB(double TT_TDB) {
     this->TT_TDB = TT_TDB;
     TDB = TT + TT_TDB;
 };
+
+void Date::set_MJD(double MJD)
+{
+    this->MJD = MJD;
+}

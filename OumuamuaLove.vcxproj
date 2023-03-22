@@ -129,6 +129,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="source\measure\IntegrationVector.cpp" />
     <ClCompile Include="source\measure\ObservatoryData.cpp" />
     <ClCompile Include="source\measure\InterpolationEarthFrame.cpp" />
     <ClCompile Include="source\measure\BarycentricCoord.cpp" />
@@ -392,8 +393,10 @@
     <ClCompile Include="sofa\src\zp.c" />
     <ClCompile Include="sofa\src\zpv.c" />
     <ClCompile Include="sofa\src\zr.c" />
+    <ClCompile Include="source\measure\Velocity.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="source\measure\IntegrationVector.h" />
     <ClInclude Include="source\measure\ObservatoryData.h" />
     <ClInclude Include="source\measure\InterpolationEarthFrame.h" />
     <ClInclude Include="source\measure\BarycentricCoord.h" />
@@ -411,12 +414,14 @@
     <ClInclude Include="source\Converter.h" />
     <ClInclude Include="sofa\src\sofa.h" />
     <ClInclude Include="sofa\src\sofam.h" />
+    <ClInclude Include="source\measure\Velocity.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="sofa\src\makefile" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="data\hubble_data.txt" />
+    <Text Include="data\interpolation_earth.txt" />
     <Text Include="data\interpolation_time_data.txt" />
     <Text Include="data\observations.txt" />
     <Text Include="data\observatory.txt" />
