@@ -130,21 +130,20 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="source\Solution.cpp" />
-    <ClCompile Include="source\measure\IntegrationVector.cpp" />
-    <ClCompile Include="source\measure\Observatory.cpp" />
-    <ClCompile Include="source\measure\BarycentricCoord.cpp" />
-    <ClCompile Include="source\Integration.cpp" />
-    <ClCompile Include="source\measure\InterpolationHubbleFrame.cpp" />
-    <ClCompile Include="source\measure\GeocentricCoord.cpp" />
-    <ClCompile Include="source\HubbleInterpolator.cpp" />
-    <ClCompile Include="source\measure\InterpolationTimeFrame.cpp" />
-    <ClCompile Include="source\measure\Date.cpp" />
-    <ClCompile Include="source\measure\CelestianCoord.cpp" />
-    <ClCompile Include="source\measure\Observation.cpp" />
-    <ClCompile Include="source\DataReader.cpp" />
-    <ClCompile Include="source\measure\CylindricalCoord.cpp" />
-    <ClCompile Include="source\measure\CartesianCoord.cpp" />
-    <ClCompile Include="source\Converter.cpp" />
+    <ClCompile Include="source\measure\data_structures\IntegrationVector.cpp" />
+    <ClCompile Include="source\measure\coords\Observatory.cpp" />
+    <ClCompile Include="source\measure\coords\BarycentricCoord.cpp" />
+    <ClCompile Include="source\data_processing\Integration.cpp" />
+    <ClCompile Include="source\measure\data_structures\InterpolationHubbleFrame.cpp" />
+    <ClCompile Include="source\measure\coords\GeocentricCoord.cpp" />
+    <ClCompile Include="source\measure\time\InterpolationTimeFrame.cpp" />
+    <ClCompile Include="source\measure\time\Date.cpp" />
+    <ClCompile Include="source\measure\coords\CelestianCoord.cpp" />
+    <ClCompile Include="source\measure\coords\Observation.cpp" />
+    <ClCompile Include="source\data_processing\DataReader.cpp" />
+    <ClCompile Include="source\measure\coords\CylindricalCoord.cpp" />
+    <ClCompile Include="source\measure\coords\CartesianCoord.cpp" />
+    <ClCompile Include="source\data_processing\Converter.cpp" />
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="sofa\src\a2af.c" />
     <ClCompile Include="sofa\src\a2tf.c" />
@@ -393,45 +392,44 @@
     <ClCompile Include="sofa\src\zp.c" />
     <ClCompile Include="sofa\src\zpv.c" />
     <ClCompile Include="sofa\src\zr.c" />
-    <ClCompile Include="source\measure\Velocity.cpp" />
-    <ClCompile Include="source\measure\SphericalCoord.cpp" />
+    <ClCompile Include="source\measure\coords\SphericalCoord.cpp" />
+    <ClCompile Include="source\measure\movement\Velocity.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\Solution.h" />
-    <ClInclude Include="source\measure\IntegrationVector.h" />
-    <ClInclude Include="source\measure\Observatory.h" />
-    <ClInclude Include="source\measure\BarycentricCoord.h" />
-    <ClInclude Include="source\Integration.h" />
-    <ClInclude Include="source\measure\InterpolationHubbleFrame.h" />
-    <ClInclude Include="source\measure\GeocentricCoord.h" />
-    <ClInclude Include="source\HubbleInterpolator.h" />
-    <ClInclude Include="source\measure\InterpolationTimeFrame.h" />
-    <ClInclude Include="source\measure\Date.h" />
-    <ClInclude Include="source\measure\CelestialCoord.h" />
-    <ClInclude Include="source\measure\Observation.h" />
-    <ClInclude Include="source\DataReader.h" />
-    <ClInclude Include="source\measure\CylindricalCoord.h" />
-    <ClInclude Include="source\measure\CartesianCoord.h" />
-    <ClInclude Include="source\Converter.h" />
+    <ClInclude Include="source\measure\data_structures\IntegrationVector.h" />
+    <ClInclude Include="source\measure\coords\Observatory.h" />
+    <ClInclude Include="source\measure\coords\BarycentricCoord.h" />
+    <ClInclude Include="source\data_processing\Integration.h" />
+    <ClInclude Include="source\measure\data_structures\InterpolationHubbleFrame.h" />
+    <ClInclude Include="source\measure\coords\GeocentricCoord.h" />
+    <ClInclude Include="source\measure\time\InterpolationTimeFrame.h" />
+    <ClInclude Include="source\measure\time\Date.h" />
+    <ClInclude Include="source\measure\coords\CelestialCoord.h" />
+    <ClInclude Include="source\measure\coords\Observation.h" />
+    <ClInclude Include="source\data_processing\DataReader.h" />
+    <ClInclude Include="source\measure\coords\CylindricalCoord.h" />
+    <ClInclude Include="source\measure\coords\CartesianCoord.h" />
+    <ClInclude Include="source\data_processing\Converter.h" />
     <ClInclude Include="sofa\src\sofa.h" />
     <ClInclude Include="sofa\src\sofam.h" />
-    <ClInclude Include="source\measure\Velocity.h" />
-    <ClInclude Include="source\measure\SphericalCoord.h" />
+    <ClInclude Include="source\measure\coords\SphericalCoord.h" />
+    <ClInclude Include="source\measure\movement\Velocity.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="sofa\src\makefile" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="data\base_measure.txt" />
-    <Text Include="data\code.txt" />
-    <Text Include="data\hubble_data.txt" />
-    <Text Include="data\interpolation_earth.txt" />
-    <Text Include="data\interpolation_jupiter.txt" />
-    <Text Include="data\interpolation_sun.txt" />
-    <Text Include="data\interpolation_time_data.txt" />
-    <Text Include="data\model_measure.txt" />
-    <Text Include="data\observations.txt" />
-    <Text Include="data\observatory.txt" />
+    <Text Include="output_data\base_measure.txt" />
+    <Text Include="output_data\code.txt" />
+    <Text Include="input_data\hubble_data.txt" />
+    <Text Include="input_data\interpolation_earth.txt" />
+    <Text Include="input_data\interpolation_jupiter.txt" />
+    <Text Include="input_data\interpolation_sun.txt" />
+    <Text Include="input_data\interpolation_time_data.txt" />
+    <Text Include="output_data\model_measure.txt" />
+    <Text Include="input_data\observations.txt" />
+    <Text Include="input_data\observatory.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

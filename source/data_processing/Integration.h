@@ -1,6 +1,7 @@
 #pragma once
-#include "./measure/IntegrationVector.h"
+#include "../measure/data_structures/IntegrationVector.h"
 #include "DataReader.h"
+
 #include <vector>
 #include <map>
 #include <fstream>

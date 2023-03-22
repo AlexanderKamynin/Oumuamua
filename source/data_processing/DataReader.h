@@ -1,16 +1,16 @@
 #pragma once
-#include "./measure/Observation.h"
-#include "./measure/Observatory.h"
-#include "./measure/InterpolationTimeFrame.h"
-#include "./measure/IntegrationVector.h"
+#include "../measure/coords/Observation.h"
+#include "../measure/coords/Observatory.h"
 
-#include "./measure/InterpolationHubbleFrame.h"
+#include "../measure/time/InterpolationTimeFrame.h"
+
+#include "../measure/data_structures/InterpolationHubbleFrame.h"
+#include "../measure/data_structures/IntegrationVector.h"
 
 #include <iostream>
 #include <fstream>
 #include <vector>
 #include <map>
-
 
 //Класс, читающий данные из файлов
 class DataReader {
@@ -24,10 +24,10 @@ private:
 
     std::vector<InterpolationHubbleFrame> interpolation_hubble;
 
-    std::string observations_file = "./data/observations.txt";
-    std::string observatory_file = "./data/observatory.txt";
-    std::string hubble_file = "./data/hubble_data.txt";
-    std::string interpolation_time_file = "./data/interpolation_time_data.txt";
+    std::string observations_file = "./input_data/observations.txt";
+    std::string observatory_file = "./input_data/observatory.txt";
+    std::string hubble_file = "./input_data/hubble_data.txt";
+    std::string interpolation_time_file= "./input_data/interpolation_time_data.txt";
 
 
 public:

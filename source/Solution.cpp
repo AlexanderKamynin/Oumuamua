@@ -15,9 +15,9 @@ void Solution::read_data() {
 
     dhand.read_interpolation_time_data();
 
-    dhand.read_interpolation_center_planet("./data/interpolation_earth.txt", "earth");
-    dhand.read_interpolation_center_planet("./data/interpolation_sun.txt", "sun");
-    dhand.read_interpolation_center_planet("./data/interpolation_jupiter.txt", "jupiter");
+    dhand.read_interpolation_center_planet("./input_data/interpolation_earth.txt", "earth");
+    dhand.read_interpolation_center_planet("./input_data/interpolation_sun.txt", "sun");
+    dhand.read_interpolation_center_planet("./input_data/interpolation_jupiter.txt", "jupiter");
 
     std::cout << "data was read correctly" << std::endl;
 }
@@ -90,7 +90,7 @@ void Solution::calculate_MNK(std::vector<IntegrationVector> model, std::vector<I
 void Solution::write_to_file(std::vector<IntegrationVector> model, std::vector<IntegrationVector> base_measures)
 {
     std::ofstream model_out;
-    model_out.open("./data/model_measure.txt");
+    model_out.open("./output_data/model_measure.txt");
     if (model_out.is_open()) {
         for (int ind = 0; ind < model.size(); ind++) {
             model_out << std::setprecision(9) << model[ind].get_julian_date()->get_MJD() << " " << model[ind].get_spherical_position().get_longitude() << " " << model[ind].get_spherical_position().get_latitude() << "\n";
@@ -102,7 +102,7 @@ void Solution::write_to_file(std::vector<IntegrationVector> model, std::vector<I
     }
 
     std::ofstream base_out;
-    base_out.open("./data/base_measure.txt");
+    base_out.open("./output_data/base_measure.txt");
     if (base_out.is_open()) {
         for (int ind = 0; ind < base_measures.size(); ind++) {
             base_out << std::setprecision(9) << base_measures[ind].get_julian_date()->get_MJD() << " " << base_measures[ind].get_spherical_position().get_longitude() << " " << base_measures[ind].get_spherical_position().get_latitude() << "\n";
@@ -114,7 +114,7 @@ void Solution::write_to_file(std::vector<IntegrationVector> model, std::vector<I
     }
 
     std::ofstream codes;
-    codes.open("./data/code.txt");
+    codes.open("./output_data/code.txt");
     for (int ind = 0; ind < dhand.get_observations()->size(); ind++) {
         codes << dhand.get_observation(ind)->get_code() << "\n";
     }

@@ -1,8 +1,10 @@
 #pragma once
-#include "BarycentricCoord.h"
-#include "SphericalCoord.h"
-#include "Velocity.h"
-#include "Date.h"
+#include "../coords/BarycentricCoord.h"
+#include "../coords/SphericalCoord.h"
+
+#include "../movement/Velocity.h"
+
+#include "../time/Date.h"
 
 //¬ектор дл€ численного интегрировани€
 class IntegrationVector {
@@ -12,7 +14,7 @@ private:
     Velocity velocity;
     Date julian_date;
 public:
-    IntegrationVector() {};
+    IntegrationVector() = default;
 
     void set_position(double, double, double);
     void set_spherical_position(double, double);

@@ -1,6 +1,10 @@
 #pragma once
 #include <math.h>
 
+/*
+    This class represents the coordinate system (related to the barycenter of the solar system)
+    in which the celestial objects exist
+*/
 class BarycentricCoord
 {
 private:

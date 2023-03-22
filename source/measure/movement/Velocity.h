@@ -1,12 +1,13 @@
+#pragma once
 
-//Класс для хранения скорости
+
 class Velocity {
 private:
     double vx;
     double vy;
     double vz;
 public:
-    Velocity() {};
+    Velocity() = default;
     void set(double, double, double);
 
     void set_vx(double);

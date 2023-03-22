@@ -1,15 +1,19 @@
 #pragma once
 #define EARTH_RADIUS 6378.140
 
-#include "./measure/CartesianCoord.h"
-#include "./measure/GeocentricCoord.h"
-#include "./measure/CylindricalCoord.h"
-#include "./measure/Observation.h"
-#include "./measure/Observatory.h"
-#include "./measure/InterpolationTimeFrame.h"
-#include "./measure/InterpolationHubbleFrame.h"
-#include "./measure/IntegrationVector.h"
-#include "../sofa/src/sofa.h"
+#include "../measure/coords/CartesianCoord.h"
+#include "../measure/coords/GeocentricCoord.h"
+#include "../measure/coords/CylindricalCoord.h"
+#include "../measure/coords/SphericalCoord.h"
+#include "../measure/coords/BarycentricCoord.h"
+#include "../measure/coords/Observation.h"
+#include "../measure/coords/Observatory.h"
+
+#include "../measure/time/InterpolationTimeFrame.h"
+
+#include "../measure/data_structures/InterpolationHubbleFrame.h"
+#include "../measure/data_structures/IntegrationVector.h"
+#include "../../sofa/src/sofa.h"
 
 #include <vector>
 #include <string>

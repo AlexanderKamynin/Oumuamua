@@ -1,6 +1,7 @@
-#include "DataReader.h"
-#include "Converter.h"
-#include "Integration.h"
+#include "./data_processing/DataReader.h"
+#include "./data_processing/Converter.h"
+#include "./data_processing/Integration.h"
+
 
 //Класс, вызывающий методы других классов
 class Solution {

@@ -168,7 +168,6 @@ std::map<std::string, std::vector<IntegrationVector>> Converter::interpolation_c
                         flag = 0;
                     IntegrationVector new_vector;
 
-                    //std::cout<<"int "<<(*interpolation_planet.second[j].get_julian_date()).get_TDB()<<"\n";
 
                     delta_x = interpolation_planet.second[last_min].get_position().get_x() + flag * (interpolation_planet.second[j].get_position().get_x() - interpolation_planet.second[last_min].get_position().get_x()) / (*interpolation_planet.second[j].get_julian_date()).get_MJD() - (*interpolation_planet.second[last_min].get_julian_date()).get_MJD() * (current_date.get_MJD() - (*interpolation_planet.second[last_min].get_julian_date()).get_MJD());
                     delta_y = interpolation_planet.second[last_min].get_position().get_y() + flag * (interpolation_planet.second[j].get_position().get_y() - interpolation_planet.second[last_min].get_position().get_y()) / (*interpolation_planet.second[j].get_julian_date()).get_MJD() - (*interpolation_planet.second[last_min].get_julian_date()).get_MJD() * (current_date.get_MJD() - (*interpolation_planet.second[last_min].get_julian_date()).get_MJD());
@@ -252,10 +251,7 @@ void Converter::geocentric_to_barycentric(std::vector<Observation>* observations
         observation_position.set_x(observatory_position.get_x() + observations->at(i).get_geocentric().get_x());
         observation_position.set_y(observatory_position.get_y() + observations->at(i).get_geocentric().get_y());
         observation_position.set_z(observatory_position.get_z() + observations->at(i).get_geocentric().get_z());
-        //std::cout << "Geo::x==" << observations->at(i).get_geocentric().get_x() << ";\ty==" << observations->at(i).get_geocentric().get_y() << ";\t\tz==" << observations->at(i).get_geocentric().get_z() << std::endl;
-        //std::cout << "Obs::x==" << observatory_position.get_x() << ";\ty==" << observatory_position.get_y() << ";\tz==" << observatory_position.get_z() << std::endl;
         observations->at(i).set_barycentric(observation_position.get_x(), observation_position.get_y(), observation_position.get_z());
-        //std::cout << "Bar::x==" << observations->at(i).get_barycentric().get_x() << ";\ty==" << observations->at(i).get_barycentric().get_y() << ";\tz==" << observations->at(i).get_barycentric().get_z() << std::endl;
 
     }
 }
