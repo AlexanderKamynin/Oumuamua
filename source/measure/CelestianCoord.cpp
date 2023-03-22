@@ -1,14 +1,14 @@
-#include "CelestianCoord.h"
+#include "CelestialCoord.h"
 
 
-CelestianCoord::CelestianCoord(double h, double m, double s) {
+CelestialCoord::CelestialCoord(double h, double m, double s) {
     this->h = h;
     this->m = m;
     this->s = s;
 }
 
 
-void CelestianCoord::set_from_string(std::string coord) {
+void CelestialCoord::set_from_string(std::string coord) {
     /*
     read the data from string
     */
@@ -36,14 +36,14 @@ void CelestianCoord::set_from_string(std::string coord) {
     }
 }
 
-double CelestianCoord::get_h() {
+double CelestialCoord::get_h() {
     return this->h;
 }
 
-double CelestianCoord::get_m() {
+double CelestialCoord::get_m() {
     return this->m;
 }
 
-double CelestianCoord::get_s() {
+double CelestialCoord::get_s() {
     return this->s;
 }

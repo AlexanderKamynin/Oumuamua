@@ -2,7 +2,7 @@
 #include <string>
 
 
-
+// ласс даты в формате "год мес€ц день.дол€ дн€"
 class Date {
 private:
     int year;
@@ -24,6 +24,11 @@ public:
     Date() {};
     Date(std::string);
 
+    Date(const Date& other);
+    Date& operator=(const Date& other);
+    Date(const Date&& other);
+    Date& operator=(const Date&& other);
+
     friend bool operator< (const Date&, const Date&);
     friend bool operator> (const Date&, const Date&);
     friend bool operator== (const Date&, const Date&);
@@ -41,8 +46,8 @@ public:
     double get_TDB();
     double get_TT_TDB();
 
+    void set_MJD(double);
     void set_JD();
     void set_TT(double TT);
     void set_TT_TDB(double TT_TDB);
-    void set_MJD(double MJD);
 };

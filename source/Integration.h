@@ -1,35 +1,29 @@
 #pragma once
-#include "Converter.h"
-
+#include "./measure/IntegrationVector.h"
+#include "DataReader.h"
 #include <vector>
+#include <map>
+#include <fstream>
+#include <math.h>
 #include <string>
 
-
-class Integration
-{
-public:
-	Integration() = default;
-    std::vector<IntegrationVector> dormand_prince(IntegrationVector, Date, Date, double);
-
-    IntegrationVector diff(double t, IntegrationVector);
-    
+//Класс для численного интегрирования
+class Integration {
 private:
-    /*
-        Coefficient for Dormand-Prince method (ode45) in the Butcher table
-        Coefficient b without  ...
-    */
+    const std::string output_filename = "./data/DP_output.txt";
+
     double c2 = (1.0 / 5.0);
     double c3 = (3.0 / 10.0);
     double c4 = (4.0 / 5.0);
     double c5 = (8.0 / 9.0);
-    double c6 = 1.0;
-    double c7 = 1.0;
+    double c6 = 1;
+    double c7 = 1;
 
     double b1 = (35.0 / 384.0);
     double b2 = 0;
     double b3 = (500.0 / 1113.0);
     double b4 = (125.0 / 192.0);
-    double b5 = (-2187.0 / 6784.0);
+    double b5 = (2187.0 / 6784.0);
     double b6 = (11.0 / 84.0);
     double b7 = 0;
 
@@ -49,10 +43,14 @@ private:
     double a64 = (49.0 / 176.0);
     double a65 = (-5103.0 / 18656.0);
     double a71 = (35.0 / 384.0);
-    double a72 = 0;
+    double a72 = (0.0);
     double a73 = (500.0 / 1113.0);
     double a74 = (125.0 / 192.0);
     double a75 = (-2187.0 / 6784.0);
     double a76 = (11.0 / 84.0);
+    std::map<std::string, double> GM = { {"sun", 132712440043.85333}, {"jupiter", 126712764.13345} };
+public:
+    IntegrationVector diff(double, IntegrationVector, std::map<std::string, std::vector<IntegrationVector>>);
+    std::vector<IntegrationVector> dormand_prince(IntegrationVector, Date*, Date*, double, std::map<std::string, std::vector<IntegrationVector>>);
+    BarycentricCoord sqrt(BarycentricCoord);
 };
-

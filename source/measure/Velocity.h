@@ -1,8 +1,6 @@
-#pragma once
 
-
-class Velocity
-{
+//Класс для хранения скорости
+class Velocity {
 private:
     double vx;
     double vy;
@@ -23,4 +21,13 @@ public:
     void multiply(double);
 
     friend Velocity operator+(Velocity, Velocity);
+    friend Velocity operator-(Velocity, Velocity);
+    friend Velocity operator*(const double&, Velocity);
+    friend Velocity operator/(Velocity, Velocity);
+    friend Velocity operator/(Velocity, const double&);
+
+    Velocity(const Velocity& other);
+    Velocity& operator=(const Velocity& other);
+    Velocity(const Velocity&& other);
+    Velocity& operator=(const Velocity&& other);
 };

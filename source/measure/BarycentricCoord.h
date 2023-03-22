@@ -1,5 +1,5 @@
 #pragma once
-
+#include <math.h>
 
 class BarycentricCoord
 {
@@ -19,6 +19,11 @@ public:
 
     void increase(double);
     void multiply(double);
+    double len();
 
     friend BarycentricCoord operator+(BarycentricCoord, BarycentricCoord);
+    friend BarycentricCoord operator-(BarycentricCoord, BarycentricCoord);
+    friend BarycentricCoord operator*(const double&, BarycentricCoord);
+    friend BarycentricCoord operator/(BarycentricCoord, BarycentricCoord);
+    friend BarycentricCoord operator/(BarycentricCoord, const double&);
 };

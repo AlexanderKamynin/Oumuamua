@@ -129,9 +129,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="source\Solution.cpp" />
     <ClCompile Include="source\measure\IntegrationVector.cpp" />
-    <ClCompile Include="source\measure\ObservatoryData.cpp" />
-    <ClCompile Include="source\measure\InterpolationEarthFrame.cpp" />
+    <ClCompile Include="source\measure\Observatory.cpp" />
     <ClCompile Include="source\measure\BarycentricCoord.cpp" />
     <ClCompile Include="source\Integration.cpp" />
     <ClCompile Include="source\measure\InterpolationHubbleFrame.cpp" />
@@ -140,7 +140,7 @@
     <ClCompile Include="source\measure\InterpolationTimeFrame.cpp" />
     <ClCompile Include="source\measure\Date.cpp" />
     <ClCompile Include="source\measure\CelestianCoord.cpp" />
-    <ClCompile Include="source\Observation.cpp" />
+    <ClCompile Include="source\measure\Observation.cpp" />
     <ClCompile Include="source\DataReader.cpp" />
     <ClCompile Include="source\measure\CylindricalCoord.cpp" />
     <ClCompile Include="source\measure\CartesianCoord.cpp" />
@@ -394,11 +394,12 @@
     <ClCompile Include="sofa\src\zpv.c" />
     <ClCompile Include="sofa\src\zr.c" />
     <ClCompile Include="source\measure\Velocity.cpp" />
+    <ClCompile Include="source\measure\SphericalCoord.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="source\Solution.h" />
     <ClInclude Include="source\measure\IntegrationVector.h" />
-    <ClInclude Include="source\measure\ObservatoryData.h" />
-    <ClInclude Include="source\measure\InterpolationEarthFrame.h" />
+    <ClInclude Include="source\measure\Observatory.h" />
     <ClInclude Include="source\measure\BarycentricCoord.h" />
     <ClInclude Include="source\Integration.h" />
     <ClInclude Include="source\measure\InterpolationHubbleFrame.h" />
@@ -406,8 +407,8 @@
     <ClInclude Include="source\HubbleInterpolator.h" />
     <ClInclude Include="source\measure\InterpolationTimeFrame.h" />
     <ClInclude Include="source\measure\Date.h" />
-    <ClInclude Include="source\measure\CelestianCoord.h" />
-    <ClInclude Include="source\Observation.h" />
+    <ClInclude Include="source\measure\CelestialCoord.h" />
+    <ClInclude Include="source\measure\Observation.h" />
     <ClInclude Include="source\DataReader.h" />
     <ClInclude Include="source\measure\CylindricalCoord.h" />
     <ClInclude Include="source\measure\CartesianCoord.h" />
@@ -415,6 +416,7 @@
     <ClInclude Include="sofa\src\sofa.h" />
     <ClInclude Include="sofa\src\sofam.h" />
     <ClInclude Include="source\measure\Velocity.h" />
+    <ClInclude Include="source\measure\SphericalCoord.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="sofa\src\makefile" />
@@ -422,6 +424,8 @@
   <ItemGroup>
     <Text Include="data\hubble_data.txt" />
     <Text Include="data\interpolation_earth.txt" />
+    <Text Include="data\interpolation_jupiter.txt" />
+    <Text Include="data\interpolation_sun.txt" />
     <Text Include="data\interpolation_time_data.txt" />
     <Text Include="data\observations.txt" />
     <Text Include="data\observatory.txt" />

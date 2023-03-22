@@ -3,14 +3,14 @@
 
 
 //Class that interpreted celestian coordinate obj
-class CelestianCoord {
+class CelestialCoord {
 private:
     double h = 0; // hours
     double m = 0; // minutes
     double s = 0; // seconds
 public:
-    CelestianCoord() = default;
-    CelestianCoord(double h, double m, double s);
+    CelestialCoord() = default;
+    CelestialCoord(double h, double m, double s);
 
     //setters
     void set_from_string(std::string);

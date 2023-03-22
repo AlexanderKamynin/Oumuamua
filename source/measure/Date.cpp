@@ -1,8 +1,7 @@
 #include "Date.h"
 
 
-Date::Date(std::string date)
-{
+Date::Date(std::string date) {
     int prev = 0;
     int last = 0;
     for (int i = 0; i < 4; i++) {
@@ -29,8 +28,87 @@ Date::Date(std::string date)
                 prev = j + 1;
                 break;
             }
+
         }
     }
+}
+
+
+Date::Date(const Date& other) {
+
+    this->year = other.year;
+    this->month = other.month;
+    this->day = other.day;
+
+    this->hours = other.hours;
+    this->minutes = other.minutes;
+    this->seconds = other.seconds;
+
+    this->day_fraction = other.day_fraction;
+
+    this->JD = other.JD;
+    this->MJD = other.MJD;
+    this->TT = other.TT;
+    this->TDB = other.TDB;
+    this->TT_TDB = other.TT_TDB;
+}
+
+Date& Date::operator=(const Date& other) {
+    this->year = other.year;
+    this->month = other.month;
+    this->day = other.day;
+
+    this->hours = other.hours;
+    this->minutes = other.minutes;
+    this->seconds = other.seconds;
+
+    this->day_fraction = other.day_fraction;
+
+    this->JD = other.JD;
+    this->MJD = other.MJD;
+    this->TT = other.TT;
+    this->TDB = other.TDB;
+    this->TT_TDB = other.TT_TDB;
+
+    return *this;
+}
+
+Date::Date(const Date&& other) {
+    this->year = other.year;
+    this->month = other.month;
+    this->day = other.day;
+
+    this->hours = other.hours;
+    this->minutes = other.minutes;
+    this->seconds = other.seconds;
+
+    this->day_fraction = other.day_fraction;
+
+    this->JD = other.JD;
+    this->MJD = other.MJD;
+    this->TT = other.TT;
+    this->TDB = other.TDB;
+    this->TT_TDB = other.TT_TDB;
+}
+
+Date& Date::operator=(const Date&& other) {
+    this->year = other.year;
+    this->month = other.month;
+    this->day = other.day;
+
+    this->hours = other.hours;
+    this->minutes = other.minutes;
+    this->seconds = other.seconds;
+
+    this->day_fraction = other.day_fraction;
+
+    this->JD = other.JD;
+    this->MJD = other.MJD;
+    this->TT = other.TT;
+    this->TDB = other.TDB;
+    this->TT_TDB = other.TT_TDB;
+
+    return *this;
 }
 
 bool operator<(const Date& date1, const Date& date2) {
@@ -55,7 +133,54 @@ void Date::set_time_from_fraction() {
 }
 
 void Date::set_time_from_string(std::string time) {
-    //
+    int prev = 0;
+    for (int i = 0; i < 3; i++) {
+        for (int j = prev; j < time.length() + 1; j++) {
+            if ((time[j] == ' ') or (time[j] == '\0')) {
+                switch (i) {
+                case 0:
+                    year = std::stod(time.substr(prev, j - prev));
+                    break;
+                case 1:
+                    month = std::stod(time.substr(prev, j - prev));
+                    break;
+                case 2:
+                    day = std::stod(time.substr(prev, j - prev));
+                    break;
+                default:
+                    break;
+                }
+                prev = j + 1;
+                break;
+            }
+        }
+    }
+    prev = 10;
+    for (int i = 0; i < 3; i++) {
+        for (int j = prev; j < time.length() + 1; j++) {
+            if ((time[j] == ':') or (time[j] == '\0')) {
+                switch (i) {
+                case 0:
+                    hours = std::stod(time.substr(prev, j - prev));
+                    break;
+                case 1:
+                    minutes = std::stod(time.substr(prev, j - prev));
+                    break;
+                case 2:
+                    seconds = std::stod(time.substr(prev, j - prev));
+                    break;
+                default:
+                    break;
+                }
+                prev = j + 1;
+                break;
+            }
+        }
+    }
+}
+
+void Date::set_MJD(double MJD) {
+    this->MJD = MJD;
 }
 
 void Date::set_JD() {
@@ -109,11 +234,5 @@ void Date::set_TT(double TT) {
 };
 
 void Date::set_TT_TDB(double TT_TDB) {
-    this->TT_TDB = TT_TDB;
     TDB = TT + TT_TDB;
 };
-
-void Date::set_MJD(double MJD)
-{
-    this->MJD = MJD;
-}
