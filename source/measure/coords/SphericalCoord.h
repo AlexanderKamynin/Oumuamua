@@ -1,7 +1,8 @@
 #pragma once
 
 //Класс для сферических координат (в радианах)
-class SphericalCoord {
+class SphericalCoord 
+{
 private:
     double longitude;
     double latitude;

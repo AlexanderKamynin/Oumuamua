@@ -3,7 +3,8 @@
 
 
 // ласс даты в формате "год мес€ц день.дол€ дн€"
-class Date {
+class Date
+{
 private:
     int year;
     int month;
@@ -21,7 +22,7 @@ private:
     double TDB;
     double TT_TDB;
 public:
-    Date() {};
+    Date() = default;
     Date(std::string);
 
     Date(const Date& other);

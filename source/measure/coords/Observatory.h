@@ -5,7 +5,8 @@
 #include "BarycentricCoord.h"
 
 //Класс для хранения данных обсерватории
-class Observatory {
+class Observatory 
+{
 private:
     CartesianCoord cartesian_frame;
     CylindricalCoord cylindrical_frame;

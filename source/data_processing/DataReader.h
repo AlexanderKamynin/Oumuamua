@@ -13,7 +13,8 @@
 #include <map>
 
 //Класс, читающий данные из файлов
-class DataReader {
+class DataReader 
+{
 private:
     std::vector<Observation> observations;
 

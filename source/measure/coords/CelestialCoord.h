@@ -3,7 +3,8 @@
 
 
 //Class that interpreted celestian coordinate obj
-class CelestialCoord {
+class CelestialCoord 
+{
 private:
     double h = 0; // hours
     double m = 0; // minutes

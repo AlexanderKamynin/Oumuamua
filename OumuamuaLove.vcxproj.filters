@@ -759,55 +759,55 @@
     <ClCompile Include="sofa\src\zr.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\Converter.cpp">
+    <ClCompile Include="source\Solution.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\measure\CartesianCoord.cpp">
+    <ClCompile Include="source\measure\data_structures\IntegrationVector.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\measure\CylindricalCoord.cpp">
+    <ClCompile Include="source\measure\coords\Observatory.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\DataReader.cpp">
+    <ClCompile Include="source\measure\coords\BarycentricCoord.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\Observation.cpp">
+    <ClCompile Include="source\data_processing\Integration.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\measure\CelestianCoord.cpp">
+    <ClCompile Include="source\measure\data_structures\InterpolationHubbleFrame.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\measure\Date.cpp">
+    <ClCompile Include="source\measure\coords\GeocentricCoord.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\measure\InterpolationTimeFrame.cpp">
+    <ClCompile Include="source\measure\time\InterpolationTimeFrame.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\HubbleInterpolator.cpp">
+    <ClCompile Include="source\measure\time\Date.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\measure\GeocentricCoord.cpp">
+    <ClCompile Include="source\measure\coords\CelestianCoord.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\measure\InterpolationHubbleFrame.cpp">
+    <ClCompile Include="source\measure\coords\Observation.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\Integration.cpp">
+    <ClCompile Include="source\data_processing\DataReader.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\measure\BarycentricCoord.cpp">
+    <ClCompile Include="source\measure\coords\CylindricalCoord.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\measure\InterpolationEarthFrame.cpp">
+    <ClCompile Include="source\measure\coords\CartesianCoord.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\measure\ObservatoryData.cpp">
+    <ClCompile Include="source\data_processing\Converter.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\measure\Velocity.cpp">
+    <ClCompile Include="source\measure\coords\SphericalCoord.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\measure\IntegrationVector.cpp">
+    <ClCompile Include="source\measure\movement\Velocity.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
@@ -818,55 +818,55 @@
     <ClInclude Include="sofa\src\sofam.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="source\Converter.h">
+    <ClInclude Include="source\Solution.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="source\measure\CartesianCoord.h">
+    <ClInclude Include="source\measure\data_structures\IntegrationVector.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="source\measure\CylindricalCoord.h">
+    <ClInclude Include="source\measure\coords\Observatory.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="source\DataReader.h">
+    <ClInclude Include="source\measure\coords\BarycentricCoord.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="source\Observation.h">
+    <ClInclude Include="source\data_processing\Integration.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="source\measure\CelestianCoord.h">
+    <ClInclude Include="source\measure\data_structures\InterpolationHubbleFrame.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="source\measure\Date.h">
+    <ClInclude Include="source\measure\coords\GeocentricCoord.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="source\measure\InterpolationTimeFrame.h">
+    <ClInclude Include="source\measure\time\InterpolationTimeFrame.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="source\HubbleInterpolator.h">
+    <ClInclude Include="source\measure\time\Date.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="source\measure\GeocentricCoord.h">
+    <ClInclude Include="source\measure\coords\CelestialCoord.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="source\measure\InterpolationHubbleFrame.h">
+    <ClInclude Include="source\measure\coords\Observation.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="source\Integration.h">
+    <ClInclude Include="source\data_processing\DataReader.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="source\measure\BarycentricCoord.h">
+    <ClInclude Include="source\measure\coords\CylindricalCoord.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="source\measure\InterpolationEarthFrame.h">
+    <ClInclude Include="source\measure\coords\CartesianCoord.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="source\measure\ObservatoryData.h">
+    <ClInclude Include="source\data_processing\Converter.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="source\measure\Velocity.h">
+    <ClInclude Include="source\measure\coords\SphericalCoord.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="source\measure\IntegrationVector.h">
+    <ClInclude Include="source\measure\movement\Velocity.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
@@ -874,10 +874,12 @@
     <None Include="sofa\src\makefile" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="data\observations.txt" />
-    <Text Include="data\observatory.txt" />
-    <Text Include="data\hubble_data.txt" />
-    <Text Include="data\interpolation_time_data.txt" />
-    <Text Include="data\interpolation_earth.txt" />
+    <Text Include="input_data\hubble_data.txt" />
+    <Text Include="input_data\interpolation_earth.txt" />
+    <Text Include="input_data\interpolation_jupiter.txt" />
+    <Text Include="input_data\interpolation_sun.txt" />
+    <Text Include="input_data\interpolation_time_data.txt" />
+    <Text Include="input_data\observations.txt" />
+    <Text Include="input_data\observatory.txt" />
   </ItemGroup>
 </Project>

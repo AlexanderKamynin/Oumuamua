@@ -1,7 +1,8 @@
 #pragma once
 
 
-class Velocity {
+class Velocity 
+{
 private:
     double vx;
     double vy;

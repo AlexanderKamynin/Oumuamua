@@ -2,7 +2,8 @@
 #include <string>
 
 
-class CartesianCoord {
+class CartesianCoord 
+{
 private:
     double x = 0;
     double y = 0;

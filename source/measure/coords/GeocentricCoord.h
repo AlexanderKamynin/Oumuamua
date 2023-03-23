@@ -2,13 +2,14 @@
 #include <string>
 
 //Класс геоцентрических координат
-class GeocentricCoord {
+class GeocentricCoord 
+{
 private:
     double x = NULL;
     double y = NULL;
     double z = NULL;
 public:
-    GeocentricCoord() {};
+    GeocentricCoord() = default;
     void set_from_string(std::string);
     double get_x();
     double get_y();

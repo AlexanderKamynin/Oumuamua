@@ -4,7 +4,8 @@
 
 
 //Класс, вызывающий методы других классов
-class Solution {
+class Solution
+{
 private:
     Converter cnv;
     DataReader dhand;

@@ -7,7 +7,8 @@
 #include "../time/Date.h"
 
 //¬ектор дл€ численного интегрировани€
-class IntegrationVector {
+class IntegrationVector
+{
 private:
     BarycentricCoord position;
     SphericalCoord spherical_position;

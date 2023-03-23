@@ -9,7 +9,8 @@
 #include <string>
 
 //Класс для численного интегрирования
-class Integration {
+class Integration
+{
 private:
     //const std::string output_filename = "./data/DP_output.txt";
 

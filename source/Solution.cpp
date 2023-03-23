@@ -2,13 +2,15 @@
 #include <iomanip>
 
 
-Solution::Solution() {
+Solution::Solution()
+{
     x0.set_position(1.452674920249709E+08, 7.476202044529255E+07, -1.071281870835046E+07);
     x0.set_velocity(4.483537051060935E+01, 1.039892688333976E+01, 1.433813590588367E+01);
 }
 
 //Считывание данных
-void Solution::read_data() {
+void Solution::read_data()
+{
     dhand.read_observations();
     dhand.read_observatory_data();
     dhand.read_hubble_data();
@@ -23,9 +25,11 @@ void Solution::read_data() {
 }
 
 //Перевод времени наблюдений
-void Solution::convert_observations() {
+void Solution::convert_observations()
+{
     std::vector<Observation>* data = dhand.get_observations();
-    for (int ind = 0; ind < data->size(); ind++) {
+    for (int ind = 0; ind < data->size(); ind++) 
+    {
         cnv.julian_date_to_tt(data->at(ind).get_julian_date());
         cnv.celestial_to_spherical(dhand.get_observation(ind));
         cnv.spherical_to_geocentric(dhand.get_observation(ind));
@@ -35,7 +39,8 @@ void Solution::convert_observations() {
 }
 
 //Перевод положения обсерваторий
-void Solution::convert_observatory() {
+void Solution::convert_observatory() 
+{
     std::map<std::string, Observatory> data = dhand.get_observatory();
     for (auto& item : data)
     {
@@ -46,11 +51,14 @@ void Solution::convert_observatory() {
 }
 
 
-void Solution::convert_interpolation_data() {
+void Solution::convert_interpolation_data()
+{
+
 }
 
 //Численное интегрирование
-void Solution::integrate() {
+void Solution::integrate() 
+{
     std::vector<IntegrationVector> model_measures;
     std::vector<IntegrationVector> base_measures;
     std::vector<IntegrationVector> model_orbits;
@@ -62,7 +70,8 @@ void Solution::integrate() {
 
 
     cnv.geocentric_to_barycentric(dhand.get_observations(), dhand.get_obsevatory_link(), dhand.get_interpolation_hubble(), map_planets["earth"]);
-    for (int i = 0; i < (dhand.get_observations_vector()).size(); i++) {
+    for (int i = 0; i < (dhand.get_observations_vector()).size(); i++) 
+    {
         IntegrationVector tmp;
         tmp.set_julian_date(*dhand.get_observations_vector()[i].get_julian_date());
         tmp.set_position(dhand.get_observations_vector()[i].get_barycentric().get_x(), dhand.get_observations_vector()[i].get_barycentric().get_y(), dhand.get_observations_vector()[i].get_barycentric().get_z());
@@ -75,9 +84,11 @@ void Solution::integrate() {
 }
 
 
-void Solution::calculate_MNK(std::vector<IntegrationVector> model, std::vector<IntegrationVector> base_measures) {
+void Solution::calculate_MNK(std::vector<IntegrationVector> model, std::vector<IntegrationVector> base_measures)
+{
 
-    for (int i = 0; i < model.size(); i++) {
+    for (int i = 0; i < model.size(); i++) 
+    {
         cnv.barycentric_to_spherical(&model[i]);
         cnv.barycentric_to_spherical(&base_measures[i]);
     }
@@ -91,31 +102,38 @@ void Solution::write_to_file(std::vector<IntegrationVector> model, std::vector<I
 {
     std::ofstream model_out;
     model_out.open("./output_data/model_measure.txt");
-    if (model_out.is_open()) {
-        for (int ind = 0; ind < model.size(); ind++) {
+    if (model_out.is_open()) 
+    {
+        for (int ind = 0; ind < model.size(); ind++)
+        {
             model_out << std::setprecision(9) << model[ind].get_julian_date()->get_MJD() << " " << model[ind].get_spherical_position().get_longitude() << " " << model[ind].get_spherical_position().get_latitude() << "\n";
         }
         model_out.close();
     }
-    else {
+    else
+    {
         std::cout << "Что-то пошло не так.\n";
     }
 
     std::ofstream base_out;
     base_out.open("./output_data/base_measure.txt");
-    if (base_out.is_open()) {
-        for (int ind = 0; ind < base_measures.size(); ind++) {
+    if (base_out.is_open()) 
+    {
+        for (int ind = 0; ind < base_measures.size(); ind++)
+        {
             base_out << std::setprecision(9) << base_measures[ind].get_julian_date()->get_MJD() << " " << base_measures[ind].get_spherical_position().get_longitude() << " " << base_measures[ind].get_spherical_position().get_latitude() << "\n";
         }
         base_out.close();
     }
-    else {
+    else
+    {
         std::cout << "Что-то пошло не так.\n";
     }
 
     std::ofstream codes;
     codes.open("./output_data/code.txt");
-    for (int ind = 0; ind < dhand.get_observations()->size(); ind++) {
+    for (int ind = 0; ind < dhand.get_observations()->size(); ind++) 
+    {
         codes << dhand.get_observation(ind)->get_code() << "\n";
     }
     codes.close();

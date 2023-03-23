@@ -4,7 +4,8 @@
 #include <string>
 
 // ласс представл€ющий интерполированное врем€ в шкале TDB
-class InterpolationTimeFrame {
+class InterpolationTimeFrame 
+{
 private:
     Date julian_date;
     double TT_TDB;

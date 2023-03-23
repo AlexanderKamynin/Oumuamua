@@ -1,22 +1,28 @@
 #include "CelestialCoord.h"
 
 
-CelestialCoord::CelestialCoord(double h, double m, double s) {
+CelestialCoord::CelestialCoord(double h, double m, double s)
+{
     this->h = h;
     this->m = m;
     this->s = s;
 }
 
 
-void CelestialCoord::set_from_string(std::string coord) {
+void CelestialCoord::set_from_string(std::string coord)
+{
     /*
     read the data from string
     */
     int prev = 0;
-    for (int i = 0; i < 3; i++) {
-        for (int j = prev; j < coord.length() + 1; j++) {
-            if ((coord[j] == ' ') or (coord[j] == '\0')) {
-                switch (i) {
+    for (int i = 0; i < 3; i++) 
+    {
+        for (int j = prev; j < coord.length() + 1; j++)
+        {
+            if ((coord[j] == ' ') or (coord[j] == '\0')) 
+            {
+                switch (i) 
+                {
                 case 0:
                     h = std::stod(coord.substr(prev, j - prev));
                     break;

@@ -1,7 +1,8 @@
 #include "Solution.h"
 
 
-int main() {
+int main() 
+{
 	//I love Oumuamua!!!
     Solution solution;
     solution.read_data();

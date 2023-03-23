@@ -5,7 +5,8 @@
 #include "../time/Date.h"
 
 // ласс дл€ хранени€ данных интерпол€ции ’аббла
-class InterpolationHubbleFrame {
+class InterpolationHubbleFrame 
+{
 private:
     GeocentricCoord position_data;
     Date date;
