@@ -74,7 +74,8 @@ void Solution::integrate()
     {
         IntegrationVector tmp;
         tmp.set_julian_date(*dhand.get_observations_vector()[i].get_julian_date());
-        tmp.set_position(dhand.get_observations_vector()[i].get_barycentric().get_x(), dhand.get_observations_vector()[i].get_barycentric().get_y(), dhand.get_observations_vector()[i].get_barycentric().get_z());
+        //@change x, y, z -> alpha, beta, gamma
+        tmp.set_position(dhand.get_observations_vector()[i].get_barycentric().get_alpha(), dhand.get_observations_vector()[i].get_barycentric().get_beta(), dhand.get_observations_vector()[i].get_barycentric().get_gamma());
         base_measures.push_back(tmp);
     }
     

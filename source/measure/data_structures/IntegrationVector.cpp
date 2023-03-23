@@ -1,11 +1,11 @@
 #include "IntegrationVector.h"
 
-
-void IntegrationVector::set_position(double x, double y, double z)
+//@change void IntegrationVector::set_position(double x, double y, double z) -> void IntegrationVector::set_position(double alpha, double beta, double gamma)
+void IntegrationVector::set_position(double alpha, double beta, double gamma)
 {
-    this->position.set_x(x);
-    this->position.set_y(y);
-    this->position.set_z(z);
+    this->position.set_alpha(alpha);
+    this->position.set_beta(beta);
+    this->position.set_gamma(gamma);
 }
 
 void IntegrationVector::set_spherical_position(double longitude, double latitude)

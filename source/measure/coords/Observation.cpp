@@ -56,11 +56,12 @@ void Observation::set_spherical(double longitude, double latitude)
     spherical_position.set_longitude(longitude);
 }
 
-void Observation::set_barycentric(double x, double y, double z) 
+//@change void Observation::set_barycentric(double x, double y, double z) -> void Observation::set_barycentric(double alpha, double beta, double gamma)
+void Observation::set_barycentric(double alpha, double beta, double gamma) 
 {
-    barycentric_position.set_x(x);
-    barycentric_position.set_y(y);
-    barycentric_position.set_z(z);
+    this->barycentric_position.set_alpha(alpha);
+    this->barycentric_position.set_beta(beta);
+    this->barycentric_position.set_gamma(gamma);
 }
 
 void Observation::set_geocentric(double x, double y, double z)
@@ -112,5 +113,5 @@ GeocentricCoord Observation::get_geocentric()
 
 BarycentricCoord Observation::get_barycentric() 
 {
-    return barycentric_position;
+    return this->barycentric_position;
 }

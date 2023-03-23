@@ -1,5 +1,6 @@
 #include "InterpolationHubbleFrame.h"
 
+
 void InterpolationHubbleFrame::set_date(Date date)
 {
     this->date = date;

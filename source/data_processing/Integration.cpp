@@ -10,13 +10,17 @@ IntegrationVector Integration::diff(double t, IntegrationVector asteroid, std::m
         if (planets["earth"][i].get_julian_date()->get_MJD() == t) 
         {
             d_vector.set_julian_date(*planets["earth"][i].get_julian_date());
-            dx = sqrt((GM["sun"] * (planets["sun"][i].get_position() - asteroid.get_position())) / ((planets["sun"][i].get_position() - asteroid.get_position()).len() * (planets["sun"][i].get_position() - asteroid.get_position())) + (GM["jupiter"] * (planets["jupiter"][i].get_position() - asteroid.get_position()) / ((planets["jupiter"][i].get_position() - asteroid.get_position()).len() * (planets["jupiter"][i].get_position() - asteroid.get_position()))));
-            dv = (GM["sun"] * (planets["sun"][i].get_position() - asteroid.get_position())) / (pow((planets["sun"][i].get_position() - asteroid.get_position()).len(), 2) * (planets["sun"][i].get_position() - asteroid.get_position())) + (GM["jupiter"] * (planets["jupiter"][i].get_position() - asteroid.get_position()) / (pow((planets["jupiter"][i].get_position() - asteroid.get_position()).len(), 2) * (planets["jupiter"][i].get_position() - asteroid.get_position())));
+            //@change len -> length
+            dx = sqrt((GM["sun"] * (planets["sun"][i].get_position() - asteroid.get_position())) / ((planets["sun"][i].get_position() - asteroid.get_position()).length() * (planets["sun"][i].get_position() - asteroid.get_position())) + (GM["jupiter"] * (planets["jupiter"][i].get_position() - asteroid.get_position()) / ((planets["jupiter"][i].get_position() - asteroid.get_position()).length() * (planets["jupiter"][i].get_position() - asteroid.get_position()))));
+            //@change len -> length
+            dv = (GM["sun"] * (planets["sun"][i].get_position() - asteroid.get_position())) / (pow((planets["sun"][i].get_position() - asteroid.get_position()).length(), 2) * (planets["sun"][i].get_position() - asteroid.get_position())) + (GM["jupiter"] * (planets["jupiter"][i].get_position() - asteroid.get_position()) / (pow((planets["jupiter"][i].get_position() - asteroid.get_position()).length(), 2) * (planets["jupiter"][i].get_position() - asteroid.get_position())));
             break;
         }
     }
-    d_vector.set_position(dx.get_x(), dx.get_y(), dx.get_z());
-    d_vector.set_velocity(dv.get_x(), dv.get_y(), dv.get_z());
+    //@change get_x, y, z -> get_alpha, beta, gamma
+    d_vector.set_position(dx.get_alpha(), dx.get_beta(), dx.get_gamma());
+    //@change get_x, y, z -> get_alpha, beta, gamma
+    d_vector.set_velocity(dv.get_alpha(), dv.get_beta(), dv.get_gamma());
     return d_vector;
 };
 
@@ -56,9 +60,13 @@ std::vector<IntegrationVector> Integration::dormand_prince(IntegrationVector y, 
 
 BarycentricCoord Integration::sqrt(BarycentricCoord frame)
 {
+    //@TODO I want to move this method to BarycentricCoord class
     BarycentricCoord result;
-    result.set_x(std::sqrt(frame.get_x()));
-    result.set_y(std::sqrt(frame.get_y()));
-    result.set_z(std::sqrt(frame.get_z()));
+    //@change set_x, get_x -> alpha
+    result.set_alpha(std::sqrt(frame.get_alpha()));
+    //@change set_y, get_y -> beta
+    result.set_beta(std::sqrt(frame.get_beta()));
+    //@change set_z, get_z -> gamma
+    result.set_gamma(std::sqrt(frame.get_gamma()));
     return result;
 }

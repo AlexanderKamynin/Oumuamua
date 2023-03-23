@@ -21,9 +21,9 @@ private:
     GeocentricCoord geocentric_position;
     BarycentricCoord barycentric_position;
 
-    double x = NULL;
-    double y = NULL;
-    double z = NULL;
+    double x = 0;
+    double y = 0;
+    double z = 0;
 public:
     Date* get_julian_date();
     std::string get_code();

@@ -1,96 +1,108 @@
 #include "BarycentricCoord.h"
 
 
-double BarycentricCoord::get_x() 
+double BarycentricCoord::get_alpha() 
 {
-    return x;
+    return this->alpha;
 }
 
-double BarycentricCoord::get_y()
+
+double BarycentricCoord::get_beta()
 {
-    return y;
+    return this->beta;
 }
 
-double BarycentricCoord::get_z() 
+
+double BarycentricCoord::get_gamma() 
 {
-    return z;
+    return this->gamma;
 }
 
-void BarycentricCoord::set_x(double value) 
+
+void BarycentricCoord::set_alpha(double value) 
 {
-    x = value;
+    this->alpha = value;
 }
 
-void BarycentricCoord::set_y(double value) 
+
+void BarycentricCoord::set_beta(double value) 
 {
-    y = value;
+    this->beta = value;
 }
 
-void BarycentricCoord::set_z(double value)
+
+void BarycentricCoord::set_gamma(double value)
 {
-    z = value;
+    this->gamma = value;
 }
 
-void BarycentricCoord::increase(double delta)
+
+void BarycentricCoord::increase(double value)
 {
-    x += delta;
-    y += delta;
-    z += delta;
+    this->alpha += value;
+    this->beta += value;
+    this->gamma += value;
 }
 
-void BarycentricCoord::multiply(double delta)
+
+void BarycentricCoord::multiply(double value)
 {
-    x *= delta;
-    y *= delta;
-    z *= delta;
+    this->alpha *= value;
+    this->beta *= value;
+    this->gamma *= value;
 }
 
-double BarycentricCoord::len()
+
+double BarycentricCoord::length()
 {
-    return sqrt(x * x + y * y + z * z);
+    return sqrt(help.POW_2(this->alpha) + help.POW_2(this->beta) + help.POW_2(this->gamma));
 }
 
-BarycentricCoord operator+(BarycentricCoord frame_1, BarycentricCoord frame_2)
+
+BarycentricCoord operator+(BarycentricCoord coordinate_1, BarycentricCoord coordinate_2)
 {
     BarycentricCoord result;
-    result.x = frame_1.x + frame_2.x;
-    result.y = frame_1.y + frame_2.y;
-    result.z = frame_1.z + frame_2.z;
+    result.alpha = coordinate_1.alpha + coordinate_2.alpha;
+    result.beta = coordinate_1.beta + coordinate_2.beta;
+    result.gamma = coordinate_1.gamma + coordinate_2.gamma;
     return result;
 }
 
-BarycentricCoord operator-(BarycentricCoord frame_1, BarycentricCoord frame_2)
+
+BarycentricCoord operator-(BarycentricCoord coordinate_1, BarycentricCoord coordinate_2)
 {
     BarycentricCoord result;
-    result.x = frame_1.x - frame_2.x;
-    result.y = frame_1.y - frame_2.y;
-    result.z = frame_1.z - frame_2.z;
+    result.alpha = coordinate_1.alpha - coordinate_2.alpha;
+    result.beta = coordinate_1.beta - coordinate_2.beta;
+    result.gamma = coordinate_1.gamma - coordinate_2.gamma;
     return result;
 }
 
-BarycentricCoord operator*(const double& m, BarycentricCoord frame) 
+
+BarycentricCoord operator*(double value, BarycentricCoord coordinate_1)
 {
     BarycentricCoord result;
-    result.x = m * frame.x;
-    result.y = m * frame.y;
-    result.z = m * frame.z;
+    result.alpha = coordinate_1.alpha * value;
+    result.beta = coordinate_1.beta * value;
+    result.gamma = coordinate_1.gamma * value;
     return result;
 }
 
-BarycentricCoord operator/(BarycentricCoord frame_1, BarycentricCoord frame_2) 
+
+BarycentricCoord operator/(BarycentricCoord coordinate_1, BarycentricCoord coordinate_2)
 {
     BarycentricCoord result;
-    result.x = frame_1.x / frame_2.x;
-    result.y = frame_1.y / frame_2.y;
-    result.z = frame_1.z / frame_2.z;
+    result.alpha = coordinate_1.alpha / coordinate_2.alpha;
+    result.beta = coordinate_1.beta / coordinate_2.beta;
+    result.gamma = coordinate_1.gamma / coordinate_2.gamma;
     return result;
 }
 
-BarycentricCoord operator/(BarycentricCoord frame, const double& m) 
+BarycentricCoord operator/(BarycentricCoord coordinate_1, double value)
 {
     BarycentricCoord result;
-    result.x = frame.x / m;
-    result.y = frame.y / m;
-    result.z = frame.z / m;
+    result.alpha = coordinate_1.alpha / value;
+    result.beta = coordinate_1.beta / value;
+    result.gamma = coordinate_1.gamma / value;
     return result;
 }
