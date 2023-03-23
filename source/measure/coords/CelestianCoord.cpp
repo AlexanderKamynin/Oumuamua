@@ -1,55 +1,64 @@
 #include "CelestialCoord.h"
 
 
-CelestialCoord::CelestialCoord(double h, double m, double s)
+//Получение координат из строки
+void CelestialCoord::set_from_string(std::string string)
 {
-    this->h = h;
-    this->m = m;
-    this->s = s;
+    std::vector<double> vector_of_coords;
+    vector_of_coords = help.split(string, ' ', '\0');
+    this->hours = vector_of_coords[0];
+    this->minutes = vector_of_coords[1];
+    this->seconds = vector_of_coords[2];
 }
 
 
-void CelestialCoord::set_from_string(std::string coord)
+double CelestialCoord::get_hours()
 {
-    /*
-    read the data from string
-    */
-    int prev = 0;
-    for (int i = 0; i < 3; i++) 
-    {
-        for (int j = prev; j < coord.length() + 1; j++)
-        {
-            if ((coord[j] == ' ') or (coord[j] == '\0')) 
-            {
-                switch (i) 
-                {
-                case 0:
-                    h = std::stod(coord.substr(prev, j - prev));
-                    break;
-                case 1:
-                    m = std::stod(coord.substr(prev, j - prev));
-                    break;
-                case 2:
-                    s = std::stod(coord.substr(prev, j - prev));
-                    break;
-                default:
-                    break;
-                }
-                prev = j + 1;
-                break;
-            }
-        }
-    }
+    return this->hours;
 }
 
-double CelestialCoord::get_h() {
-    return this->h;
+
+double CelestialCoord::get_minutes()
+{
+    return this->minutes;
 }
 
-double CelestialCoord::get_m() {
-    return this->m;
+
+double CelestialCoord::get_seconds()
+{
+    return this->seconds;
 }
 
-double CelestialCoord::get_s() {
-    return this->s;
+
+CelestialCoord::CelestialCoord(const CelestialCoord& other)
+{
+    this->hours = other.hours;
+    this->minutes = other.minutes;
+    this->seconds = other.seconds;
+}
+
+
+CelestialCoord& CelestialCoord::operator=(const CelestialCoord& other)
+{
+    this->hours = other.hours;
+    this->minutes = other.minutes;
+    this->seconds = other.seconds;
+    return *this;
+}
+
+
+CelestialCoord::CelestialCoord(const CelestialCoord&& other)
+{
+    this->hours = other.hours;
+    this->minutes = other.minutes;
+    this->seconds = other.seconds;
+}
+
+
+CelestialCoord& CelestialCoord::operator=(const CelestialCoord&& other)
+{
+    this->hours = other.hours;
+    this->minutes = other.minutes;
+    this->seconds = other.seconds;
+    return *this;
 }

@@ -1,23 +1,38 @@
 #pragma once
 #include <string>
+#include "../../Helpers.h"
 
 
-//Class that interpreted celestian coordinate obj
-class CelestialCoord 
+/*
+    This class stores celestial coordinates,
+    has methods for initializingand getting data,
+    and interprets strings into coordinates.
+    Used to store declinationand right ascension
+    {one object is declination or right ascension value}
+*/
+class CelestialCoord
 {
 private:
-    double h = 0; // hours
-    double m = 0; // minutes
-    double s = 0; // seconds
+    double hours = 0;
+    double minutes = 0;
+    double seconds = 0;
+    Helpers help;
 public:
     CelestialCoord() = default;
-    CelestialCoord(double h, double m, double s);
+    CelestialCoord(double h, double m, double s) : hours(h), minutes(m), seconds(s) {};
+
+    //getters
+    //@change get_s -> get_seconds
+    double get_hours();
+    double get_minutes();
+    double get_seconds();
 
     //setters
     void set_from_string(std::string);
 
-    //getters
-    double get_h();
-    double get_m();
-    double get_s();
+    //operators
+    CelestialCoord(const CelestialCoord& other);
+    CelestialCoord& operator=(const CelestialCoord& other);
+    CelestialCoord(const CelestialCoord&& other);
+    CelestialCoord& operator=(const CelestialCoord&& other);
 };

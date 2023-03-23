@@ -230,9 +230,9 @@ std::map<std::string, std::vector<IntegrationVector>> Converter::interpolation_c
 //Перевод сферических координат из "часы-минуты-секунды" в радианы
 void Converter::celestial_to_spherical(Observation* observation) 
 {
-    double degrees_AD = 15.0 * observation->get_ascension().get_h();
-    double arcminutes_AD = 0.25 * observation->get_ascension().get_m();
-    double arcseconds_AD = 0.25 * observation->get_ascension().get_s();
+    double degrees_AD = 15.0 * observation->get_ascension().get_hours();
+    double arcminutes_AD = 0.25 * observation->get_ascension().get_minutes();
+    double arcseconds_AD = 0.25 * observation->get_ascension().get_seconds();
     double delta_min = (int)arcminutes_AD;
     double delta_sec = (int)arcseconds_AD;
     degrees_AD += delta_min;
@@ -241,7 +241,13 @@ void Converter::celestial_to_spherical(Observation* observation)
     double AD = NULL;
     double DEC = NULL;
     iauAf2a('+', degrees_AD, arcminutes_AD, arcseconds_AD, &AD);
-    iauAf2a('+', observation->get_declination().get_h(), observation->get_declination().get_m(), observation->get_declination().get_s(), &DEC);
+    char sign = '+';
+    if (observation->get_declination().get_hours() < 0) 
+    {
+        sign = '-';
+    }
+    //@change h, m, s -> hours, minutes, seconds
+    iauAf2a('+', observation->get_declination().get_hours(), observation->get_declination().get_minutes(), observation->get_declination().get_seconds(), &DEC);
     observation->set_spherical(AD, DEC);
 }
 
