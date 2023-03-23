@@ -16,7 +16,8 @@ void IntegrationVector::set_spherical_position(double longitude, double latitude
 
 void IntegrationVector::set_velocity(double vx, double vy, double vz) 
 {
-    this->velocity.set(vx, vy, vz);
+    //@change set -> set_all
+    this->velocity.set_all(vx, vy, vz);
 }
 
 void IntegrationVector::set_julian_date(Date date) 
