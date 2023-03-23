@@ -6,32 +6,55 @@
 
 #include "../time/Date.h"
 
-//¬ектор дл€ численного интегрировани€
+
+/*
+    A vector of values used in the numerical integration of the problem.
+    The problem is described by the following system of differential equations:
+
+    X(t) = (x, y, z, vx, vy, vz)
+    X(0) = (x0, y0, z0, vx0, vy0, vz0)
+    dX/dt = (vx, vy, vz, ax, ay, az)
+
+    spherical_position - position of the Oumuamua in the Spherical coordinates
+    barycentric_position (param x, y, z in the equations) - position of the Oumuamua in the Barycentric coordinates
+    velocity (param vx, vy, vx in the equations) - velocity of the Oumuamua 
+    date - time, at a given moment of which the position of Oumuamua is described
+
+   The parameters ax,ay,az are implemented in the class with numerical integration (Integration) and are described there
+*/
 class IntegrationVector
 {
 private:
-    BarycentricCoord position;
+    BarycentricCoord barycentric_position;
     SphericalCoord spherical_position;
     Velocity velocity;
-    Date julian_date;
+    //@change julian_date -> date
+    Date date;
 public:
     IntegrationVector() = default;
 
-    void set_position(double, double, double);
+
+    //setters
+    //@change set_porition -> set_barycentric_position
+    void set_barycentric_position(double, double, double);
     void set_spherical_position(double, double);
     void set_velocity(double, double, double);
-    void set_julian_date(Date);
+    //@change set_julian_date -> set_date
+    void set_date(Date);
 
-    BarycentricCoord get_position();
+
+    //getters
+    //@change get_position -> get_barycentric_position
+    BarycentricCoord get_barycentric_position();
     SphericalCoord get_spherical_position();
     Velocity get_velocity();
-    Date* get_julian_date();
+    //@change Date* get_julian_date -> Date get_date
+    Date get_date();
 
-    IntegrationVector(const IntegrationVector& other);
-    IntegrationVector& operator=(const IntegrationVector& other);
-    IntegrationVector(const IntegrationVector&& other);
-    IntegrationVector& operator=(const IntegrationVector&& other);
 
+    /*
+        Operation between integration vectors
+    */
     friend IntegrationVector operator+(IntegrationVector, double);
     friend IntegrationVector operator+(IntegrationVector, IntegrationVector);
     friend IntegrationVector operator*(double, IntegrationVector);

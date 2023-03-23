@@ -145,7 +145,8 @@ void DataReader::read_interpolation_center_planet(std::string filename, std::str
             Date observation_date(data_line.substr(0, 13));
             observation_date.set_time_from_fraction();
             observation_date.set_JD();
-            data_frame.set_julian_date(observation_date);
+            //@change set_julian_date -> set_date
+            data_frame.set_date(observation_date);
 
             int prev = 14;
             bool flag = false;
@@ -184,7 +185,8 @@ void DataReader::read_interpolation_center_planet(std::string filename, std::str
                         }
                         if (all_three) 
                         {
-                            data_frame.set_position(x, y, z);
+                            //@change set_position -> set_barycentric_position
+                            data_frame.set_barycentric_position(x, y, z);
                             planet.push_back(data_frame);
                             ind++;
                             all_three = false;

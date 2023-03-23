@@ -4,7 +4,8 @@
 
 Solution::Solution()
 {
-    x0.set_position(1.452674920249709E+08, 7.476202044529255E+07, -1.071281870835046E+07);
+    //@change set_position -> set_barycentric_position
+    x0.set_barycentric_position(1.452674920249709E+08, 7.476202044529255E+07, -1.071281870835046E+07);
     x0.set_velocity(4.483537051060935E+01, 1.039892688333976E+01, 1.433813590588367E+01);
 }
 
@@ -73,9 +74,10 @@ void Solution::integrate()
     for (int i = 0; i < (dhand.get_observations_vector()).size(); i++) 
     {
         IntegrationVector tmp;
-        tmp.set_julian_date(*dhand.get_observations_vector()[i].get_julian_date());
-        //@change x, y, z -> alpha, beta, gamma
-        tmp.set_position(dhand.get_observations_vector()[i].get_barycentric().get_alpha(), dhand.get_observations_vector()[i].get_barycentric().get_beta(), dhand.get_observations_vector()[i].get_barycentric().get_gamma());
+        //@change set_julian_date -> set_date
+        tmp.set_date(*dhand.get_observations_vector()[i].get_julian_date());
+        //@change x, y, z -> alpha, beta, gamma; set_position -> set_barycentric_position
+        tmp.set_barycentric_position(dhand.get_observations_vector()[i].get_barycentric().get_alpha(), dhand.get_observations_vector()[i].get_barycentric().get_beta(), dhand.get_observations_vector()[i].get_barycentric().get_gamma());
         base_measures.push_back(tmp);
     }
     
@@ -107,7 +109,8 @@ void Solution::write_to_file(std::vector<IntegrationVector> model, std::vector<I
     {
         for (int ind = 0; ind < model.size(); ind++)
         {
-            model_out << std::setprecision(9) << model[ind].get_julian_date()->get_MJD() << " " << model[ind].get_spherical_position().get_longitude() << " " << model[ind].get_spherical_position().get_latitude() << "\n";
+            //@change get_julian_date -> get_date
+            model_out << std::setprecision(9) << model[ind].get_date().get_MJD() << " " << model[ind].get_spherical_position().get_longitude() << " " << model[ind].get_spherical_position().get_latitude() << "\n";
         }
         model_out.close();
     }
@@ -122,7 +125,8 @@ void Solution::write_to_file(std::vector<IntegrationVector> model, std::vector<I
     {
         for (int ind = 0; ind < base_measures.size(); ind++)
         {
-            base_out << std::setprecision(9) << base_measures[ind].get_julian_date()->get_MJD() << " " << base_measures[ind].get_spherical_position().get_longitude() << " " << base_measures[ind].get_spherical_position().get_latitude() << "\n";
+            //@change get_julian_date -> get_date
+            base_out << std::setprecision(9) << base_measures[ind].get_date().get_MJD() << " " << base_measures[ind].get_spherical_position().get_longitude() << " " << base_measures[ind].get_spherical_position().get_latitude() << "\n";
         }
         base_out.close();
     }

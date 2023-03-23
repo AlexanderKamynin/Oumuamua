@@ -1,5 +1,6 @@
 #include "Integration.h"
 
+
 IntegrationVector Integration::diff(double t, IntegrationVector asteroid, std::map<std::string, std::vector<IntegrationVector>> planets) 
 {
     IntegrationVector d_vector;
@@ -7,18 +8,20 @@ IntegrationVector Integration::diff(double t, IntegrationVector asteroid, std::m
     BarycentricCoord dv;
     for (int i = 0; i < planets["earth"].size(); i++)
     {
-        if (planets["earth"][i].get_julian_date()->get_MJD() == t) 
+        //@change get_julian_date -> get_date
+        if (planets["earth"][i].get_date().get_MJD() == t) 
         {
-            d_vector.set_julian_date(*planets["earth"][i].get_julian_date());
-            //@change len -> length
-            dx = sqrt((GM["sun"] * (planets["sun"][i].get_position() - asteroid.get_position())) / ((planets["sun"][i].get_position() - asteroid.get_position()).length() * (planets["sun"][i].get_position() - asteroid.get_position())) + (GM["jupiter"] * (planets["jupiter"][i].get_position() - asteroid.get_position()) / ((planets["jupiter"][i].get_position() - asteroid.get_position()).length() * (planets["jupiter"][i].get_position() - asteroid.get_position()))));
-            //@change len -> length
-            dv = (GM["sun"] * (planets["sun"][i].get_position() - asteroid.get_position())) / (pow((planets["sun"][i].get_position() - asteroid.get_position()).length(), 2) * (planets["sun"][i].get_position() - asteroid.get_position())) + (GM["jupiter"] * (planets["jupiter"][i].get_position() - asteroid.get_position()) / (pow((planets["jupiter"][i].get_position() - asteroid.get_position()).length(), 2) * (planets["jupiter"][i].get_position() - asteroid.get_position())));
+            //@change set, get julian_date -> set, get date
+            d_vector.set_date(planets["earth"][i].get_date());
+            //@change len -> length, get_position -> get_barycentric_position
+            dx = sqrt((GM["sun"] * (planets["sun"][i].get_barycentric_position() - asteroid.get_barycentric_position())) / ((planets["sun"][i].get_barycentric_position() - asteroid.get_barycentric_position()).length() * (planets["sun"][i].get_barycentric_position() - asteroid.get_barycentric_position())) + (GM["jupiter"] * (planets["jupiter"][i].get_barycentric_position() - asteroid.get_barycentric_position()) / ((planets["jupiter"][i].get_barycentric_position() - asteroid.get_barycentric_position()).length() * (planets["jupiter"][i].get_barycentric_position() - asteroid.get_barycentric_position()))));
+            //@change len -> length, get_position -> get_barycentric_position
+            dv = (GM["sun"] * (planets["sun"][i].get_barycentric_position() - asteroid.get_barycentric_position())) / (pow((planets["sun"][i].get_barycentric_position() - asteroid.get_barycentric_position()).length(), 2) * (planets["sun"][i].get_barycentric_position() - asteroid.get_barycentric_position())) + (GM["jupiter"] * (planets["jupiter"][i].get_barycentric_position() - asteroid.get_barycentric_position()) / (pow((planets["jupiter"][i].get_barycentric_position() - asteroid.get_barycentric_position()).length(), 2) * (planets["jupiter"][i].get_barycentric_position() - asteroid.get_barycentric_position())));
             break;
         }
     }
-    //@change get_x, y, z -> get_alpha, beta, gamma
-    d_vector.set_position(dx.get_alpha(), dx.get_beta(), dx.get_gamma());
+    //@change get_x, y, z -> get_alpha, beta, gamma, set_position -> set_barycentric_position
+    d_vector.set_barycentric_position(dx.get_alpha(), dx.get_beta(), dx.get_gamma());
     //@change get_x, y, z -> get_alpha, beta, gamma
     d_vector.set_velocity(dv.get_alpha(), dv.get_beta(), dv.get_gamma());
     return d_vector;
@@ -47,7 +50,8 @@ std::vector<IntegrationVector> Integration::dormand_prince(IntegrationVector y, 
 
         Date date;
         date.set_MJD(t);
-        new_y.set_julian_date(date);
+        //@change set_julian_date -> set_date
+        new_y.set_date(date);
 
         //DP_output << "DP::" << "x==" << new_y.get_position().get_x() << ";\ty==" << new_y.get_position().get_y() << ";\t\tz==" << new_y.get_position().get_z() << std::endl;
         result.push_back(new_y);
