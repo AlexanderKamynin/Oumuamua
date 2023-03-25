@@ -75,7 +75,7 @@ void Converter::interpolation_to_tdb(Date* date, std::vector<InterpolationTimeFr
 }
 
 //Интерполяция положения Хаббла
-GeocentricCoord Converter::interpolation_hubble_data(Date date, std::vector<InterpolationHubbleFrame> interpolation_data)
+GeocentricCoord Converter::interpolation_hubble_data(Date date, std::vector<HubbleData> interpolation_data)
 {
     for (int i = 0; i < interpolation_data.size() - 1; i++)
     {
@@ -280,7 +280,7 @@ void Converter::barycentric_to_spherical_for_observations(Observation* vector)
     vector->set_spherical(longitude, latitude);
 }
 
-void Converter::geocentric_to_barycentric(std::vector<Observation>* observations, std::map<std::string, Observatory>* observatory, std::vector<InterpolationHubbleFrame> hubble_map, std::vector<IntegrationVector> earth_position) 
+void Converter::geocentric_to_barycentric(std::vector<Observation>* observations, std::map<std::string, Observatory>* observatory, std::vector<HubbleData> hubble_map, std::vector<IntegrationVector> earth_position) 
 {
     double ind = 0;
     for (int i = 0; i < observations->size(); i++)
@@ -356,7 +356,7 @@ std::vector<IntegrationVector> Converter::interpolation_to_observation(std::vect
 }
 
 //Поправка за световой промежуток
-std::vector<IntegrationVector> Converter::light_time_correction(std::map<std::string, Observatory> observatory, std::vector< Observation> observations, std::vector<InterpolationHubbleFrame> hubble_map, std::vector<IntegrationVector> earth_position) 
+std::vector<IntegrationVector> Converter::light_time_correction(std::map<std::string, Observatory> observatory, std::vector< Observation> observations, std::vector<HubbleData> hubble_map, std::vector<IntegrationVector> earth_position) 
 {
     std::vector<IntegrationVector> result;
     for (int i = 0; i < observations.size(); i++) 
@@ -437,7 +437,7 @@ BarycentricCoord Converter::n_abs(BarycentricCoord frame)
 };
 
 //Поправка на гравитационное отклонение света
-std::vector<IntegrationVector> Converter::gravitational_deflection(std::map<std::string, Observatory> observatory, std::vector< Observation> observations, std::vector<IntegrationVector> sun_observations, std::vector<InterpolationHubbleFrame> hubble_map, std::vector<IntegrationVector> earth_position) 
+std::vector<IntegrationVector> Converter::gravitational_deflection(std::map<std::string, Observatory> observatory, std::vector< Observation> observations, std::vector<IntegrationVector> sun_observations, std::vector<HubbleData> hubble_map, std::vector<IntegrationVector> earth_position) 
 {
     double mass_sun = 1.989e30;
     double new_direction[3];
@@ -486,7 +486,7 @@ std::vector<IntegrationVector> Converter::gravitational_deflection(std::map<std:
 };
 
 //Аберрация
-std::vector<IntegrationVector> Converter::aberration(std::map<std::string, Observatory> observatory, std::vector< Observation> observations, std::vector<IntegrationVector> sun_observations, std::vector<InterpolationHubbleFrame> hubble_map, std::vector<IntegrationVector> earth_position)
+std::vector<IntegrationVector> Converter::aberration(std::map<std::string, Observatory> observatory, std::vector< Observation> observations, std::vector<IntegrationVector> sun_observations, std::vector<HubbleData> hubble_map, std::vector<IntegrationVector> earth_position)
 {
     std::vector<IntegrationVector> result;
     double new_direction[3];

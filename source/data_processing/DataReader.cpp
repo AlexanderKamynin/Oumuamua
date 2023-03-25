@@ -83,7 +83,7 @@ void DataReader::read_hubble_data()
             data_frame.set_from_string(data_line.substr(25, data_line.length() - 25));
             Date hubble_date(data_line.substr(0, 10));
             hubble_date.set_time_from_string(data_line.substr(0, 18));
-            InterpolationHubbleFrame frame;
+            HubbleData frame;
             frame.set_date(hubble_date);
             frame.set_geocentric(data_frame);
             interpolation_hubble.push_back(frame);
@@ -242,7 +242,7 @@ std::map<std::string, Observatory> DataReader::get_observatory()
     return observatory;
 }
 
-std::vector<InterpolationHubbleFrame> DataReader::get_interpolation_hubble() 
+std::vector<HubbleData> DataReader::get_interpolation_hubble() 
 {
     return interpolation_hubble;
 }

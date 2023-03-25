@@ -11,7 +11,7 @@
 
 #include "../measure/time/InterpolationTimeFrame.h"
 
-#include "../measure/data_structures/InterpolationHubbleFrame.h"
+#include "../measure/data_structures/HubbleData.h"
 #include "../measure/data_structures/IntegrationVector.h"
 #include "../../sofa/src/sofa.h"
 
@@ -32,21 +32,21 @@ public:
     void interpolation_to_tdb(Date*, std::vector<InterpolationTimeFrame>);
 
 
-    GeocentricCoord interpolation_hubble_data(Date date, std::vector<InterpolationHubbleFrame> interpolation_data);
+    GeocentricCoord interpolation_hubble_data(Date date, std::vector<HubbleData> interpolation_data);
     GeocentricCoord cartesian_to_geocentric(CartesianCoord, Date);
     BarycentricCoord interpolation_center_of_earth_for_observatory(Date date, GeocentricCoord frame, std::vector<IntegrationVector> interpolation_earth);
     std::map<std::string, std::vector<IntegrationVector>> interpolation_center_planet(double h, Date* date_start, Date* date_finish, std::map<std::string, std::vector<IntegrationVector>> interpolation_planet);
-    void geocentric_to_barycentric(std::vector<Observation>*, std::map<std::string, Observatory>*, std::vector<InterpolationHubbleFrame>, std::vector<IntegrationVector>);
+    void geocentric_to_barycentric(std::vector<Observation>*, std::map<std::string, Observatory>*, std::vector<HubbleData>, std::vector<IntegrationVector>);
 
 
     void transpose(double mtr[3][3]);
 
-    std::vector<IntegrationVector> light_time_correction(std::map<std::string, Observatory>, std::vector< Observation>, std::vector<InterpolationHubbleFrame>, std::vector<IntegrationVector> earth_position);
+    std::vector<IntegrationVector> light_time_correction(std::map<std::string, Observatory>, std::vector< Observation>, std::vector<HubbleData>, std::vector<IntegrationVector> earth_position);
     std::vector<IntegrationVector> interpolation_to_observation(std::vector<Observation> vector, std::vector<IntegrationVector> interpolation_orbits);
     BarycentricCoord interpolation_orbits(double date, std::vector<Observation> interpolation_orbits);
     BarycentricCoord n_abs(BarycentricCoord);
-    std::vector<IntegrationVector> gravitational_deflection(std::map<std::string, Observatory>, std::vector< Observation>, std::vector<IntegrationVector>, std::vector<InterpolationHubbleFrame>, std::vector<IntegrationVector> earth_position);
-    std::vector<IntegrationVector> aberration(std::map<std::string, Observatory>, std::vector< Observation>, std::vector<IntegrationVector>, std::vector<InterpolationHubbleFrame>, std::vector<IntegrationVector> earth_position);
+    std::vector<IntegrationVector> gravitational_deflection(std::map<std::string, Observatory>, std::vector< Observation>, std::vector<IntegrationVector>, std::vector<HubbleData>, std::vector<IntegrationVector> earth_position);
+    std::vector<IntegrationVector> aberration(std::map<std::string, Observatory>, std::vector< Observation>, std::vector<IntegrationVector>, std::vector<HubbleData>, std::vector<IntegrationVector> earth_position);
 
     void celestial_to_spherical(Observation*);
     void barycentric_to_spherical(IntegrationVector*);

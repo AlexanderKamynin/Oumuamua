@@ -4,20 +4,25 @@
 
 #include "../time/Date.h"
 
-// ласс дл€ хранени€ данных интерпол€ции ’аббла
-class InterpolationHubbleFrame 
+
+/*
+    This class describes Hubble's position and time, for interpolation
+*/
+class HubbleData 
 {
 private:
-    GeocentricCoord position_data;
+    GeocentricCoord geoncentric_position;
     Date date;
-    BarycentricCoord barycentric_frame;
+    BarycentricCoord barycentric_position;
 public:
-    InterpolationHubbleFrame() = default;
+    HubbleData() = default;
 
+    //setters
     void set_date(Date);
     void set_geocentric(GeocentricCoord);
     void set_barycentric(BarycentricCoord);
 
+    //getters
     Date get_date();
     GeocentricCoord get_geocentric();
     BarycentricCoord get_barycentric();
