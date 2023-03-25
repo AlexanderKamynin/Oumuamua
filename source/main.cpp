@@ -1,13 +1,14 @@
 #include "Solution.h"
 
 
-int main() 
+int main()
 {
-	//I love Oumuamua!!!
-    Solution solution;
-    solution.read_data();
-    solution.convert_observations();
-    solution.convert_observatory();
-    solution.integrate();
+    //I love Oumuamua!!!
+    unsigned int start_time = clock();
+    Solution solve;
+    solve.act();
+    unsigned int end_time = clock(); // конечное время
+    std::cout << "For all project need " << (end_time - start_time) / 1000 << " seconds" << std::endl;
+
     return 0;
 }

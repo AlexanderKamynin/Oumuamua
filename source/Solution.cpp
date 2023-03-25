@@ -31,7 +31,7 @@ void Solution::convert_observations()
     std::vector<Observation>* data = dhand.get_observations();
     for (int ind = 0; ind < data->size(); ind++) 
     {
-        cnv.julian_date_to_tt(data->at(ind).get_julian_date());
+        cnv.julian_date_to_tt(data->at(ind).get_date());
         cnv.celestial_to_spherical(dhand.get_observation(ind));
         cnv.spherical_to_geocentric(dhand.get_observation(ind));
     }
@@ -64,9 +64,9 @@ void Solution::integrate()
     std::vector<IntegrationVector> base_measures;
     std::vector<IntegrationVector> model_orbits;
 
-    std::map<std::string, std::vector<IntegrationVector>> map_planets = cnv.interpolation_center_planet(0.1, dhand.get_observations()->at(0).get_julian_date(), dhand.get_observations()->at(221).get_julian_date(), dhand.get_interpolation_planets());
+    std::map<std::string, std::vector<IntegrationVector>> map_planets = cnv.interpolation_center_planet(0.1, dhand.get_observations()->at(0).get_date(), dhand.get_observations()->at(221).get_date(), dhand.get_interpolation_planets());
 
-    model_orbits = integration.dormand_prince(x0, dhand.get_observations()->at(0).get_julian_date(), dhand.get_observations()->at(221).get_julian_date(), 0.2, map_planets);
+    model_orbits = integration.dormand_prince(x0, dhand.get_observations()->at(0).get_date(), dhand.get_observations()->at(221).get_date(), 0.2, map_planets);
     model_measures = cnv.interpolation_to_observation(dhand.get_observations_vector(), model_orbits);
 
 
@@ -75,7 +75,7 @@ void Solution::integrate()
     {
         IntegrationVector tmp;
         //@change set_julian_date -> set_date
-        tmp.set_date(*dhand.get_observations_vector()[i].get_julian_date());
+        tmp.set_date(*dhand.get_observations_vector()[i].get_date());
         //@change x, y, z -> alpha, beta, gamma; set_position -> set_barycentric_position
         tmp.set_barycentric_position(dhand.get_observations_vector()[i].get_barycentric().get_alpha(), dhand.get_observations_vector()[i].get_barycentric().get_beta(), dhand.get_observations_vector()[i].get_barycentric().get_gamma());
         base_measures.push_back(tmp);
@@ -142,4 +142,33 @@ void Solution::write_to_file(std::vector<IntegrationVector> model, std::vector<I
         codes << dhand.get_observation(ind)->get_code() << "\n";
     }
     codes.close();
+}
+
+void Solution::act()
+{
+    unsigned int start_time = clock();
+    read_data();
+    unsigned int end_time = clock();
+    std::cout << "\tto read data need " << (end_time - start_time) << " mili_secundes!\n";
+
+
+    start_time = clock();
+    convert_observations();
+    end_time = clock();
+    std::cout << "\tto convert observation data need " << (end_time - start_time) << " mili_secundes!\n";
+
+
+
+    start_time = clock();
+    convert_observatory();
+    end_time = clock();
+    std::cout << "\tto convert observatory data need " << (end_time - start_time) << " mili_secundes\n";
+
+
+
+    start_time = clock();
+    integrate();
+    end_time = clock();
+    std::cout << "\tto itegrate need " << (end_time - start_time) << " mili_secundes\n";
+
 }

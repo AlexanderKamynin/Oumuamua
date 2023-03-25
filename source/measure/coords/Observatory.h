@@ -4,22 +4,26 @@
 #include "GeocentricCoord.h"
 #include "BarycentricCoord.h"
 
-//Класс для хранения данных обсерватории
+/*
+    This class describes the location of observatories in different coordinate systems
+*/
 class Observatory 
 {
 private:
-    CartesianCoord cartesian_frame;
-    CylindricalCoord cylindrical_frame;
-    GeocentricCoord geocentric_frame;
-    BarycentricCoord barycentric_frame;
+    CartesianCoord cartesian_coordinate;
+    CylindricalCoord cylindrical_coordinate;
+    GeocentricCoord geocentric_coordinate;
+    BarycentricCoord barycentric_coordinate;
 public:
     Observatory() {};
 
+    //setters
     void set_cartesian(CartesianCoord);
     void set_cylindrical(CylindricalCoord);
     void set_geocentric(GeocentricCoord);
     void set_barycentric(BarycentricCoord);
 
+    //getters
     CartesianCoord get_cartesian();
     CylindricalCoord get_cylindric();
     GeocentricCoord get_geocentric();

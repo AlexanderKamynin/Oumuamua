@@ -22,7 +22,7 @@ void DataReader::read_observations()
                 Date observation_date(data_line.substr(15, 17));
                 observation_date.set_time_from_fraction();
                 observation_date.set_JD();
-                data_frame.set_julian_date(observation_date);
+                data_frame.set_date(observation_date);
                 data_frame.set_code(data_line.substr(77, 3));
                 data_frame.set_ascension_from_string(data_line.substr(32, 12));
                 data_frame.set_declination_from_string(data_line.substr(44, 12));
@@ -52,7 +52,8 @@ void DataReader::read_observatory_data()
             observatory[code] = Observatory();
 
             CylindricalCoord data_frame;
-            data_frame.set_longitude_from_string(data_line.substr(4, 10));
+            //@change (4,10) -> (4,9)
+            data_frame.set_longitude_from_string(data_line.substr(4, 9));
             data_frame.set_cos_from_string(data_line.substr(13, 8));
             data_frame.set_sin_from_string(data_line.substr(21, 9));
 

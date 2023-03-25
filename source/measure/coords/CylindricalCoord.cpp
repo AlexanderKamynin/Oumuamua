@@ -21,54 +21,51 @@ double CylindricalCoord::get_sin()
 
 void CylindricalCoord::set_longitude_from_string(std::string value)
 {
-    bool flage = true;
-    for (int i = 0; i < value.size(); i++)
+    std::string longitude = "";
+    for (int i = 0; i < value.size(); i++) 
     {
-        if (value[i] == ' ')
+        if (value[i] != ' ')
         {
-            flage = false;
-            break;
+            longitude += value[i];
         }
     }
-    if (flage)
+    if (longitude != "")
     {
-        this->longitude = stod(value);
+        this->longitude = std::stod(longitude);
     }
 }
 
 
 void CylindricalCoord::set_cos_from_string(std::string value)
 {
-    bool flage = true;
+    std::string cos = "";
     for (int i = 0; i < value.size(); i++)
     {
-        if (value[i] == ' ')
+        if (value[i] != ' ')
         {
-            flage = false;
-            break;
+            cos += value[i];
         }
     }
-    if (flage)
+    if (cos != "")
     {
-        this->cos = stod(value);
+        this->cos = std::stod(cos);
     }
 }
 
 
 void CylindricalCoord::set_sin_from_string(std::string value)
 {
-    bool flage = true;
+    std::string sin = "";
     for (int i = 0; i < value.size(); i++)
     {
-        if (value[i] == ' ')
+        if (value[i] != ' ')
         {
-            flage = false;
-            break;
+            sin += value[i];
         }
     }
-    if (flage)
+    if (sin != "")
     {
-        this->sin = stod(value);
+        this->sin = std::stod(sin);
     }
 }
 

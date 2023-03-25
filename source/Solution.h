@@ -14,6 +14,7 @@ private:
     Integration integration;
 public:
     Solution();
+    void act();
     void read_data();
     void convert_observations();
     void convert_observatory();

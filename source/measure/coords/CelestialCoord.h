@@ -7,7 +7,7 @@
     This class stores celestial coordinates,
     has methods for initializingand getting data,
     and interprets strings into coordinates.
-    Used to store declinationand right ascension
+    Used to store declination and right ascension
     {one object is declination or right ascension value}
 */
 class CelestialCoord

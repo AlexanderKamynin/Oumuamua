@@ -786,7 +786,7 @@
     <ClCompile Include="source\measure\time\Date.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\measure\coords\CelestianCoord.cpp">
+    <ClCompile Include="source\measure\coords\CelestialCoord.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="source\measure\coords\Observation.cpp">

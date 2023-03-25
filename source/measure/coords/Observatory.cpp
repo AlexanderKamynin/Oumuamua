@@ -1,77 +1,89 @@
 #include "Observatory.h"
 
-void Observatory::set_cartesian(CartesianCoord frame)
+
+void Observatory::set_cartesian(CartesianCoord coord)
 {
-    cartesian_frame = frame;
+    this->cartesian_coordinate = coord;
 }
 
-void Observatory::set_cylindrical(CylindricalCoord frame) 
+
+void Observatory::set_cylindrical(CylindricalCoord coord)
 {
-    cylindrical_frame = frame;
+    this->cylindrical_coordinate = coord;
 }
 
-void Observatory::set_geocentric(GeocentricCoord frame) 
+
+void Observatory::set_geocentric(GeocentricCoord coord)
 {
-    geocentric_frame = frame;
+    this->geocentric_coordinate = coord;
 }
 
-void Observatory::set_barycentric(BarycentricCoord frame) 
+
+void Observatory::set_barycentric(BarycentricCoord coord)
 {
-    barycentric_frame = frame;
+    this->barycentric_coordinate = coord;
 }
+
 
 CartesianCoord Observatory::get_cartesian() 
 {
-    return cartesian_frame;
+    return this->cartesian_coordinate;
 }
+
 
 CylindricalCoord Observatory::get_cylindric() 
 {
-    return cylindrical_frame;
+    return this->cylindrical_coordinate;
 }
+
 
 GeocentricCoord Observatory::get_geocentric() 
 {
-    return geocentric_frame;
+    return this->geocentric_coordinate;
 }
+
 
 BarycentricCoord Observatory::get_barycentric() 
 {
-    return barycentric_frame;
+    return this->barycentric_coordinate;
 }
+
 
 Observatory::Observatory(const Observatory& other) 
 {
-    this->cartesian_frame = other.cartesian_frame;
-    this->cylindrical_frame = other.cylindrical_frame;
-    this->geocentric_frame = other.geocentric_frame;
-    this->barycentric_frame = other.barycentric_frame;
+    this->cartesian_coordinate = other.cartesian_coordinate;
+    this->cylindrical_coordinate = other.cylindrical_coordinate;
+    this->geocentric_coordinate = other.geocentric_coordinate;
+    this->barycentric_coordinate = other.barycentric_coordinate;
 }
+
 
 Observatory& Observatory::operator=(const Observatory& other) 
 {
-    this->cartesian_frame = other.cartesian_frame;
-    this->cylindrical_frame = other.cylindrical_frame;
-    this->geocentric_frame = other.geocentric_frame;
-    this->barycentric_frame = other.barycentric_frame;
+    this->cartesian_coordinate = other.cartesian_coordinate;
+    this->cylindrical_coordinate = other.cylindrical_coordinate;
+    this->geocentric_coordinate = other.geocentric_coordinate;
+    this->barycentric_coordinate = other.barycentric_coordinate;
 
     return *this;
 }
 
+
 Observatory::Observatory(const Observatory&& other) 
 {
-    this->cartesian_frame = other.cartesian_frame;
-    this->cylindrical_frame = other.cylindrical_frame;
-    this->geocentric_frame = other.geocentric_frame;
-    this->barycentric_frame = other.barycentric_frame;
+    this->cartesian_coordinate = other.cartesian_coordinate;
+    this->cylindrical_coordinate = other.cylindrical_coordinate;
+    this->geocentric_coordinate = other.geocentric_coordinate;
+    this->barycentric_coordinate = other.barycentric_coordinate;
 }
+
 
 Observatory& Observatory::operator=(const Observatory&& other)
 {
-    this->cartesian_frame = other.cartesian_frame;
-    this->cylindrical_frame = other.cylindrical_frame;
-    this->geocentric_frame = other.geocentric_frame;
-    this->barycentric_frame = other.barycentric_frame;
+    this->cartesian_coordinate = other.cartesian_coordinate;
+    this->cylindrical_coordinate = other.cylindrical_coordinate;
+    this->geocentric_coordinate = other.geocentric_coordinate;
+    this->barycentric_coordinate = other.barycentric_coordinate;
 
     return *this;
 }

@@ -105,7 +105,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <LanguageStandard_C>Default</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -138,7 +138,7 @@
     <ClCompile Include="source\measure\coords\GeocentricCoord.cpp" />
     <ClCompile Include="source\measure\time\InterpolationTimeFrame.cpp" />
     <ClCompile Include="source\measure\time\Date.cpp" />
-    <ClCompile Include="source\measure\coords\CelestianCoord.cpp" />
+    <ClCompile Include="source\measure\coords\CelestialCoord.cpp" />
     <ClCompile Include="source\measure\coords\Observation.cpp" />
     <ClCompile Include="source\data_processing\DataReader.cpp" />
     <ClCompile Include="source\measure\coords\CylindricalCoord.cpp" />
