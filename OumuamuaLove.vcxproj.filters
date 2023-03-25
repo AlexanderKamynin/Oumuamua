@@ -780,7 +780,7 @@
     <ClCompile Include="source\measure\coords\GeocentricCoord.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\measure\time\InterpolationTimeFrame.cpp">
+    <ClCompile Include="source\measure\time\InterpolationTime.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="source\measure\time\Date.cpp">
@@ -839,7 +839,7 @@
     <ClInclude Include="source\measure\coords\GeocentricCoord.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="source\measure\time\InterpolationTimeFrame.h">
+    <ClInclude Include="source\measure\time\InterpolationTime.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="source\measure\time\Date.h">

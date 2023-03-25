@@ -11,8 +11,8 @@
 class HubbleData 
 {
 private:
-    GeocentricCoord geoncentric_position;
     Date date;
+    GeocentricCoord geoncentric_position;
     BarycentricCoord barycentric_position;
 public:
     HubbleData() = default;

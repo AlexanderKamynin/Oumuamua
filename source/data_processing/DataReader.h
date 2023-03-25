@@ -2,7 +2,7 @@
 #include "../measure/coords/Observation.h"
 #include "../measure/coords/Observatory.h"
 
-#include "../measure/time/InterpolationTimeFrame.h"
+#include "../measure/time/InterpolationTime.h"
 
 #include "../measure/data_structures/HubbleData.h"
 #include "../measure/data_structures/IntegrationVector.h"
@@ -20,7 +20,7 @@ private:
 
     std::map<std::string, Observatory> observatory;
 
-    std::vector<InterpolationTimeFrame> interpolation_time;
+    std::vector<InterpolationTime> interpolation_time;
     std::map<std::string, std::vector<IntegrationVector>> InterpolationPlanets;
 
     std::vector<HubbleData> interpolation_hubble;
@@ -37,7 +37,7 @@ public:
     void read_hubble_data();
     void read_interpolation_time_data();
     void read_interpolation_center_planet(std::string filename, std::string name);
-    std::vector<InterpolationTimeFrame> get_interpolation_time();
+    std::vector<InterpolationTime> get_interpolation_time();
 
     std::vector<IntegrationVector> get_interpolation_earth();
     std::map<std::string, std::vector<IntegrationVector>> get_interpolation_planets();

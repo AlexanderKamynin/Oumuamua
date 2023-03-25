@@ -2,53 +2,56 @@
 #include <string>
 
 
-// ласс даты в формате "год мес€ц день.дол€ дн€"
+/*
+    This class is used to store the date in different formats
+*/
 class Date
 {
 private:
     int year;
     int month;
     int day;
-
     int hours;
     int minutes;
     int seconds;
-
     double day_fraction;
 
-    double JD;
-    double MJD;
-    double TT;
-    double TDB;
-    double TT_TDB;
+    double JD; // Julian date
+    double MJD; // Modified Julian date
+    double TT; // Terestial time
+    double TDB; // Dinamic Barycentric time
 public:
     Date() = default;
-    Date(std::string);
 
-    Date(const Date& other);
-    Date& operator=(const Date& other);
-    Date(const Date&& other);
-    Date& operator=(const Date&& other);
+    Date(std::string);
 
     friend bool operator< (const Date&, const Date&);
     friend bool operator> (const Date&, const Date&);
     friend bool operator== (const Date&, const Date&);
-
-    void set_time_from_fraction();
-    void set_time_from_string(std::string);
-
+    
+    //getters
     int get_year();
     int get_month();
     int get_day();
+    int get_hours();
+    int get_minutes();
+    int get_seconds();
     double get_day_fraction();
     double get_JD();
     double get_MJD();
     double get_TT();
     double get_TDB();
-    double get_TT_TDB();
 
+    //setters
+    void set_time_from_fraction();
+    void set_time_from_string(std::string);
     void set_MJD(double);
     void set_JD();
     void set_TT(double TT);
-    void set_TT_TDB(double TT_TDB);
+    void set_TDB(double TT_TDB);
+
+    Date(const Date& other);
+    Date& operator=(const Date& other);
+    Date(const Date&& other);
+    Date& operator=(const Date&& other);
 };

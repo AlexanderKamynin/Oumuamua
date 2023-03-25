@@ -108,12 +108,12 @@ void DataReader::read_interpolation_time_data()
         while (getline(file, data_line)) 
         {
             counter++;
-            InterpolationTimeFrame data_frame;
+            InterpolationTime data_frame;
             Date observation_date(data_line.substr(0, 12));
             observation_date.set_time_from_fraction();
             observation_date.set_JD();
-            data_frame.set_julian_date(observation_date);
-            data_frame.set_TT_TDB(data_line.substr(13, 9));
+            data_frame.set_date(observation_date);
+            data_frame.set_TDB(data_line.substr(13, 9));
             interpolation_time.push_back(data_frame);
         }
     }
@@ -146,7 +146,7 @@ void DataReader::read_interpolation_center_planet(std::string filename, std::str
             Date observation_date(data_line.substr(0, 13));
             observation_date.set_time_from_fraction();
             observation_date.set_JD();
-            //@change set_julian_date -> set_date
+            //@change set_date -> set_date
             data_frame.set_date(observation_date);
 
             int prev = 14;
@@ -207,7 +207,7 @@ void DataReader::read_interpolation_center_planet(std::string filename, std::str
 }
 
 
-std::vector<InterpolationTimeFrame> DataReader::get_interpolation_time() 
+std::vector<InterpolationTime> DataReader::get_interpolation_time() 
 {
     return interpolation_time;
 }

@@ -57,7 +57,7 @@ Date::Date(const Date& other)
     this->MJD = other.MJD;
     this->TT = other.TT;
     this->TDB = other.TDB;
-    this->TT_TDB = other.TT_TDB;
+    this->TDB = other.TDB;
 }
 
 Date& Date::operator=(const Date& other)
@@ -76,7 +76,7 @@ Date& Date::operator=(const Date& other)
     this->MJD = other.MJD;
     this->TT = other.TT;
     this->TDB = other.TDB;
-    this->TT_TDB = other.TT_TDB;
+    this->TDB = other.TDB;
 
     return *this;
 }
@@ -97,7 +97,7 @@ Date::Date(const Date&& other)
     this->MJD = other.MJD;
     this->TT = other.TT;
     this->TDB = other.TDB;
-    this->TT_TDB = other.TT_TDB;
+    this->TDB = other.TDB;
 }
 
 Date& Date::operator=(const Date&& other)
@@ -116,7 +116,7 @@ Date& Date::operator=(const Date&& other)
     this->MJD = other.MJD;
     this->TT = other.TT;
     this->TDB = other.TDB;
-    this->TT_TDB = other.TT_TDB;
+    this->TDB = other.TDB;
 
     return *this;
 }
@@ -210,10 +210,10 @@ void Date::set_MJD(double MJD)
 void Date::set_JD() 
 {
     // more about convert you can see here: https://ru.m.wikipedia.org/wiki/%D0%AE%D0%BB%D0%B8%D0%B0%D0%BD%D1%81%D0%BA%D0%B0%D1%8F_%D0%B4%D0%B0%D1%82%D0%B0
-    int a = int((14.0 - month) / 12.0);
+    double a = (14.0 - month) / 12.0;
     double y = year + 4800 - a;
     double m = month + 12 * a - 3;
-    double JDN = day + int((153 * m + 2) / 5) + 365 * year + int(y / 4) - 32083;
+    double JDN = day + (153.0 * m + 2) / 5.0 + 365 * y + y / 4.0 - y / 100.0 + y / 400.0 - 32045;
     JD = JDN + (hours - 12) / 24.0 + minutes / 1440.0 + seconds / 86400.0;
     MJD = JD - 2400000.5;
 }
@@ -221,54 +221,68 @@ void Date::set_JD()
 int Date::get_year() 
 {
     return year;
-};
+}
 
 int Date::get_month() 
 {
     return month;
-};
+}
 
 int Date::get_day() 
 {
     return day;
-};
+}
+
+int Date::get_hours()
+{
+    return this->hours;
+}
+
+
+int Date::get_minutes()
+{
+    return this->minutes;
+}
+
+int Date::get_seconds()
+{
+    return this->seconds;
+}
 
 double Date::get_day_fraction() 
 {
     return day_fraction;
-};
+}
+
 
 double Date::get_JD()
 {
     return JD;
-};
+}
 
 double Date::get_MJD()
 {
     return MJD;
-};
+}
 
 double Date::get_TT()
 {
     return TT;
-};
+}
+
 
 double Date::get_TDB() 
 {
     return TDB;
-};
+}
 
-double Date::get_TT_TDB()
-{
-    return TT_TDB;
-};
 
 void Date::set_TT(double TT)
 {
     this->TT = TT;
-};
+}
 
-void Date::set_TT_TDB(double TT_TDB) 
+void Date::set_TDB(double TT_TDB) 
 {
     TDB = TT + TT_TDB;
-};
+}

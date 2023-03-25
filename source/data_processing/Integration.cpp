@@ -8,7 +8,7 @@ IntegrationVector Integration::diff(double t, IntegrationVector asteroid, std::m
     BarycentricCoord dv;
     for (int i = 0; i < planets["earth"].size(); i++)
     {
-        //@change get_julian_date -> get_date
+        //@change get_date -> get_date
         if (planets["earth"][i].get_date().get_MJD() == t) 
         {
             //@change set, get julian_date -> set, get date
@@ -50,7 +50,7 @@ std::vector<IntegrationVector> Integration::dormand_prince(IntegrationVector y, 
 
         Date date;
         date.set_MJD(t);
-        //@change set_julian_date -> set_date
+        //@change set_date -> set_date
         new_y.set_date(date);
 
         //DP_output << "DP::" << "x==" << new_y.get_position().get_x() << ";\ty==" << new_y.get_position().get_y() << ";\t\tz==" << new_y.get_position().get_z() << std::endl;

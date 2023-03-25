@@ -9,7 +9,7 @@
 #include "../measure/coords/Observation.h"
 #include "../measure/coords/Observatory.h"
 
-#include "../measure/time/InterpolationTimeFrame.h"
+#include "../measure/time/InterpolationTime.h"
 
 #include "../measure/data_structures/HubbleData.h"
 #include "../measure/data_structures/IntegrationVector.h"
@@ -28,8 +28,8 @@ public:
 
     CartesianCoord cylindrical_to_cartesian(CylindricalCoord measure);
     void julian_date_to_tt(Date*);
-    void interpolation_date_to_tt_tdb(std::vector<Observation>* observations, std::vector<InterpolationTimeFrame> interpolation_time);
-    void interpolation_to_tdb(Date*, std::vector<InterpolationTimeFrame>);
+    void interpolation_date_to_tt_tdb(std::vector<Observation>* observations, std::vector<InterpolationTime> interpolation_time);
+    void interpolation_to_tdb(Date*, std::vector<InterpolationTime>);
 
 
     GeocentricCoord interpolation_hubble_data(Date date, std::vector<HubbleData> interpolation_data);

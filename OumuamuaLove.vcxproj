@@ -136,7 +136,7 @@
     <ClCompile Include="source\data_processing\Integration.cpp" />
     <ClCompile Include="source\measure\data_structures\HubbleData.cpp" />
     <ClCompile Include="source\measure\coords\GeocentricCoord.cpp" />
-    <ClCompile Include="source\measure\time\InterpolationTimeFrame.cpp" />
+    <ClCompile Include="source\measure\time\InterpolationTime.cpp" />
     <ClCompile Include="source\measure\time\Date.cpp" />
     <ClCompile Include="source\measure\coords\CelestialCoord.cpp" />
     <ClCompile Include="source\measure\coords\Observation.cpp" />
@@ -404,7 +404,7 @@
     <ClInclude Include="source\data_processing\Integration.h" />
     <ClInclude Include="source\measure\data_structures\HubbleData.h" />
     <ClInclude Include="source\measure\coords\GeocentricCoord.h" />
-    <ClInclude Include="source\measure\time\InterpolationTimeFrame.h" />
+    <ClInclude Include="source\measure\time\InterpolationTime.h" />
     <ClInclude Include="source\measure\time\Date.h" />
     <ClInclude Include="source\measure\coords\CelestialCoord.h" />
     <ClInclude Include="source\measure\coords\Observation.h" />
