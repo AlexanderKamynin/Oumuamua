@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
-
+#include <vector>
+#include "../../Helpers.h"
 
 /*
     This class is used to store the date in different formats
@@ -20,6 +21,8 @@ private:
     double MJD; // Modified Julian date
     double TT; // Terestial time
     double TDB; // Dinamic Barycentric time
+
+    Helpers help;
 public:
     Date() = default;
 
@@ -43,12 +46,12 @@ public:
     double get_TDB();
 
     //setters
-    void set_time_from_fraction();
-    void set_time_from_string(std::string);
+    void set_UTC_from_day_fraction();
+    void set_UTC_from_string(std::string);
     void set_MJD(double);
     void set_JD();
-    void set_TT(double TT);
-    void set_TDB(double TT_TDB);
+    void set_TT(double);
+    void set_TDB(double );
 
     Date(const Date& other);
     Date& operator=(const Date& other);

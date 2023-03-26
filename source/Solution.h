@@ -7,8 +7,8 @@
 class Solution
 {
 private:
-    Converter cnv;
-    DataReader dhand;
+    Converter converter;
+    DataReader data_reader;
 
     IntegrationVector x0;
     Integration integration;
@@ -22,5 +22,4 @@ public:
     void integrate();
     void calculate_MNK(std::vector<IntegrationVector>, std::vector<IntegrationVector>);
     void write_to_file(std::vector<IntegrationVector>, std::vector<IntegrationVector>);
-    void test();
 };

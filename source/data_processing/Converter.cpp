@@ -30,7 +30,7 @@ void Converter::julian_date_to_tt(Date* date)
 
     if (status)
     {
-        std::cout << "Что-то пошло не так\n";
+        std::cout << "Something wrong in convert julian date to TT\n";
         return;
     }
     //Перевод в TT

@@ -20,7 +20,7 @@ void DataReader::read_observations()
             {
                 Observation data_frame;
                 Date observation_date(data_line.substr(15, 17));
-                observation_date.set_time_from_fraction();
+                observation_date.set_UTC_from_day_fraction();
                 observation_date.set_JD();
                 data_frame.set_date(observation_date);
                 data_frame.set_code(data_line.substr(77, 3));
@@ -82,7 +82,7 @@ void DataReader::read_hubble_data()
             GeocentricCoord data_frame;
             data_frame.set_from_string(data_line.substr(25, data_line.length() - 25));
             Date hubble_date(data_line.substr(0, 10));
-            hubble_date.set_time_from_string(data_line.substr(0, 18));
+            hubble_date.set_UTC_from_string(data_line.substr(11, 13));
             HubbleData frame;
             frame.set_date(hubble_date);
             frame.set_geocentric(data_frame);
@@ -110,7 +110,7 @@ void DataReader::read_interpolation_time_data()
             counter++;
             InterpolationTime data_frame;
             Date observation_date(data_line.substr(0, 12));
-            observation_date.set_time_from_fraction();
+            observation_date.set_UTC_from_day_fraction();
             observation_date.set_JD();
             data_frame.set_date(observation_date);
             data_frame.set_TDB(data_line.substr(13, 9));
@@ -144,7 +144,7 @@ void DataReader::read_interpolation_center_planet(std::string filename, std::str
         {
             IntegrationVector data_frame;
             Date observation_date(data_line.substr(0, 13));
-            observation_date.set_time_from_fraction();
+            observation_date.set_UTC_from_day_fraction();
             observation_date.set_JD();
             //@change set_date -> set_date
             data_frame.set_date(observation_date);

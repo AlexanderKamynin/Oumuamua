@@ -20,7 +20,20 @@ public:
         {
             if ((string[i] == seporator_1) or (string[i] == seporator_2))
             {
-                vector_strings_to_return.push_back(std::stod(string.substr(word_starter, abs(i - word_starter))));
+                // correct wrong symbol in string if they are
+                std::string sub_str = string.substr(word_starter, abs(i - word_starter));
+                std::string correct_str = "";
+                for (int j = 0; j < sub_str.size(); j++) 
+                {
+                    if (sub_str[j] == '.' or (sub_str[j] >= '0' and sub_str[j] <= '9'))
+                    {
+                        correct_str += sub_str[j];
+                    }
+                }
+                if (correct_str != "")
+                {
+                    vector_strings_to_return.push_back(std::stod(correct_str));
+                }
                 word_starter = i + 1;
             }
             if (vector_strings_to_return.size() == 3)

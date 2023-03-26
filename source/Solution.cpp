@@ -5,22 +5,24 @@
 Solution::Solution()
 {
     //@change set_position -> set_barycentric_position
-    x0.set_barycentric_position(1.452674920249709E+08, 7.476202044529255E+07, -1.071281870835046E+07);
-    x0.set_velocity(4.483537051060935E+01, 1.039892688333976E+01, 1.433813590588367E+01);
+    //x0.set_barycentric_position(1.452674920249709E+08, 7.476202044529255E+07, -1.071281870835046E+07);
+    //x0.set_velocity(4.483537051060935E+01, 1.039892688333976E+01, 1.433813590588367E+01);
+    x0.set_barycentric_position(1.469662678584988E+08, 7.299822249002472E+07, 2.056575565443711E+07);
+    x0.set_velocity((4.466861553600886E+01) * 86400, (3.754895272084024E+00) * 86400, (1.726865669233104E+01) * 86400);
 }
 
 //Считывание данных
 void Solution::read_data()
 {
-    dhand.read_observations();
-    dhand.read_observatory_data();
-    dhand.read_hubble_data();
+    data_reader.read_observations();
+    data_reader.read_observatory_data();
+    data_reader.read_hubble_data();
 
-    dhand.read_interpolation_time_data();
+    data_reader.read_interpolation_time_data();
 
-    dhand.read_interpolation_center_planet("./input_data/interpolation_earth.txt", "earth");
-    dhand.read_interpolation_center_planet("./input_data/interpolation_sun.txt", "sun");
-    dhand.read_interpolation_center_planet("./input_data/interpolation_jupiter.txt", "jupiter");
+    data_reader.read_interpolation_center_planet("./input_data/interpolation_earth.txt", "earth");
+    data_reader.read_interpolation_center_planet("./input_data/interpolation_sun.txt", "sun");
+    data_reader.read_interpolation_center_planet("./input_data/interpolation_jupiter.txt", "jupiter");
 
     std::cout << "data was read correctly" << std::endl;
 }
@@ -28,25 +30,25 @@ void Solution::read_data()
 //Перевод времени наблюдений
 void Solution::convert_observations()
 {
-    std::vector<Observation>* data = dhand.get_observations();
+    std::vector<Observation>* data = data_reader.get_observations();
     for (int ind = 0; ind < data->size(); ind++) 
     {
-        cnv.julian_date_to_tt(data->at(ind).get_date());
-        cnv.celestial_to_spherical(dhand.get_observation(ind));
-        cnv.spherical_to_geocentric(dhand.get_observation(ind));
+        converter.julian_date_to_tt(data->at(ind).get_date());
+        converter.celestial_to_spherical(data_reader.get_observation(ind));
+        converter.spherical_to_geocentric(data_reader.get_observation(ind));
     }
-    cnv.interpolation_date_to_tt_tdb(data, dhand.get_interpolation_time());
+    converter.interpolation_date_to_tt_tdb(data, data_reader.get_interpolation_time());
     //std::cout<<"Observation convertion done.\n";
 }
 
 //Перевод положения обсерваторий
 void Solution::convert_observatory() 
 {
-    std::map<std::string, Observatory> data = dhand.get_observatory();
+    std::map<std::string, Observatory> data = data_reader.get_observatory();
     for (auto& item : data)
     {
-        Observatory* cur_obs = dhand.get_observatory_data_by_code(item.first);
-        cur_obs->set_cartesian(cnv.cylindrical_to_cartesian(cur_obs->get_cylindric()));
+        Observatory* cur_obs = data_reader.get_observatory_data_by_code(item.first);
+        cur_obs->set_cartesian(converter.cylindrical_to_cartesian(cur_obs->get_cylindric()));
     }
     //std::cout<<"Observatory convertion done.\n";
 }
@@ -64,20 +66,20 @@ void Solution::integrate()
     std::vector<IntegrationVector> base_measures;
     std::vector<IntegrationVector> model_orbits;
 
-    std::map<std::string, std::vector<IntegrationVector>> map_planets = cnv.interpolation_center_planet(0.1, dhand.get_observations()->at(0).get_date(), dhand.get_observations()->at(221).get_date(), dhand.get_interpolation_planets());
+    std::map<std::string, std::vector<IntegrationVector>> map_planets = converter.interpolation_center_planet(0.1, data_reader.get_observations()->at(0).get_date(), data_reader.get_observations()->at(221).get_date(), data_reader.get_interpolation_planets());
 
-    model_orbits = integration.dormand_prince(x0, dhand.get_observations()->at(0).get_date(), dhand.get_observations()->at(221).get_date(), 0.2, map_planets);
-    model_measures = cnv.interpolation_to_observation(dhand.get_observations_vector(), model_orbits);
+    model_orbits = integration.dormand_prince(x0, data_reader.get_observations()->at(0).get_date(), data_reader.get_observations()->at(221).get_date(), 0.2, map_planets);
+    model_measures = converter.interpolation_to_observation(data_reader.get_observations_vector(), model_orbits);
 
 
-    cnv.geocentric_to_barycentric(dhand.get_observations(), dhand.get_obsevatory_link(), dhand.get_interpolation_hubble(), map_planets["earth"]);
-    for (int i = 0; i < (dhand.get_observations_vector()).size(); i++) 
+    converter.geocentric_to_barycentric(data_reader.get_observations(), data_reader.get_obsevatory_link(), data_reader.get_interpolation_hubble(), map_planets["earth"]);
+    for (int i = 0; i < (data_reader.get_observations_vector()).size(); i++) 
     {
         IntegrationVector tmp;
         //@change set_date -> set_date
-        tmp.set_date(*dhand.get_observations_vector()[i].get_date());
+        tmp.set_date(*data_reader.get_observations_vector()[i].get_date());
         //@change x, y, z -> alpha, beta, gamma; set_position -> set_barycentric_position
-        tmp.set_barycentric_position(dhand.get_observations_vector()[i].get_barycentric().get_alpha(), dhand.get_observations_vector()[i].get_barycentric().get_beta(), dhand.get_observations_vector()[i].get_barycentric().get_gamma());
+        tmp.set_barycentric_position(data_reader.get_observations_vector()[i].get_barycentric().get_alpha(), data_reader.get_observations_vector()[i].get_barycentric().get_beta(), data_reader.get_observations_vector()[i].get_barycentric().get_gamma());
         base_measures.push_back(tmp);
     }
     
@@ -92,8 +94,8 @@ void Solution::calculate_MNK(std::vector<IntegrationVector> model, std::vector<I
 
     for (int i = 0; i < model.size(); i++) 
     {
-        cnv.barycentric_to_spherical(&model[i]);
-        cnv.barycentric_to_spherical(&base_measures[i]);
+        converter.barycentric_to_spherical(&model[i]);
+        converter.barycentric_to_spherical(&base_measures[i]);
     }
 
     write_to_file(model, base_measures);
@@ -137,9 +139,9 @@ void Solution::write_to_file(std::vector<IntegrationVector> model, std::vector<I
 
     std::ofstream codes;
     codes.open("./output_data/code.txt");
-    for (int ind = 0; ind < dhand.get_observations()->size(); ind++) 
+    for (int ind = 0; ind < data_reader.get_observations()->size(); ind++) 
     {
-        codes << dhand.get_observation(ind)->get_code() << "\n";
+        codes << data_reader.get_observation(ind)->get_code() << "\n";
     }
     codes.close();
 }

@@ -1,142 +1,23 @@
 #include "Date.h"
+#include <iostream>
 
 
 Date::Date(std::string date) 
 {
-    int prev = 0;
-    int last = 0;
-    for (int i = 0; i < 4; i++)
-    {
-        for (int j = prev; j < date.length() + 1; j++) 
-        {
-            if ((date[j] == ' ' and date[j + 1] != ' ') or (date[j] == '\0')) 
-            {
-                last = j;
-                while (date[last - 1] == ' ') 
-                {
-                    last--;
-                }
-                switch (i) 
-                {
-                case 0:
-                    year = std::stoi(date.substr(prev, last - prev));
-                    break;
-                case 1:
-                    month = std::stoi(date.substr(prev, last - prev));
-                    break;
-                case 2:
-                    day = std::stoi(date.substr(prev, last - prev));
-                    day_fraction = std::stod(date.substr(prev, last - prev)) - day;
-                    break;
-                default:
-                    break;
-                }
-                prev = j + 1;
-                break;
-            }
+    std::vector<double> dates_part;
+    dates_part = help.split(date, ' ', '\0');
+    this->year = int(dates_part[0]);
+    this->month = int(dates_part[1]);
+    this->day = int(dates_part[2]);
+    this->day_fraction = dates_part[2] - day;
 
-        }
-    }
+    this->set_UTC_from_day_fraction();
+    this->set_JD();
+    //std::cout << "year=" << year << " month=" << month << " day_fraction=" << day_fraction << " day=" << day << std::endl;
 }
 
 
-Date::Date(const Date& other)
-{
-
-    this->year = other.year;
-    this->month = other.month;
-    this->day = other.day;
-
-    this->hours = other.hours;
-    this->minutes = other.minutes;
-    this->seconds = other.seconds;
-
-    this->day_fraction = other.day_fraction;
-
-    this->JD = other.JD;
-    this->MJD = other.MJD;
-    this->TT = other.TT;
-    this->TDB = other.TDB;
-    this->TDB = other.TDB;
-}
-
-Date& Date::operator=(const Date& other)
-{
-    this->year = other.year;
-    this->month = other.month;
-    this->day = other.day;
-
-    this->hours = other.hours;
-    this->minutes = other.minutes;
-    this->seconds = other.seconds;
-
-    this->day_fraction = other.day_fraction;
-
-    this->JD = other.JD;
-    this->MJD = other.MJD;
-    this->TT = other.TT;
-    this->TDB = other.TDB;
-    this->TDB = other.TDB;
-
-    return *this;
-}
-
-Date::Date(const Date&& other) 
-{
-    this->year = other.year;
-    this->month = other.month;
-    this->day = other.day;
-
-    this->hours = other.hours;
-    this->minutes = other.minutes;
-    this->seconds = other.seconds;
-
-    this->day_fraction = other.day_fraction;
-
-    this->JD = other.JD;
-    this->MJD = other.MJD;
-    this->TT = other.TT;
-    this->TDB = other.TDB;
-    this->TDB = other.TDB;
-}
-
-Date& Date::operator=(const Date&& other)
-{
-    this->year = other.year;
-    this->month = other.month;
-    this->day = other.day;
-
-    this->hours = other.hours;
-    this->minutes = other.minutes;
-    this->seconds = other.seconds;
-
-    this->day_fraction = other.day_fraction;
-
-    this->JD = other.JD;
-    this->MJD = other.MJD;
-    this->TT = other.TT;
-    this->TDB = other.TDB;
-    this->TDB = other.TDB;
-
-    return *this;
-}
-
-bool operator<(const Date& date1, const Date& date2) 
-{
-    return date1.MJD < date2.MJD;
-}
-
-bool operator>(const Date& date1, const Date& date2)
-{
-    return date1.MJD > date2.MJD;
-}
-
-bool operator==(const Date& date1, const Date& date2)
-{
-    return date1.MJD == date2.MJD;
-}
-
-void Date::set_time_from_fraction()
+void Date::set_UTC_from_day_fraction()
 {
     double delta_t = day_fraction * 24;
     hours = int(delta_t);
@@ -146,60 +27,13 @@ void Date::set_time_from_fraction()
     seconds = int(delta_t);
 }
 
-void Date::set_time_from_string(std::string time)
+void Date::set_UTC_from_string(std::string time)
 {
-    int prev = 0;
-    for (int i = 0; i < 3; i++) 
-    {
-        for (int j = prev; j < time.length() + 1; j++)
-        {
-            if ((time[j] == ' ') or (time[j] == '\0'))
-            {
-                switch (i) 
-                {
-                case 0:
-                    year = std::stod(time.substr(prev, j - prev));
-                    break;
-                case 1:
-                    month = std::stod(time.substr(prev, j - prev));
-                    break;
-                case 2:
-                    day = std::stod(time.substr(prev, j - prev));
-                    break;
-                default:
-                    break;
-                }
-                prev = j + 1;
-                break;
-            }
-        }
-    }
-    prev = 10;
-    for (int i = 0; i < 3; i++)
-    {
-        for (int j = prev; j < time.length() + 1; j++) 
-        {
-            if ((time[j] == ':') or (time[j] == '\0')) 
-            {
-                switch (i) 
-                {
-                case 0:
-                    hours = std::stod(time.substr(prev, j - prev));
-                    break;
-                case 1:
-                    minutes = std::stod(time.substr(prev, j - prev));
-                    break;
-                case 2:
-                    seconds = std::stod(time.substr(prev, j - prev));
-                    break;
-                default:
-                    break;
-                }
-                prev = j + 1;
-                break;
-            }
-        }
-    }
+    std::vector<double> times_part;
+    times_part = help.split(time, ':', '\0');
+    this->hours = int(times_part[0]);
+    this->minutes = int(times_part[1]);
+    this->seconds = int(times_part[2]);
 }
 
 void Date::set_MJD(double MJD) 
@@ -285,4 +119,98 @@ void Date::set_TT(double TT)
 void Date::set_TDB(double TT_TDB) 
 {
     TDB = TT + TT_TDB;
+}
+
+
+Date::Date(const Date& other)
+{
+
+    this->year = other.year;
+    this->month = other.month;
+    this->day = other.day;
+
+    this->hours = other.hours;
+    this->minutes = other.minutes;
+    this->seconds = other.seconds;
+
+    this->day_fraction = other.day_fraction;
+
+    this->JD = other.JD;
+    this->MJD = other.MJD;
+    this->TT = other.TT;
+    this->TDB = other.TDB;
+}
+
+Date& Date::operator=(const Date& other)
+{
+    this->year = other.year;
+    this->month = other.month;
+    this->day = other.day;
+
+    this->hours = other.hours;
+    this->minutes = other.minutes;
+    this->seconds = other.seconds;
+
+    this->day_fraction = other.day_fraction;
+
+    this->JD = other.JD;
+    this->MJD = other.MJD;
+    this->TT = other.TT;
+    this->TDB = other.TDB;
+
+    return *this;
+}
+
+Date::Date(const Date&& other)
+{
+    this->year = other.year;
+    this->month = other.month;
+    this->day = other.day;
+
+    this->hours = other.hours;
+    this->minutes = other.minutes;
+    this->seconds = other.seconds;
+
+    this->day_fraction = other.day_fraction;
+
+    this->JD = other.JD;
+    this->MJD = other.MJD;
+    this->TT = other.TT;
+    this->TDB = other.TDB;
+    this->TDB = other.TDB;
+}
+
+Date& Date::operator=(const Date&& other)
+{
+    this->year = other.year;
+    this->month = other.month;
+    this->day = other.day;
+
+    this->hours = other.hours;
+    this->minutes = other.minutes;
+    this->seconds = other.seconds;
+
+    this->day_fraction = other.day_fraction;
+
+    this->JD = other.JD;
+    this->MJD = other.MJD;
+    this->TT = other.TT;
+    this->TDB = other.TDB;
+
+    return *this;
+}
+
+bool operator<(const Date& date1, const Date& date2)
+{
+    return date1.MJD < date2.MJD;
+}
+
+bool operator>(const Date& date1, const Date& date2)
+{
+    return date1.MJD > date2.MJD;
+}
+
+bool operator==(const Date& date1, const Date& date2)
+{
+    return date1.MJD == date2.MJD;
 }
