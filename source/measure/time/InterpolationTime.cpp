@@ -23,3 +23,9 @@ void InterpolationTime::set_TDB(std::string value)
 {
     this->TDB = std::stod(value);
 }
+
+
+void InterpolationTime::set_TDB(double value) 
+{
+    this->TDB = value;
+}

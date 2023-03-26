@@ -22,4 +22,5 @@ public:
     //setters
     void set_date(Date);
     void set_TDB(std::string);
+    void set_TDB(double);
 };

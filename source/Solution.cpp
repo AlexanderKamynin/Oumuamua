@@ -37,7 +37,7 @@ void Solution::convert_observations()
         converter.celestial_to_spherical(data_reader.get_observation(ind));
         converter.spherical_to_geocentric(data_reader.get_observation(ind));
     }
-    converter.interpolation_date_to_tt_tdb(data, data_reader.get_interpolation_time());
+    converter.interpolation_time(data, data_reader.get_interpolation_time());
     //std::cout<<"Observation convertion done.\n";
 }
 

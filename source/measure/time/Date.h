@@ -51,7 +51,7 @@ public:
     void set_MJD(double);
     void set_JD();
     void set_TT(double);
-    void set_TDB(double );
+    void set_TDB(double);
 
     Date(const Date& other);
     Date& operator=(const Date& other);

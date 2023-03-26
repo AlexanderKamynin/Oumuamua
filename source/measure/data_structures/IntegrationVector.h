@@ -15,10 +15,10 @@
     X(0) = (x0, y0, z0, vx0, vy0, vz0)
     dX/dt = (vx, vy, vz, ax, ay, az)
 
-    spherical_position - position of the Oumuamua in the Spherical coordinates
-    barycentric_position (param x, y, z in the equations) - position of the Oumuamua in the Barycentric coordinates
-    velocity (param vx, vy, vx in the equations) - velocity of the Oumuamua 
-    date - time, at a given moment of which the position of Oumuamua is described
+    @param spherical_position - position of the Oumuamua in the Spherical coordinates
+    @param barycentric_position (param x, y, z in the equations) - position of the Oumuamua in the Barycentric coordinates
+    @param velocity (param vx, vy, vx in the equations) - velocity of the Oumuamua 
+    @param date - time, at a given moment of which the position of Oumuamua is described
 
    The parameters ax,ay,az are implemented in the class with numerical integration (Integration) and are described there
 */

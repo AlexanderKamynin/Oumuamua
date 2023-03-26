@@ -118,7 +118,7 @@ void Date::set_TT(double TT)
 
 void Date::set_TDB(double TDB) 
 {
-    TDB = TT + TDB;
+    this->TDB = TDB;
 }
 
 
