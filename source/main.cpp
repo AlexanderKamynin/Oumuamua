@@ -9,6 +9,5 @@ int main()
     solve.act();
     unsigned int end_time = clock(); // конечное время
     std::cout << "For all project need " << (end_time - start_time) / 1000 << " seconds" << std::endl;
-
     return 0;
 }

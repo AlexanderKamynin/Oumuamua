@@ -148,6 +148,8 @@ void Solution::write_to_file(std::vector<IntegrationVector> model, std::vector<I
 
 void Solution::act()
 {
+    data_reader.read_earth_rotation();
+
     unsigned int start_time = clock();
     read_data();
     unsigned int end_time = clock();

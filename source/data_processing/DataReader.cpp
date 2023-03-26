@@ -207,6 +207,38 @@ void DataReader::read_interpolation_center_planet(std::string filename, std::str
 }
 
 
+
+void DataReader::read_earth_rotation()
+{
+    std::ifstream file(earth_rotation_file);
+    std::string data_line;
+
+    if (!file.is_open())
+    {
+        std::cout << "Error reading file! {" << earth_rotation_file << "}\n";
+    }
+    else
+    {
+        while (getline(file, data_line))
+        {
+            EarthRotation rotation;
+
+            rotation.set_MJD(std::stoi(data_line.substr(14, 5)));
+            rotation.set_x(std::stod(data_line.substr(22, 8)));
+            rotation.set_y(std::stod(data_line.substr(33, 8)));
+            rotation.set_UT1_UTC(std::stod(data_line.substr(44, 9)));
+
+
+            earth_rotation.push_back(rotation);
+        }
+    }
+    file.close();
+    std::cout << "Earth rotation Readed: " << earth_rotation.size() << " \n";
+}
+
+
+
+
 std::vector<InterpolationTime> DataReader::get_interpolation_time() 
 {
     return interpolation_time;

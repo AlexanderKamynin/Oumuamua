@@ -6,11 +6,13 @@
 
 #include "../measure/data_structures/HubbleData.h"
 #include "../measure/data_structures/IntegrationVector.h"
+#include "../measure/data_structures/EarthRotation.h"
 
 #include <iostream>
 #include <fstream>
 #include <vector>
 #include <map>
+
 
 //Класс, читающий данные из файлов
 class DataReader 
@@ -25,10 +27,13 @@ private:
 
     std::vector<HubbleData> interpolation_hubble;
 
+    std::vector<EarthRotation> earth_rotation;
+
     std::string observations_file = "./input_data/observations.txt";
     std::string observatory_file = "./input_data/observatory.txt";
     std::string hubble_file = "./input_data/hubble_data.txt";
     std::string interpolation_time_file= "./input_data/interpolation_time_data.txt";
+    std::string earth_rotation_file = "./input_data/earth_rotation_data.txt";
 
 
 public:
@@ -37,6 +42,9 @@ public:
     void read_hubble_data();
     void read_interpolation_time_data();
     void read_interpolation_center_planet(std::string filename, std::string name);
+
+    void read_earth_rotation();
+
     std::vector<InterpolationTime> get_interpolation_time();
 
     std::vector<IntegrationVector> get_interpolation_earth();

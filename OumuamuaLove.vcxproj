@@ -129,6 +129,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="source\measure\data_structures\EarthRotation.cpp" />
     <ClCompile Include="source\Solution.cpp" />
     <ClCompile Include="source\measure\data_structures\IntegrationVector.cpp" />
     <ClCompile Include="source\measure\coords\Observatory.cpp" />
@@ -396,6 +397,7 @@
     <ClCompile Include="source\measure\movement\Velocity.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="source\measure\data_structures\EarthRotation.h" />
     <ClInclude Include="source\Helpers.h" />
     <ClInclude Include="source\Solution.h" />
     <ClInclude Include="source\measure\data_structures\IntegrationVector.h" />
@@ -421,6 +423,7 @@
     <None Include="sofa\src\makefile" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="input_data\earth_rotation_data.txt" />
     <Text Include="input_data\hubble_data.txt" />
     <Text Include="input_data\interpolation_earth.txt" />
     <Text Include="input_data\interpolation_jupiter.txt" />
