@@ -4,9 +4,8 @@
 
 
 /*
-    This class stores geocentric coordinates,
-    has methods for initializing and getting data,
-    and interprets strings into coordinates.
+    This class stores geocentric coordinates.
+    The system center is reffered to as the Earth's center of mass. Strictly refers to the Earth as a celestial body.
 */
 class GeocentricCoord
 {

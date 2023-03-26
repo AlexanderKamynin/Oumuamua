@@ -33,7 +33,7 @@ void Solution::convert_observations()
     std::vector<Observation>* data = data_reader.get_observations();
     for (int ind = 0; ind < data->size(); ind++) 
     {
-        converter.julian_date_to_tt(data->at(ind).get_date());
+        converter.UTC_to_TT(data->at(ind).get_date());
         converter.celestial_to_spherical(data_reader.get_observation(ind));
         converter.spherical_to_geocentric(data_reader.get_observation(ind));
     }

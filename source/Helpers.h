@@ -8,6 +8,9 @@
 #include <fstream>
 
 
+#define EARTH_RADIUS 6378.140
+
+
 class Helpers
 {
 public:
@@ -48,6 +51,25 @@ public:
     double POW_2(double value)
     {
         return value * value;
+    }
+
+
+    /*
+        Method for transpose the matrix
+        @param matrix - matrix to transpose
+    */
+    void transpose_matrix(double matrix[3][3])
+    {
+        double tmp;
+        for (int i = 0; i < 3; i++) 
+        {
+            for (int j = i + 1; j < 3; j++)
+            {
+                tmp = matrix[i][j];
+                matrix[i][j] = matrix[j][i];
+                matrix[j][i] = tmp;
+            }
+        }
     }
 };
 

@@ -44,10 +44,10 @@ void Date::set_MJD(double MJD)
 void Date::set_JD() 
 {
     // more about convert you can see here: https://ru.m.wikipedia.org/wiki/%D0%AE%D0%BB%D0%B8%D0%B0%D0%BD%D1%81%D0%BA%D0%B0%D1%8F_%D0%B4%D0%B0%D1%82%D0%B0
-    double a = (14.0 - month) / 12.0;
-    double y = year + 4800 - a;
-    double m = month + 12 * a - 3;
-    double JDN = day + (153.0 * m + 2) / 5.0 + 365 * y + y / 4.0 - y / 100.0 + y / 400.0 - 32045;
+    int a = (14.0 - month) / 12.0;
+    int y = year + 4800 - a;
+    int m = month + 12 * a - 3;
+    int JDN = day + int((153.0 * m + 2) / 5.0) + 365 * y + int(y / 4.0) - int(y / 100.0) + int(y / 400.0) - 32045;
     JD = JDN + (hours - 12) / 24.0 + minutes / 1440.0 + seconds / 86400.0;
     MJD = JD - 2400000.5;
 }
@@ -116,9 +116,9 @@ void Date::set_TT(double TT)
     this->TT = TT;
 }
 
-void Date::set_TDB(double TT_TDB) 
+void Date::set_TDB(double TDB) 
 {
-    TDB = TT + TT_TDB;
+    TDB = TT + TDB;
 }
 
 

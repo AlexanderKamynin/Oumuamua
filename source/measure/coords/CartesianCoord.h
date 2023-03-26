@@ -24,7 +24,6 @@ public:
     double get_z();
 
     //setters
-    void set_from_string(std::string);
     void set_x(double value);
     void set_y(double value);
     void set_z(double value);

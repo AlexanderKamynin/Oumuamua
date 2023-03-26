@@ -1,5 +1,4 @@
 #pragma once
-#define EARTH_RADIUS 6378.140
 
 #include "../measure/coords/CartesianCoord.h"
 #include "../measure/coords/GeocentricCoord.h"
@@ -14,6 +13,7 @@
 #include "../measure/data_structures/HubbleData.h"
 #include "../measure/data_structures/IntegrationVector.h"
 #include "../../sofa/src/sofa.h"
+#include "../Helpers.h"
 
 #include <vector>
 #include <string>
@@ -24,10 +24,12 @@
 // класс для перевода между различными системами
 class Converter
 {
+private:
+    Helpers help;
 public:
 
-    CartesianCoord cylindrical_to_cartesian(CylindricalCoord measure);
-    void julian_date_to_tt(Date*);
+    CartesianCoord cylindrical_to_cartesian(CylindricalCoord);
+    void UTC_to_TT(Date*);
     void interpolation_date_to_tt_tdb(std::vector<Observation>* observations, std::vector<InterpolationTime> interpolation_time);
     void interpolation_to_tdb(Date*, std::vector<InterpolationTime>);
 
@@ -37,9 +39,6 @@ public:
     BarycentricCoord interpolation_center_of_earth_for_observatory(Date date, GeocentricCoord frame, std::vector<IntegrationVector> interpolation_earth);
     std::map<std::string, std::vector<IntegrationVector>> interpolation_center_planet(double h, Date* date_start, Date* date_finish, std::map<std::string, std::vector<IntegrationVector>> interpolation_planet);
     void geocentric_to_barycentric(std::vector<Observation>*, std::map<std::string, Observatory>*, std::vector<HubbleData>, std::vector<IntegrationVector>);
-
-
-    void transpose(double mtr[3][3]);
 
     std::vector<IntegrationVector> light_time_correction(std::map<std::string, Observatory>, std::vector< Observation>, std::vector<HubbleData>, std::vector<IntegrationVector> earth_position);
     std::vector<IntegrationVector> interpolation_to_observation(std::vector<Observation> vector, std::vector<IntegrationVector> interpolation_orbits);

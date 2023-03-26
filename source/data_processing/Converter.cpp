@@ -1,41 +1,59 @@
 #include "Converter.h"
 
-//‘ункци€, переводаща€ цилиндрические координаты в декартовы
-CartesianCoord Converter::cylindrical_to_cartesian(CylindricalCoord measure)
+
+/* 
+    Method that convert cylindrical coordinates into cartesian coordinates
+    https://ru.wikipedia.org/wiki/÷илиндрическа€_система_координат
+    https://www.minorplanetcenter.net/iau/lists/ObsCodesF.html
+*/
+CartesianCoord Converter::cylindrical_to_cartesian(CylindricalCoord coordinates)
 {
-    CartesianCoord cartesian_data;
-    if (measure.get_longitude() != NULL) 
-    {
-        if (measure.get_cos() != NULL) 
-        {
-            cartesian_data.set_x(cos(measure.get_longitude()) * measure.get_cos() * EARTH_RADIUS); // cartesian_data.set_x(cos(measure.get_longitude()) * 6378.140);
-            cartesian_data.set_y(sin(measure.get_longitude()) * measure.get_cos() * EARTH_RADIUS); //cartesian_data.set_y(sin(measure.get_longitude()) * 6378.140);
-        }
-        if (measure.get_sin() != NULL)
-        {
-            cartesian_data.set_z(measure.get_sin() * EARTH_RADIUS);
-        }
-    }
-    return cartesian_data;
+    CartesianCoord cartesian_coordinates;
+
+    /*
+        x = rho * cos (phi) * cos (delta)
+        y = rho * sin (phi) * cos (delta)
+        z = rho * sin (delta) 
+    */
+    cartesian_coordinates.set_x(std::cos(coordinates.get_longitude()) * coordinates.get_cos() * EARTH_RADIUS);
+    cartesian_coordinates.set_y(std::sin(coordinates.get_longitude()) * coordinates.get_cos() * EARTH_RADIUS);
+    cartesian_coordinates.set_z(coordinates.get_sin() * EARTH_RADIUS);
+
+    return cartesian_coordinates;
 }
 
 
-//Gереводит в TT
-void Converter::julian_date_to_tt(Date* date) 
+/*
+    This method converts the date from UTC to TT via TAI.
+    UTC <-> TAI <-> TT
+*/
+void Converter::UTC_to_TT(Date* date) 
 {
-    //ѕеревод в TAI
+    //deltat double   TAI minus UTC, seconds
     double deltat;
-    int status = iauDat(date->get_year(), date->get_month(), date->get_day(), date->get_day_fraction(),
-        &deltat);
+    
+    // Input: year, month, day, fraction of day -> return value in deltat
+    int status = iauDat(date->get_year(), date->get_month(), date->get_day(), date->get_day_fraction(), &deltat);
 
-    if (status)
+    if (status != 0)
     {
-        std::cout << "Something wrong in convert julian date to TT\n";
-        return;
+        std::cout << "Something wrong in convert UTC date to TT, status was " << status
+            << ". About this mistake you can read the description for iauDat function" << std::endl;
     }
-    //ѕеревод в TT
-    date->set_TT(date->get_MJD() + deltat + 32.184);
-};
+    else
+    {
+        /*
+            TT = TAI + 32.184,
+            we have TAI - UTC, so:
+            TT = deltat + MJD + 32.184;
+
+            for ease of calculation we use MJD instead of UTC
+
+        */
+        date->set_TT(date->get_MJD() + deltat + 32.184);
+    }
+}
+
 
 //»нтерпол€ци€ времени в TDB
 void Converter::interpolation_date_to_tt_tdb(std::vector<Observation>* observations, std::vector<InterpolationTime> interpolation_time) 
@@ -101,49 +119,36 @@ GeocentricCoord Converter::interpolation_hubble_data(Date date, std::vector<Hubb
 };
 
 
-//“ранспонирование матрицы 3х3
-void Converter::transpose(double mtr[3][3]) 
+/*
+    Method for converting from cartesian to geocentric celestial coordinates for observatories
+*/
+GeocentricCoord Converter::cartesian_to_geocentric(CartesianCoord position, Date date) 
 {
-    double tmp[3][3];
-    for (int i = 0; i < 3; i++) 
-    {
-        for (int j = 0; j < 3; j++)
-        {
-            tmp[i][j] = mtr[i][j];
-        }
-    }
-    for (int i = 0; i < 3; i++)
-    {
-        for (int j = 0; j < 3; j++) 
-        {
-            mtr[j][i] = tmp[i][j];
-        }
-    }
-}
+    double geocentric_to_cartesian[3][3];
+    
+    // Input: We use JD method, so tta=TT, ttb=0, uta=JD, utb=0, xp=0, yp=0 -> return matrix for converting
+    iauC2t06a(date.get_TT(), 0, date.get_JD(), 0, 0, 0, geocentric_to_cartesian);
 
-//ѕеревод из земных координат в геоцентрические небесные
-GeocentricCoord Converter::cartesian_to_geocentric(CartesianCoord frame, Date date) 
-{
-    double transition_matrix[3][3];
+    // transpose for convert from cartesian to geocentric
+    this->help.transpose_matrix(geocentric_to_cartesian);
 
-    double x, y;
-    iauXy06(date.get_TT(), 0, &x, &y);
+    /*
+        (x)
+        (y) * (matrix)
+        (z)
+    */
+    double x = geocentric_to_cartesian[0][0] * position.get_x() + geocentric_to_cartesian[0][1] * position.get_y() + geocentric_to_cartesian[0][2] * position.get_z();
+    double y = geocentric_to_cartesian[1][0] * position.get_x() + geocentric_to_cartesian[1][1] * position.get_y() + geocentric_to_cartesian[1][2] * position.get_z();
+    double z = geocentric_to_cartesian[2][0] * position.get_x() + geocentric_to_cartesian[2][1] * position.get_y() + geocentric_to_cartesian[2][2] * position.get_z();
 
-    iauC2t06a(date.get_TT(), 0, date.get_JD(), 0, x, y, transition_matrix);
+    GeocentricCoord geocentric_position;
+    geocentric_position.set_x(x);
+    geocentric_position.set_y(y);
+    geocentric_position.set_z(z);
 
-    transpose(transition_matrix);
-
-    double geo_x = transition_matrix[0][0] * frame.get_x() + transition_matrix[0][1] * frame.get_y() + transition_matrix[0][2] * frame.get_z();
-    double geo_y = transition_matrix[1][0] * frame.get_x() + transition_matrix[1][1] * frame.get_y() + transition_matrix[1][2] * frame.get_z();
-    double geo_z = transition_matrix[2][0] * frame.get_x() + transition_matrix[2][1] * frame.get_y() + transition_matrix[2][2] * frame.get_z();
-
-    GeocentricCoord new_frame;
-    new_frame.set_x(geo_x);
-    new_frame.set_y(geo_y);
-    new_frame.set_z(geo_z);
-    return new_frame;
-
+    return geocentric_position;
 };
+
 
 //»нтерпол€ци€ центра «емли
 BarycentricCoord Converter::interpolation_center_of_earth_for_observatory(Date date, GeocentricCoord frame, std::vector<IntegrationVector> interpolation_earth)

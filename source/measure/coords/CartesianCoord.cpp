@@ -48,16 +48,6 @@ double CartesianCoord::get_z()
 //}
 
 
-void CartesianCoord::set_from_string(std::string coordinates)
-{
-    std::vector<double> vector_of_coords;
-    vector_of_coords = this->help.split(coordinates, ' ', '\0');
-    this->x = vector_of_coords[0];
-    this->y = vector_of_coords[1];
-    this->z = vector_of_coords[2];
-}
-
-
 void CartesianCoord::set_x(double value)
 {
     this->x = value;
