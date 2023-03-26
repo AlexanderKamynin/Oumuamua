@@ -433,7 +433,6 @@
     <Text Include="input_data\observatory.txt" />
     <Text Include="output_data\base_measure.txt" />
     <Text Include="output_data\code.txt" />
-    <Text Include="output_data\DP_output.txt" />
     <Text Include="output_data\model_measure.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -26,7 +26,7 @@ public:
                 // correct wrong symbol in string if they are
                 std::string sub_str = string.substr(word_starter, abs(i - word_starter));
                 std::string correct_str = "";
-                for (int j = 0; j < sub_str.size(); j++) 
+                for (int j = 0; j < sub_str.size(); j++)
                 {
                     if (sub_str[j] == '.' or (sub_str[j] >= '0' and sub_str[j] <= '9'))
                     {
@@ -54,6 +54,12 @@ public:
     }
 
 
+    double POW_3(double value)
+    {
+        return value * value * value;
+    }
+
+
     /*
         Method for transpose the matrix
         @param matrix - matrix to transpose
@@ -61,7 +67,7 @@ public:
     void transpose_matrix(double matrix[3][3])
     {
         double tmp;
-        for (int i = 0; i < 3; i++) 
+        for (int i = 0; i < 3; i++)
         {
             for (int j = i + 1; j < 3; j++)
             {

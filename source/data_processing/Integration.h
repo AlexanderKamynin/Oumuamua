@@ -1,6 +1,7 @@
 #pragma once
 #include "../measure/data_structures/IntegrationVector.h"
 #include "DataReader.h"
+#include "../Helpers.h"
 
 #include <vector>
 #include <map>
@@ -8,12 +9,16 @@
 #include <math.h>
 #include <string>
 
-//Класс для численного интегрирования
+
+/*
+    Class for numerical integration
+*/
 class Integration
 {
 private:
-    const std::string output_filename = "./output_data/DP_output.txt";
-
+    /*
+        Coefficients for the Butcher table of the Dormand-Prince method
+    */
     double c2 = (1.0 / 5.0);
     double c3 = (3.0 / 10.0);
     double c4 = (4.0 / 5.0);
@@ -51,10 +56,12 @@ private:
     double a75 = (-2187.0 / 6784.0);
     double a76 = (11.0 / 84.0);
 
-    std::map<std::string, double> GM = { {"sun", 132712440043.85333}, {"jupiter", 126712764.13345} };
-    std::vector<std::string> planet_list = { "sun", "jupiter"};
+    // GM you can see here: https://iaaras.ru/en/dept/ephemeris/epm/2017/#5
+    std::map<std::string, double> GM = { {"earth", 398600.43552 * help.POW_2(86400)}, {"sun", 132712440043.85333 * help.POW_2(86400)}, {"jupiter", 126712764.13345 * help.POW_2(86400)} }; // km^3 / sec^2 -> km^3 / day^2
+    std::vector<std::string> planet_list = { "earth", "sun", "jupiter" };
+
+    Helpers help;
 public:
-    IntegrationVector diff(double, IntegrationVector, std::map<std::string, std::vector<IntegrationVector>>);
+    IntegrationVector derivate_function(double, IntegrationVector, std::map<std::string, std::vector<IntegrationVector>>);
     std::vector<IntegrationVector> dormand_prince(IntegrationVector, Date*, Date*, double, std::map<std::string, std::vector<IntegrationVector>>);
-    BarycentricCoord sqrt(BarycentricCoord);
 };

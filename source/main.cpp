@@ -7,17 +7,8 @@ int main()
     unsigned int start_time = clock();
     Solution solve;
     solve.act();
-    unsigned int end_time = clock(); // конечное время
+    unsigned int end_time = clock();
     std::cout << "For all project need " << (end_time - start_time) / 1000 << " seconds" << std::endl;
     return 0;
 }
 
-
-
-/*             <To wath the time>
-    unsigned int start_time = clock();
-    function();
-    unsigned int end_time = clock();
-    std::cout << "\tto read function need " << (end_time - start_time) << " mili_secundes!\n";
-
-*/

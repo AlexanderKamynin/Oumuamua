@@ -54,7 +54,7 @@ void Solution::integrate()
     std::vector<IntegrationVector> base_measures;
     std::vector<IntegrationVector> model_orbits;
 
-    std::map<std::string, std::vector<IntegrationVector>> map_planets = converter.interpolation_center_planet(0.1, data_reader.get_observations()->at(0).get_date(), data_reader.get_observations()->at(221).get_date(), data_reader.get_interpolation_planets());
+    std::map<std::string, std::vector<IntegrationVector>> map_planets = converter.interpolation_center_planet(0.2, data_reader.get_observations()->at(0).get_date(), data_reader.get_observations()->at(221).get_date(), data_reader.get_interpolation_planets());
 
     model_orbits = integration.dormand_prince(initial_condition, data_reader.get_observations()->at(0).get_date(), data_reader.get_observations()->at(221).get_date(), 0.2, map_planets);
     model_measures = converter.interpolation_to_observation(data_reader.get_observations_vector(), model_orbits);
