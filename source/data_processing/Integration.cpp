@@ -52,7 +52,7 @@ std::vector<IntegrationVector> Integration::dormand_prince(IntegrationVector y, 
         date.set_MJD(t);
         new_y.set_date(date);
 
-        DP_output << "DP::" << "alpha==" << new_y.get_barycentric_position().get_alpha() << ";\tbeta==" << new_y.get_barycentric_position().get_beta() << ";\t\tgamma==" << new_y.get_barycentric_position().get_gamma() << std::endl;
+        DP_output << "DP::" << "alpha==" << new_y.get_barycentric_position().get_alpha() << ";\tbeta==" << new_y.get_barycentric_position().get_beta() << ";\tgamma==" << new_y.get_barycentric_position().get_gamma() << std::endl;
         result.push_back(new_y);
     }
     DP_output.close();
