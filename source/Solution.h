@@ -2,24 +2,31 @@
 #include "./data_processing/Converter.h"
 #include "./data_processing/Integration.h"
 
-
-//Класс, вызывающий методы других классов
+/*
+                Solution class is the mediator pattern class 
+        Here partial solutions are combined into one general solution
+*/
 class Solution
 {
 private:
     Converter converter;
     DataReader data_reader;
 
-    IntegrationVector x0;
+    IntegrationVector initial_condition;
     Integration integration;
+    
+    std::string model_file = "./output_data/model_measure.txt";
+    std::string base_file = "./output_data/base_measure.txt";
 public:
     Solution();
     void act();
+    // work with data; data inputers
     void read_data();
     void convert_observations();
     void convert_observatory();
-    void convert_interpolation_data();
+    // integration
     void integrate();
     void calculate_MNK(std::vector<IntegrationVector>, std::vector<IntegrationVector>);
+    // outputting data
     void write_to_file(std::vector<IntegrationVector>, std::vector<IntegrationVector>);
 };

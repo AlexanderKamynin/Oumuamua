@@ -12,7 +12,7 @@
 class Integration
 {
 private:
-    //const std::string output_filename = "./data/DP_output.txt";
+    const std::string output_filename = "./output_data/DP_output.txt";
 
     double c2 = (1.0 / 5.0);
     double c3 = (3.0 / 10.0);

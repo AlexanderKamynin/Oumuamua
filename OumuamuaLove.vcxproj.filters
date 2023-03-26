@@ -894,5 +894,6 @@
     <Text Include="output_data\code.txt" />
     <Text Include="output_data\model_measure.txt" />
     <Text Include="input_data\earth_rotation_data.txt" />
+    <Text Include="output_data\DP_output.txt" />
   </ItemGroup>
 </Project>

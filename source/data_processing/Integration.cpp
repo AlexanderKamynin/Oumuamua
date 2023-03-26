@@ -34,8 +34,8 @@ std::vector<IntegrationVector> Integration::dormand_prince(IntegrationVector y, 
     std::vector<IntegrationVector> result;
 
     IntegrationVector new_y = y;
-    //std::ofstream DP_output;
-    //DP_output.open(this->output_filename);
+    std::ofstream DP_output;
+    DP_output.open(this->output_filename);
 
     for (double t = start->get_MJD(); t <= end->get_MJD() + h; t += h) 
     {
@@ -50,14 +50,13 @@ std::vector<IntegrationVector> Integration::dormand_prince(IntegrationVector y, 
 
         Date date;
         date.set_MJD(t);
-        //@change set_date -> set_date
         new_y.set_date(date);
 
-        //DP_output << "DP::" << "x==" << new_y.get_position().get_x() << ";\ty==" << new_y.get_position().get_y() << ";\t\tz==" << new_y.get_position().get_z() << std::endl;
+        DP_output << "DP::" << "alpha==" << new_y.get_barycentric_position().get_alpha() << ";\tbeta==" << new_y.get_barycentric_position().get_beta() << ";\t\tgamma==" << new_y.get_barycentric_position().get_gamma() << std::endl;
         result.push_back(new_y);
     }
-    //DP_output.close();
-    //std::cout << "The result of the integration of the Oumuamua orbit is written in the file{" << this->output_filename << "}" << std::endl;
+    DP_output.close();
+    std::cout << "The result of the integration of the Oumuamua orbit is written in the file {" << this->output_filename << "}" << std::endl;
     return result;
 };
 

@@ -4,16 +4,14 @@
 
 Solution::Solution()
 {
-    //@change set_position -> set_barycentric_position
-    //x0.set_barycentric_position(1.452674920249709E+08, 7.476202044529255E+07, -1.071281870835046E+07);
-    //x0.set_velocity(4.483537051060935E+01, 1.039892688333976E+01, 1.433813590588367E+01);
-    x0.set_barycentric_position(1.469662678584988E+08, 7.299822249002472E+07, 2.056575565443711E+07);
-    x0.set_velocity((4.466861553600886E+01) * 86400, (3.754895272084024E+00) * 86400, (1.726865669233104E+01) * 86400);
+    initial_condition.set_barycentric_position(1.469662678584988E+08, 7.299822249002472E+07, 2.056575565443711E+07);
+    initial_condition.set_velocity((4.466861553600886E+01) * 86400, (3.754895272084024E+00) * 86400, (1.726865669233104E+01) * 86400);
 }
 
-//Считывание данных
+
 void Solution::read_data()
 {
+    data_reader.read_earth_rotation();
     data_reader.read_observations();
     data_reader.read_observatory_data();
     data_reader.read_hubble_data();
@@ -23,11 +21,9 @@ void Solution::read_data()
     data_reader.read_interpolation_center_planet("./input_data/interpolation_earth.txt", "earth");
     data_reader.read_interpolation_center_planet("./input_data/interpolation_sun.txt", "sun");
     data_reader.read_interpolation_center_planet("./input_data/interpolation_jupiter.txt", "jupiter");
-
-    std::cout << "data was read correctly" << std::endl;
 }
 
-//Перевод времени наблюдений
+// convert time, celestial -> spherical and spherical -> geocentric coordinates
 void Solution::convert_observations()
 {
     std::vector<Observation>* data = data_reader.get_observations();
@@ -38,10 +34,9 @@ void Solution::convert_observations()
         converter.spherical_to_geocentric(data_reader.get_observation(ind));
     }
     converter.interpolation_time(data, data_reader.get_interpolation_time());
-    //std::cout<<"Observation convertion done.\n";
 }
 
-//Перевод положения обсерваторий
+// convert cylindrical -> cartesian position of observatory
 void Solution::convert_observatory() 
 {
     std::map<std::string, Observatory> data = data_reader.get_observatory();
@@ -50,16 +45,9 @@ void Solution::convert_observatory()
         Observatory* cur_obs = data_reader.get_observatory_data_by_code(item.first);
         cur_obs->set_cartesian(converter.cylindrical_to_cartesian(cur_obs->get_cylindric()));
     }
-    //std::cout<<"Observatory convertion done.\n";
 }
 
 
-void Solution::convert_interpolation_data()
-{
-
-}
-
-//Численное интегрирование
 void Solution::integrate() 
 {
     std::vector<IntegrationVector> model_measures;
@@ -68,7 +56,7 @@ void Solution::integrate()
 
     std::map<std::string, std::vector<IntegrationVector>> map_planets = converter.interpolation_center_planet(0.1, data_reader.get_observations()->at(0).get_date(), data_reader.get_observations()->at(221).get_date(), data_reader.get_interpolation_planets());
 
-    model_orbits = integration.dormand_prince(x0, data_reader.get_observations()->at(0).get_date(), data_reader.get_observations()->at(221).get_date(), 0.2, map_planets);
+    model_orbits = integration.dormand_prince(initial_condition, data_reader.get_observations()->at(0).get_date(), data_reader.get_observations()->at(221).get_date(), 0.2, map_planets);
     model_measures = converter.interpolation_to_observation(data_reader.get_observations_vector(), model_orbits);
 
 
@@ -76,16 +64,12 @@ void Solution::integrate()
     for (int i = 0; i < (data_reader.get_observations_vector()).size(); i++) 
     {
         IntegrationVector tmp;
-        //@change set_date -> set_date
         tmp.set_date(*data_reader.get_observations_vector()[i].get_date());
-        //@change x, y, z -> alpha, beta, gamma; set_position -> set_barycentric_position
         tmp.set_barycentric_position(data_reader.get_observations_vector()[i].get_barycentric().get_alpha(), data_reader.get_observations_vector()[i].get_barycentric().get_beta(), data_reader.get_observations_vector()[i].get_barycentric().get_gamma());
         base_measures.push_back(tmp);
     }
     
     this->calculate_MNK(model_measures, base_measures);
-
-    std::cout << "Done" << std::endl;
 }
 
 
@@ -102,45 +86,50 @@ void Solution::calculate_MNK(std::vector<IntegrationVector> model, std::vector<I
 }
 
 
-//Запись полученных модельных данных в файл
 void Solution::write_to_file(std::vector<IntegrationVector> model, std::vector<IntegrationVector> base_measures)
 {
     std::ofstream model_out;
-    model_out.open("./output_data/model_measure.txt");
+    model_out.open(model_file);
+    int counter = 0;
     if (model_out.is_open()) 
     {
         for (int ind = 0; ind < model.size(); ind++)
         {
-            //@change get_date -> get_date
+            counter += 1;
             model_out << std::setprecision(9) << model[ind].get_date().get_MJD() << " " << model[ind].get_spherical_position().get_longitude() << " " << model[ind].get_spherical_position().get_latitude() << "\n";
         }
         model_out.close();
+        std::cout << "Model:: " << counter << " strings was written in the file {" + base_file + "}" << std::endl;
+        counter = 0;
     }
     else
     {
-        std::cout << "Что-то пошло не так.\n";
+        std::cout << "Error of writing file\n";
     }
 
     std::ofstream base_out;
-    base_out.open("./output_data/base_measure.txt");
+    base_out.open(base_file);
     if (base_out.is_open()) 
     {
         for (int ind = 0; ind < base_measures.size(); ind++)
         {
-            //@change get_date -> get_date
+            counter += 1;
             base_out << std::setprecision(9) << base_measures[ind].get_date().get_MJD() << " " << base_measures[ind].get_spherical_position().get_longitude() << " " << base_measures[ind].get_spherical_position().get_latitude() << "\n";
         }
         base_out.close();
+        std::cout << "Base:: " << counter << " strings was written in the file {" + base_file + "}" << std::endl;
+        counter = 0;
     }
     else
     {
-        std::cout << "Что-то пошло не так.\n";
+        std::cout << "Error of writing file\n";
     }
 
     std::ofstream codes;
     codes.open("./output_data/code.txt");
     for (int ind = 0; ind < data_reader.get_observations()->size(); ind++) 
     {
+
         codes << data_reader.get_observation(ind)->get_code() << "\n";
     }
     codes.close();
@@ -148,31 +137,8 @@ void Solution::write_to_file(std::vector<IntegrationVector> model, std::vector<I
 
 void Solution::act()
 {
-    data_reader.read_earth_rotation();
-
-    unsigned int start_time = clock();
     read_data();
-    unsigned int end_time = clock();
-    std::cout << "\tto read data need " << (end_time - start_time) << " mili_secundes!\n";
-
-
-    start_time = clock();
     convert_observations();
-    end_time = clock();
-    std::cout << "\tto convert observation data need " << (end_time - start_time) << " mili_secundes!\n";
-
-
-
-    start_time = clock();
     convert_observatory();
-    end_time = clock();
-    std::cout << "\tto convert observatory data need " << (end_time - start_time) << " mili_secundes\n";
-
-
-
-    start_time = clock();
     integrate();
-    end_time = clock();
-    std::cout << "\tto itegrate need " << (end_time - start_time) << " mili_secundes\n";
-
 }

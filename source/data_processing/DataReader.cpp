@@ -227,8 +227,7 @@ void DataReader::read_earth_rotation()
             rotation.set_x(std::stod(data_line.substr(22, 8)));
             rotation.set_y(std::stod(data_line.substr(33, 8)));
             rotation.set_UT1_UTC(std::stod(data_line.substr(44, 9)));
-
-
+            
             earth_rotation.push_back(rotation);
         }
     }

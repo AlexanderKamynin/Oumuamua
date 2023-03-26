@@ -12,7 +12,7 @@
     The problem is described by the following system of differential equations:
 
     X(t) = (x, y, z, vx, vy, vz)
-    X(0) = (x0, y0, z0, vx0, vy0, vz0)
+    X(0) = (initial_condition, y0, z0, vx0, vy0, vz0)
     dX/dt = (vx, vy, vz, ax, ay, az)
 
     @param spherical_position - position of the Oumuamua in the Spherical coordinates
