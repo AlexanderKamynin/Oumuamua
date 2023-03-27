@@ -59,8 +59,7 @@ void Solution::integrate()
     model_orbits = integration.dormand_prince(initial_condition, data_reader.get_observations()->at(0).get_date(), data_reader.get_observations()->at(221).get_date(), 0.2, map_planets);
     model_measures = converter.interpolation_to_observation(data_reader.get_observations_vector(), model_orbits);
 
-
-    converter.geocentric_to_barycentric(data_reader.get_observations(), data_reader.get_obsevatory_link(), data_reader.get_interpolation_hubble(), map_planets["earth"]);
+    converter.geocentric_to_barycentric(data_reader.get_observations(), data_reader.get_obsevatory_link(), data_reader.get_earth_rotation_vector(), data_reader.get_interpolation_hubble(), map_planets["earth"]);
     for (int i = 0; i < (data_reader.get_observations_vector()).size(); i++) 
     {
         IntegrationVector tmp;

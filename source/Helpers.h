@@ -39,10 +39,6 @@ public:
                 }
                 word_starter = i + 1;
             }
-            if (vector_strings_to_return.size() == 3)
-            {
-                return vector_strings_to_return;
-            }
         }
         return vector_strings_to_return;
     }

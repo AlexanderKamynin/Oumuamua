@@ -125,12 +125,12 @@ GeocentricCoord Converter::interpolation_hubble_data(Date date, std::vector<Hubb
 /*
     Method for converting from cartesian to geocentric celestial coordinates for observatories
 */
-GeocentricCoord Converter::cartesian_to_geocentric(CartesianCoord position, Date date) 
+GeocentricCoord Converter::cartesian_to_geocentric(CartesianCoord position, Date date, EarthRotation earth_rotation) 
 {
     double geocentric_to_cartesian[3][3];
     
-    // Input: We use JD method, so tta=TT, ttb=0, uta=JD, utb=0, xp=0, yp=0 -> return matrix for converting
-    iauC2t06a(date.get_TT(), 0, date.get_JD(), 0, 0, 0, geocentric_to_cartesian);
+    // Input: We use JD method, so tta=TT, ttb=0, uta=MJD earth rotation, utb=0, xp=0, yp=0 -> return matrix for converting
+    iauC2t06a(date.get_TT(), 0, date.get_JD(), 0, earth_rotation.get_x(), earth_rotation.get_y(), geocentric_to_cartesian);
 
     // transpose for convert from cartesian to geocentric
     this->help.transpose_matrix(geocentric_to_cartesian);
@@ -334,7 +334,7 @@ void Converter::barycentric_to_spherical_for_observations(Observation* vector)
 }
 
 
-void Converter::geocentric_to_barycentric(std::vector<Observation>* observations, std::map<std::string, Observatory>* observatory, std::vector<HubbleData> hubble_map, std::vector<IntegrationVector> earth_position) 
+void Converter::geocentric_to_barycentric(std::vector<Observation>* observations, std::map<std::string, Observatory>* observatory, std::vector<EarthRotation>* earth_rotation, std::vector<HubbleData> hubble_map, std::vector<IntegrationVector> earth_position) 
 {
     double ind = 0;
     for (int i = 0; i < observations->size(); i++)
@@ -346,7 +346,16 @@ void Converter::geocentric_to_barycentric(std::vector<Observation>* observations
         {
             std::string code = observations->at(i).get_code();
             Observatory cur_obs = observatory->at(code);
-            GeocentricCoord geo_obs = cartesian_to_geocentric(cur_obs.get_cartesian(), *observations->at(i).get_date());
+
+            // find earth rotation info for current date observation
+            EarthRotation earth_rotation_info;
+            for (int j = 0; j < earth_rotation->size(); j++) {
+                if (earth_rotation->at(j).get_MJD() >= observations->at(i).get_date()->get_MJD()) {
+                    earth_rotation_info = earth_rotation->at(j);
+                    break;
+                }
+            }
+            GeocentricCoord geo_obs = cartesian_to_geocentric(cur_obs.get_cartesian(), *observations->at(i).get_date(), earth_rotation_info);
             observatory_position = interpolation_Earth_center(*observations->at(i).get_date(), geo_obs, earth_position);
         }
         else
@@ -411,7 +420,7 @@ std::vector<IntegrationVector> Converter::interpolation_to_observation(std::vect
 
 
 //Поправка за световой промежуток
-std::vector<IntegrationVector> Converter::light_time_correction(std::map<std::string, Observatory> observatory, std::vector< Observation> observations, std::vector<HubbleData> hubble_map, std::vector<IntegrationVector> earth_position) 
+std::vector<IntegrationVector> Converter::light_time_correction(std::map<std::string, Observatory> observatory, std::vector< Observation> observations, std::vector<EarthRotation>* earth_rotation, std::vector<HubbleData> hubble_map, std::vector<IntegrationVector> earth_position)
 {
     std::vector<IntegrationVector> result;
     for (int i = 0; i < observations.size(); i++) 
@@ -425,9 +434,18 @@ std::vector<IntegrationVector> Converter::light_time_correction(std::map<std::st
             {
                 std::string code = observations[i].get_code();
                 Observatory cur_obs = observatory[code];
-                GeocentricCoord geo_obs = cartesian_to_geocentric(cur_obs.get_cartesian(), *observations[i].get_date());
+
+                // find earth rotation info for current date observation
+                EarthRotation earth_rotation_info;
+                for (int j = 0; j < earth_rotation->size(); j++) {
+                    if (earth_rotation->at(j).get_MJD() >= observations[i].get_date()->get_MJD()) {
+                        earth_rotation_info = earth_rotation->at(j);
+                        break;
+                    }
+                }
+
+                GeocentricCoord geo_obs = cartesian_to_geocentric(cur_obs.get_cartesian(), *observations[i].get_date(), earth_rotation_info);
                 observatory_position = interpolation_Earth_center(*observations[i].get_date(), geo_obs, earth_position);
-                //  std::cout << "IN " <<ind <<" "<< code << " " << map_observatory->at(*observations[i].get_date()).get_x()<< " "<< map_observatory->at(*observations[i].get_date()).get_y() << " " << map_observatory->at(*observations[i].get_date()).get_z() << std::endl;        }
             }
             else 
             {
@@ -494,7 +512,7 @@ BarycentricCoord Converter::n_abs(BarycentricCoord frame)
 
 
 //Поправка на гравитационное отклонение света
-std::vector<IntegrationVector> Converter::gravitational_deflection(std::map<std::string, Observatory> observatory, std::vector< Observation> observations, std::vector<IntegrationVector> sun_observations, std::vector<HubbleData> hubble_map, std::vector<IntegrationVector> earth_position) 
+std::vector<IntegrationVector> Converter::gravitational_deflection(std::map<std::string, Observatory> observatory, std::vector< Observation> observations, std::vector<EarthRotation>* earth_rotation, std::vector<IntegrationVector> sun_observations, std::vector<HubbleData> hubble_map, std::vector<IntegrationVector> earth_position)
 {
     double mass_sun = 1.989e30;
     double new_direction[3];
@@ -508,7 +526,17 @@ std::vector<IntegrationVector> Converter::gravitational_deflection(std::map<std:
         {
             std::string code = observations[i].get_code();
             Observatory cur_obs = observatory[code];
-            GeocentricCoord geo_obs = cartesian_to_geocentric(cur_obs.get_cartesian(), *observations[i].get_date());
+
+            // find earth rotation info for current date observation
+            EarthRotation earth_rotation_info;
+            for (int j = 0; j < earth_rotation->size(); j++) {
+                if (earth_rotation->at(j).get_MJD() >= observations[i].get_date()->get_MJD()) {
+                    earth_rotation_info = earth_rotation->at(j);
+                    break;
+                }
+            }
+
+            GeocentricCoord geo_obs = cartesian_to_geocentric(cur_obs.get_cartesian(), *observations[i].get_date(), earth_rotation_info);
             observatory_position = interpolation_Earth_center(*observations[i].get_date(), geo_obs, earth_position);
             //  std::cout << "IN " <<ind <<" "<< code << " " << map_observatory->at(*observations[i].get_date()).get_x()<< " "<< map_observatory->at(*observations[i].get_date()).get_y() << " " << map_observatory->at(*observations[i].get_date()).get_z() << std::endl;        }
         }
@@ -544,7 +572,7 @@ std::vector<IntegrationVector> Converter::gravitational_deflection(std::map<std:
 
 
 //Аберрация
-std::vector<IntegrationVector> Converter::aberration(std::map<std::string, Observatory> observatory, std::vector< Observation> observations, std::vector<IntegrationVector> sun_observations, std::vector<HubbleData> hubble_map, std::vector<IntegrationVector> earth_position)
+std::vector<IntegrationVector> Converter::aberration(std::map<std::string, Observatory> observatory, std::vector< Observation> observations, std::vector<EarthRotation>* earth_rotation, std::vector<IntegrationVector> sun_observations, std::vector<HubbleData> hubble_map, std::vector<IntegrationVector> earth_position)
 {
     std::vector<IntegrationVector> result;
     double new_direction[3];
@@ -558,7 +586,18 @@ std::vector<IntegrationVector> Converter::aberration(std::map<std::string, Obser
         {
             std::string code = observations[i].get_code();
             Observatory cur_obs = observatory[code];
-            GeocentricCoord geo_obs = cartesian_to_geocentric(cur_obs.get_cartesian(), *observations[i].get_date());
+
+            // find earth rotation info for current date observation
+            EarthRotation earth_rotation_info;
+            for (int j = 0; j < earth_rotation->size(); j++) {
+                if (earth_rotation->at(j).get_MJD() >= observations[i].get_date()->get_MJD()) {
+                    earth_rotation_info = earth_rotation->at(j);
+                    break;
+                }
+            }
+
+
+            GeocentricCoord geo_obs = cartesian_to_geocentric(cur_obs.get_cartesian(), *observations[i].get_date(), earth_rotation_info);
             observatory_position = interpolation_Earth_center(*observations[i].get_date(), geo_obs, earth_position);
         }
         else

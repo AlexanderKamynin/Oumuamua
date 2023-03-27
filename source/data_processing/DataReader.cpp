@@ -268,6 +268,11 @@ std::vector<Observation> DataReader::get_observations_vector()
     return observations;
 }
 
+std::vector<EarthRotation>* DataReader::get_earth_rotation_vector()
+{
+    return &this->earth_rotation;
+}
+
 std::map<std::string, Observatory> DataReader::get_observatory()
 {
     return observatory;

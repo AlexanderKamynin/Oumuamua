@@ -1,27 +1,27 @@
 #include "EarthRotation.h"
 
-void EarthRotation::set_x(double other_x)
+void EarthRotation::set_x(double x)
 {
-	this->x = other_x;
+	this->x = x;
 }
 
-void EarthRotation::set_y(double other_y)
+void EarthRotation::set_y(double y)
 {
-	this->y = other_y;
+	this->y = y;
 }
 
-void EarthRotation::set_UT1_UTC(double other_UT1_UTC)
+void EarthRotation::set_UT1_UTC(double UT1_UTC)
 {
-	this->UT1_UTC = other_UT1_UTC;
+	this->UT1_UTC = UT1_UTC;
 }
 
-void EarthRotation::set_MJD(int other_MJD)
+void EarthRotation::set_MJD(double MJD)
 {
-	this->MJD = other_MJD;
+	this->MJD = MJD;
 }
 
 
-int EarthRotation::get_MJD()
+double EarthRotation::get_MJD()
 {
 	return this->MJD;
 }

@@ -1,17 +1,27 @@
 #pragma once
+
+
+/*
+	This class represent Earth rotation params
+	@param x, y - centre of the orbit
+	@param UT1-UTC - time, when x,y calculated
+	@param MJD - time, when x,y calculated
+*/
 class EarthRotation
 {
-	double x;
-	double y;
-	double UT1_UTC;
-	int MJD;
+	double x = 0;
+	double y = 0;
+	double UT1_UTC = 0;
+	double MJD = 0;
 public:
-	void set_x(double other_x);
-	void set_y(double other_y);
-	void set_UT1_UTC(double other_UT1_UTC);
-	void set_MJD(int other_MJD);
+	EarthRotation() = default;
 
-	int get_MJD();
+	void set_x(double);
+	void set_y(double);
+	void set_UT1_UTC(double);
+	void set_MJD(double);
+
+	double get_MJD();
 	double get_x();
 	double get_y();
 	double get_UT1_UTC();

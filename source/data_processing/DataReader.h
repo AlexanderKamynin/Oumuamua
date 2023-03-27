@@ -56,6 +56,7 @@ public:
     Observation* get_observation(int);
 
     std::vector<Observation> get_observations_vector();
+    std::vector<EarthRotation>* get_earth_rotation_vector();
     std::map<std::string, Observatory> get_observatory();
 
     std::vector<HubbleData> get_interpolation_hubble();
