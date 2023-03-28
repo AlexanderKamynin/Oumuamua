@@ -1,6 +1,9 @@
+#pragma once
 #include "./data_processing/DataReader.h"
 #include "./data_processing/Converter.h"
 #include "./data_processing/Integration.h"
+#include <iomanip>
+
 
 /*
                 Solution class is the mediator pattern class 

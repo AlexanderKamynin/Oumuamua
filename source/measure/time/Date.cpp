@@ -129,12 +129,13 @@ void Date::set_TDB(double TDB)
 
 void Date::set_TDB_from_TT_TDB(double TT_TDB)
 {
+    this->TT_TDB = TT_TDB;
     /*
         TT - TDB = x  | * -1
         TDB - TT = -x | + TT
         TDB = TT - x
     */
-    this->TT_TDB = -1 * TT_TDB + this->TT;
+    this->TDB = -1 * TT_TDB + this->TT;
 }
 
 

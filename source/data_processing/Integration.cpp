@@ -17,7 +17,7 @@ IntegrationVector Integration::derivate_function(double t, IntegrationVector cur
                 BarycentricCoord Oumuamua_coordinates = current_condition.get_barycentric_position();
                 // Formula Newtona:
                 //                -->
-                //  dv / dx = GM * ri / ri ^ 3
+                //  a = dv / dx = GM * ri / ri ^ 3
                 a = a + this->GM[planet_name] * (planet_coordinates - Oumuamua_coordinates) / help.POW_3(planet_coordinates.length() - Oumuamua_coordinates.length());
             }
             break;
