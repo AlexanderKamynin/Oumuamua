@@ -1,208 +1,163 @@
 #include "DataReader.h"
-#include <iomanip>
 
 
-//—читывание данных наблюдений
 void DataReader::read_observations() 
 {
-    std::ifstream file(observations_file);
-    std::string data_line;
+    std::ifstream file(this->observations_file);
+    std::string line;
 
-    if (!file.is_open())
+    if (file.is_open())
+    {
+        while (getline(file, line)) 
+        {
+            if (line[14] != 's') 
+            {
+
+                Date observation_date(line.substr(15, 17));
+                observation_date.set_UTC_from_day_fraction();
+                observation_date.set_JD();
+
+                Observation observation;
+                observation.set_date(observation_date);
+                observation.set_code(line.substr(77, 3));
+                observation.set_ascension_from_string(line.substr(32, 12));
+                observation.set_declination_from_string(line.substr(44, 12));
+                observations.push_back(observation);
+            }
+        }
+    }
+    else
     {
         std::cout << "Error reading file! {" << observations_file << "}\n";
     }
-    else
-    {
-        while (getline(file, data_line)) 
-        {
-            if (data_line[14] != 's') 
-            {
-                Observation data_frame;
-                Date observation_date(data_line.substr(15, 17));
-                observation_date.set_UTC_from_day_fraction();
-                observation_date.set_JD();
-                data_frame.set_date(observation_date);
-                data_frame.set_code(data_line.substr(77, 3));
-                data_frame.set_ascension_from_string(data_line.substr(32, 12));
-                data_frame.set_declination_from_string(data_line.substr(44, 12));
-                observations.push_back(data_frame);
-            }
-        }
-    }
+
     file.close();
-    std::cout << "Observation Readed: " << observations.size() << " \n";
+    std::cout << "Observation readed: " << observations.size() << " \n";
 }
 
 
-//—читывание данных местоположений обсерваторий
+
 void DataReader::read_observatory_data()
 {
-    std::ifstream file(observatory_file);
-    std::string data_line;
-    if (!file.is_open())
+    std::ifstream file(this->observatory_file);
+    std::string line;
+
+    if (file.is_open())
+    {
+        while (getline(file, line))
+        {
+            std::string code = line.substr(0, 3);
+            observatory[code] = Observatory();
+
+            CylindricalCoord observatory_position;
+            observatory_position.set_longitude_from_string(line.substr(4, 9));
+            observatory_position.set_cos_from_string(line.substr(13, 8));
+            observatory_position.set_sin_from_string(line.substr(21, 9));
+
+            observatory[code].set_cylindrical(observatory_position);
+        }
+    }
+    else
     {
         std::cout << "Error reading file! {" << observatory_file << "}\n";
     }
-    else
-    {
-        while (getline(file, data_line)) 
-        {
-            std::string code = data_line.substr(0, 3);
-            observatory[code] = Observatory();
 
-            CylindricalCoord data_frame;
-            //@change (4,10) -> (4,9)
-            data_frame.set_longitude_from_string(data_line.substr(4, 9));
-            data_frame.set_cos_from_string(data_line.substr(13, 8));
-            data_frame.set_sin_from_string(data_line.substr(21, 9));
-
-            observatory[code].set_cylindrical(data_frame);
-        }
-    }
     file.close();
-    std::cout << "Observatory Readed: " << observatory.size() << " \n";
+    std::cout << "Observatory readed: " << observatory.size() << " \n";
 }
 
-//—читывание данных дл€ интерпол€ции положени€ ’аббла
+
+
 void DataReader::read_hubble_data()
 {
     std::ifstream file(hubble_file);
-    std::string data_line;
-    int counter = 0;
-    if (!file.is_open())
+    std::string line;
+
+    if (file.is_open())
+    {
+        while (getline(file, line))
+        {
+            GeocentricCoord hubble_position;
+            hubble_position.set_from_string(line.substr(25, line.length() - 25));
+
+            Date hubble_date(line.substr(0, 10));
+            hubble_date.set_UTC_from_string(line.substr(11, 13));
+
+            HubbleData hubble;
+            hubble.set_date(hubble_date);
+            hubble.set_geocentric(hubble_position);
+            interpolation_hubble.push_back(hubble);
+        }
+    }
+    else
     {
         std::cout << "Error reading file! {" << hubble_file << "}\n";
     }
-    else
-    {
-        while (getline(file, data_line))
-        {
-            counter += 1;
-            GeocentricCoord data_frame;
-            data_frame.set_from_string(data_line.substr(25, data_line.length() - 25));
-            Date hubble_date(data_line.substr(0, 10));
-            hubble_date.set_UTC_from_string(data_line.substr(11, 13));
-            HubbleData frame;
-            frame.set_date(hubble_date);
-            frame.set_geocentric(data_frame);
-            interpolation_hubble.push_back(frame);
-        }
-    }
+
     file.close();
-    std::cout << "Hubble Readed: " << counter << " \n";
+    std::cout << "Hubble readed: " << interpolation_hubble.size() << " \n";
 }
 
-//—читывание данных дл€ интерпол€ции времени
+
+
 void DataReader::read_interpolation_time_data()
 {
     std::ifstream file(interpolation_time_file);
-    std::string data_line;
-    int counter = 0;
-    if (!file.is_open())
+    std::string line;
+
+    if (file.is_open())
+    {
+        while (getline(file, line)) 
+        {
+            InterpolationTime time;
+            Date observation_date(line.substr(0, 12));
+
+            observation_date.set_UTC_from_day_fraction();
+            observation_date.set_JD();
+            time.set_date(observation_date);
+            time.set_TT_TDB(line.substr(13, 9));
+            interpolation_time.push_back(time);
+        }
+    }
+    else
     {
         std::cout << "Error reading file! {" << interpolation_time_file << "}\n";
     }
-    else
-    {
-        while (getline(file, data_line)) 
-        {
-            counter++;
-            InterpolationTime data_frame;
-            Date observation_date(data_line.substr(0, 12));
-            observation_date.set_UTC_from_day_fraction();
-            observation_date.set_JD();
-            data_frame.set_date(observation_date);
-            data_frame.set_TT_TDB(data_line.substr(13, 9));
-            interpolation_time.push_back(data_frame);
-        }
-    }
+
     file.close();
-    std::cout << "Interpolation Time Readed: " << counter << " \n";
+    std::cout << "Interpolation Time Readed: " << interpolation_time.size() << " \n";
 }
 
 
-//—читывание данных дл€ интерпол€ции центра небесного тела
+
 void DataReader::read_interpolation_center_planet(std::string filename, std::string name)
 {
     std::ifstream file(filename);
-    std::string data_line;
-    double x;
-    double y;
-    double z;
+    std::string line;
 
-    int ind = 0;
-
-    if (!file.is_open())
+    if (file.is_open())
     {
-        std::cout << "Error reading file! {" << filename << "}\n";
+        std::vector<IntegrationVector> planet;
+        while (getline(file, line))
+        {
+            IntegrationVector planet_data;
+            Date date(line.substr(0, 13));
+            date.set_UTC_from_day_fraction();
+            date.set_JD();
+            planet_data.set_date(date);
+
+            std::vector<double> planet_position = help.split(line.substr(13, line.length() - 13), ' ', '\0');
+            planet_data.set_barycentric_position(planet_position[0], planet_position[1], planet_position[2]);
+            planet.push_back(planet_data);
+        }
+        std::cout << "Planet <" << name << "> readed " << planet.size() << " \n";
+        InterpolationPlanets[name] = planet;
     }
     else
     {
-        std::vector<IntegrationVector> planet;
-        while (getline(file, data_line))
-        {
-            IntegrationVector data_frame;
-            Date observation_date(data_line.substr(0, 13));
-            observation_date.set_UTC_from_day_fraction();
-            observation_date.set_JD();
-            //@change set_date -> set_date
-            data_frame.set_date(observation_date);
-
-            int prev = 14;
-            bool flag = false;
-            int last = 0;
-            bool all_three = false;
-
-            for (int i = 0; i < 3; i++) 
-            {
-                for (int j = prev; j < data_line.length() + 1; j++) 
-                {
-                    if (data_line[j] != ' ' and data_line[j] != '\0')
-                    {
-                        flag = true;
-                    }
-                    if (((data_line[j] == ' ' and data_line[j + 1] != ' ') or (data_line[j] == '\0')) and flag)
-                    {
-                        last = j;
-                        while (data_line[last - 1] == ' ')
-                        {
-                            last--;
-                        }
-                        switch (i) 
-                        {
-                        case 0:
-                            x = std::stod(data_line.substr(prev, last - prev));
-                            break;
-                        case 1:
-                            y = std::stod(data_line.substr(prev, last - prev));
-                            break;
-                        case 2:
-                            z = std::stod(data_line.substr(prev, last - prev));
-                            all_three = true;
-                            break;
-                        default:
-                            break;
-                        }
-                        if (all_three) 
-                        {
-                            //@change set_position -> set_barycentric_position
-                            data_frame.set_barycentric_position(x, y, z);
-                            planet.push_back(data_frame);
-                            ind++;
-                            all_three = false;
-                        }
-                        prev = j + 1;
-                        flag = false;
-                        break;
-                    }
-
-                }
-            }
-        }
-        std::cout << "Plantet <" << name << "> Readed " << planet.size() << " \n";
-        InterpolationPlanets[name] = planet;
+        std::cout << "Error reading file! {" << filename << "}\n";
     }
+
     file.close();
 }
 
@@ -213,11 +168,7 @@ void DataReader::read_earth_rotation()
     std::ifstream file(earth_rotation_file);
     std::string data_line;
 
-    if (!file.is_open())
-    {
-        std::cout << "Error reading file! {" << earth_rotation_file << "}\n";
-    }
-    else
+    if (file.is_open())
     {
         while (getline(file, data_line))
         {
@@ -231,10 +182,14 @@ void DataReader::read_earth_rotation()
             earth_rotation.push_back(rotation);
         }
     }
+    else
+    {
+        std::cout << "Error reading file! {" << earth_rotation_file << "}\n";
+    }
+
     file.close();
     std::cout << "Earth rotation Readed: " << earth_rotation.size() << " \n";
 }
-
 
 
 
@@ -243,50 +198,60 @@ std::vector<InterpolationTime> DataReader::get_interpolation_time()
     return interpolation_time;
 }
 
+
 std::vector<IntegrationVector> DataReader::get_interpolation_earth() 
 {
     return InterpolationPlanets["earth"];
 }
+
 
 std::vector<Observation>* DataReader::get_observations() 
 {
     return &observations;
 }
 
+
 std::map<std::string, std::vector<IntegrationVector>> DataReader::get_interpolation_planets() 
 {
     return InterpolationPlanets;
 }
 
-Observation* DataReader::get_observation(int ind) 
+
+Observation* DataReader::get_observation(int idx) 
 {
-    return &observations[ind];
+    return &observations[idx];
 }
+
 
 std::vector<Observation> DataReader::get_observations_vector()
 {
     return observations;
 }
 
+
 std::vector<EarthRotation>* DataReader::get_earth_rotation_vector()
 {
     return &this->earth_rotation;
 }
+
 
 std::map<std::string, Observatory> DataReader::get_observatory()
 {
     return observatory;
 }
 
+
 std::vector<HubbleData> DataReader::get_interpolation_hubble() 
 {
     return interpolation_hubble;
 }
 
+
 Observatory* DataReader::get_observatory_data_by_code(std::string code) 
 {
     return &observatory[code];
 }
+
 
 std::vector<IntegrationVector>* DataReader::get_planet_by_name(std::string name) 
 {
@@ -297,7 +262,8 @@ std::vector<IntegrationVector>* DataReader::get_planet_by_name(std::string name)
     return nullptr;
 }
 
-std::map<std::string, Observatory>* DataReader::get_obsevatory_link() 
+
+std::map<std::string, Observatory>* DataReader::get_obsevatory_map() 
 {
     return &observatory;
 }

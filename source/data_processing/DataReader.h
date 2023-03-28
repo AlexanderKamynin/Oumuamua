@@ -8,6 +8,7 @@
 #include "../measure/data_structures/IntegrationVector.h"
 #include "../measure/data_structures/EarthRotation.h"
 
+#include "../Helpers.h"
 
 #include <iostream>
 #include <fstream>
@@ -20,22 +21,19 @@ class DataReader
 {
 private:
     std::vector<Observation> observations;
-
     std::map<std::string, Observatory> observatory;
-
     std::vector<InterpolationTime> interpolation_time;
     std::map<std::string, std::vector<IntegrationVector>> InterpolationPlanets;
-
     std::vector<HubbleData> interpolation_hubble;
-
     std::vector<EarthRotation> earth_rotation;
+
+    Helpers help;
 
     std::string observations_file = "./input_data/observations.txt";
     std::string observatory_file = "./input_data/observatory.txt";
     std::string hubble_file = "./input_data/hubble_data.txt";
     std::string interpolation_time_file= "./input_data/interpolation_time_data.txt";
     std::string earth_rotation_file = "./input_data/earth_rotation_data.txt";
-
 
 public:
     void read_observations();
@@ -61,6 +59,5 @@ public:
 
     std::vector<HubbleData> get_interpolation_hubble();
     Observatory* get_observatory_data_by_code(std::string);
-    std::map<std::string, Observatory>* get_obsevatory_link();
-
+    std::map<std::string, Observatory>* get_obsevatory_map();
 };

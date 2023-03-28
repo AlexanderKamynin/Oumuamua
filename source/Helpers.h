@@ -28,7 +28,7 @@ public:
                 std::string correct_str = "";
                 for (int j = 0; j < sub_str.size(); j++)
                 {
-                    if (sub_str[j] == '.' or (sub_str[j] >= '0' and sub_str[j] <= '9'))
+                    if (sub_str[j] == '.' or sub_str[j] == '+' or sub_str[j] == '-' or (sub_str[j] >= '0' and sub_str[j] <= '9'))
                     {
                         correct_str += sub_str[j];
                     }
