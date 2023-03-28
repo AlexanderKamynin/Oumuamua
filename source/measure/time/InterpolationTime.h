@@ -11,16 +11,16 @@ class InterpolationTime
 {
 private:
     Date date;
-    double TDB; // dinamic barycentric time
+    double TT_TDB; // dinamic barycentric time
 public:
     InterpolationTime() = default;
 
     //getters
     Date get_date();
-    double get_TDB();
+    double get_TT_TDB();
 
     //setters
     void set_date(Date);
-    void set_TDB(std::string);
-    void set_TDB(double);
+    void set_TT_TDB(std::string);
+    void set_TT_TDB(double);
 };

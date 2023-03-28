@@ -50,11 +50,7 @@ public:
     void multiply(double);
 
 
-    /*
-        Method to get vector length from barycenter
-    */
     double length();
-
 
     /*
         Operation between barycentric coordinates

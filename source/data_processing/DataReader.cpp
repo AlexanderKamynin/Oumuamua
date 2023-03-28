@@ -113,7 +113,7 @@ void DataReader::read_interpolation_time_data()
             observation_date.set_UTC_from_day_fraction();
             observation_date.set_JD();
             data_frame.set_date(observation_date);
-            data_frame.set_TDB(data_line.substr(13, 9));
+            data_frame.set_TT_TDB(data_line.substr(13, 9));
             interpolation_time.push_back(data_frame);
         }
     }

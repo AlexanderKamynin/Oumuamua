@@ -21,6 +21,7 @@ private:
     double MJD; // Modified Julian date
     double TT; // Terestial time
     double TDB; // Dinamic Barycentric time
+    double TT_TDB; // TT - TDB object
 
     Helpers help;
 public:
@@ -44,6 +45,8 @@ public:
     double get_MJD();
     double get_TT();
     double get_TDB();
+    double get_TT_TDB();
+
 
     //setters
     void set_UTC_from_day_fraction();
@@ -52,6 +55,7 @@ public:
     void set_JD();
     void set_TT(double);
     void set_TDB(double);
+    void set_TDB_from_TT_TDB(double);
 
     Date(const Date& other);
     Date& operator=(const Date& other);

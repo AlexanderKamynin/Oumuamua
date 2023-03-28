@@ -7,9 +7,9 @@ Date InterpolationTime::get_date()
 }
 
 
-double InterpolationTime::get_TDB()
+double InterpolationTime::get_TT_TDB()
 {
-    return this->TDB;
+    return this->TT_TDB;
 }
 
 
@@ -19,13 +19,13 @@ void InterpolationTime::set_date(Date date)
 }
 
 
-void InterpolationTime::set_TDB(std::string value) 
+void InterpolationTime::set_TT_TDB(std::string value) 
 {
-    this->TDB = std::stod(value);
+    this->TT_TDB = std::stod(value);
 }
 
 
-void InterpolationTime::set_TDB(double value) 
+void InterpolationTime::set_TT_TDB(double value) 
 {
-    this->TDB = value;
+    this->TT_TDB = value;
 }

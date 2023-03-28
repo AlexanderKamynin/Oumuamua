@@ -98,6 +98,7 @@ BarycentricCoord operator/(BarycentricCoord coordinate_1, BarycentricCoord coord
     return result;
 }
 
+
 BarycentricCoord operator/(BarycentricCoord coordinate_1, double value)
 {
     BarycentricCoord result;

@@ -58,17 +58,26 @@ void Converter::UTC_to_TT(Date* date)
 /*
     Interpolation of time on a uniform grid for observations
 */
-void Converter::interpolation_time(std::vector<Observation>* observations, std::vector<InterpolationTime> interpolation_time) 
+void Converter::interpolation_time(std::vector<Observation>* observations, std::vector<InterpolationTime> time) 
 {
     double interpolation_time_term;
+    int last = 0;
+
     for (int i = 0; i < observations->size(); i++) 
     {
-        for (int j = 0; j < interpolation_time.size(); j++) 
+        for (int j = last; j < time.size(); j++)
         {
-            if (observations->at(i).get_date()->get_MJD() < interpolation_time[j].get_date().get_MJD())
+            if (observations->at(i).get_date()->get_MJD() < time[j].get_date().get_MJD())
             {
-                interpolation_time_term = interpolation_time[j - 1].get_TDB() + (interpolation_time[j].get_TDB() - interpolation_time[j - 1].get_TDB()) / (interpolation_time[j].get_date().get_MJD() - interpolation_time[j - 1].get_date().get_MJD()) * ((observations->at(i)).get_date()->get_MJD() - interpolation_time[j - 1].get_date().get_MJD());
-                observations->at(i).get_date()->set_TDB(interpolation_time_term);
+                last = j - 1;
+                double f_current = time[j].get_TT_TDB();
+                double f_previous = time[j - 1].get_TT_TDB();
+                double t_current = time[j].get_date().get_MJD();
+                double t_previous = time[j - 1].get_date().get_MJD();
+                double t_interpolate = observations->at(i).get_date()->get_MJD();
+
+                interpolation_time_term = f_previous + (f_current - f_previous) / (t_current - t_previous) * (t_interpolate - t_previous);
+                observations->at(i).get_date()->set_TDB_from_TT_TDB(interpolation_time_term);
                 break;
             }
         }
@@ -77,46 +86,15 @@ void Converter::interpolation_time(std::vector<Observation>* observations, std::
 
 
 /*
-    Interpolation of time on a uniform grid
+    Find Hubble data for given date
 */
-void Converter::interpolation_time(Date* date, std::vector<InterpolationTime> interpolation_time)
+GeocentricCoord Converter::find_needed_hubble_data(Date date, std::vector<HubbleData> hubble_data)
 {
-    double delta;
-
-    for (int j = 0; j < interpolation_time.size(); j++) 
+    for (int i = 0; i < hubble_data.size() - 1; i++)
     {
-        if (date->get_MJD() < interpolation_time[j].get_date().get_MJD())
+        if ((hubble_data[i].get_date() < date) and (hubble_data[i + 1].get_date() > date))
         {
-            delta = interpolation_time[j - 1].get_TDB() + (interpolation_time[j].get_TDB() - interpolation_time[j - 1].get_TDB()) / (interpolation_time[j].get_date().get_MJD() - interpolation_time[j - 1].get_date().get_MJD()) * (date->get_MJD() - interpolation_time[j - 1].get_date().get_MJD());
-            date->set_TDB(delta);
-            break;
-        }
-    }
-}
-
-
-//Интерполяция положения Хаббла
-GeocentricCoord Converter::interpolation_hubble_data(Date date, std::vector<HubbleData> interpolation_data)
-{
-    for (int i = 0; i < interpolation_data.size() - 1; i++)
-    {
-        if ((interpolation_data[i].get_date() < date) and (interpolation_data[i + 1].get_date() > date)) 
-        {
-            GeocentricCoord new_frame;
-
-            double x = interpolation_data[i].get_geocentric().get_x() + (interpolation_data[i + 1].get_geocentric().get_x()
-                - interpolation_data[i + 1].get_geocentric().get_x()) * (date.get_MJD() - interpolation_data[i].get_date().get_MJD());
-
-            double y = interpolation_data[i].get_geocentric().get_y() + (interpolation_data[i + 1].get_geocentric().get_y()
-                - interpolation_data[i + 1].get_geocentric().get_y()) * (date.get_MJD() - interpolation_data[i].get_date().get_MJD());
-
-            double z = interpolation_data[i].get_geocentric().get_z() + (interpolation_data[i + 1].get_geocentric().get_z()
-                - interpolation_data[i + 1].get_geocentric().get_z()) * (date.get_MJD() - interpolation_data[i].get_date().get_MJD());
-
-            new_frame.set_x(x);
-            new_frame.set_y(y);
-            new_frame.set_z(z);
-            return new_frame;
+            return hubble_data[i].get_geocentric();
         }
     }
 };
@@ -161,6 +139,7 @@ BarycentricCoord Converter::interpolation_Earth_center(Date date, GeocentricCoor
     double interpolation_alpha_term;
     double interpolation_beta_term;
     double interpolation_gamma_term;
+
     for (int i = 0; i < earth_position.size(); i++)
     {
         if (date.get_MJD() < earth_position[i].get_date().get_MJD())
@@ -360,7 +339,7 @@ void Converter::geocentric_to_barycentric(std::vector<Observation>* observations
         }
         else
         {
-            GeocentricCoord tmp_position = interpolation_hubble_data(*observations->at(i).get_date(), hubble_map);
+            GeocentricCoord tmp_position = find_needed_hubble_data(*observations->at(i).get_date(), hubble_map);
             BarycentricCoord HM = interpolation_Earth_center(*observations->at(i).get_date(), tmp_position, earth_position);
             observatory_position = HM;
         }
@@ -449,11 +428,11 @@ std::vector<IntegrationVector> Converter::light_time_correction(std::map<std::st
             }
             else 
             {
-                GeocentricCoord tmp_position = interpolation_hubble_data(*observations[i].get_date(), hubble_map);
+                GeocentricCoord tmp_position = find_needed_hubble_data(*observations[i].get_date(), hubble_map);
                 observatory_position = interpolation_Earth_center(*observations[i].get_date(), tmp_position, earth_position);
             }
             //@change len -> length
-            delta = n_abs(observations[i].get_barycentric() - observatory_position).length() / (1079252848.8 * 3600.0);
+            delta = (observations[i].get_barycentric() - observatory_position).length() / (1079252848.8 * 3600.0);
             delta_t -= delta;
         }
         //@change set_date -> set_date
@@ -497,20 +476,6 @@ BarycentricCoord Converter::interpolation_orbits(double date, std::vector<Observ
 };
 
 
-BarycentricCoord Converter::n_abs(BarycentricCoord frame)
-{
-    //@TODO Move this method to Barycentric class
-    BarycentricCoord result;
-    //@change set x, get x -> set alpha, get alpha
-    result.set_alpha(std::abs(frame.get_alpha()));
-    //@change set y, get y -> set beta, get beta
-    result.set_beta(std::abs(frame.get_beta()));
-    //@change set z, get z -> set gamma, get gamma
-    result.set_gamma(std::abs(frame.get_gamma()));
-    return result;
-};
-
-
 //Поправка на гравитационное отклонение света
 std::vector<IntegrationVector> Converter::gravitational_deflection(std::map<std::string, Observatory> observatory, std::vector< Observation> observations, std::vector<EarthRotation>* earth_rotation, std::vector<IntegrationVector> sun_observations, std::vector<HubbleData> hubble_map, std::vector<IntegrationVector> earth_position)
 {
@@ -542,7 +507,7 @@ std::vector<IntegrationVector> Converter::gravitational_deflection(std::map<std:
         }
         else 
         {
-            GeocentricCoord tmp_position = interpolation_hubble_data(*observations[i].get_date(), hubble_map);
+            GeocentricCoord tmp_position = find_needed_hubble_data(*observations[i].get_date(), hubble_map);
             observatory_position = interpolation_Earth_center(*observations[i].get_date(), tmp_position, earth_position);
         }
         IntegrationVector frame;
@@ -602,7 +567,7 @@ std::vector<IntegrationVector> Converter::aberration(std::map<std::string, Obser
         }
         else
         {
-            GeocentricCoord tmp_position = interpolation_hubble_data(*observations[i].get_date(), hubble_map);
+            GeocentricCoord tmp_position = find_needed_hubble_data(*observations[i].get_date(), hubble_map);
             observatory_position = interpolation_Earth_center(*observations[i].get_date(), tmp_position, earth_position);
         }
         IntegrationVector frame;

@@ -13,7 +13,6 @@ Date::Date(std::string date)
 
     this->set_UTC_from_day_fraction();
     this->set_JD();
-    //std::cout << "year=" << year << " month=" << month << " day_fraction=" << day_fraction << " day=" << day << std::endl;
 }
 
 
@@ -110,15 +109,32 @@ double Date::get_TDB()
     return TDB;
 }
 
+double Date::get_TT_TDB()
+{
+    return this->TT_TDB;
+}
+
 
 void Date::set_TT(double TT)
 {
     this->TT = TT;
 }
 
+
 void Date::set_TDB(double TDB) 
 {
     this->TDB = TDB;
+}
+
+
+void Date::set_TDB_from_TT_TDB(double TT_TDB)
+{
+    /*
+        TT - TDB = x  | * -1
+        TDB - TT = -x | + TT
+        TDB = TT - x
+    */
+    this->TT_TDB = -1 * TT_TDB + this->TT;
 }
 
 
@@ -139,6 +155,7 @@ Date::Date(const Date& other)
     this->MJD = other.MJD;
     this->TT = other.TT;
     this->TDB = other.TDB;
+    this->TT_TDB = other.TT_TDB;
 }
 
 Date& Date::operator=(const Date& other)
@@ -157,6 +174,7 @@ Date& Date::operator=(const Date& other)
     this->MJD = other.MJD;
     this->TT = other.TT;
     this->TDB = other.TDB;
+    this->TT_TDB = other.TT_TDB;
 
     return *this;
 }
@@ -177,7 +195,7 @@ Date::Date(const Date&& other)
     this->MJD = other.MJD;
     this->TT = other.TT;
     this->TDB = other.TDB;
-    this->TDB = other.TDB;
+    this->TT_TDB = other.TT_TDB;
 }
 
 Date& Date::operator=(const Date&& other)
@@ -195,7 +213,7 @@ Date& Date::operator=(const Date&& other)
     this->JD = other.JD;
     this->MJD = other.MJD;
     this->TT = other.TT;
-    this->TDB = other.TDB;
+    this->TT_TDB = other.TT_TDB;
 
     return *this;
 }
