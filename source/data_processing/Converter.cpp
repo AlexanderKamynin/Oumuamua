@@ -327,7 +327,6 @@ void Converter::barycentric_to_spherical(IntegrationVector* vector)
 */
 void Converter::barycentric_to_spherical(Observation* vector)
 {
-    //@change x, y, z -> alpha, beta, gamma
     double barycentric_coord[3] = { vector->get_barycentric().get_alpha(), vector->get_barycentric().get_beta(), vector->get_barycentric().get_gamma() };
     double longitude;
     double latitude;

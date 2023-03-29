@@ -41,9 +41,7 @@ public:
     */
     friend Velocity operator+(Velocity, Velocity);
     friend Velocity operator-(Velocity, Velocity);
-    //@change friend Velocity operator*(const &double, Velocity) -> friend Velocity operator/(double, Velocity);
     friend Velocity operator*(double, Velocity);
     friend Velocity operator/(Velocity, Velocity);
-    //@change friend Velocity operator/(Velocity, const &double) -> friend Velocity operator/(Velocity, double);
     friend Velocity operator/(Velocity, double);
 };

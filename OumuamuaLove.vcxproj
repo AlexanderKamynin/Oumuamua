@@ -425,14 +425,13 @@
   <ItemGroup>
     <Text Include="input_data\earth_rotation_data.txt" />
     <Text Include="input_data\hubble_data.txt" />
-    <Text Include="input_data\interpolation_earth.txt" />
-    <Text Include="input_data\interpolation_jupiter.txt" />
-    <Text Include="input_data\interpolation_sun.txt" />
+    <Text Include="input_data\earth.txt" />
+    <Text Include="input_data\jupyter.txt" />
+    <Text Include="input_data\sun.txt" />
     <Text Include="input_data\interpolation_time_data.txt" />
     <Text Include="input_data\observations.txt" />
     <Text Include="input_data\observatory.txt" />
     <Text Include="output_data\base_measure.txt" />
-    <Text Include="output_data\code.txt" />
     <Text Include="output_data\model_measure.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

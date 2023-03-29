@@ -1,7 +1,6 @@
 #include "IntegrationVector.h"
 
 
-//@change void IntegrationVector::set_position(double x, double y, double z) -> void IntegrationVector::set_position(double alpha, double beta, double gamma)
 void IntegrationVector::set_barycentric_position(double alpha, double beta, double gamma)
 {
     this->barycentric_position.set_alpha(alpha);
@@ -19,7 +18,6 @@ void IntegrationVector::set_spherical_position(double longitude, double latitude
 
 void IntegrationVector::set_velocity(double vx, double vy, double vz) 
 {
-    //@change set -> set_all
     this->velocity.set_all(vx, vy, vz);
 }
 

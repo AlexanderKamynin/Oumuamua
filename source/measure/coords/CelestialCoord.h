@@ -20,7 +20,6 @@ public:
     CelestialCoord(double h, double m, double s) : hours(h), minutes(m), seconds(s) {};
 
     //getters
-    //@change get_s -> get_seconds
     double get_hours();
     double get_minutes();
     double get_seconds();

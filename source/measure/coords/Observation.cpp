@@ -56,7 +56,6 @@ void Observation::set_spherical(double longitude, double latitude)
 }
 
 
-//@change void Observation::set_barycentric(double x, double y, double z) -> void Observation::set_barycentric(double alpha, double beta, double gamma)
 void Observation::set_barycentric(double alpha, double beta, double gamma) 
 {
     this->barycentric_position.set_alpha(alpha);
