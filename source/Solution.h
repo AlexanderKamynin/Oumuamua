@@ -29,7 +29,6 @@ public:
     void convert_observatory();
     // integration
     void integrate();
-    void calculate_MNK(std::vector<IntegrationVector>, std::vector<IntegrationVector>);
     // outputting data
-    void write_to_file(std::vector<IntegrationVector>, std::vector<IntegrationVector>);
+    void write_result(std::vector<IntegrationVector>, std::vector<IntegrationVector>);
 };
