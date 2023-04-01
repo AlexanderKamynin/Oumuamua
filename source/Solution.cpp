@@ -31,7 +31,7 @@ void Solution::convert_observations()
     for (int ind = 0; ind < data->size(); ind++) 
     {
         converter.UTC_to_TT(data->at(ind).get_date());
-        converter.celestial_to_spherical(data_reader.get_observation(ind));
+        converter.hours_to_degrees_system(data_reader.get_observation(ind));
         converter.spherical_to_geocentric(data_reader.get_observation(ind));
     }
     converter.interpolation_time(data, data_reader.get_interpolation_time());
@@ -92,7 +92,7 @@ void Solution::write_result(std::vector<IntegrationVector> model, std::vector<In
         for (int ind = 0; ind < model.size(); ind++)
         {
             counter += 1;
-            model_out << std::setprecision(9) << model[ind].get_date().get_MJD() << "\tlong= " << model[ind].get_spherical_position().get_longitude() << "\tlati= " << model[ind].get_spherical_position().get_latitude() <<
+            model_out << std::setprecision(9) << model[ind].get_date().get_MJD() << "\tRA= " << model[ind].get_spherical_position().get_right_ascension() << "\tDEC= " << model[ind].get_spherical_position().get_declination() <<
                 "\tvx(km/s)= " << model[ind].get_velocity().get_vx() / 86400 << "\tvy(km/s)= " << model[ind].get_velocity().get_vy() / 86400 << "\tvz(km/s)= " << model[ind].get_velocity().get_vz() / 86400 << '\n';
         }
         model_out.close();
@@ -112,7 +112,7 @@ void Solution::write_result(std::vector<IntegrationVector> model, std::vector<In
         for (int ind = 0; ind < base_measures.size(); ind++)
         {
             counter += 1;
-            base_out << std::setprecision(9) << base_measures[ind].get_date().get_MJD() << "\tlong= " << base_measures[ind].get_spherical_position().get_longitude() << "\tlati= " << base_measures[ind].get_spherical_position().get_latitude() << "\n";
+            base_out << std::setprecision(9) << base_measures[ind].get_date().get_MJD() << "\tRA= " << base_measures[ind].get_spherical_position().get_right_ascension() << "\tDEC= " << base_measures[ind].get_spherical_position().get_declination() << "\n";
         }
         base_out.close();
         std::cout << "Base:: " << counter << " strings was written in the file {" + base_file + "}" << std::endl;

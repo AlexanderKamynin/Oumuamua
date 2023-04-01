@@ -13,18 +13,6 @@ std::string Observation::get_code()
 }
 
 
-CelestialCoord Observation::get_ascension() 
-{
-    return this->ascension;
-}
-
-
-CelestialCoord Observation::get_declination() 
-{
-    return this->declination;
-}
-
-
 void Observation::set_date(Date date) 
 {
     this->date = date;
@@ -39,20 +27,20 @@ void Observation::set_code(std::string code)
 
 void Observation::set_ascension_from_string(std::string value) 
 {
-    this->ascension.set_from_string(value);
+    this->spherical_position.set_RA_in_hours_system_from_string(value);
 }
 
 
 void Observation::set_declination_from_string(std::string value) 
 {
-    this->declination.set_from_string(value);
+    this->spherical_position.set_DEC_in_hours_system_from_string(value);
 }
 
 
 void Observation::set_spherical(double longitude, double latitude) 
 {
-    this->spherical_position.set_longitude(longitude);
-    this->spherical_position.set_latitude(latitude);
+    this->spherical_position.set_right_ascension(longitude);
+    this->spherical_position.set_declination(latitude);
 }
 
 

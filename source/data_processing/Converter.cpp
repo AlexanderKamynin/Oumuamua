@@ -241,7 +241,7 @@ void Converter::spherical_to_geocentric(Observation* observation)
 {
     double cartesian_coord[3];
 
-    iauS2c(observation->get_spherical_position().get_longitude(), observation->get_spherical_position().get_latitude(), cartesian_coord);
+    iauS2c(observation->get_spherical_position().get_right_ascension(), observation->get_spherical_position().get_declination(), cartesian_coord);
 
     observation->set_geocentric(cartesian_coord[0] * EARTH_RADIUS, cartesian_coord[1] * EARTH_RADIUS, cartesian_coord[2] * EARTH_RADIUS);
 }
@@ -249,17 +249,18 @@ void Converter::spherical_to_geocentric(Observation* observation)
 
 
 /*
-    Convert celestial coordinates from "hours-minutes-seconds" system to degrees system and then to radians
+    Convert spherical coordinates from "hours-minutes-seconds" system to degrees system (radians)
 */
-void Converter::celestial_to_spherical(Observation* observation) 
+void Converter::hours_to_degrees_system(Observation* observation) 
 {
     // Convert from hours-system to degrees:
     // https://planetcalc.ru/7663/
-    double degrees = 15 * observation->get_ascension().get_hours();
-    double arcminutes = 0.25 * observation->get_ascension().get_minutes();
-    double arcseconds = 0.25 * observation->get_ascension().get_seconds();
+    double* RA_in_hours_system = observation->get_spherical_position().get_RA_in_hours_system();
+    double degrees = 15 * RA_in_hours_system[0];
+    double arcminutes = 0.25 * RA_in_hours_system[1];
+    double arcseconds = 0.25 * RA_in_hours_system[2];
     char sign;
-    if (observation->get_declination().get_hours() < 0)
+    if (RA_in_hours_system[0] < 0)
     {
         sign = '-';
     }
@@ -278,7 +279,9 @@ void Converter::celestial_to_spherical(Observation* observation)
     iauAf2a('+', degrees, arcminutes, arcseconds, &ascension);
 
 
-    if (observation->get_declination().get_hours() < 0) 
+    double* DEC_in_hours_system = observation->get_spherical_position().get_DEC_in_hours_system();
+
+    if (DEC_in_hours_system[0] < 0)
     {
         sign = '-';
     }
@@ -286,10 +289,10 @@ void Converter::celestial_to_spherical(Observation* observation)
     {
         sign = '+';
     }
-    
-    degrees = 15 * observation->get_declination().get_hours();
-    arcminutes = 0.25 * observation->get_declination().get_minutes();
-    arcseconds = 0.25 * observation->get_declination().get_seconds();
+
+    degrees = 15 * DEC_in_hours_system[0];
+    arcminutes = 0.25 * DEC_in_hours_system[1];
+    arcseconds = 0.25 * DEC_in_hours_system[2];
 
     arcminutes += int(arcseconds) / 60; // if arcseconds >= 60 then add to arcminutes
     arcseconds = arcseconds - int(arcseconds) / 60;
@@ -312,11 +315,11 @@ void Converter::celestial_to_spherical(Observation* observation)
 void Converter::barycentric_to_spherical(IntegrationVector* vector) 
 {
     double barycentric_coord[3] = { vector->get_barycentric_position().get_alpha(), vector->get_barycentric_position().get_beta(), vector->get_barycentric_position().get_gamma() };
-    double longitude;
-    double latitude;
+    double right_ascension;
+    double declination;
 
-    iauC2s(barycentric_coord, &longitude, &latitude);
-    vector->set_spherical_position(longitude, latitude);
+    iauC2s(barycentric_coord, &right_ascension, &declination);
+    vector->set_spherical_position(right_ascension, declination);
 }
 
 
@@ -328,11 +331,11 @@ void Converter::barycentric_to_spherical(IntegrationVector* vector)
 void Converter::barycentric_to_spherical(Observation* vector)
 {
     double barycentric_coord[3] = { vector->get_barycentric().get_alpha(), vector->get_barycentric().get_beta(), vector->get_barycentric().get_gamma() };
-    double longitude;
-    double latitude;
+    double right_ascension;
+    double declination;
 
-    iauC2s(barycentric_coord, &longitude, &latitude);
-    vector->set_spherical(longitude, latitude);
+    iauC2s(barycentric_coord, &right_ascension, &declination);
+    vector->set_spherical(right_ascension, declination);
 }
 
 

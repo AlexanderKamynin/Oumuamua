@@ -1,5 +1,4 @@
 #pragma once
-#include "CelestialCoord.h"
 #include "SphericalCoord.h"
 #include "BarycentricCoord.h"
 #include "GeocentricCoord.h"
@@ -18,8 +17,6 @@ class Observation
 private:
     Date date;
     std::string observatory_code;
-    CelestialCoord ascension; // store ascension in hours, minutes, seconds
-    CelestialCoord declination; // store ascension in hours, minutes, seconds
     SphericalCoord spherical_position;
     GeocentricCoord geocentric_position;
     BarycentricCoord barycentric_position;
@@ -38,8 +35,6 @@ public:
     //getters
     Date* get_date();
     std::string get_code();
-    CelestialCoord get_ascension();
-    CelestialCoord get_declination();
     SphericalCoord get_spherical_position();
     GeocentricCoord get_geocentric();
     BarycentricCoord get_barycentric();

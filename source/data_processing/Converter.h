@@ -31,7 +31,7 @@ public:
     // convert
     CartesianCoord cylindrical_to_cartesian(CylindricalCoord);
     GeocentricCoord cartesian_to_geocentric(CartesianCoord, Date, EarthRotation);
-    void celestial_to_spherical(Observation*);
+    void hours_to_degrees_system(Observation*);
     void barycentric_to_spherical(IntegrationVector*);
     void barycentric_to_spherical(Observation*);
     void spherical_to_geocentric(Observation*);

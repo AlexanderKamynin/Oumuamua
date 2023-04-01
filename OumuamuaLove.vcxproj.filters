@@ -786,9 +786,6 @@
     <ClCompile Include="source\measure\time\Date.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\measure\coords\CelestialCoord.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="source\measure\coords\Observation.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
@@ -846,9 +843,6 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="source\measure\time\Date.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="source\measure\coords\CelestialCoord.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="source\measure\coords\Observation.h">

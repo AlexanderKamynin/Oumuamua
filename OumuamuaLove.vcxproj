@@ -139,7 +139,6 @@
     <ClCompile Include="source\measure\coords\GeocentricCoord.cpp" />
     <ClCompile Include="source\measure\time\InterpolationTime.cpp" />
     <ClCompile Include="source\measure\time\Date.cpp" />
-    <ClCompile Include="source\measure\coords\CelestialCoord.cpp" />
     <ClCompile Include="source\measure\coords\Observation.cpp" />
     <ClCompile Include="source\data_processing\DataReader.cpp" />
     <ClCompile Include="source\measure\coords\CylindricalCoord.cpp" />
@@ -408,7 +407,6 @@
     <ClInclude Include="source\measure\coords\GeocentricCoord.h" />
     <ClInclude Include="source\measure\time\InterpolationTime.h" />
     <ClInclude Include="source\measure\time\Date.h" />
-    <ClInclude Include="source\measure\coords\CelestialCoord.h" />
     <ClInclude Include="source\measure\coords\Observation.h" />
     <ClInclude Include="source\data_processing\DataReader.h" />
     <ClInclude Include="source\measure\coords\CylindricalCoord.h" />

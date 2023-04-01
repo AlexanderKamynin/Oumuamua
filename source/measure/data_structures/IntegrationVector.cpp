@@ -9,10 +9,10 @@ void IntegrationVector::set_barycentric_position(double alpha, double beta, doub
 }
 
 
-void IntegrationVector::set_spherical_position(double longitude, double latitude)
+void IntegrationVector::set_spherical_position(double RA, double DEC)
 {
-    this->spherical_position.set_longitude(longitude);
-    this->spherical_position.set_latitude(latitude);
+    this->spherical_position.set_right_ascension(RA);
+    this->spherical_position.set_declination(DEC);
 }
 
 
