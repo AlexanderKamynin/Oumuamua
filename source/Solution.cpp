@@ -17,6 +17,7 @@ void Solution::read_data()
     data_reader.read_hubble_data();
     data_reader.read_interpolation_time_data();
 
+
     data_reader.read_interpolation_center_planet("./input_data/earth.txt", "earth");
     data_reader.read_interpolation_center_planet("./input_data/sun.txt", "sun");
     data_reader.read_interpolation_center_planet("./input_data/jupyter.txt", "jupiter");
