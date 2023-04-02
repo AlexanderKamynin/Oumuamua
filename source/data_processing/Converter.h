@@ -42,7 +42,7 @@ public:
     // interpolation
     void interpolation_time(std::vector<Observation>*, std::vector<InterpolationTime>);
     std::vector<IntegrationVector> interpolation_model_on_grid(std::vector<Observation>, std::vector<IntegrationVector>);
-    BarycentricCoord interpolation_Earth_center(Date, GeocentricCoord, std::vector<IntegrationVector>);
+    BarycentricCoord interpolation_Earth_center(Date, std::vector<IntegrationVector>);
     std::map<std::string, std::vector<IntegrationVector>> interpolation_center_planet(Date*, Date*, double, std::map<std::string, std::vector<IntegrationVector>>);
 
     //@TODO added the method for correct the data (light time correction, Gravitational deflection of light, Light aberration)
