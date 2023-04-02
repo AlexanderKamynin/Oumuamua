@@ -35,14 +35,14 @@ public:
 
     //setters
     void set_barycentric_position(double, double, double);
-    void set_spherical_position(double, double);
+    //void set_spherical_position(double, double);
     void set_velocity(double, double, double);
     void set_date(Date);
 
 
-    //getters
+    //geters
     BarycentricCoord get_barycentric_position();
-    SphericalCoord get_spherical_position();
+    //SphericalCoord get_spherical_position();
     Velocity get_velocity();
     Date get_date();
 
