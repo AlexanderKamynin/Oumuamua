@@ -129,6 +129,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="source\data_processing\LightCorrector.cpp" />
     <ClCompile Include="source\measure\data_structures\EarthRotation.cpp" />
     <ClCompile Include="source\Solution.cpp" />
     <ClCompile Include="source\measure\data_structures\IntegrationVector.cpp" />
@@ -396,6 +397,7 @@
     <ClCompile Include="source\measure\movement\Velocity.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="source\data_processing\LightCorrector.h" />
     <ClInclude Include="source\measure\data_structures\EarthRotation.h" />
     <ClInclude Include="source\Helpers.h" />
     <ClInclude Include="source\Solution.h" />

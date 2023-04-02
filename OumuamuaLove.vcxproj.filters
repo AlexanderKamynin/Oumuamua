@@ -810,6 +810,9 @@
     <ClCompile Include="source\measure\data_structures\EarthRotation.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="source\data_processing\LightCorrector.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sofa\src\sofa.h">
@@ -870,6 +873,9 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="source\measure\data_structures\EarthRotation.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="source\data_processing\LightCorrector.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

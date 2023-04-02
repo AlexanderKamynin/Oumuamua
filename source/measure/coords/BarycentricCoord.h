@@ -20,7 +20,7 @@ private:
     Helpers help;
 public:
     BarycentricCoord() = default;
-
+    BarycentricCoord(double a, double b, double g) : alpha(a), beta(b), gamma(g) {};
 
     //getters
     double get_alpha();

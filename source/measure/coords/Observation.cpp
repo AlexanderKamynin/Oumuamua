@@ -51,6 +51,11 @@ void Observation::set_barycentric(double alpha, double beta, double gamma)
     this->barycentric_position.set_gamma(gamma);
 }
 
+void Observation::set_barycentric(BarycentricCoord coordinates)
+{
+    this->set_barycentric(coordinates.get_alpha(), coordinates.get_beta(), coordinates.get_gamma());
+}
+
 
 void Observation::set_geocentric(double x, double y, double z)
 {
