@@ -335,51 +335,11 @@ void Converter::barycentric_to_spherical(IntegrationVector* vector, std::vector<
     double declination;
 
     iauC2s(barycentric_coord, &right_ascension, &declination);
-
-
-
     SphericalCoord temp_coords;
     temp_coords.set_declination(declination);
     temp_coords.set_right_ascension(right_ascension);
-
     coords->push_back(temp_coords);
-
-    /*coords->set_declination(declination);
-    coords->set_right_ascension(right_ascension);*/
-    //vector->set_spherical_position(right_ascension, declination);
 }
-
-//void Converter::set_spherical(SphericalCoord* coords)
-//{
-//    coords->set_declination(dec)
-//
-//}
-
-
-
-/*
-    Convert from barycentric to spherical coodinates
-    Method for Observation
-*/
-void Converter::barycentric_to_spherical(Observation* vector, std::vector<SphericalCoord>* coords)
-{
-    double barycentric_coord[3] = { vector->get_barycentric().get_alpha(), vector->get_barycentric().get_beta(), vector->get_barycentric().get_gamma() };
-    double right_ascension;
-    double declination;
-
-    iauC2s(barycentric_coord, &right_ascension, &declination);
-
-    SphericalCoord temp_coords;
-    temp_coords.set_declination(declination);
-    temp_coords.set_right_ascension(right_ascension);
-
-    coords->push_back(temp_coords);
-
-    /*coords->set_declination(declination);
-    coords->set_right_ascension(right_ascension);*/
-    //vector->set_spherical_position(right_ascension, declination);
-}
-
 
 
 /*

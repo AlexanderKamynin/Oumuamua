@@ -33,14 +33,8 @@ public:
     GeocentricCoord cartesian_to_geocentric(CartesianCoord, Date, EarthRotation);
     void hours_to_degrees_system(Observation*);
     void barycentric_to_spherical(IntegrationVector* vector, std::vector<SphericalCoord>* coords);
-    //void barycentric_to_spherical(IntegrationVector* vector, SphericalCoord* coords);
-    //void barycentric_to_spherical(IntegrationVector*);
-    //void set_spherical(SphericalCoord* coords);
-    //void barycentric_to_spherical(Observation*);
     void spherical_to_geocentric(Observation*);
     void UTC_to_TT(Date*);
-    //void barycentric_to_spherical(Observation* vector, SphericalCoord* coords);
-    void barycentric_to_spherical(Observation* vector, std::vector<SphericalCoord>* coords);
     void geo_to_bary_for_base_measure(std::vector<Observation>*, std::map<std::string, Observatory>*, std::vector<EarthRotation>*, std::vector<HubbleData>, std::vector<IntegrationVector>);
 
 
@@ -50,8 +44,6 @@ public:
     BarycentricCoord interpolation_Earth_center(Date, std::vector<IntegrationVector>);
     std::map<std::string, std::vector<IntegrationVector>> interpolation_center_planet(Date*, Date*, double, std::map<std::string, std::vector<IntegrationVector>>);
 
-    //@TODO added the method for correct the data (light time correction, Gravitational deflection of light, Light aberration)
-    
     // others
     GeocentricCoord find_needed_hubble_data(Date, std::vector<HubbleData>);
 };

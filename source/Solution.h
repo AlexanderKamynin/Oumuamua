@@ -30,7 +30,4 @@ public:
     // integration
     void integrate();
     void write_result(std::vector<IntegrationVector> model, std::vector<IntegrationVector> base_measures, std::vector<SphericalCoord> model_spherical, std::vector<SphericalCoord> base_spherical);
-    //void write_result(std::vector<IntegrationVector> model, std::vector<IntegrationVector> base_measures, std::vector<SphericalCoord> spherical);
-    // outputting data
-    //void write_result(std::vector<IntegrationVector>, std::vector<IntegrationVector>);
 };
