@@ -35,14 +35,15 @@ public:
     void barycentric_to_spherical(IntegrationVector* vector, std::vector<SphericalCoord>* coords);
     void spherical_to_geocentric(Observation*);
     void UTC_to_TT(Date*);
+    void interpolation_time(Date* date_start, std::vector<Observation>* observations, std::vector<InterpolationTime> time);
     void geo_to_bary_for_base_measure(std::vector<Observation>*, std::map<std::string, Observatory>*, std::vector<EarthRotation>*, std::vector<HubbleData>, std::vector<IntegrationVector>);
 
 
     // interpolation
     void interpolation_time(std::vector<Observation>*, std::vector<InterpolationTime>);
-    std::vector<IntegrationVector> interpolation_model_on_grid(std::vector<Observation>, std::vector<IntegrationVector>);
-    BarycentricCoord interpolation_Earth_center(Date, std::vector<IntegrationVector>);
+    BarycentricCoord interpolation_Earth_center(Date date_current, Date date_start, std::vector<IntegrationVector> earth_position);
     BarycentricCoord interpolation_bary_helper(IntegrationVector position_previous, IntegrationVector position_current, Date date);
+    std::vector<IntegrationVector> interpolation_model_on_grid(std::vector<Observation> observation_vector, Date* date_start, std::vector<IntegrationVector> interpolation_orbits);
     std::map<std::string, std::vector<IntegrationVector>> interpolation_center_planet(Date*, Date*, double, std::map<std::string, std::vector<IntegrationVector>>);
 
     // others
