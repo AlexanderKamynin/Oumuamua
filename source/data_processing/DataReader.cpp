@@ -28,7 +28,7 @@ void DataReader::read_observations()
     }
 
     file.close();
-    std::cout << "Observation readed: " << observations.size() << " \n";
+    std::cout << "Observation read: " << observations.size() << " \n";
 }
 
 
@@ -59,7 +59,7 @@ void DataReader::read_observatory_data()
     }
 
     file.close();
-    std::cout << "Observatory readed: " << observatory.size() << " \n";
+    std::cout << "Observatory read: " << observatory.size() << " \n";
 }
 
 
@@ -91,7 +91,7 @@ void DataReader::read_hubble_data()
     }
 
     file.close();
-    std::cout << "Hubble readed: " << interpolation_hubble.size() << " \n";
+    std::cout << "Hubble read: " << interpolation_hubble.size() << " \n";
 }
 
 
@@ -118,7 +118,7 @@ void DataReader::read_interpolation_time_data()
     }
 
     file.close();
-    std::cout << "Interpolation Time Readed: " << interpolation_time.size() << " \n";
+    std::cout << "Interpolation time read: " << interpolation_time.size() << " \n";
 }
 
 
@@ -141,7 +141,7 @@ void DataReader::read_interpolation_center_planet(std::string filename, std::str
             planet_data.set_barycentric_position(planet_position[0], planet_position[1], planet_position[2]);
             planet.push_back(planet_data);
         }
-        std::cout << "Planet <" << name << "> readed " << planet.size() << " \n";
+        std::cout << "Planet <" << name << "> read " << planet.size() << " \n";
         InterpolationPlanets[name] = planet;
     }
     else
@@ -179,7 +179,7 @@ void DataReader::read_earth_rotation()
     }
 
     file.close();
-    std::cout << "Earth rotation Readed: " << earth_rotation.size() << " \n";
+    std::cout << "Earth rotation information read: " << earth_rotation.size() << " \n";
 }
 
 
