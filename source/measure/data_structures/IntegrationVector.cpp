@@ -9,11 +9,11 @@ void IntegrationVector::set_barycentric_position(double alpha, double beta, doub
 }
 
 
-void IntegrationVector::set_spherical_position(double RA, double DEC)
-{
-    this->spherical_position.set_right_ascension(RA);
-    this->spherical_position.set_declination(DEC);
-}
+//void IntegrationVector::set_spherical_position(double RA, double DEC)
+//{
+//    this->spherical_position.set_right_ascension(RA);
+//    this->spherical_position.set_declination(DEC);
+//}
 
 
 void IntegrationVector::set_velocity(double vx, double vy, double vz) 
@@ -34,10 +34,10 @@ BarycentricCoord IntegrationVector::get_barycentric_position()
 }
 
 
-SphericalCoord IntegrationVector::get_spherical_position() 
-{
-    return this->spherical_position;
-}
+//SphericalCoord IntegrationVector::get_spherical_position() 
+//{
+//    return this->spherical_position;
+//}
 
 
 Velocity IntegrationVector::get_velocity() 

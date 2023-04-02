@@ -328,15 +328,32 @@ void Converter::hours_to_degrees_system(Observation* observation)
     Convert from barycentric to spherical coodinates
     Method for IntegrationVector
 */
-void Converter::barycentric_to_spherical(IntegrationVector* vector) 
+void Converter::barycentric_to_spherical(IntegrationVector* vector, std::vector<SphericalCoord>* coords)
 {
     double barycentric_coord[3] = { vector->get_barycentric_position().get_alpha(), vector->get_barycentric_position().get_beta(), vector->get_barycentric_position().get_gamma() };
     double right_ascension;
     double declination;
 
     iauC2s(barycentric_coord, &right_ascension, &declination);
-    vector->set_spherical_position(right_ascension, declination);
+
+
+
+    SphericalCoord temp_coords;
+    temp_coords.set_declination(declination);
+    temp_coords.set_right_ascension(right_ascension);
+
+    coords->push_back(temp_coords);
+
+    /*coords->set_declination(declination);
+    coords->set_right_ascension(right_ascension);*/
+    //vector->set_spherical_position(right_ascension, declination);
 }
+
+//void Converter::set_spherical(SphericalCoord* coords)
+//{
+//    coords->set_declination(dec)
+//
+//}
 
 
 
@@ -344,14 +361,23 @@ void Converter::barycentric_to_spherical(IntegrationVector* vector)
     Convert from barycentric to spherical coodinates
     Method for Observation
 */
-void Converter::barycentric_to_spherical(Observation* vector)
+void Converter::barycentric_to_spherical(Observation* vector, std::vector<SphericalCoord>* coords)
 {
     double barycentric_coord[3] = { vector->get_barycentric().get_alpha(), vector->get_barycentric().get_beta(), vector->get_barycentric().get_gamma() };
     double right_ascension;
     double declination;
 
     iauC2s(barycentric_coord, &right_ascension, &declination);
-    vector->set_spherical(right_ascension, declination);
+
+    SphericalCoord temp_coords;
+    temp_coords.set_declination(declination);
+    temp_coords.set_right_ascension(right_ascension);
+
+    coords->push_back(temp_coords);
+
+    /*coords->set_declination(declination);
+    coords->set_right_ascension(right_ascension);*/
+    //vector->set_spherical_position(right_ascension, declination);
 }
 
 

@@ -32,10 +32,15 @@ public:
     CartesianCoord cylindrical_to_cartesian(CylindricalCoord);
     GeocentricCoord cartesian_to_geocentric(CartesianCoord, Date, EarthRotation);
     void hours_to_degrees_system(Observation*);
-    void barycentric_to_spherical(IntegrationVector*);
-    void barycentric_to_spherical(Observation*);
+    void barycentric_to_spherical(IntegrationVector* vector, std::vector<SphericalCoord>* coords);
+    //void barycentric_to_spherical(IntegrationVector* vector, SphericalCoord* coords);
+    //void barycentric_to_spherical(IntegrationVector*);
+    //void set_spherical(SphericalCoord* coords);
+    //void barycentric_to_spherical(Observation*);
     void spherical_to_geocentric(Observation*);
     void UTC_to_TT(Date*);
+    //void barycentric_to_spherical(Observation* vector, SphericalCoord* coords);
+    void barycentric_to_spherical(Observation* vector, std::vector<SphericalCoord>* coords);
     void geo_to_bary_for_base_measure(std::vector<Observation>*, std::map<std::string, Observatory>*, std::vector<EarthRotation>*, std::vector<HubbleData>, std::vector<IntegrationVector>);
 
 

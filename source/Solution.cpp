@@ -73,7 +73,7 @@ void Solution::integrate()
         base_vector.set_barycentric_position(data_reader.get_observations_vector()[i].get_barycentric().get_alpha(), data_reader.get_observations_vector()[i].get_barycentric().get_beta(), data_reader.get_observations_vector()[i].get_barycentric().get_gamma());
         base_measures.push_back(base_vector);
     }
-    
+
     for (int i = 0; i < model_measures.size(); i++)
     {
         converter.barycentric_to_spherical(&model_measures[i], &model_spherical);
