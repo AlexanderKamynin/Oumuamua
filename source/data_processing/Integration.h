@@ -61,7 +61,8 @@ private:
     std::vector<std::string> planet_list = { "earth", "sun", "jupiter" };
 
     Helpers help;
+    Date date_start;
 public:
-    IntegrationVector derivate_function(double, IntegrationVector, std::map<std::string, std::vector<IntegrationVector>>*);
+    IntegrationVector derivate_function(IntegrationVector, std::map<std::string, std::vector<IntegrationVector>>*);
     std::vector<IntegrationVector> dormand_prince(IntegrationVector, Date*, Date*, double, std::map<std::string, std::vector<IntegrationVector>>*);
 };

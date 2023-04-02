@@ -66,6 +66,7 @@ IntegrationVector operator+(IntegrationVector vector1, IntegrationVector vector2
     IntegrationVector result;
     result.barycentric_position = vector1.barycentric_position + vector2.barycentric_position;
     result.velocity = vector1.velocity + vector2.velocity;
+    result.date = vector1.date;
     return result;
 }
 
