@@ -1,5 +1,5 @@
 #include "Converter.h"
-
+    
 
 
 /* 
@@ -150,104 +150,6 @@ GeocentricCoord Converter::cartesian_to_geocentric(CartesianCoord position, Date
 
     return geocentric_position;
 };
-
-
-
-/*
-    Interpolation of Earth center coordinates
-*/
-BarycentricCoord Converter::interpolation_Earth_center(Date date, std::vector<IntegrationVector> earth_position)
-{
-    double interpolation_alpha_term;
-    double interpolation_beta_term;
-    double interpolation_gamma_term;
-
-    for (int i = 0; i < earth_position.size(); i++)
-    {
-        if (date.get_MJD() < earth_position[i].get_date().get_MJD())
-        {
-            double f_current = earth_position[i].get_barycentric_position().get_alpha();
-            double f_previous = earth_position[i - 1].get_barycentric_position().get_alpha();
-            double t_current = earth_position[i].get_date().get_MJD();
-            double t_previous = earth_position[i - 1].get_date().get_MJD();
-            double t_interpolate = date.get_MJD();
-            interpolation_alpha_term = f_previous + (f_current - f_previous) / (t_current - t_previous) * (t_interpolate - t_previous);
-
-            f_current = earth_position[i].get_barycentric_position().get_beta();
-            f_previous = earth_position[i - 1].get_barycentric_position().get_beta();
-            interpolation_beta_term = f_previous + (f_current - f_previous) / (t_current - t_previous) * (t_interpolate - t_previous);
-
-            f_current = earth_position[i].get_barycentric_position().get_gamma();
-            f_previous = earth_position[i - 1].get_barycentric_position().get_gamma();
-            interpolation_gamma_term = f_previous + (f_current - f_previous) / (t_current - t_previous) * (t_interpolate - t_previous);
-
-            BarycentricCoord interpolated_position;
-            interpolated_position.set_alpha(interpolation_alpha_term);
-            interpolated_position.set_beta(interpolation_beta_term);
-            interpolated_position.set_gamma(interpolation_gamma_term);
-            return interpolated_position;
-        }
-    }
-}
-
-
-
-/*
-    Interpolation all center planets coordinates
-*/
-std::map<std::string, std::vector<IntegrationVector>> Converter::interpolation_center_planet(Date* date_start, Date* date_end, double step, std::map<std::string, std::vector<IntegrationVector>> planets_position)
-{
-    double interpolation_alpha_term;
-    double interpolation_beta_term;
-    double interpolation_gamma_term;
-    std::map<std::string, std::vector<IntegrationVector>> interpolated_planet;
-
-
-    for (auto interpolation_planet : planets_position)
-    {
-        Date current_date = *date_start;
-        int last = 0;
-        std::vector<IntegrationVector> interpolated_center_planet;
-
-        while (current_date.get_MJD() < date_end->get_MJD() + 1)
-        {
-            for (int j = last; j < interpolation_planet.second.size(); j++)
-            {
-                if (current_date.get_MJD() < (interpolation_planet.second[j].get_date()).get_MJD())
-                {
-                    last = j - 1;
-                    double f_current = interpolation_planet.second[j].get_barycentric_position().get_alpha();
-                    double f_previous = interpolation_planet.second[last].get_barycentric_position().get_alpha();
-                    double t_current = interpolation_planet.second[j].get_date().get_MJD();
-                    double t_previous = interpolation_planet.second[last].get_date().get_MJD();
-                    double t_interpolate = current_date.get_MJD();
-
-                    IntegrationVector interpolated_position;
-
-                    interpolation_alpha_term = f_previous + (f_current - f_previous) / (t_current - t_previous) * (t_interpolate - t_previous);
-
-                    f_current = interpolation_planet.second[j].get_barycentric_position().get_beta();
-                    f_previous = interpolation_planet.second[last].get_barycentric_position().get_beta();
-                    interpolation_beta_term = f_previous + (f_current - f_previous) / (t_current - t_previous) * (t_interpolate - t_previous);
-
-                    f_current = interpolation_planet.second[j].get_barycentric_position().get_gamma();
-                    f_previous = interpolation_planet.second[last].get_barycentric_position().get_gamma();
-                    interpolation_gamma_term = f_previous + (f_current - f_previous) / (t_current - t_previous) * (t_interpolate - t_previous);
-
-                    interpolated_position.set_date(current_date);
-                    interpolated_position.set_barycentric_position(interpolation_alpha_term, interpolation_beta_term, interpolation_gamma_term);
-                    interpolated_center_planet.push_back(interpolated_position);
-
-                    current_date.set_MJD(current_date.get_MJD() + step);
-                    break;
-                }
-            }
-        }
-        interpolated_planet[interpolation_planet.first] = interpolated_center_planet;
-    }
-    return interpolated_planet;
-}
-
 
 
 /*
@@ -403,12 +305,8 @@ void Converter::geo_to_bary_for_base_measure(std::vector<Observation>* observati
 */
 std::vector<IntegrationVector> Converter::interpolation_model_on_grid(std::vector<Observation> observation_vector, std::vector<IntegrationVector> interpolation_orbits) 
 {
-    double interpolation_alpha_term;
-    double interpolation_beta_term;
-    double interpolation_gamma_term;
     int last = 0;
     std::vector<IntegrationVector> result;
-
     for (int i = 0; i < observation_vector.size(); i++)
     {
         IntegrationVector interpolated_vector;
@@ -417,24 +315,10 @@ std::vector<IntegrationVector> Converter::interpolation_model_on_grid(std::vecto
             if (observation_vector[i].get_date()->get_MJD() < interpolation_orbits[j].get_date().get_MJD())
             {
                 last = j - 1;
-                double f_current = interpolation_orbits[j].get_barycentric_position().get_alpha();
-                double f_previous = interpolation_orbits[j - 1].get_barycentric_position().get_alpha();
-                double t_current = interpolation_orbits[j].get_date().get_MJD();
-                double t_previous = interpolation_orbits[j - 1].get_date().get_MJD();
-                double t_interpolate = observation_vector[i].get_date()->get_MJD();
-                interpolation_alpha_term = f_previous + (f_current - f_previous) / (t_current - t_previous) * (t_interpolate - t_previous);
-
-                f_current = interpolation_orbits[j].get_barycentric_position().get_beta();
-                f_previous = interpolation_orbits[j - 1].get_barycentric_position().get_beta();
-                interpolation_beta_term = f_previous + (f_current - f_previous) / (t_current - t_previous) * (t_interpolate - t_previous);
-
-                f_current = interpolation_orbits[j].get_barycentric_position().get_gamma();
-                f_previous = interpolation_orbits[j - 1].get_barycentric_position().get_gamma();
-                interpolation_gamma_term = f_previous + (f_current - f_previous) / (t_current - t_previous) * (t_interpolate - t_previous);
-
+                BarycentricCoord interpolated_position = interpolation_bary_helper(interpolation_orbits[j], interpolation_orbits[j - 1], *observation_vector[i].get_date());
                 Date new_date = *observation_vector[i].get_date();
                 interpolated_vector.set_date(new_date);
-                interpolated_vector.set_barycentric_position(interpolation_alpha_term, interpolation_beta_term, interpolation_gamma_term);
+                interpolated_vector.set_barycentric_position(interpolated_position.get_alpha(), interpolated_position.get_beta(), interpolated_position.get_gamma());
                 interpolated_vector.set_velocity(interpolation_orbits[j].get_velocity().get_vx(), interpolation_orbits[j].get_velocity().get_vy(), interpolation_orbits[j].get_velocity().get_vz());
                 result.push_back(interpolated_vector);
                 break;
@@ -442,4 +326,80 @@ std::vector<IntegrationVector> Converter::interpolation_model_on_grid(std::vecto
         }
     }
     return result;
+}
+
+
+/*
+    Interpolation all center planets coordinates
+*/
+std::map<std::string, std::vector<IntegrationVector>> Converter::interpolation_center_planet(Date* date_start, Date* date_end, double step, std::map<std::string, std::vector<IntegrationVector>> planets_position)
+{
+    std::map<std::string, std::vector<IntegrationVector>> interpolated_planet;
+    for (auto interpolation_planet : planets_position)
+    {
+        Date current_date = *date_start;
+        int last = 0;
+        std::vector<IntegrationVector> interpolated_center_planet;
+
+        while (current_date.get_MJD() < date_end->get_MJD() + 1)
+        {
+            for (int j = last; j < interpolation_planet.second.size(); j++)
+            {
+                if (current_date.get_MJD() < (interpolation_planet.second[j].get_date()).get_MJD())
+                {
+                    last = j - 1;
+                    BarycentricCoord interpolated_position_1 = interpolation_bary_helper(interpolation_planet.second[j], interpolation_planet.second[j - 1], current_date);
+                    IntegrationVector interpolated_position;         
+                    interpolated_position.set_date(current_date);
+                    interpolated_position.set_barycentric_position(interpolated_position_1.get_alpha(), interpolated_position_1.get_beta(), interpolated_position_1.get_gamma());
+                    interpolated_center_planet.push_back(interpolated_position);
+                    current_date.set_MJD(current_date.get_MJD() + step);
+                    break;
+                }
+            }
+        }
+        interpolated_planet[interpolation_planet.first] = interpolated_center_planet;
+    }
+    return interpolated_planet;
+}
+
+/*
+    Interpolation of Earth center coordinates
+*/
+BarycentricCoord Converter::interpolation_Earth_center(Date date, std::vector<IntegrationVector> earth_position)
+{
+    for (int i = 0; i < earth_position.size(); i++)
+    {
+        if (date.get_MJD() < earth_position[i].get_date().get_MJD())
+        {
+            BarycentricCoord interpolated_position = interpolation_bary_helper(earth_position[i], earth_position[i - 1], date);            
+            return interpolated_position;
+        }
+    }
+}
+
+
+BarycentricCoord Converter::interpolation_bary_helper(IntegrationVector position_previous, IntegrationVector position_current, Date date)
+{
+    double f_current = position_current.get_barycentric_position().get_alpha();
+    double f_previous = position_previous.get_barycentric_position().get_alpha();
+    double t_current = position_current.get_date().get_MJD();
+    double t_previous = position_previous.get_date().get_MJD();
+    double t_interpolate = date.get_MJD();
+
+    double interpolation_alpha_term = f_previous + (f_current - f_previous) / (t_current - t_previous) * (t_interpolate - t_previous);
+
+    f_current = position_current.get_barycentric_position().get_beta();
+    f_previous = position_previous.get_barycentric_position().get_beta();
+    double interpolation_beta_term = f_previous + (f_current - f_previous) / (t_current - t_previous) * (t_interpolate - t_previous);
+
+    f_current = position_current.get_barycentric_position().get_gamma();
+    f_previous = position_previous.get_barycentric_position().get_gamma();
+    double interpolation_gamma_term = f_previous + (f_current - f_previous) / (t_current - t_previous) * (t_interpolate - t_previous);
+
+    BarycentricCoord interpolated_position;
+    interpolated_position.set_alpha(interpolation_alpha_term);
+    interpolated_position.set_beta(interpolation_beta_term);
+    interpolated_position.set_gamma(interpolation_gamma_term);
+    return interpolated_position;
 }
