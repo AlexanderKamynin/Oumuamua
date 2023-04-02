@@ -20,7 +20,8 @@ IntegrationVector Integration::derivate_function(double t, IntegrationVector cur
                 //                    -->
                 //  a = dv / dx = GM * ri / ri ^ 3
                 //@CORRECT
-                a = a + this->GM[planet_name] * (planet_coordinates - Oumuamua_coordinates) / help.POW_3((planet_coordinates - Oumuamua_coordinates).length());
+
+                a = a + this->GM[planet_name] * (Oumuamua_coordinates - planet_coordinates) / help.POW_3((Oumuamua_coordinates - planet_coordinates).length());
             }
             break;
         }

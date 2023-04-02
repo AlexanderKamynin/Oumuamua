@@ -72,9 +72,9 @@ BarycentricCoord operator+(BarycentricCoord coordinate_1, BarycentricCoord coord
 BarycentricCoord operator-(BarycentricCoord coordinate_1, BarycentricCoord coordinate_2)
 {
     BarycentricCoord result;
-    result.alpha = std::abs(coordinate_1.alpha - coordinate_2.alpha);
-    result.beta = std::abs(coordinate_1.beta - coordinate_2.beta);
-    result.gamma = std::abs(coordinate_1.gamma - coordinate_2.gamma);
+    result.alpha = coordinate_1.alpha - coordinate_2.alpha;
+    result.beta = coordinate_1.beta - coordinate_2.beta;
+    result.gamma = coordinate_1.gamma - coordinate_2.gamma;
     return result;
 }
 
