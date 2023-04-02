@@ -62,6 +62,6 @@ private:
 
     Helpers help;
 public:
-    IntegrationVector derivate_function(double, IntegrationVector, std::map<std::string, std::vector<IntegrationVector>>);
-    std::vector<IntegrationVector> dormand_prince(IntegrationVector, Date*, Date*, double, std::map<std::string, std::vector<IntegrationVector>>);
+    IntegrationVector derivate_function(double, IntegrationVector, std::map<std::string, std::vector<IntegrationVector>>*);
+    std::vector<IntegrationVector> dormand_prince(IntegrationVector, Date*, Date*, double, std::map<std::string, std::vector<IntegrationVector>>*);
 };

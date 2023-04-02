@@ -1,31 +1,32 @@
 #include "Integration.h"
 
 
-IntegrationVector Integration::derivate_function(double t, IntegrationVector current_condition, std::map<std::string, std::vector<IntegrationVector>> planets)
+IntegrationVector Integration::derivate_function(double t, IntegrationVector current_condition, std::map<std::string, std::vector<IntegrationVector>>* planets)
 {
     IntegrationVector d_vector;
     BarycentricCoord a; // acceleration
 
-    for (int i = 0; i < planets["earth"].size(); i++)
+    for (int i = 0; i < planets->at("earth").size(); i++)
     {
-        if (planets["earth"][i].get_date().get_MJD() > t)
+        if (planets->at("earth")[i].get_date().get_MJD() > t)
         {
             i = i - 1;
             for (std::string planet_name : this->planet_list)
             {
-                BarycentricCoord planet_coordinates = planets[planet_name][1].get_barycentric_position();
+                //@CORRECT
+                BarycentricCoord planet_coordinates = planets->at(planet_name)[i].get_barycentric_position();
                 BarycentricCoord Oumuamua_coordinates = current_condition.get_barycentric_position();
-                // Formula Newtona:
-                //                -->
+                // Newton's formula:
+                //                    -->
                 //  a = dv / dx = GM * ri / ri ^ 3
-                a = a + this->GM[planet_name] * (planet_coordinates - Oumuamua_coordinates) / help.POW_3(planet_coordinates.length() - Oumuamua_coordinates.length());
+                //@CORRECT
+                a = a + this->GM[planet_name] * (planet_coordinates - Oumuamua_coordinates) / help.POW_3((planet_coordinates - Oumuamua_coordinates).length());
             }
             break;
         }
     }
 
-    // Na coordinatach ya ne soshel s uma
-    //@TODO Add an explanation for the lines below
+
     d_vector.set_barycentric_position(current_condition.get_velocity().get_vx(), current_condition.get_velocity().get_vy(), current_condition.get_velocity().get_vz());
     d_vector.set_velocity(a.get_alpha(), a.get_beta(), a.get_gamma());
 
@@ -36,7 +37,7 @@ IntegrationVector Integration::derivate_function(double t, IntegrationVector cur
 /*
     Method for numerical integrate
 */
-std::vector<IntegrationVector> Integration::dormand_prince(IntegrationVector initial_condition, Date* start, Date* end, double step, std::map<std::string, std::vector<IntegrationVector>> planets)
+std::vector<IntegrationVector> Integration::dormand_prince(IntegrationVector initial_condition, Date* start, Date* end, double step, std::map<std::string, std::vector<IntegrationVector>>* planets)
 {
     IntegrationVector k1, k2, k3, k4, k5, k6, k7;
     std::vector<IntegrationVector> result;
