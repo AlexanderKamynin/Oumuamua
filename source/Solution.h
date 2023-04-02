@@ -30,5 +30,5 @@ public:
     // integration
     void integrate();
     // outputting data
-    void write_result(std::vector<IntegrationVector>, std::vector<IntegrationVector>);
+    void write_result(std::vector<IntegrationVector> model, std::vector<IntegrationVector> base_measures, std::vector<SphericalCoord> model_spherical, std::vector<SphericalCoord> base_spherical);
 };

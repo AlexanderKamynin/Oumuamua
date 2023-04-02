@@ -11,7 +11,7 @@ class InterpolationTime
 {
 private:
     Date date;
-    double TT_TDB; // dinamic barycentric time
+    double TT_TDB; // dynamical barycentric time
 public:
     InterpolationTime() = default;
 

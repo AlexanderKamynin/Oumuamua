@@ -46,13 +46,10 @@ void Converter::UTC_to_TT(Date* date)
     {
         /*
             TT = TAI + 32.184,
-            we have TAI - UTC, so:
-            TT = deltat + MJD + 32.184;
-
-            for ease of calculation we use MJD instead of UTC
-
+            UTC -> MJD
+            TT = MJD + (delta + 32.184s) / 86400;
         */
-        date->set_TT(date->get_MJD() + deltat + 32.184);
+        date->set_TT(date->get_MJD() + (deltat + 32.184) / 86400); // TT in days
     }
 }
 
@@ -66,7 +63,7 @@ void Converter::interpolation_time(std::vector<Observation>* observations, std::
     double interpolation_time_term;
     int last = 0;
 
-    for (int i = 0; i < observations->size(); i++) 
+    for (int i = 0; i < observations->size(); i++)
     {
         for (int j = last; j < time.size(); j++)
         {
@@ -80,7 +77,16 @@ void Converter::interpolation_time(std::vector<Observation>* observations, std::
                 double t_interpolate = observations->at(i).get_date()->get_MJD();
 
                 interpolation_time_term = f_previous + (f_current - f_previous) / (t_current - t_previous) * (t_interpolate - t_previous);
-                observations->at(i).get_date()->set_TDB_from_TT_TDB(interpolation_time_term);
+                /*  interpolation_time_term = TT - TDB
+                    we want to get to TDB, so multiply on -1 both sides:
+                    - interpolation_time_term = TDB - TT
+                    add to both sides TT, then
+                    TDB = TT - interpolation_time_term
+
+                    TT in days, interpolation_time_term in ms, so we should interpolation_time_term / 86400000
+                */
+                double TDB = observations->at(i).get_date()->get_TT() - (interpolation_time_term / 86400000);
+                observations->at(i).get_date()->set_TDB(TDB);
                 break;
             }
         }
@@ -112,8 +118,18 @@ GeocentricCoord Converter::cartesian_to_geocentric(CartesianCoord position, Date
 {
     double geocentric_to_cartesian[3][3];
     
-    // Input: We use JD method, so tta=TT, ttb=0, uta=UT1_UTC, utb=0, xp=0, yp=0 -> return matrix for converting
-    iauC2t06a(date.get_TT(), 0, earth_rotation.get_UT1_UTC(), 0, earth_rotation.get_x(), earth_rotation.get_y(), geocentric_to_cartesian);
+    double uta;
+    double utb;
+    /*  Given:
+            utc1,utc2  double   UTC as a 2-part quasi Julian Date (Notes 1-4)
+            dut1       double   Delta UT1 = UT1-UTC in seconds (Note 5)
+        Returned:
+            ut11,ut12  double   UT1 as a 2-part Julian Date (Note 6)
+    */
+    iauUtcut1(earth_rotation.get_MJD() + 2400000.5, 0, earth_rotation.get_UT1_UTC(), &uta, &utb);
+
+    // Input: tta=TT, ttb=0, uta=UT1_UTC, utb=0, xp=0, yp=0 -> return matrix for converting
+    iauC2t06a(date.get_TT(), 2400000.5, uta, utb, earth_rotation.get_x(), earth_rotation.get_y(), geocentric_to_cartesian);
 
     // transpose for convert from cartesian to geocentric
     this->help.transpose_matrix(geocentric_to_cartesian);

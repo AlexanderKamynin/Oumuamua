@@ -12,11 +12,7 @@ void DataReader::read_observations()
         {
             if (line[14] != 's') 
             {
-
                 Date observation_date(line.substr(15, 17));
-                observation_date.set_UTC_from_day_fraction();
-                observation_date.set_JD();
-
                 Observation observation;
                 observation.set_date(observation_date);
                 observation.set_code(line.substr(77, 3));
@@ -111,9 +107,6 @@ void DataReader::read_interpolation_time_data()
         {
             InterpolationTime time;
             Date observation_date(line.substr(0, 12));
-
-            observation_date.set_UTC_from_day_fraction();
-            observation_date.set_JD();
             time.set_date(observation_date);
             time.set_TT_TDB(line.substr(13, 9));
             interpolation_time.push_back(time);
@@ -142,8 +135,6 @@ void DataReader::read_interpolation_center_planet(std::string filename, std::str
         {
             IntegrationVector planet_data;
             Date date(line.substr(0, 13));
-            date.set_UTC_from_day_fraction();
-            date.set_JD();
             planet_data.set_date(date);
 
             std::vector<double> planet_position = help.split(line.substr(13, line.length() - 13), ' ', '\0');
