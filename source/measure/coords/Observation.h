@@ -31,6 +31,7 @@ public:
     void set_spherical(double, double);
     void set_geocentric(double, double, double);
     void set_barycentric(double, double, double);
+    void set_barycentric(BarycentricCoord);
 
     //getters
     Date* get_date();

@@ -9,6 +9,8 @@
 
 
 #define EARTH_RADIUS 6378.140
+#define LIGHT_SPEED 1079252848.8 / 3600 // km / h * 1 / 3600 = km / s
+#define SUN_MASS 1.9885E30
 
 
 class Helpers
