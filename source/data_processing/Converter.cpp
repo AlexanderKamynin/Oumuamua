@@ -69,8 +69,9 @@ void Converter::interpolation_time(Date* date_start, std::vector<Observation>* o
         {
             if (observations->at(i).get_date()->get_MJD() < time[j].get_date().get_MJD())
             {
-                double delta_t_obs = observations->at(i).get_date()->get_MJD() - date_start->get_MJD();
-                delta_t_obs = delta_t_obs * 100;
+                /*double delta_t_obs = observations->at(i).get_date()->get_MJD() - date_start->get_MJD();
+                delta_t_obs = delta_t_obs * 100 + 46;
+                std::cout << delta_t_obs << "-" << j << std::endl;*/
                 //std::cout << "delta : "<<delta_t_obs << "\tj : " << j <<"\t diff [j-delta]: " << j- delta_t_obs<< "\n";
                 /*double j_j = 0;
                 std::cout << "j: " << j << " j_j: " << j_j << " i:" << i << " obs{i}:"<< observations->at(i).get_date()->get_MJD() << " time{j}" << time[j].get_date().get_MJD()<<  "\n";
