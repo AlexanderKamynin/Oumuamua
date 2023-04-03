@@ -34,7 +34,7 @@ void Solution::convert_observations()
         converter.hours_to_degrees_system(data_reader.get_observation(ind));
         converter.spherical_to_geocentric(data_reader.get_observation(ind));
     }
-    converter.interpolation_time(data, data_reader.get_interpolation_time());
+     converter.interpolation_time(data_reader.get_observations()->at(0).get_date(), data, data_reader.get_interpolation_time());
 }
 
 
@@ -63,7 +63,7 @@ void Solution::integrate()
     std::map<std::string, std::vector<IntegrationVector>> map_planets = converter.interpolation_center_planet(data_reader.get_observations()->at(0).get_date(), data_reader.get_observations()->at(221).get_date(), step, data_reader.get_interpolation_planets());
 
     model_orbits = integration.dormand_prince(initial_condition, data_reader.get_observations()->at(0).get_date(), data_reader.get_observations()->at(221).get_date(), step, &map_planets);
-    model_measures = converter.interpolation_model_on_grid(data_reader.get_observations_vector(), model_orbits);
+    model_measures = converter.interpolation_model_on_grid(data_reader.get_observations_vector(), data_reader.get_observations()->at(0).get_date(), model_orbits);
 
     // light_corrector.light_time_correction(data_reader.get_observations(), data_reader.get_obsevatory_map(), &map_planets["sun"]);
     converter.geo_to_bary_for_base_measure(data_reader.get_observations(), data_reader.get_obsevatory_map(), data_reader.get_earth_rotation_vector(), data_reader.get_interpolation_hubble(), map_planets["earth"]);
