@@ -15,11 +15,10 @@ class Solution
 private:
     Converter converter;
     DataReader data_reader;
-
-    IntegrationVector initial_condition;
     Integration integration;
     LightCorrector light_corrector;
-    
+    IntegrationVector initial_condition;
+
     std::string model_file = "./output_data/model_measure.txt";
     std::string base_file = "./output_data/base_measure.txt";
 public:

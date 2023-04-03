@@ -5,18 +5,24 @@
 #include "../measure/data_structures/HubbleData.h"
 #include "../../sofa/src/sofa.h"
 #include <map>
+#include "Converter.h"
 #include "../Helpers.h"
+#include <iomanip>
 
 
 class LightCorrector
 {
 private:
+	Converter* converter;
 	Helpers help;
 public:
-	void light_time_correction(std::vector<Observation>* observation, std::map<std::string, Observatory>* observatory, std::vector<IntegrationVector>* sun_info);
+	LightCorrector() = default;
+	LightCorrector(Converter*);
 
-	void gravitational_deflection(BarycentricCoord* position_vector, Observatory* observatory, IntegrationVector sun);
+	void light_time_correction(std::vector<Observation>* observation, std::map<std::string, Observatory>* observatory, std::vector<IntegrationVector>* model_measure, std::vector<IntegrationVector>* sun_info);
 
-	void aberration(BarycentricCoord* corrected_light_position, Observatory* observatory, IntegrationVector sun);
+	void gravitational_deflection(BarycentricCoord* body_position, BarycentricCoord* observatory_position, BarycentricCoord* sun);
+
+	void aberration(BarycentricCoord* body_position, BarycentricCoord* observatory_position, BarycentricCoord* sun);
 };
 

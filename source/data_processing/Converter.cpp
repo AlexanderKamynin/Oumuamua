@@ -261,14 +261,13 @@ void Converter::geo_to_bary_for_base_measure(std::vector<Observation>* observati
     Date* start_date = observations->at(0).get_date();
     for (int i = 0; i < observations->size(); i++)
     {
-        BarycentricCoord observatory_position;
+        Observatory* current_observatory = &observatory->at(observations->at(i).get_code());
         GeocentricCoord Oumuamua_position = observations->at(i).get_geocentric();
+        BarycentricCoord observatory_position;
         Date* current_date = observations->at(i).get_date();
 
         if (observations->at(i).get_code() != "250") // 250 - Hubble code
         {
-            Observatory current_observatory = observatory->at(observations->at(i).get_code());
-
             // find earth rotation info for current date observation
             EarthRotation earth_rotation_info;
             for (int j = 0; j < earth_rotation->size(); j++) {
@@ -279,7 +278,7 @@ void Converter::geo_to_bary_for_base_measure(std::vector<Observation>* observati
             }
 
             // convert observatory coordinates from cartesian to geocentric
-            GeocentricCoord geocentric_observatory_position = cartesian_to_geocentric(current_observatory.get_cartesian(), *current_date, earth_rotation_info);
+            GeocentricCoord geocentric_observatory_position = cartesian_to_geocentric(current_observatory->get_cartesian(), *current_date, earth_rotation_info);
             // interpolation observatory coordinates to Earth center
             //@CHANGES [barycentric position of the center of the Earth] + [celestial geocentric position of the observatory]
             BarycentricCoord interpolated_Earth_center = interpolation_Earth_center(*current_date, *start_date, earth_position);
@@ -296,6 +295,9 @@ void Converter::geo_to_bary_for_base_measure(std::vector<Observation>* observati
             observatory_position.set_beta(interpolated_Earth_center.get_beta() + geocentric_hubble_position.get_y());
             observatory_position.set_gamma(interpolated_Earth_center.get_gamma() + geocentric_hubble_position.get_z());
         }
+
+        // set Barycentric position for observatory
+        current_observatory->set_barycentric(observatory_position);
 
         // calculate Oumuamua position
         double alpha = observatory_position.get_alpha() + Oumuamua_position.get_x();
