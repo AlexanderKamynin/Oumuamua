@@ -122,7 +122,7 @@ GeocentricCoord Converter::find_needed_hubble_data(Date date, std::vector<Hubble
 /*
     Method for converting from cartesian to geocentric coordinates for observatories
 */
-GeocentricCoord Converter::cartesian_to_geocentric(CartesianCoord position, Date date, EarthRotation earth_rotation)
+GeocentricCoord Converter::terrestial_to_geocentric_celestial(CartesianCoord position, Date date, EarthRotation earth_rotation)
 {
     double geocentric_to_cartesian[3][3];
 
@@ -163,7 +163,7 @@ GeocentricCoord Converter::cartesian_to_geocentric(CartesianCoord position, Date
 /*
     Ñonvert spherical coordinates to geocentric
 */
-void Converter::spherical_to_geocentric(Observation* observation)
+void Converter::barycentric_spherical_to_geocentric_cartesian(Observation* observation)
 {
     double cartesian_coord[3];
 
@@ -177,7 +177,7 @@ void Converter::spherical_to_geocentric(Observation* observation)
 /*
     Convert spherical coordinates from "hours-minutes-seconds" system to degrees system (radians)
 */
-void Converter::hours_to_degrees_system(Observation* observation)
+void Converter::spherical_hours_to_spherical_radians(Observation* observation)
 {
     // Convert from hours-system to degrees:
     // https://planetcalc.ru/7663/
@@ -238,7 +238,7 @@ void Converter::hours_to_degrees_system(Observation* observation)
     Convert from barycentric to spherical coodinates
     Method for IntegrationVector
 */
-void Converter::barycentric_to_spherical(IntegrationVector* vector, std::vector<SphericalCoord>* coords)
+void Converter::barycentric_cartesian_to_barycentric_spherical(IntegrationVector* vector, std::vector<SphericalCoord>* coords)
 {
     double barycentric_coord[3] = { vector->get_barycentric_position().get_alpha(), vector->get_barycentric_position().get_beta(), vector->get_barycentric_position().get_gamma() };
     double right_ascension;
@@ -256,7 +256,7 @@ void Converter::barycentric_to_spherical(IntegrationVector* vector, std::vector<
     Convert geocentric to barycentric coordinates
     Used for base observation
 */
-void Converter::geo_to_bary_for_base_measure(std::vector<Observation>* observations, std::map<std::string, Observatory>* observatory, std::vector<EarthRotation>* earth_rotation, std::vector<HubbleData> hubble_data, std::vector<IntegrationVector> earth_position)
+void Converter::cartesian_geocentric_to_cartesian_barycentric(std::vector<Observation>* observations, std::map<std::string, Observatory>* observatory, std::vector<EarthRotation>* earth_rotation, std::vector<HubbleData> hubble_data, std::vector<IntegrationVector> earth_position)
 {
     Date* start_date = observations->at(0).get_date();
     for (int i = 0; i < observations->size(); i++)
@@ -278,9 +278,9 @@ void Converter::geo_to_bary_for_base_measure(std::vector<Observation>* observati
             }
 
             // convert observatory coordinates from cartesian to geocentric
-            GeocentricCoord geocentric_observatory_position = cartesian_to_geocentric(current_observatory->get_cartesian(), *current_date, earth_rotation_info);
+            GeocentricCoord geocentric_observatory_position = terrestial_to_geocentric_celestial(current_observatory->get_cartesian(), *current_date, earth_rotation_info);
             // interpolation observatory coordinates to Earth center
-            //@CHANGES [barycentric position of the center of the Earth] + [celestial geocentric position of the observatory]
+            // [barycentric position of the center of the Earth] + [celestial geocentric position of the observatory]
             BarycentricCoord interpolated_Earth_center = interpolation_Earth_center(*current_date, *start_date, earth_position);
             observatory_position.set_alpha(interpolated_Earth_center.get_alpha() + geocentric_observatory_position.get_x());
             observatory_position.set_beta(interpolated_Earth_center.get_beta() + geocentric_observatory_position.get_y());
@@ -289,14 +289,14 @@ void Converter::geo_to_bary_for_base_measure(std::vector<Observation>* observati
         else
         {
             GeocentricCoord geocentric_hubble_position = find_needed_hubble_data(*current_date, hubble_data);
-            //@CHANGES [barycentric position of the center of the Earth] + [celestial geocentric position of the observatory]
+            // [barycentric position of the center of the Earth] + [celestial geocentric position of the observatory]
             BarycentricCoord interpolated_Earth_center = interpolation_Earth_center(*current_date, *start_date, earth_position);
             observatory_position.set_alpha(interpolated_Earth_center.get_alpha() + geocentric_hubble_position.get_x());
             observatory_position.set_beta(interpolated_Earth_center.get_beta() + geocentric_hubble_position.get_y());
             observatory_position.set_gamma(interpolated_Earth_center.get_gamma() + geocentric_hubble_position.get_z());
         }
 
-        // set Barycentric position for observatory
+        // set position for observatory
         current_observatory->set_barycentric(observatory_position);
 
         // calculate Oumuamua position

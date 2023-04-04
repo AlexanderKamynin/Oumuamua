@@ -6,7 +6,6 @@ IntegrationVector Integration::derivate_function(IntegrationVector current_condi
     IntegrationVector d_vector;
     BarycentricCoord a; // acceleration
 
-    //@CORRECT
     int idx = int((current_condition.get_date().get_MJD() - this->date_start.get_MJD()) / 0.2); // search for needed time
 
     for (std::string planet_name : this->planet_list)
@@ -17,8 +16,7 @@ IntegrationVector Integration::derivate_function(IntegrationVector current_condi
         //                    -->
         //  a = dv / dx = GM * ri / ri ^ 3
         
-        //@CORRECT
-        a = a + this->GM[planet_name] * (Oumuamua_coordinates - planet_coordinates) / help.POW_3((Oumuamua_coordinates - planet_coordinates).length());
+        a = a + this->GM[planet_name] * (planet_coordinates - Oumuamua_coordinates) / help.POW_3((planet_coordinates - Oumuamua_coordinates).length());
     }
 
     d_vector.set_barycentric_position(current_condition.get_velocity().get_vx(), current_condition.get_velocity().get_vy(), current_condition.get_velocity().get_vz());

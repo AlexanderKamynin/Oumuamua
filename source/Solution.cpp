@@ -64,7 +64,6 @@ void Solution::integrate()
 
     std::vector<SphericalCoord> model_spherical;
     std::vector<SphericalCoord> base_spherical;
-    std::vector<SphericalCoord> orbits_spherical;
 
     std::map<std::string, std::vector<IntegrationVector>> map_planets = converter.interpolation_center_planet(data_reader.get_observations()->at(0).get_date(), data_reader.get_observations()->at(221).get_date(), step, data_reader.get_interpolation_planets());
 
@@ -87,15 +86,15 @@ void Solution::integrate()
 
     for (int i = 0; i < model_measures.size(); i++)
     {
-        converter.barycentric_to_spherical(&model_measures[i], &model_spherical);
-        converter.barycentric_to_spherical(&base_measures[i], &base_spherical);
+        converter.barycentric_cartesian_to_barycentric_spherical(&model_measures[i], &model_spherical);
+        converter.barycentric_cartesian_to_barycentric_spherical(&base_measures[i], &base_spherical);
     }
 
-    write_result(model_measures, base_measures, model_spherical, base_spherical);
+    write_result(&model_measures, &base_measures, &model_spherical, &base_spherical);
 }
 
 
-void Solution::write_result(std::vector<IntegrationVector> model, std::vector<IntegrationVector> base_measures, std::vector<SphericalCoord> model_spherical, std::vector<SphericalCoord> base_spherical)
+void Solution::write_result(std::vector<IntegrationVector>* model, std::vector<IntegrationVector>* base_measures, std::vector<SphericalCoord>* model_spherical, std::vector<SphericalCoord>* base_spherical)
 {
     std::ofstream model_out;
     model_out.open(model_file);
@@ -103,13 +102,11 @@ void Solution::write_result(std::vector<IntegrationVector> model, std::vector<In
     int counter = 0;
     if (model_out.is_open())
     {
-        for (int ind = 0; ind < model.size(); ind++)
+        for (int ind = 0; ind < model->size(); ind++)
         {
             counter += 1;
-            //model_out << model[ind].get_date().get_MJD() << " " << model[ind].get_barycentric_position().get_alpha() << " " <<
-            //    model[ind].get_barycentric_position().get_beta() << " " << model[ind].get_barycentric_position().get_gamma() << std::endl;
-            model_out << std::setprecision(9) << model[ind].get_date().get_MJD() << "\tRA= " << model_spherical[ind].get_right_ascension() << "\tDEC= " << model_spherical[ind].get_declination() <<
-                "\tvx(km/s)= " << model[ind].get_velocity().get_vx() / 86400 << "\tvy(km/s)= " << model[ind].get_velocity().get_vy() / 86400 << "\tvz(km/s)= " << model[ind].get_velocity().get_vz() / 86400 << '\n';
+            model_out << std::setprecision(9) << model->at(ind).get_date().get_MJD() << "\tRA= " << model_spherical->at(ind).get_right_ascension() << "\tDEC= " << model_spherical->at(ind).get_declination() <<
+                "\tvx(km/s)= " << model->at(ind).get_velocity().get_vx() / 86400 << "\tvy(km/s)= " << model->at(ind).get_velocity().get_vy() / 86400 << "\tvz(km/s)= " << model->at(ind).get_velocity().get_vz() / 86400 << '\n';
         }
         model_out.close();
         std::cout << "Model:: " << counter << " strings was written in the file {" + base_file + "}" << std::endl;
@@ -125,12 +122,10 @@ void Solution::write_result(std::vector<IntegrationVector> model, std::vector<In
 
     if (base_out.is_open())
     {
-        for (int ind = 0; ind < base_measures.size(); ind++)
+        for (int ind = 0; ind < base_measures->size(); ind++)
         {
             counter += 1;
-            //base_out << base_measures[ind].get_date().get_MJD() << " " << base_measures[ind].get_barycentric_position().get_alpha() << " " <<
-            //    base_measures[ind].get_barycentric_position().get_beta() << " " << base_measures[ind].get_barycentric_position().get_gamma() << std::endl;
-            base_out << std::setprecision(9) << base_measures[ind].get_date().get_MJD() << "\tRA= " << base_spherical[ind].get_right_ascension() << "\tDEC= " << base_spherical[ind].get_declination() << "\n";
+            base_out << std::setprecision(9) << base_measures->at(ind).get_date().get_MJD() << "\tRA= " << base_spherical->at(ind).get_right_ascension() << "\tDEC= " << base_spherical->at(ind).get_declination() << "\n";
         }
         base_out.close();
         std::cout << "Base:: " << counter << " strings was written in the file {" + base_file + "}" << std::endl;
