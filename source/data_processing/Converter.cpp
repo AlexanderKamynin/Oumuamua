@@ -60,7 +60,6 @@ void Converter::UTC_to_TT(Date* date)
 */
 void Converter::interpolation_time(Date* date_start, std::vector<Observation>* observations, std::vector<InterpolationTime> time)
 {
-    // gotta take <time == 8300 == all times * 100> <-> <observations - 222, >
     double interpolation_time_term;
     int last = 0;
     for (int i = 0; i < observations->size(); i++)
@@ -69,14 +68,6 @@ void Converter::interpolation_time(Date* date_start, std::vector<Observation>* o
         {
             if (observations->at(i).get_date()->get_MJD() < time[j].get_date().get_MJD())
             {
-                /*double delta_t_obs = observations->at(i).get_date()->get_MJD() - date_start->get_MJD();
-                delta_t_obs = delta_t_obs * 100 + 46;
-                std::cout << delta_t_obs << "-" << j << std::endl;*/
-                //std::cout << "delta : "<<delta_t_obs << "\tj : " << j <<"\t diff [j-delta]: " << j- delta_t_obs<< "\n";
-                /*double j_j = 0;
-                std::cout << "j: " << j << " j_j: " << j_j << " i:" << i << " obs{i}:"<< observations->at(i).get_date()->get_MJD() << " time{j}" << time[j].get_date().get_MJD()<<  "\n";
-                std::cout << "correct time: " << time[j].get_date().get_MJD() << " - " << observations->at(i).get_date()->get_MJD() <<"\n";
-                */
                 last = j - 1;
                 double f_current = time[j].get_TT_TDB();
                 double f_previous = time[j - 1].get_TT_TDB();
@@ -85,14 +76,6 @@ void Converter::interpolation_time(Date* date_start, std::vector<Observation>* o
                 double t_interpolate = observations->at(i).get_date()->get_MJD();
 
                 interpolation_time_term = f_previous + (f_current - f_previous) / (t_current - t_previous) * (t_interpolate - t_previous);
-                /*  interpolation_time_term = TT - TDB
-                    we want to get to TDB, so multiply on -1 both sides:
-                    - interpolation_time_term = TDB - TT
-                    add to both sides TT, then
-                    TDB = TT - interpolation_time_term
-
-                    TT in days, interpolation_time_term in ms, so we should interpolation_time_term / 86400000
-                */
                 double TDB = observations->at(i).get_date()->get_TT() - (interpolation_time_term / 86400000);
                 observations->at(i).get_date()->set_TDB(TDB);
                 break;
@@ -350,9 +333,6 @@ std::map<std::string, std::vector<IntegrationVector>> Converter::interpolation_c
             {
                 if (current_date.get_MJD() < interpolation_planet.second[j].get_date().get_MJD())
                 {
-                    //std::cout << "interpolation_planet.second[j].get_date()" << interpolation_planet.second[j].get_date().get_MJD() << "\n";
-                    /*std::cout << "(" << current_date.get_MJD() << "-" << date_start->get_MJD() << ")/0.2 + 1 == " << (current_date.get_MJD() - date_start->get_MJD()) / 0.2 + 1 << std::endl;
-                    std::cout << interpolation_planet.second[j].get_date().get_MJD() << " - " << current_date.get_MJD() << "\n";*/
                     last = j - 1;
                     BarycentricCoord interpolated_position_1 = interpolation_bary_helper(interpolation_planet.second[j], interpolation_planet.second[j - 1], current_date);
                     IntegrationVector interpolated_position;
