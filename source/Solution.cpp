@@ -64,13 +64,16 @@ void Solution::integrate()
 
     std::vector<SphericalCoord> model_spherical;
     std::vector<SphericalCoord> base_spherical;
+    std::vector<SphericalCoord> orbits_spherical;
 
     std::map<std::string, std::vector<IntegrationVector>> map_planets = converter.interpolation_center_planet(data_reader.get_observations()->at(0).get_date(), data_reader.get_observations()->at(221).get_date(), step, data_reader.get_interpolation_planets());
 
     model_orbits = integration.dormand_prince(initial_condition, data_reader.get_observations()->at(0).get_date(), data_reader.get_observations()->at(221).get_date(), step, &map_planets);
     model_measures = converter.interpolation_model_on_grid(data_reader.get_observations_vector(), data_reader.get_observations()->at(0).get_date(), model_orbits);
 
+
     converter.geo_to_bary_for_base_measure(data_reader.get_observations(), data_reader.get_obsevatory_map(), data_reader.get_earth_rotation_vector(), data_reader.get_interpolation_hubble(), map_planets["earth"]);
+
     // light time correction, gravitational deflection, abberation
     light_corrector.light_time_correction(data_reader.get_observations(), data_reader.get_obsevatory_map(), &model_measures, &map_planets["sun"]);
 
@@ -103,6 +106,8 @@ void Solution::write_result(std::vector<IntegrationVector> model, std::vector<In
         for (int ind = 0; ind < model.size(); ind++)
         {
             counter += 1;
+            //model_out << model[ind].get_date().get_MJD() << " " << model[ind].get_barycentric_position().get_alpha() << " " <<
+            //    model[ind].get_barycentric_position().get_beta() << " " << model[ind].get_barycentric_position().get_gamma() << std::endl;
             model_out << std::setprecision(9) << model[ind].get_date().get_MJD() << "\tRA= " << model_spherical[ind].get_right_ascension() << "\tDEC= " << model_spherical[ind].get_declination() <<
                 "\tvx(km/s)= " << model[ind].get_velocity().get_vx() / 86400 << "\tvy(km/s)= " << model[ind].get_velocity().get_vy() / 86400 << "\tvz(km/s)= " << model[ind].get_velocity().get_vz() / 86400 << '\n';
         }
@@ -123,6 +128,8 @@ void Solution::write_result(std::vector<IntegrationVector> model, std::vector<In
         for (int ind = 0; ind < base_measures.size(); ind++)
         {
             counter += 1;
+            //base_out << base_measures[ind].get_date().get_MJD() << " " << base_measures[ind].get_barycentric_position().get_alpha() << " " <<
+            //    base_measures[ind].get_barycentric_position().get_beta() << " " << base_measures[ind].get_barycentric_position().get_gamma() << std::endl;
             base_out << std::setprecision(9) << base_measures[ind].get_date().get_MJD() << "\tRA= " << base_spherical[ind].get_right_ascension() << "\tDEC= " << base_spherical[ind].get_declination() << "\n";
         }
         base_out.close();
