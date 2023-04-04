@@ -36,8 +36,8 @@ void Solution::convert_observations()
     for (int ind = 0; ind < data->size(); ind++) 
     {
         converter.UTC_to_TT(data->at(ind).get_date());
-        converter.hours_to_degrees_system(data_reader.get_observation(ind));
-        converter.spherical_to_geocentric(data_reader.get_observation(ind));
+        converter.spherical_hours_to_spherical_radians(data_reader.get_observation(ind));
+        converter.barycentric_spherical_to_geocentric_cartesian(data_reader.get_observation(ind));
     }
      converter.interpolation_time(data_reader.get_observations()->at(0).get_date(), data, data_reader.get_interpolation_time());
 }
@@ -71,7 +71,7 @@ void Solution::integrate()
     model_measures = converter.interpolation_model_on_grid(data_reader.get_observations_vector(), data_reader.get_observations()->at(0).get_date(), model_orbits);
 
 
-    converter.geo_to_bary_for_base_measure(data_reader.get_observations(), data_reader.get_obsevatory_map(), data_reader.get_earth_rotation_vector(), data_reader.get_interpolation_hubble(), map_planets["earth"]);
+    converter.cartesian_geocentric_to_cartesian_barycentric(data_reader.get_observations(), data_reader.get_obsevatory_map(), data_reader.get_earth_rotation_vector(), data_reader.get_interpolation_hubble(), map_planets["earth"]);
 
     // light time correction, gravitational deflection, abberation
     light_corrector.light_time_correction(data_reader.get_observations(), data_reader.get_obsevatory_map(), &model_measures, &map_planets["sun"]);
