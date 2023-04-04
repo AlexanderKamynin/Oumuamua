@@ -47,7 +47,7 @@ void LightCorrector::light_time_correction(std::vector<Observation>* observation
 					break;
 				}
 			}
-			BarycentricCoord body_position = converter->interpolation_bary_helper(model_measure->at(idx), model_measure->at(idx-1), model_time);
+			BarycentricCoord body_position = converter->interpolation_helper(model_measure->at(idx), model_measure->at(idx-1), model_time);
 		}
 
 		Date date_to_interpolate;
@@ -61,7 +61,7 @@ void LightCorrector::light_time_correction(std::vector<Observation>* observation
 				break;
 			}
 		}
-		BarycentricCoord sun_position = converter->interpolation_bary_helper(sun_info->at(idx), sun_info->at(idx - 1), date_to_interpolate);
+		BarycentricCoord sun_position = converter->interpolation_helper(sun_info->at(idx), sun_info->at(idx - 1), date_to_interpolate);
 
 		// gravitational deflection
 		this->gravitational_deflection(&body_position, &observatory_position, &sun_position);

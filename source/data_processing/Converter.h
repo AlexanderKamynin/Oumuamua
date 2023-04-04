@@ -40,9 +40,8 @@ public:
 
     // interpolation
     void interpolation_time(Date* date_start, std::vector<Observation>* observations, std::vector<InterpolationTime> time);
-    void interpolation_time(std::vector<Observation>*, std::vector<InterpolationTime>);
     BarycentricCoord interpolation_Earth_center(Date date_current, Date date_start, std::vector<IntegrationVector> earth_position);
-    BarycentricCoord interpolation_bary_helper(IntegrationVector position_previous, IntegrationVector position_current, Date date);
+    BarycentricCoord interpolation_helper(IntegrationVector position_previous, IntegrationVector position_current, Date date);
     std::vector<IntegrationVector> interpolation_model_on_grid(std::vector<Observation> observation_vector, Date* date_start, std::vector<IntegrationVector> interpolation_orbits);
     std::map<std::string, std::vector<IntegrationVector>> interpolation_center_planet(Date*, Date*, double, std::map<std::string, std::vector<IntegrationVector>>);
 
