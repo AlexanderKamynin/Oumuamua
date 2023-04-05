@@ -7,6 +7,8 @@
 #include <iostream>
 #include <fstream>
 
+#define pass (void)0
+
 
 #define EARTH_RADIUS 6378.140
 #define LIGHT_SPEED 1079252848.8 * 24 // km / h * 24 = km / day
