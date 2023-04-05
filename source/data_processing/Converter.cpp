@@ -64,23 +64,28 @@ void Converter::interpolation_time(Date* date_start, std::vector<Observation>* o
     int last = 0;
     for (int i = 0; i < observations->size(); i++)
     {
-        for (int j = last; j < time.size(); j++)
+        int expected_j = 10 * int(observations->at(i).get_date()->get_day_fraction() * 10) + (int(observations->at(i).get_date()->get_MJD()) - int(time[0].get_date().get_MJD())) * 100 + 5; // constatnt find j
+        if (not (observations->at(i).get_date()->get_MJD() < time[expected_j].get_date().get_MJD() and observations->at(i).get_date()->get_MJD() > time[expected_j - 1].get_date().get_MJD())) //checking j
         {
-            if (observations->at(i).get_date()->get_MJD() < time[j].get_date().get_MJD())
-            {
-                last = j - 1;
-                double f_current = time[j].get_TT_TDB();
-                double f_previous = time[j - 1].get_TT_TDB();
-                double t_current = time[j].get_date().get_MJD();
-                double t_previous = time[j - 1].get_date().get_MJD();
-                double t_interpolate = observations->at(i).get_date()->get_MJD();
-
-                interpolation_time_term = f_previous + (f_current - f_previous) / (t_current - t_previous) * (t_interpolate - t_previous);
-                double TDB = observations->at(i).get_date()->get_TT() - (interpolation_time_term / 86400000);
-                observations->at(i).get_date()->set_TDB(TDB);
-                break;
-            }
+            expected_j += 1;
         }
+        double f_current = time[expected_j].get_TT_TDB();
+        double f_previous = time[expected_j - 1].get_TT_TDB();
+        double t_current = time[expected_j].get_date().get_MJD();
+        double t_previous = time[expected_j - 1].get_date().get_MJD();
+        double t_interpolate = observations->at(i).get_date()->get_MJD();
+
+        interpolation_time_term = f_previous + (f_current - f_previous) / (t_current - t_previous) * (t_interpolate - t_previous);
+        /*  interpolation_time_term = TT - TDB
+            we want to get to TDB, so multiply on -1 both sides:
+            - interpolation_time_term = TDB - TT
+            add to both sides TT, then
+            TDB = TT - interpolation_time_term
+
+            TT in days, interpolation_time_term in ms, so we should interpolation_time_term / 86400000
+        */
+        double TDB = observations->at(i).get_date()->get_TT() - (interpolation_time_term / 86400000);
+        observations->at(i).get_date()->set_TDB(TDB);
     }
 }
 
