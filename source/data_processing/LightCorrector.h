@@ -8,6 +8,7 @@
 #include "Converter.h"
 #include "../Helpers.h"
 #include <iomanip>
+#include <iostream>
 
 
 class LightCorrector

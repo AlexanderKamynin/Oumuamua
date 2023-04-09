@@ -29,7 +29,7 @@ void LightCorrector::light_time_correction(std::vector<Observation>* observation
 		double t = model_measure->at(i).get_date().get_MJD();
 		BarycentricCoord body_position = model_measure->at(i).get_barycentric_position();
 		BarycentricCoord observatory_position = observatory->at(observations->at(i).get_code()).get_barycentric();
-		//std::cout << std::setprecision(9) << "Before light time correct " << observatory_position.get_alpha() << ";" << observatory_position.get_beta() << ";" << observatory_position.get_gamma() << std::endl;
+
 		while (delta_current == 0 or std::abs(delta_current - delta_prev) >= accuracy)
 		{
 			delta_prev = delta_current;
@@ -121,12 +121,12 @@ void LightCorrector::aberration(BarycentricCoord* body_position, BarycentricCoor
 		body_position->get_beta() / body_position->length(),
 		body_position->get_gamma() / body_position->length()
 	};
-	double observer_velocity[3] = { 0, 0, 0 };
+	double observer_velocity[3] = { 0, 0, 0};
 
 	BarycentricCoord position = *observatory_position - *sun_position;
 	double sun_to_observer_length = position.length() * 6.684589E-09; // km -> au
 
-	iauAb(observer_to_body, observer_velocity, sun_to_observer_length, 1, corrected_position);
+	iauAb(observer_to_body, observer_velocity, sun_to_observer_length, 0.25, corrected_position);
 
 	double vector_length = body_position->length();
 	body_position->set_alpha(corrected_position[0] * body_position->length());
