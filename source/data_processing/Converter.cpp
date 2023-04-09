@@ -282,11 +282,13 @@ void Converter::spherical_hours_to_spherical_radians(Observation* observation)
 */
 void Converter::barycentric_cartesian_to_barycentric_spherical(IntegrationVector* vector, std::vector<SphericalCoord>* coords)
 {
+    //std::cout << "Before convertation:" << vector->get_barycentric_position().get_alpha() << "|" << vector->get_barycentric_position().get_beta() << "|" << vector->get_barycentric_position().get_gamma() << std::endl;
     double barycentric_coord[3] = { vector->get_barycentric_position().get_alpha(), vector->get_barycentric_position().get_beta(), vector->get_barycentric_position().get_gamma() };
     double right_ascension;
     double declination;
 
     iauC2s(barycentric_coord, &right_ascension, &declination);
+    //std::cout << "After convertation:" << right_ascension << "|" << declination << std::endl;
     SphericalCoord temp_coords;
     temp_coords.set_declination(declination);
     temp_coords.set_right_ascension(right_ascension);
@@ -312,8 +314,10 @@ void Converter::cartesian_geocentric_to_cartesian_barycentric(std::vector<Observ
         {
             // find earth rotation info for current date observation
             EarthRotation earth_rotation_info;
-            for (int j = 0; j < earth_rotation->size(); j++) {
-                if (earth_rotation->at(j).get_MJD() >= current_date->get_MJD()) {
+            for (int j = 0; j < earth_rotation->size(); j++) 
+            {
+                if (earth_rotation->at(j).get_MJD() >= current_date->get_MJD()) 
+                {
                     earth_rotation_info = earth_rotation->at(j);
                     break;
                 }

@@ -26,6 +26,11 @@ void Solution::read_data()
     data_reader.read_interpolation_center_planet("./input_data/earth.txt", "earth");
     data_reader.read_interpolation_center_planet("./input_data/sun.txt", "sun");
     data_reader.read_interpolation_center_planet("./input_data/jupyter.txt", "jupiter");
+    data_reader.read_interpolation_center_planet("./input_data/mars.txt", "mars");
+    data_reader.read_interpolation_center_planet("./input_data/mercury.txt", "mercury");
+    data_reader.read_interpolation_center_planet("./input_data/moon.txt", "moon");
+    data_reader.read_interpolation_center_planet("./input_data/saturn.txt", "saturn");
+    data_reader.read_interpolation_center_planet("./input_data/venus.txt", "venus");
 }
 
 
@@ -66,7 +71,7 @@ void Solution::integrate()
     std::vector<SphericalCoord> base_spherical;
 
     std::map<std::string, std::vector<IntegrationVector>> map_planets = converter.interpolation_center_planet(data_reader.get_observations()->at(0).get_date(), data_reader.get_observations()->at(221).get_date(), step, data_reader.get_interpolation_planets());
-
+    std::cout << "map planet size: " << map_planets.size() << std::endl;
     model_orbits = integration.dormand_prince(initial_condition, data_reader.get_observations()->at(0).get_date(), data_reader.get_observations()->at(221).get_date(), step, &map_planets);
     model_measures = converter.interpolation_model_on_grid(data_reader.get_observations_vector(), data_reader.get_observations()->at(0).get_date(), model_orbits);
 
