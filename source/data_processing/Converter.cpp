@@ -85,11 +85,6 @@ void Converter::interpolation_time(Date* date_start, std::vector<Observation>* o
             TT in days, interpolation_time_term in ms, so we should interpolation_time_term / 86400000
         */
         double TDB = observations->at(i).get_date()->get_TT() - (interpolation_time_term / 86400000);
-        
-        if (interpolation_time_term > f_previous and f_current > interpolation_time_term)
-        {
-            std::cout <<"Cringe: "<< f_previous << "|" << interpolation_time_term << "|" << f_current << std::endl;
-        }
         observations->at(i).get_date()->set_TDB(TDB);
     }
 }
