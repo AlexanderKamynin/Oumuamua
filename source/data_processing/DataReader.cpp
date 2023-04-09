@@ -46,6 +46,35 @@ void DataReader::read_observations()
     std::cout << "Observation read: " << observations.size() << " \n";
 }
 
+void DataReader::read_JPL_base_mesuare()
+{
+    std::ifstream file(this->JPL_mesuare_file);
+    std::string line;
+
+    if (file.is_open())
+    {
+        while (getline(file, line))
+        {
+            Date JPL_date;
+            JPL_date.set_MJD(std::stod(line.substr(0,17)) - 2400000.5);
+            Observation observation;
+            observation.set_date(JPL_date);
+            double alpha = std::stod(line.substr(52, 21));
+            double beta = std::stod(line.substr(76, 21));
+            double gamma = std::stod(line.substr(100, 21));
+            //std::cout << "alpha: " << alpha << "|" << line.substr(52, 21) << "\tbeta: " << beta << "|" << line.substr(76, 21) << "\tgamma: " << gamma << "|" << line.substr(100, 21) << std::endl;
+            observation.set_barycentric(alpha, beta, gamma);
+            JPL_mesuare.push_back(observation);
+        }
+    }
+    else
+    {
+        std::cout << "Error reading file! {" << JPL_mesuare_file << "}\n";
+    }
+    file.close();
+    std::cout << "JPL_mesuare read: " << JPL_mesuare.size() << " \n";
+}
+
 
 
 void DataReader::read_observatory_data()
@@ -284,4 +313,9 @@ std::vector<IntegrationVector>* DataReader::get_planet_by_name(std::string name)
 std::map<std::string, Observatory>* DataReader::get_obsevatory_map() 
 {
     return &observatory;
+}
+
+std::vector<Observation>* DataReader::get_JPL()
+{
+    return &this->JPL_mesuare;
 }
