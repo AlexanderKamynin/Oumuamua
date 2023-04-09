@@ -19,6 +19,21 @@ void DataReader::read_observations()
                 observation.set_ascension_from_string(line.substr(32, 12));
                 observation.set_declination_from_string(line.substr(44, 12));
                 observations.push_back(observation);
+
+                //@CHECK
+                //std::cout << "line was: " <<
+                //    line.substr(15, 17) << " "
+                //    << line.substr(77, 3) << " " 
+                //    << line.substr(32, 12) << " "
+                //    << line.substr(44, 12) << "\n";
+
+                //std::cout << "observation: mjd=" << observation.get_date()->get_MJD() << " code=" << observation.get_code() << " RA="
+                //    << observation.get_spherical_position().get_RA_in_hours_system()[0] << " "
+                //    << observation.get_spherical_position().get_RA_in_hours_system()[1] << " "
+                //    << observation.get_spherical_position().get_RA_in_hours_system()[2] << " DEC="
+                //    << observation.get_spherical_position().get_DEC_in_hours_system()[0] << " "
+                //    << observation.get_spherical_position().get_DEC_in_hours_system()[1] << " "
+                //    << observation.get_spherical_position().get_DEC_in_hours_system()[2] << "\n\n\n";
             }
         }
     }
@@ -51,6 +66,18 @@ void DataReader::read_observatory_data()
             observatory_position.set_sin_from_string(line.substr(21, 9));
 
             observatory[code].set_cylindrical(observatory_position);
+
+            //@CHECK
+            /*std::cout << "line was: " << line.substr(0, 3) << " "
+                << line.substr(4, 9) << " " <<
+                line.substr(13, 8) << " " <<
+                line.substr(21, 9) << "\n";
+            
+            std::cout << "observatory: code=" << code << " "
+                << "longitude=" << observatory[code].get_cylindric().get_longitude() << " "
+                << "cos=" << observatory[code].get_cylindric().get_cos() << " "
+                << "sin=" << observatory[code].get_cylindric().get_sin() << "\n\n";*/
+
         }
     }
     else

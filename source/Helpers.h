@@ -6,12 +6,15 @@
 #include <algorithm>
 #include <iostream>
 #include <fstream>
+#include <math.h>
+
 
 #define pass (void)0
 
 
 #define EARTH_RADIUS 6378.140
 #define LIGHT_SPEED 1079252848.8 * 24 // km / h * 24 = km / day
+#define PI 3.14159265358979323846
 
 
 class Helpers
