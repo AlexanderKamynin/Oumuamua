@@ -16,20 +16,24 @@ CartesianCoord Converter::cylindrical_to_cartesian(CylindricalCoord coordinates)
         y = rho * sin (longitude) * cos (delta)
         z = rho * sin (delta)
     */
-    cartesian_coordinates.set_x(std::cos(coordinates.get_longitude()) * coordinates.get_cos() * EARTH_RADIUS);
-    cartesian_coordinates.set_y(std::sin(coordinates.get_longitude()) * coordinates.get_cos() * EARTH_RADIUS);
+    
+    // convert degrees to radians  y degrees = y * pi / 180 radians
+    double angle = coordinates.get_longitude() * PI / 180;
+
+    cartesian_coordinates.set_x(std::cos(angle) * coordinates.get_cos() * EARTH_RADIUS);
+    cartesian_coordinates.set_y(std::sin(angle) * coordinates.get_cos() * EARTH_RADIUS);
     cartesian_coordinates.set_z(coordinates.get_sin() * EARTH_RADIUS);
 
     //@CHECK
-    std::cout << "cylindrical was: "
-        << "longi=" << coordinates.get_longitude()
-        << " cos=" << coordinates.get_cos()
-        << " sin=" << coordinates.get_sin() << "\n";
+    //std::cout << "cylindrical was: "
+    //    << "longi=" << coordinates.get_longitude()
+    //    << " cos=" << coordinates.get_cos()
+    //    << " sin=" << coordinates.get_sin() << "\n";
     
-    std::cout << "cartesian got: "
-        << "x=" << cartesian_coordinates.get_x()
-        << " y=" << cartesian_coordinates.get_y()
-        << " z=" << cartesian_coordinates.get_z() << "\n\n";
+    //std::cout << "cartesian got: "
+    //    << "x=" << cartesian_coordinates.get_x()
+    //    << " y=" << cartesian_coordinates.get_y()
+    //    << " z=" << cartesian_coordinates.get_z() << "\n\n";
 
     return cartesian_coordinates;
 }
