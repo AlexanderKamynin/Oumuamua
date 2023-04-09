@@ -132,7 +132,7 @@ GeocentricCoord Converter::find_needed_hubble_data(Date date, std::vector<Hubble
 */
 GeocentricCoord Converter::terrestial_to_geocentric_celestial(CartesianCoord position, Date date, EarthRotation earth_rotation)
 {
-    double geocentric_to_cartesian[3][3];
+    double celestial_to_terestial[3][3];
 
     double uta;
     double utb;
@@ -145,19 +145,19 @@ GeocentricCoord Converter::terrestial_to_geocentric_celestial(CartesianCoord pos
     iauUtcut1(earth_rotation.get_MJD() + 2400000.5, 0, earth_rotation.get_UT1_UTC(), &uta, &utb);
 
     // Input: tta=TT, ttb=0, uta=UT1_UTC, utb=0, xp=0, yp=0 -> return matrix for converting
-    iauC2t06a(date.get_TT(), 2400000.5, uta, utb, earth_rotation.get_x(), earth_rotation.get_y(), geocentric_to_cartesian);
+    iauC2t06a(date.get_TT(), 2400000.5, uta, utb, earth_rotation.get_x(), earth_rotation.get_y(), celestial_to_terestial);
 
     // transpose for convert from cartesian to geocentric
-    this->help.transpose_matrix(geocentric_to_cartesian);
+    this->help.transpose_matrix(celestial_to_terestial);
 
     /*
                    (x)
         (matrix) * (y)
                    (z)
     */
-    double x = geocentric_to_cartesian[0][0] * position.get_x() + geocentric_to_cartesian[0][1] * position.get_y() + geocentric_to_cartesian[0][2] * position.get_z();
-    double y = geocentric_to_cartesian[1][0] * position.get_x() + geocentric_to_cartesian[1][1] * position.get_y() + geocentric_to_cartesian[1][2] * position.get_z();
-    double z = geocentric_to_cartesian[2][0] * position.get_x() + geocentric_to_cartesian[2][1] * position.get_y() + geocentric_to_cartesian[2][2] * position.get_z();
+    double x = celestial_to_terestial[0][0] * position.get_x() + celestial_to_terestial[0][1] * position.get_y() + celestial_to_terestial[0][2] * position.get_z();
+    double y = celestial_to_terestial[1][0] * position.get_x() + celestial_to_terestial[1][1] * position.get_y() + celestial_to_terestial[1][2] * position.get_z();
+    double z = celestial_to_terestial[2][0] * position.get_x() + celestial_to_terestial[2][1] * position.get_y() + celestial_to_terestial[2][2] * position.get_z();
 
     GeocentricCoord geocentric_position;
     geocentric_position.set_x(x);
@@ -327,6 +327,12 @@ void Converter::cartesian_geocentric_to_cartesian_barycentric(std::vector<Observ
             observatory_position.set_alpha(interpolated_Earth_center.get_alpha() + geocentric_observatory_position.get_x());
             observatory_position.set_beta(interpolated_Earth_center.get_beta() + geocentric_observatory_position.get_y());
             observatory_position.set_gamma(interpolated_Earth_center.get_gamma() + geocentric_observatory_position.get_z());
+            //@CHECK
+            //std::cout << "Cartesian coordinates was: " << current_observatory->get_cartesian().get_x() << ";" << current_observatory->get_cartesian().get_y() << ";" << current_observatory->get_cartesian().get_z() << std::endl;
+            //std::cout << "After terrestial to geocentric celestila geocentric coord become: " << geocentric_observatory_position.get_x() << ";" << geocentric_observatory_position.get_y() << ";" << geocentric_observatory_position.get_z() << std::endl;
+            //std::cout << "Interpolated Earth center position was: " << interpolated_Earth_center.get_alpha() << ";" << interpolated_Earth_center.get_beta() << ";" << interpolated_Earth_center.get_gamma() << std::endl;
+            //std::cout << "Observatory position so: " << observatory_position.get_alpha() << ";" << observatory_position.get_beta() << ";" << observatory_position.get_gamma() << std::endl;
+            //std::cout << "\n\n";
         }
         else
         {
@@ -336,6 +342,11 @@ void Converter::cartesian_geocentric_to_cartesian_barycentric(std::vector<Observ
             observatory_position.set_alpha(interpolated_Earth_center.get_alpha() + geocentric_hubble_position.get_x());
             observatory_position.set_beta(interpolated_Earth_center.get_beta() + geocentric_hubble_position.get_y());
             observatory_position.set_gamma(interpolated_Earth_center.get_gamma() + geocentric_hubble_position.get_z());
+            //@CHECK
+            //std::cout << "Geocentric hubble position was: " << geocentric_hubble_position.get_x() << ";" << geocentric_hubble_position.get_y() << ";" << geocentric_hubble_position.get_z() << std::endl;
+            //std::cout << "Interpolated Earth center position was: " << interpolated_Earth_center.get_alpha() << ";" << interpolated_Earth_center.get_beta() << ";" << interpolated_Earth_center.get_gamma() << std::endl;
+            //std::cout << "Observatory position so: " << observatory_position.get_alpha() << ";" << observatory_position.get_beta() << ";" << observatory_position.get_gamma() << std::endl;
+            //std::cout << "\n\n";
         }
 
         // set position for observatory
@@ -345,6 +356,14 @@ void Converter::cartesian_geocentric_to_cartesian_barycentric(std::vector<Observ
         double alpha = observatory_position.get_alpha() + Oumuamua_position.get_x();
         double beta = observatory_position.get_beta() + Oumuamua_position.get_y();
         double gamma = observatory_position.get_gamma() + Oumuamua_position.get_z();
+
+        //@CHECK
+        //std::cout << "Oumuamua in spherical: " << observations->at(i).get_spherical_position().get_right_ascension() << ";" << observations->at(i).get_spherical_position().get_declination() << std::endl;
+        //std::cout << "Oumuamua alpha pos in barycentric" << observations->at(i).get_barycentric().get_alpha() << std::endl;
+        //std::cout << "Oumuamua position was: " << Oumuamua_position.get_x() << ";" << Oumuamua_position.get_y() << ";" << Oumuamua_position.get_z() << std::endl;
+        //std::cout << "observatory position was: " << observatory_position.get_alpha() << ";" << observatory_position.get_beta() << ";" << observatory_position.get_gamma() << std::endl;
+        //std::cout << "End position for Oumuamua so: " << alpha << ";" << beta << ";" << gamma << std::endl;
+        //std::cout << "\n\n";
 
         // set calculated Oumuamua position in the barycentric system for base measure
         observations->at(i).set_barycentric(alpha, beta, gamma);
@@ -420,7 +439,7 @@ BarycentricCoord Converter::interpolation_Earth_center(Date date_current, Date d
 }
 
 
-BarycentricCoord Converter::interpolation_helper(IntegrationVector position_previous, IntegrationVector position_current, Date date)
+BarycentricCoord Converter::interpolation_helper(IntegrationVector position_current, IntegrationVector position_previous, Date date)
 {
     double f_current = position_current.get_barycentric_position().get_alpha();
     double f_previous = position_previous.get_barycentric_position().get_alpha();

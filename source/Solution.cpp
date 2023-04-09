@@ -4,7 +4,7 @@
 Solution::Solution()
 {
     // initial values was taken from here: https://ssd.jpl.nasa.gov/horizons/app.html#/
-    initial_condition.set_barycentric_position(1.447364197925368E+08,  7.144824724390851E+07,  1.932516658038223E+07);
+    initial_condition.set_barycentric_position(1.468787090096414E+08, 7.299085877471100E+07, 2.053190793311784E+07);
     initial_condition.set_velocity((4.674215462585911E+01) * 86400, (3.416179591144564E+00) * 86400, (1.683438620732583E+01) * 86400); // km/c -> km/day
 
     Converter converter;
@@ -105,8 +105,10 @@ void Solution::write_result(std::vector<IntegrationVector>* model, std::vector<I
         for (int ind = 0; ind < model->size(); ind++)
         {
             counter += 1;
-            model_out << std::setprecision(9) << model->at(ind).get_date().get_MJD() << "\tRA= " << model_spherical->at(ind).get_right_ascension() << "\tDEC= " << model_spherical->at(ind).get_declination() <<
-                "\tvx(km/s)= " << model->at(ind).get_velocity().get_vx() / 86400 << "\tvy(km/s)= " << model->at(ind).get_velocity().get_vy() / 86400 << "\tvz(km/s)= " << model->at(ind).get_velocity().get_vz() / 86400 << '\n';
+            //model_out << std::setprecision(9) << model->at(ind).get_date().get_MJD() << "\tRA= " << model_spherical->at(ind).get_right_ascension() << "\tDEC= " << model_spherical->at(ind).get_declination() <<
+            //    "\tvx(km/s)= " << model->at(ind).get_velocity().get_vx() / 86400 << "\tvy(km/s)= " << model->at(ind).get_velocity().get_vy() / 86400 << "\tvz(km/s)= " << model->at(ind).get_velocity().get_vz() / 86400 << '\n';
+            model_out << model->at(ind).get_date().get_MJD() << "\t" << model->at(ind).get_barycentric_position().get_alpha() << "\t" << model->at(ind).get_barycentric_position().get_beta() <<
+                "\t" << model->at(ind).get_barycentric_position().get_gamma() << std::endl;
         }
         model_out.close();
         std::cout << "Model:: " << counter << " strings was written in the file {" + base_file + "}" << std::endl;
@@ -125,7 +127,9 @@ void Solution::write_result(std::vector<IntegrationVector>* model, std::vector<I
         for (int ind = 0; ind < base_measures->size(); ind++)
         {
             counter += 1;
-            base_out << std::setprecision(9) << base_measures->at(ind).get_date().get_MJD() << "\tRA= " << base_spherical->at(ind).get_right_ascension() << "\tDEC= " << base_spherical->at(ind).get_declination() << "\n";
+            base_out << base_measures->at(ind).get_date().get_MJD() << "\t" << base_measures->at(ind).get_barycentric_position().get_alpha() << "\t" << base_measures->at(ind).get_barycentric_position().get_beta() <<
+                "\t" << base_measures->at(ind).get_barycentric_position().get_gamma() << std::endl;
+            //base_out << std::setprecision(9) << base_measures->at(ind).get_date().get_MJD() << "\tRA= " << base_spherical->at(ind).get_right_ascension() << "\tDEC= " << base_spherical->at(ind).get_declination() << "\n";
         }
         base_out.close();
         std::cout << "Base:: " << counter << " strings was written in the file {" + base_file + "}" << std::endl;
