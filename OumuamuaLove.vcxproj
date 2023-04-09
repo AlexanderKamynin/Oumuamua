@@ -424,10 +424,6 @@
     <None Include="visualization\graphics.py" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="..\..\data\mercury.txt" />
-    <Text Include="..\..\data\moon.txt" />
-    <Text Include="..\..\data\saturn.txt" />
-    <Text Include="..\..\data\venus.txt" />
     <Text Include="input_data\earth_rotation_data.txt" />
     <Text Include="input_data\hubble_data.txt" />
     <Text Include="input_data\earth.txt" />
