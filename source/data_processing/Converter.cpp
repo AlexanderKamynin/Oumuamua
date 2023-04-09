@@ -20,6 +20,17 @@ CartesianCoord Converter::cylindrical_to_cartesian(CylindricalCoord coordinates)
     cartesian_coordinates.set_y(std::sin(coordinates.get_longitude()) * coordinates.get_cos() * EARTH_RADIUS);
     cartesian_coordinates.set_z(coordinates.get_sin() * EARTH_RADIUS);
 
+    //@CHECK
+    std::cout << "cylindrical was: "
+        << "longi=" << coordinates.get_longitude()
+        << " cos=" << coordinates.get_cos()
+        << " sin=" << coordinates.get_sin() << "\n";
+    
+    std::cout << "cartesian got: "
+        << "x=" << cartesian_coordinates.get_x()
+        << " y=" << cartesian_coordinates.get_y()
+        << " z=" << cartesian_coordinates.get_z() << "\n\n";
+
     return cartesian_coordinates;
 }
 
@@ -159,10 +170,16 @@ GeocentricCoord Converter::terrestial_to_geocentric_celestial(CartesianCoord pos
 void Converter::barycentric_spherical_to_geocentric_cartesian(Observation* observation)
 {
     double cartesian_coord[3];
-
     iauS2c(observation->get_spherical_position().get_right_ascension(), observation->get_spherical_position().get_declination(), cartesian_coord);
 
     observation->set_geocentric(cartesian_coord[0] * EARTH_RADIUS, cartesian_coord[1] * EARTH_RADIUS, cartesian_coord[2] * EARTH_RADIUS);
+
+    //@CHECK
+    /*std::cout << "observation in spherical: " << "RA=" << observation->get_spherical_position().get_right_ascension() << " DEC=" << observation->get_spherical_position().get_declination() << "\n";
+    std::cout << "observation in geocentric: " 
+        << "x=" << observation->get_geocentric().get_x() 
+        << " y=" << observation->get_geocentric().get_y()
+        << " z=" << observation->get_geocentric().get_z() << "\n\n";*/
 }
 
 
