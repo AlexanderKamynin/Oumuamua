@@ -114,7 +114,7 @@ void Solution::write_result(std::vector<IntegrationVector>* model, std::vector<I
                 "\tvx(km/s)= " << model->at(ind).get_velocity().get_vx() / 86400 << "\tvy(km/s)= " << model->at(ind).get_velocity().get_vy() / 86400 << "\tvz(km/s)= " << model->at(ind).get_velocity().get_vz() / 86400 << '\n';
         }
         model_out.close();
-        std::cout << "Model:: " << counter << " strings was written in the file {" + base_file + "}" << std::endl;
+        std::cout << "Model:: " << counter << " strings was written in the file {" + model_file + "}" << std::endl;
         counter = 0;
     }
     else
