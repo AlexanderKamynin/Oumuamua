@@ -63,7 +63,7 @@ void Solution::convert_observatory()
 
 void Solution::integrate() 
 {
-    double step = 0.01; // MJD step
+    double step = 0.015; // MJD step
     std::vector<IntegrationVector> model_measures;
     
     std::vector<IntegrationVector> model_orbits;
@@ -126,8 +126,11 @@ void Solution::write_result(std::vector<IntegrationVector>* model, std::vector<I
     {
         for (int ind = 0; ind < base->size(); ind++)
         {
-            std::cout << "Differnce between data: " << std::abs(base->at(ind).get_barycentric_position().get_alpha() - model->at(ind).get_barycentric_position().get_alpha()) << "\n";
             counter += 1;
+            std::cout << "Diference between base and model measure (in km): "
+                << " alpha = " << std::abs(base->at(ind).get_barycentric_position().get_alpha() - model->at(ind).get_barycentric_position().get_alpha())
+                << " beta = " << std::abs(base->at(ind).get_barycentric_position().get_beta() - model->at(ind).get_barycentric_position().get_beta())
+                << " gamma = " << std::abs(base->at(ind).get_barycentric_position().get_gamma() - model->at(ind).get_barycentric_position().get_gamma()) << "\n\n";
             //base_out << base->at(ind).get_date().get_MJD() << "\t" << base->at(ind).get_barycentric_position().get_alpha() << "\t" << base->at(ind).get_barycentric_position().get_beta() <<
             //   "\t" << base->at(ind).get_barycentric_position().get_gamma() << std::endl;
             base_out << std::setprecision(9) << base->at(ind).get_date().get_MJD() << "\tRA= " << base_spherical->at(ind).get_right_ascension() << "\tDEC= " << base_spherical->at(ind).get_declination() << "\n";
