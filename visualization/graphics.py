@@ -100,7 +100,7 @@ def draw_2D_graphic_one_param(title, time, measure1,  label1,  output_file):
     plt.figure()
     plt.grid()
     plt.title(title)
-    plt.plot(time, measure1, label=label1)
+    plt.scatter(time, measure1, label=label1)
     #plt.plot(time, measure2, label=label2)
 
     plt.xlabel('time, MJD')
@@ -125,8 +125,8 @@ if __name__ == '__main__':
     delta_RA_list = [] # base - model
     delta_DEC_list = [] # base - model
     for i in range(len(model.model_RA)):
-        delta_RA_list.append(base.base_RA[i] - model.model_RA[i])
-        delta_DEC_list.append(base.base_DEC[i] - model.model_DEC[i])
+        delta_RA_list.append(model.model_RA[i] - base.base_RA[i])
+        delta_DEC_list.append(model.model_DEC[i] - base.base_DEC[i])
 
     draw_2D_graphic_one_param("Base-Model delta [RA]", model.model_time, delta_RA_list, "RA delta", "./RA_delta")
     draw_2D_graphic_one_param("Base-Model delta [DEC]", model.model_time, delta_DEC_list, "DEC delta","./DEC_delta")
