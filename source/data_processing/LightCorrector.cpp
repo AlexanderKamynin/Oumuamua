@@ -126,7 +126,7 @@ void LightCorrector::aberration(BarycentricCoord* body_position, BarycentricCoor
 	BarycentricCoord position = *observatory_position - *sun_position;
 	double sun_to_observer_length = position.length() * 6.684589E-09; // km -> au
 
-	iauAb(observer_to_body, observer_velocity, sun_to_observer_length, 0.25, corrected_position);
+	iauAb(observer_to_body, observer_velocity, sun_to_observer_length, 1, corrected_position);
 
 	double vector_length = body_position->length();
 	body_position->set_alpha(corrected_position[0] * body_position->length());

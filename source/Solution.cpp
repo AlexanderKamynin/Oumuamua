@@ -63,7 +63,7 @@ void Solution::convert_observatory()
 
 void Solution::integrate() 
 {
-    double step = 0.2; // MJD step
+    double step = 0.01; // MJD step
     std::vector<IntegrationVector> model_measures;
     
     std::vector<IntegrationVector> model_orbits;
