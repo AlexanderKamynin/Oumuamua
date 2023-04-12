@@ -102,7 +102,9 @@ void Solution::integrate()
 void Solution::write_result(std::vector<IntegrationVector>* model, std::vector<IntegrationVector>* base_measures, std::vector<SphericalCoord>* model_spherical, std::vector<SphericalCoord>* base_spherical)
 {
     std::ofstream model_out;
+    std::ofstream model_barycentric_out;
     model_out.open(model_file);
+    model_barycentric_out.open("./output_data/model_barycentric.txt");
 
     int counter = 0;
     if (model_out.is_open())
@@ -125,16 +127,22 @@ void Solution::write_result(std::vector<IntegrationVector>* model, std::vector<I
     }
 
     std::ofstream base_out;
+    std::ofstream base_barycentric_out;
     base_out.open(base_file);
+    base_barycentric_out.open("./output_data/base_barycentric.txt");
 
     if (base_out.is_open())
     {
         for (int ind = 0; ind < base_measures->size(); ind++)
         {
             counter += 1;
-            base_out << base_measures->at(ind).get_date().get_MJD() << "\t" << base_measures->at(ind).get_barycentric_position().get_alpha() << "\t" << base_measures->at(ind).get_barycentric_position().get_beta() <<
-                "\t" << base_measures->at(ind).get_barycentric_position().get_gamma() << std::endl;
-            //base_out << std::setprecision(9) << base_measures->at(ind).get_date().get_MJD() << "\tRA= " << base_spherical->at(ind).get_right_ascension() << "\tDEC= " << base_spherical->at(ind).get_declination() << "\n";
+            std::cout << "Diference between base and model measure (in km): "
+                << " alpha = " << std::abs(base->at(ind).get_barycentric_position().get_alpha() - model->at(ind).get_barycentric_position().get_alpha())
+                << " beta = " << std::abs(base->at(ind).get_barycentric_position().get_beta() - model->at(ind).get_barycentric_position().get_beta())
+                << " gamma = " << std::abs(base->at(ind).get_barycentric_position().get_gamma() - model->at(ind).get_barycentric_position().get_gamma()) << "\n\n";
+            //base_out << std::setprecision(15) << base->at(ind).get_date().get_MJD() << "\t" << base->at(ind).get_barycentric_position().get_alpha() << "\t" << base->at(ind).get_barycentric_position().get_beta() <<
+            //   "\t" << base->at(ind).get_barycentric_position().get_gamma() << std::endl;
+            base_out << std::setprecision(9) << base->at(ind).get_date().get_MJD() << "\tRA= " << base_spherical->at(ind).get_right_ascension() << "\tDEC= " << base_spherical->at(ind).get_declination() << "\n";
         }
         base_out.close();
         std::cout << "Base:: " << counter << " strings was written in the file {" + base_file + "}" << std::endl;

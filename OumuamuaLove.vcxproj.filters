@@ -911,5 +911,11 @@
     <Image Include="visualization\RA_compare.png">
       <Filter>Файлы ресурсов</Filter>
     </Image>
+    <Image Include="visualization\DEC_delta.png">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+    <Image Include="visualization\RA_delta.png">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
   </ItemGroup>
 </Project>
