@@ -359,7 +359,7 @@ std::vector<IntegrationVector> Converter::interpolation_model_on_grid(std::vecto
     for (int i = 0; i < observation_vector.size(); i++)
     {
         IntegrationVector interpolated_vector;
-        int j = int((observation_vector[i].get_date()->get_MJD() - date_start->get_MJD()) / 0.03) + 2;
+        int j = int((observation_vector[i].get_date()->get_MJD() - date_start->get_MJD()) / STEP) + 2;
         BarycentricCoord interpolated_position = interpolation_helper(interpolation_orbits[j], interpolation_orbits[j - 1], *observation_vector[i].get_date());
         Date new_date = *observation_vector[i].get_date();
         interpolated_vector.set_date(new_date);
@@ -410,11 +410,10 @@ std::map<std::string, std::vector<IntegrationVector>> Converter::interpolation_c
 */
 BarycentricCoord Converter::interpolation_Earth_center(Date date_current, Date date_start, std::vector<IntegrationVector> earth_position)
 {
-    int i = int((date_current.get_MJD() - date_start.get_MJD()) / 0.03) + 1;
+    int i = int((date_current.get_MJD() - date_start.get_MJD()) / STEP) + 1;
     BarycentricCoord interpolated_position = interpolation_helper(earth_position[i], earth_position[i - 1], date_current);
     return interpolated_position;
 }
-
 
 BarycentricCoord Converter::interpolation_helper(IntegrationVector position_current, IntegrationVector position_previous, Date date)
 {

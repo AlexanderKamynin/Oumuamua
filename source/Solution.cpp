@@ -63,7 +63,7 @@ void Solution::convert_observatory()
 
 void Solution::integrate() 
 {
-    double step = 0.03; // MJD step
+    double step = STEP; // MJD step
     std::vector<IntegrationVector> model_measures;
     
     std::vector<IntegrationVector> model_orbits;
@@ -74,12 +74,19 @@ void Solution::integrate()
 
     std::map<std::string, std::vector<IntegrationVector>> map_planets = converter.interpolation_center_planet(data_reader.get_observations()->at(0).get_date(), data_reader.get_observations()->at(221).get_date(), step, data_reader.get_interpolation_planets());
     model_orbits = integration.dormand_prince(initial_condition, data_reader.get_observations()->at(0).get_date(), data_reader.get_observations()->at(221).get_date(), step, &map_planets);
-    model_measures = converter.interpolation_model_on_grid(data_reader.get_observations_vector(), data_reader.get_observations()->at(0).get_date(), model_orbits);
-
     converter.cartesian_geocentric_to_cartesian_barycentric(data_reader.get_observations(), data_reader.get_obsevatory_map(), data_reader.get_earth_rotation_vector(), data_reader.get_interpolation_hubble(), map_planets["earth"]);
 
     // light time correction, gravitational deflection, abberation
-    light_corrector.light_time_correction(data_reader.get_observations(), data_reader.get_obsevatory_map(), &model_measures, &map_planets["sun"]);
+    light_corrector.light_correct(data_reader.get_observations(), data_reader.get_obsevatory_map(), &model_orbits, &map_planets["sun"]);
+    //model_measures = converter.interpolation_model_on_grid(data_reader.get_observations_vector(), data_reader.get_observations()->at(0).get_date(), model_orbits);
+    for (int i = 0; i < data_reader.get_observations()->size(); i++) {
+        IntegrationVector new_vector;
+        new_vector.set_barycentric_position(data_reader.get_observations()->at(i).get_barycentric().get_alpha(), 
+                                            data_reader.get_observations()->at(i).get_barycentric().get_beta(), 
+                                            data_reader.get_observations()->at(i).get_barycentric().get_gamma());
+        new_vector.set_date(*data_reader.get_observations()->at(i).get_date());
+        model_measures.push_back(new_vector);
+    }
 
     for (int i = 0; i < model_measures.size(); i++)
     {
@@ -102,8 +109,7 @@ void Solution::write_result(std::vector<IntegrationVector>* model, std::vector<I
         for (int ind = 0; ind < model->size(); ind++)
         {
             counter += 1;
-            model_out << std::setprecision(9) << model->at(ind).get_date().get_MJD() << "\tRA= " << model_spherical->at(ind).get_right_ascension() << "\tDEC= " << model_spherical->at(ind).get_declination() <<
-                "\tvx(km/s)= " << model->at(ind).get_velocity().get_vx() / 86400 << "\tvy(km/s)= " << model->at(ind).get_velocity().get_vy() / 86400 << "\tvz(km/s)= " << model->at(ind).get_velocity().get_vz() / 86400 << '\n';
+            model_out << std::setprecision(9) << model->at(ind).get_date().get_MJD() << "\tRA= " << model_spherical->at(ind).get_right_ascension() << "\tDEC= " << model_spherical->at(ind).get_declination() << '\n';
             //model_out << model->at(ind).get_date().get_MJD() << "\t" << model->at(ind).get_barycentric_position().get_alpha() << "\t" << model->at(ind).get_barycentric_position().get_beta() <<
             //    "\t" << model->at(ind).get_barycentric_position().get_gamma() << std::endl;
         }

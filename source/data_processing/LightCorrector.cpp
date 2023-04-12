@@ -6,8 +6,32 @@ LightCorrector::LightCorrector(Converter* converter)
 	this->converter = converter;
 }
 
+void LightCorrector::light_correct(std::vector<Observation>* observations, std::map<std::string, Observatory>* observatory, std::vector<IntegrationVector>* model_measure, std::vector<IntegrationVector>* sun_info)
+{
+	for (int i = 0; i < observations->size(); i++)
+	{
+		Observatory current_observatory = observatory->at(observations->at(i).get_code());
+		double t = observations->at(i).get_date()->get_MJD();
 
-void LightCorrector::light_time_correction(std::vector<Observation>* observations, std::map<std::string, Observatory>* observatory, std::vector<IntegrationVector>* model_measure, std::vector<IntegrationVector>* sun_info)
+		t = t - light_time_correction(t, &current_observatory, model_measure);
+		Date time;
+		time.set_MJD(t);
+		BarycentricCoord object_position = this->find_object_position(time, model_measure);
+		BarycentricCoord sun_position = this->find_object_position(time, sun_info);
+
+		BarycentricCoord observatory_position = current_observatory.get_barycentric();
+		// gravitational deflection
+		this->gravitational_deflection(&object_position, &observatory_position, &sun_position);
+		// abberation
+		this->aberration(&object_position, &observatory_position, &sun_position);
+
+		// set corrected position
+		observations->at(i).set_barycentric(object_position);
+	}
+}
+
+
+double LightCorrector::light_time_correction(double t, Observatory* observatory, std::vector<IntegrationVector>* model_measure)
 {
 	/*
 		| object (t - delta) - observer(t) | = c * delta
@@ -20,57 +44,45 @@ void LightCorrector::light_time_correction(std::vector<Observation>* observation
 
 		while deltai - deltai-1 < accuracy
 	*/
-	double accuracy = 1e-6;
 
-	for (int i = 0; i < model_measure->size(); i++)
+	double delta = 0.0;
+	double previous_delta = 0;
+
+	Date time;
+	time.set_MJD(t - delta);
+	BarycentricCoord object_position = this->find_object_position(time, model_measure);
+	
+	
+	double distance = (object_position - observatory->get_barycentric()).length();
+	delta = distance / LIGHT_SPEED;
+
+	while (previous_delta == 0 or std::fabs(delta - previous_delta) > 1e15)
 	{
-		double delta_current = 0;
-		double delta_prev = 0;
-		double t = model_measure->at(i).get_date().get_MJD();
-		BarycentricCoord body_position = model_measure->at(i).get_barycentric_position();
-		BarycentricCoord observatory_position = observatory->at(observations->at(i).get_code()).get_barycentric();
-
-		while (delta_current == 0 or std::abs(delta_current - delta_prev) >= accuracy)
-		{
-			delta_prev = delta_current;
-			delta_current = (body_position - observatory_position).length() / LIGHT_SPEED;
-
-			// get  object(t - deltai)
-			Date model_time;
-			model_time.set_MJD(t - delta_current);
-			int idx = 1;
-			for (int j = 1; j < model_measure->size(); j++)
-			{
-				if (model_measure->at(j).get_date().get_MJD() > model_time.get_MJD())
-				{
-					idx = j;
-					break;
-				}
-			}
-			BarycentricCoord body_position = converter->interpolation_helper(model_measure->at(idx), model_measure->at(idx-1), model_time);
-		}
-
-		Date date_to_interpolate;
-		date_to_interpolate.set_MJD(t - delta_current);
-		int idx = 1;
-		for (int j = 1; j < sun_info->size(); j++)
-		{
-			if (date_to_interpolate.get_MJD() < model_measure->at(j).get_date().get_MJD())
-			{
-				idx = j;
-				break;
-			}
-		}
-		BarycentricCoord sun_position = converter->interpolation_helper(sun_info->at(idx), sun_info->at(idx - 1), date_to_interpolate);
-
-		// gravitational deflection
-		this->gravitational_deflection(&body_position, &observatory_position, &sun_position);
-		// abberation
-		this->aberration(&body_position, &observatory_position, &sun_position);
-
-		// set corrected position
-		model_measure->at(i).set_barycentric_position(body_position.get_alpha(), body_position.get_beta(), body_position.get_gamma());
+		previous_delta = delta;
+		time.set_MJD(t - delta);
+		object_position = this->find_object_position(time, model_measure);
+		distance = (object_position - observatory->get_barycentric()).length();
+		delta = distance / LIGHT_SPEED;
 	}
+
+	return delta;
+}
+
+
+BarycentricCoord LightCorrector::find_object_position(Date time, std::vector<IntegrationVector>* model_measure)
+{
+	BarycentricCoord object_position;
+	int idx = int(((time.get_MJD()) - model_measure->at(0).get_date().get_MJD()) / STEP); // search for needed time
+	if (idx == 0)
+	{
+		object_position = model_measure->at(0).get_barycentric_position();
+	}
+	else
+	{
+		object_position = converter->interpolation_helper(model_measure->at(idx), model_measure->at(idx - 1), time);
+	}
+
+	return object_position;
 }
 
 

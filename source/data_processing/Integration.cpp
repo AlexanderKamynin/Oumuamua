@@ -6,7 +6,7 @@ IntegrationVector Integration::derivate_function(IntegrationVector current_condi
     IntegrationVector d_vector;
     BarycentricCoord a; // acceleration
 
-    int idx = int((current_condition.get_date().get_MJD() - this->date_start.get_MJD()) / 0.03); // search for needed time
+    int idx = int((current_condition.get_date().get_MJD() - this->date_start.get_MJD()) / STEP); // search for needed time
 
     for (std::string planet_name : this->planet_list)
     {
