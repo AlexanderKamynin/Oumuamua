@@ -4,7 +4,7 @@
 Solution::Solution()
 {
     // initial values was taken from here: https://ssd.jpl.nasa.gov/horizons/app.html#/
-    initial_condition.set_barycentric_position(1.468787090096414E+08, 7.299085877471100E+07, 2.053190793311784E+07);
+    initial_condition.set_barycentric_position(1.46966286538887E+08, 7.29982316871326E+07, 2.05657582369639E+07);
     initial_condition.set_velocity((4.467714995410097E+01) * 86400, (3.759100797623457E+00) * 86400, (1.726983438363074E+01) * 86400); // km/c -> km/day
 
     Converter converter;
@@ -138,7 +138,7 @@ void Solution::write_result(std::vector<IntegrationVector>* model, std::vector<I
                 << " alpha = " << std::abs(base->at(ind).get_barycentric_position().get_alpha() - model->at(ind).get_barycentric_position().get_alpha())
                 << " beta = " << std::abs(base->at(ind).get_barycentric_position().get_beta() - model->at(ind).get_barycentric_position().get_beta())
                 << " gamma = " << std::abs(base->at(ind).get_barycentric_position().get_gamma() - model->at(ind).get_barycentric_position().get_gamma()) << "\n\n";
-            //base_out << base->at(ind).get_date().get_MJD() << "\t" << base->at(ind).get_barycentric_position().get_alpha() << "\t" << base->at(ind).get_barycentric_position().get_beta() <<
+            //base_out << std::setprecision(15) << base->at(ind).get_date().get_MJD() << "\t" << base->at(ind).get_barycentric_position().get_alpha() << "\t" << base->at(ind).get_barycentric_position().get_beta() <<
             //   "\t" << base->at(ind).get_barycentric_position().get_gamma() << std::endl;
             base_out << std::setprecision(9) << base->at(ind).get_date().get_MJD() << "\tRA= " << base_spherical->at(ind).get_right_ascension() << "\tDEC= " << base_spherical->at(ind).get_declination() << "\n";
         }

@@ -8,12 +8,17 @@ LightCorrector::LightCorrector(Converter* converter)
 
 void LightCorrector::light_correct(std::vector<Observation>* observations, std::map<std::string, Observatory>* observatory, std::vector<IntegrationVector>* model_measure, std::vector<IntegrationVector>* sun_info, std::vector<IntegrationVector>* earth_velocity_info)
 {
+	std::ofstream delta_output("./output_data/delta.txt");
+
 	for (int i = 0; i < observations->size(); i++)
 	{
 		Observatory current_observatory = observatory->at(observations->at(i).get_code());
 		double t = observations->at(i).get_date()->get_MJD();
 
-		t = t - light_time_correction(t, &current_observatory, model_measure);
+		double delta = light_time_correction(t, &current_observatory, model_measure);
+		delta_output << delta << '\n';
+
+		t = t - delta;
 		Date time;
 		time.set_MJD(t);
 		BarycentricCoord object_position = this->find_object_position(time, model_measure);

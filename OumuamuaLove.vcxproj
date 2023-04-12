@@ -440,6 +440,7 @@
     <Text Include="input_data\observatory.txt" />
     <Text Include="input_data\venus.txt" />
     <Text Include="output_data\base_measure.txt" />
+    <Text Include="output_data\delta.txt" />
     <Text Include="output_data\model_measure.txt" />
   </ItemGroup>
   <ItemGroup>

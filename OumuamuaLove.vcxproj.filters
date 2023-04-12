@@ -901,6 +901,7 @@
     <Text Include="input_data\mars.txt" />
     <Text Include="input_data\JPL_base_mesuare.txt" />
     <Text Include="input_data\earth_velocity_info.txt" />
+    <Text Include="output_data\delta.txt" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="visualization\DEC_compare.png">
