@@ -81,7 +81,7 @@ Velocity operator-(Velocity velocity1, Velocity velocity2)
 }
 
 
-Velocity operator*(double value, Velocity velocity1)
+Velocity operator*(Velocity velocity1, double value)
 {
     Velocity result;
     result.vx = velocity1.vx * value;

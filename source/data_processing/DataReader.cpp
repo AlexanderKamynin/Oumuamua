@@ -210,6 +210,47 @@ void DataReader::read_interpolation_center_planet(std::string filename, std::str
 
 
 
+void DataReader::read_earth_velocity()
+{
+    std::ifstream file(earth_velocity_file);
+    std::string line;
+
+    if (file.is_open())
+    {
+        IntegrationVector vector;
+        int year, month;
+        double day_fraction;
+        double vx;
+        double vy;
+        double vz;
+        file >> year >> month >> day_fraction >> vx >> vy >> vz;
+        std::string date_line;
+        date_line = std::to_string(year) + " " + std::to_string(month) + " " + std::to_string(day_fraction) + '\0';
+        Date date(date_line);
+        vector.set_date(date);
+        vector.set_velocity(vx, vy, vz);
+        earth_velocity.push_back(vector);
+
+        while (getline(file, line)) {
+            file >> year >> month >> day_fraction >> vx >> vy >> vz;
+            std::string date_line;
+            date_line = std::to_string(year) + " " + std::to_string(month) + " " + std::to_string(day_fraction) + '\0';
+            Date date(date_line);
+            vector.set_date(date);
+            vector.set_velocity(vx, vy, vz);
+            earth_velocity.push_back(vector);
+        }
+
+        std::cout << "Earth velocity info read " << earth_velocity.size() << " \n";
+    }
+    else
+    {
+        std::cout << "Error reading file! {" << earth_velocity_file << "}\n";
+    }
+}
+
+
+
 void DataReader::read_earth_rotation()
 {
     std::ifstream file(earth_rotation_file);
@@ -318,4 +359,9 @@ std::map<std::string, Observatory>* DataReader::get_obsevatory_map()
 std::vector<Observation>* DataReader::get_JPL()
 {
     return &this->JPL_mesuare;
+}
+
+std::vector<IntegrationVector>* DataReader::get_earth_velocity_info()
+{
+    return &this->earth_velocity;
 }

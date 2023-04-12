@@ -124,9 +124,9 @@ if __name__ == '__main__':
     
     delta_RA_list = [] # base - model
     delta_DEC_list = [] # base - model
-    for i in range(len(model.model_RA)):
+    for i in range(1, len(model.model_RA)):
         delta_RA_list.append(model.model_RA[i] - base.base_RA[i])
         delta_DEC_list.append(model.model_DEC[i] - base.base_DEC[i])
-
+    model.model_time.pop(0)
     draw_2D_graphic_one_param("Base-Model delta [RA]", model.model_time, delta_RA_list, "RA delta", "./RA_delta")
     draw_2D_graphic_one_param("Base-Model delta [DEC]", model.model_time, delta_DEC_list, "DEC delta","./DEC_delta")

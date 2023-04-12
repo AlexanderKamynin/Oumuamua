@@ -17,6 +17,7 @@ Solution::Solution()
 void Solution::read_data()
 {
     data_reader.read_earth_rotation();
+    data_reader.read_earth_velocity();
     data_reader.read_observations();
     data_reader.read_observatory_data();
     data_reader.read_hubble_data();
@@ -77,7 +78,7 @@ void Solution::integrate()
     converter.cartesian_geocentric_to_cartesian_barycentric(data_reader.get_observations(), data_reader.get_obsevatory_map(), data_reader.get_earth_rotation_vector(), data_reader.get_interpolation_hubble(), map_planets["earth"]);
 
     // light time correction, gravitational deflection, abberation
-    light_corrector.light_correct(data_reader.get_observations(), data_reader.get_obsevatory_map(), &model_orbits, &map_planets["sun"]);
+    light_corrector.light_correct(data_reader.get_observations(), data_reader.get_obsevatory_map(), &model_orbits, &map_planets["sun"], data_reader.get_earth_velocity_info());
     //model_measures = converter.interpolation_model_on_grid(data_reader.get_observations_vector(), data_reader.get_observations()->at(0).get_date(), model_orbits);
     for (int i = 0; i < data_reader.get_observations()->size(); i++) {
         IntegrationVector new_vector;
