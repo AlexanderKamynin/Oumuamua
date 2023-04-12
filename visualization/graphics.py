@@ -123,7 +123,21 @@ def draw_2D_graphics(title, time, measure1, measure2, label1, label2, output_fil
     # plt.show()
     plt.savefig(output_file)
     plt.close()
+    
+    
+def draw_2D_graphic_one_param(title, time, measure1,  label1,  output_file):
+    plt.figure()
+    plt.grid()
+    plt.title(title)
+    plt.scatter(time, measure1, label=label1)
+    #plt.plot(time, measure2, label=label2)
 
+    plt.xlabel('time, MJD')
+    plt.ylabel('Position, radians')
+    plt.legend(loc='best')
+    # plt.show()
+    plt.savefig(output_file)
+    plt.close()
 
 if __name__ == '__main__':
     base = BaseSave("../output_data/base_measure.txt")

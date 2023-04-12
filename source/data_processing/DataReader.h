@@ -26,6 +26,8 @@ private:
     std::map<std::string, std::vector<IntegrationVector>> InterpolationPlanets;
     std::vector<HubbleData> interpolation_hubble;
     std::vector<EarthRotation> earth_rotation;
+    std::vector<IntegrationVector> earth_velocity;
+    std::vector<Observation> JPL_mesuare;
 
     Helpers help;
 
@@ -34,14 +36,17 @@ private:
     std::string hubble_file = "./input_data/hubble_data.txt";
     std::string interpolation_time_file= "./input_data/interpolation_time_data.txt";
     std::string earth_rotation_file = "./input_data/earth_rotation_data.txt";
+    std::string JPL_mesuare_file = "./input_data/JPL_base_mesuare.txt";
+    std::string earth_velocity_file = "./input_data/earth_velocity_info.txt";
 
 public:
     void read_observations();
+    void read_JPL_base_mesuare();
     void read_observatory_data();
     void read_hubble_data();
     void read_interpolation_time_data();
     void read_interpolation_center_planet(std::string filename, std::string name);
-
+    void read_earth_velocity();
     void read_earth_rotation();
 
     std::vector<InterpolationTime> get_interpolation_time();
@@ -60,4 +65,7 @@ public:
     std::vector<HubbleData> get_interpolation_hubble();
     Observatory* get_observatory_data_by_code(std::string);
     std::map<std::string, Observatory>* get_obsevatory_map();
+
+    std::vector<Observation>* get_JPL();
+    std::vector<IntegrationVector>* get_earth_velocity_info();
 };
