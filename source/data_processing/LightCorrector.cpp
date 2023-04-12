@@ -80,25 +80,25 @@ void LightCorrector::gravitational_deflection(BarycentricCoord* body_position, B
 	BarycentricCoord position = *body_position;
 	double observer_to_body[3] = 
 	{
-		position.get_alpha() / position.length(),
-		position.get_beta() / position.length(),
-		position.get_gamma() / position.length()
+		position.get_x() / position.length(),
+		position.get_y() / position.length(),
+		position.get_z() / position.length()
 	};
 
 	position = *body_position - *sun_position; // sun to body
 	double sun_to_body[3] = 
 	{ 
-		position.get_alpha() / position.length(), 
-		position.get_beta() / position.length(), 
-		position.get_gamma() / position.length() 
+		position.get_x() / position.length(), 
+		position.get_y() / position.length(), 
+		position.get_z() / position.length() 
 	};
 
 	position = *observatory_position - *sun_position;
 	double sun_to_observer[3] = 
 	{ 
-		position.get_alpha() / position.length(),
-		position.get_beta() / position.length(),
-		position.get_gamma() / position.length() 
+		position.get_x() / position.length(),
+		position.get_y() / position.length(),
+		position.get_z() / position.length() 
 	};
 
 	position = *sun_position - *observatory_position;
@@ -108,9 +108,9 @@ void LightCorrector::gravitational_deflection(BarycentricCoord* body_position, B
 	iauLd(1, observer_to_body, sun_to_body, sun_to_observer, sun_to_observer_length, 0, corrected_position);
 
 	double vector_length = body_position->length();
-	body_position->set_alpha(corrected_position[0] * vector_length);
-	body_position->set_beta(corrected_position[1] * vector_length);
-	body_position->set_gamma(corrected_position[2] * vector_length);
+	body_position->set_x(corrected_position[0] * vector_length);
+	body_position->set_y(corrected_position[1] * vector_length);
+	body_position->set_z(corrected_position[2] * vector_length);
 }
 
 
@@ -119,9 +119,9 @@ void LightCorrector::aberration(BarycentricCoord* body_position, BarycentricCoor
 	double corrected_position[3];
 	double observer_to_body[3] =
 	{ 
-		body_position->get_alpha() / body_position->length(),
-		body_position->get_beta() / body_position->length(),
-		body_position->get_gamma() / body_position->length()
+		body_position->get_x() / body_position->length(),
+		body_position->get_y() / body_position->length(),
+		body_position->get_z() / body_position->length()
 	};
 	double vx = earth_velocity->get_vx() * 86400; // km/s -> km/day
 	double vy = earth_velocity->get_vy() * 86400;
@@ -137,9 +137,9 @@ void LightCorrector::aberration(BarycentricCoord* body_position, BarycentricCoor
 	iauAb(observer_to_body, observer_velocity, sun_to_observer_length, bm1, corrected_position);
 
 	double vector_length = body_position->length();
-	body_position->set_alpha(corrected_position[0] * vector_length);
-	body_position->set_beta(corrected_position[1] * vector_length);
-	body_position->set_gamma(corrected_position[2] * vector_length);
+	body_position->set_x(corrected_position[0] * vector_length);
+	body_position->set_y(corrected_position[1] * vector_length);
+	body_position->set_z(corrected_position[2] * vector_length);
 }
 
 

@@ -20,7 +20,7 @@ IntegrationVector Integration::derivate_function(IntegrationVector current_condi
     }
 
     d_vector.set_barycentric_position(current_condition.get_velocity().get_vx(), current_condition.get_velocity().get_vy(), current_condition.get_velocity().get_vz());
-    d_vector.set_velocity(a.get_alpha(), a.get_beta(), a.get_gamma());
+    d_vector.set_velocity(a.get_x(), a.get_y(), a.get_z());
 
     return d_vector;
 }

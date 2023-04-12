@@ -1,70 +1,70 @@
 #include "BarycentricCoord.h"
 
 
-double BarycentricCoord::get_alpha() 
+double BarycentricCoord::get_x() 
 {
-    return this->alpha;
+    return this->x;
 }
 
 
-double BarycentricCoord::get_beta()
+double BarycentricCoord::get_y()
 {
-    return this->beta;
+    return this->y;
 }
 
 
-double BarycentricCoord::get_gamma() 
+double BarycentricCoord::get_z() 
 {
-    return this->gamma;
+    return this->z;
 }
 
 
-void BarycentricCoord::set_alpha(double value) 
+void BarycentricCoord::set_x(double value) 
 {
-    this->alpha = value;
+    this->x = value;
 }
 
 
-void BarycentricCoord::set_beta(double value) 
+void BarycentricCoord::set_y(double value) 
 {
-    this->beta = value;
+    this->y = value;
 }
 
 
-void BarycentricCoord::set_gamma(double value)
+void BarycentricCoord::set_z(double value)
 {
-    this->gamma = value;
+    this->z = value;
 }
 
 
 void BarycentricCoord::increase(double value)
 {
-    this->alpha += value;
-    this->beta += value;
-    this->gamma += value;
+    this->x += value;
+    this->y += value;
+    this->z += value;
 }
 
 
 void BarycentricCoord::multiply(double value)
 {
-    this->alpha *= value;
-    this->beta *= value;
-    this->gamma *= value;
+    this->x *= value;
+    this->y *= value;
+    this->z *= value;
 }
 
 
 double BarycentricCoord::length()
 {
-    return sqrt(help.POW_2(this->alpha) + help.POW_2(this->beta) + help.POW_2(this->gamma));
+    return sqrt(help.POW_2(this->x) + help.POW_2(this->y) + help.POW_2(this->z));
 }
 
 
 BarycentricCoord operator+(BarycentricCoord coordinate_1, BarycentricCoord coordinate_2)
 {
     BarycentricCoord result;
-    result.alpha = coordinate_1.alpha + coordinate_2.alpha;
-    result.beta = coordinate_1.beta + coordinate_2.beta;
-    result.gamma = coordinate_1.gamma + coordinate_2.gamma;
+    result.x = coordinate_1.x + coordinate_2.x;
+    result.y = coordinate_1.y + coordinate_2.y;
+    result.z = coordinate_1.z + coordinate_2.z;
     return result;
 }
 
@@ -72,19 +72,28 @@ BarycentricCoord operator+(BarycentricCoord coordinate_1, BarycentricCoord coord
 BarycentricCoord operator-(BarycentricCoord coordinate_1, BarycentricCoord coordinate_2)
 {
     BarycentricCoord result;
-    result.alpha = coordinate_1.alpha - coordinate_2.alpha;
-    result.beta = coordinate_1.beta - coordinate_2.beta;
-    result.gamma = coordinate_1.gamma - coordinate_2.gamma;
+    result.x = coordinate_1.x - coordinate_2.x;
+    result.y = coordinate_1.y - coordinate_2.y;
+    result.z = coordinate_1.z - coordinate_2.z;
     return result;
 }
 
 
+BarycentricCoord operator*(BarycentricCoord coordinate_1, double value)
+{
+    BarycentricCoord result;
+    result.x = coordinate_1.x * value;
+    result.y = coordinate_1.y * value;
+    result.z = coordinate_1.z * value;
+    return result;
+}
+
 BarycentricCoord operator*(double value, BarycentricCoord coordinate_1)
 {
     BarycentricCoord result;
-    result.alpha = coordinate_1.alpha * value;
-    result.beta = coordinate_1.beta * value;
-    result.gamma = coordinate_1.gamma * value;
+    result.x = coordinate_1.x * value;
+    result.y = coordinate_1.y * value;
+    result.z = coordinate_1.z * value;
     return result;
 }
 
@@ -92,9 +101,9 @@ BarycentricCoord operator*(double value, BarycentricCoord coordinate_1)
 BarycentricCoord operator/(BarycentricCoord coordinate_1, BarycentricCoord coordinate_2)
 {
     BarycentricCoord result;
-    result.alpha = coordinate_1.alpha / coordinate_2.alpha;
-    result.beta = coordinate_1.beta / coordinate_2.beta;
-    result.gamma = coordinate_1.gamma / coordinate_2.gamma;
+    result.x = coordinate_1.x / coordinate_2.x;
+    result.y = coordinate_1.y / coordinate_2.y;
+    result.z = coordinate_1.z / coordinate_2.z;
     return result;
 }
 
@@ -102,8 +111,8 @@ BarycentricCoord operator/(BarycentricCoord coordinate_1, BarycentricCoord coord
 BarycentricCoord operator/(BarycentricCoord coordinate_1, double value)
 {
     BarycentricCoord result;
-    result.alpha = coordinate_1.alpha / value;
-    result.beta = coordinate_1.beta / value;
-    result.gamma = coordinate_1.gamma / value;
+    result.x = coordinate_1.x / value;
+    result.y = coordinate_1.y / value;
+    result.z = coordinate_1.z / value;
     return result;
 }

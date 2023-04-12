@@ -1,11 +1,11 @@
 #include "IntegrationVector.h"
 
 
-void IntegrationVector::set_barycentric_position(double alpha, double beta, double gamma)
+void IntegrationVector::set_barycentric_position(double x, double y, double z)
 {
-    this->barycentric_position.set_alpha(alpha);
-    this->barycentric_position.set_beta(beta);
-    this->barycentric_position.set_gamma(gamma);
+    this->barycentric_position.set_x(x);
+    this->barycentric_position.set_y(y);
+    this->barycentric_position.set_z(z);
 }
 
 

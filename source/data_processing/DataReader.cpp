@@ -59,11 +59,11 @@ void DataReader::read_JPL_base_mesuare()
             JPL_date.set_MJD(std::stod(line.substr(0,17)) - 2400000.5);
             Observation observation;
             observation.set_date(JPL_date);
-            double alpha = std::stod(line.substr(52, 21));
-            double beta = std::stod(line.substr(76, 21));
-            double gamma = std::stod(line.substr(100, 21));
-            //std::cout << "alpha: " << alpha << "|" << line.substr(52, 21) << "\tbeta: " << beta << "|" << line.substr(76, 21) << "\tgamma: " << gamma << "|" << line.substr(100, 21) << std::endl;
-            observation.set_barycentric(alpha, beta, gamma);
+            double x = std::stod(line.substr(52, 21));
+            double y = std::stod(line.substr(76, 21));
+            double z = std::stod(line.substr(100, 21));
+            //std::cout << "x: " << x << "|" << line.substr(52, 21) << "\tbeta: " << y << "|" << line.substr(76, 21) << "\tgamma: " << z << "|" << line.substr(100, 21) << std::endl;
+            observation.set_barycentric(x, y, z);
             JPL_mesuare.push_back(observation);
         }
     }

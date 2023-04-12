@@ -7,40 +7,33 @@
     This class represents the coordinate system (related to the barycenter of the solar system)
     in which the celestial objects exist
 
-    alpha, beta, gamma - coordinates (vectors) for this system
+    x, y, z - coordinates (vectors) for this system
 
 */
 class BarycentricCoord
 {
 private:
-    double alpha = 0;
-    double beta = 0;
-    double gamma = 0;
+    double x = 0;
+    double y = 0;
+    double z = 0;
 
     Helpers help;
 public:
     BarycentricCoord() = default;
-    BarycentricCoord(double a, double b, double g) : alpha(a), beta(b), gamma(g) {};
+    BarycentricCoord(double x, double y, double z) : x(x), y(y), z(z) {};
 
     //getters
-    double get_alpha();
-    double get_beta();
-    double get_gamma();
-
+    double get_x();
+    double get_y();
+    double get_z();
 
     //setters
-    void set_alpha(double);
-    void set_beta(double);
-    void set_gamma(double);
+    void set_x(double);
+    void set_y(double);
+    void set_z(double);
 
-
-    /*
-        Method for + and * all coordinates on one value
-    */
     void increase(double);
     void multiply(double);
-
-
     double length();
 
     /*
@@ -48,6 +41,7 @@ public:
     */
     friend BarycentricCoord operator+(BarycentricCoord, BarycentricCoord);
     friend BarycentricCoord operator-(BarycentricCoord, BarycentricCoord);
+    friend BarycentricCoord operator*(BarycentricCoord, double);
     friend BarycentricCoord operator*(double, BarycentricCoord);
     friend BarycentricCoord operator/(BarycentricCoord, BarycentricCoord);
     friend BarycentricCoord operator/(BarycentricCoord, double);

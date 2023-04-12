@@ -24,17 +24,6 @@ CartesianCoord Converter::cylindrical_to_cartesian(CylindricalCoord coordinates)
     cartesian_coordinates.set_y(std::sin(angle) * coordinates.get_cos() * EARTH_RADIUS);
     cartesian_coordinates.set_z(coordinates.get_sin() * EARTH_RADIUS);
 
-    //@CHECK
-    //std::cout << "cylindrical was: "
-    //    << "longi=" << coordinates.get_longitude()
-    //    << " cos=" << coordinates.get_cos()
-    //    << " sin=" << coordinates.get_sin() << "\n";
-    
-    //std::cout << "cartesian got: "
-    //    << "x=" << cartesian_coordinates.get_x()
-    //    << " y=" << cartesian_coordinates.get_y()
-    //    << " z=" << cartesian_coordinates.get_z() << "\n\n";
-
     return cartesian_coordinates;
 }
 
@@ -67,9 +56,6 @@ void Converter::UTC_to_TT(Date* date)
 
         date->set_TT(date->get_MJD() + (deltat + 32.184) / 86400); // TT in days
 
-        //@CHECK
-        //std::cout << "Year=" << date->get_year() << " month=" << date->get_month() << " day=" << date->get_day() << " seconds=" << date->get_seconds() << " day_fraction=" << date->get_day_fraction() <<
-        //    " deltat=" << deltat << " s." << " MJD=" << date->get_MJD() << " TT=" << date->get_TT() << "\n\n";
     }
 }
 
@@ -96,14 +82,6 @@ void Converter::interpolation_time(Date* date_start, std::vector<Observation>* o
         double t_interpolate = observations->at(i).get_date()->get_MJD();
 
         interpolation_time_term = f_previous + (f_current - f_previous) / (t_current - t_previous) * (t_interpolate - t_previous);
-        /*  interpolation_time_term = TT - TDB
-            we want to get to TDB, so multiply on -1 both sides:
-            - interpolation_time_term = TDB - TT
-            add to both sides TT, then
-            TDB = TT - interpolation_time_term
-
-            TT in days, interpolation_time_term in ms, so we should interpolation_time_term / 86400000
-        */
         double TDB = observations->at(i).get_date()->get_TT() - (interpolation_time_term / 86400000);
         observations->at(i).get_date()->set_TDB(TDB);
     }
@@ -193,17 +171,6 @@ void Converter::barycentric_spherical_to_geocentric_cartesian(Observation* obser
 */
 void Converter::spherical_hours_to_spherical_radians(Observation* observation)
 {
-    //@CHECK
-    //std::cout << "observation: " << "MJD=" << observation->get_date()->get_MJD() << "\nRA in hours system="
-    //    << observation->get_spherical_position().get_RA_in_hours_system()[0] << " "
-    //    << observation->get_spherical_position().get_RA_in_hours_system()[1] << " "
-    //    << observation->get_spherical_position().get_RA_in_hours_system()[2] << " "
-    //    << "\nDEC in hours system="
-    //    << observation->get_spherical_position().get_DEC_in_hours_system()[0] << " "
-    //    << observation->get_spherical_position().get_DEC_in_hours_system()[1] << " "
-    //    << observation->get_spherical_position().get_DEC_in_hours_system()[2] << "\n";
-
-
     // Convert from hours-system to degrees:
     // https://planetcalc.ru/7663/
     double* RA_in_hours_system = observation->get_spherical_position().get_RA_in_hours_system();
@@ -282,8 +249,8 @@ void Converter::spherical_hours_to_spherical_radians(Observation* observation)
 */
 void Converter::barycentric_cartesian_to_barycentric_spherical(IntegrationVector* vector, std::vector<SphericalCoord>* coords)
 {
-    //std::cout << "Before convertation:" << vector->get_barycentric_position().get_alpha() << "|" << vector->get_barycentric_position().get_beta() << "|" << vector->get_barycentric_position().get_gamma() << std::endl;
-    double barycentric_coord[3] = { vector->get_barycentric_position().get_alpha(), vector->get_barycentric_position().get_beta(), vector->get_barycentric_position().get_gamma() };
+    //std::cout << "Before convertation:" << vector->get_barycentric_position().get_x() << "|" << vector->get_barycentric_position().get_y() << "|" << vector->get_barycentric_position().get_z() << std::endl;
+    double barycentric_coord[3] = { vector->get_barycentric_position().get_x(), vector->get_barycentric_position().get_y(), vector->get_barycentric_position().get_z() };
     double right_ascension;
     double declination;
 
@@ -328,18 +295,18 @@ void Converter::cartesian_geocentric_to_cartesian_barycentric(std::vector<Observ
             // interpolation observatory coordinates to Earth center
             // [barycentric position of the center of the Earth] + [celestial geocentric position of the observatory]
             BarycentricCoord interpolated_Earth_center = interpolation_Earth_center(*current_date, *start_date, earth_position);
-            observatory_position.set_alpha(interpolated_Earth_center.get_alpha() + geocentric_observatory_position.get_x());
-            observatory_position.set_beta(interpolated_Earth_center.get_beta() + geocentric_observatory_position.get_y());
-            observatory_position.set_gamma(interpolated_Earth_center.get_gamma() + geocentric_observatory_position.get_z());
+            observatory_position.set_x(interpolated_Earth_center.get_x() + geocentric_observatory_position.get_x());
+            observatory_position.set_y(interpolated_Earth_center.get_y() + geocentric_observatory_position.get_y());
+            observatory_position.set_z(interpolated_Earth_center.get_z() + geocentric_observatory_position.get_z());
         }
         else
         {
             GeocentricCoord geocentric_hubble_position = find_needed_hubble_data(*current_date, hubble_data);
             // [barycentric position of the center of the Earth] + [celestial geocentric position of the observatory]
             BarycentricCoord interpolated_Earth_center = interpolation_Earth_center(*current_date, *start_date, earth_position);
-            observatory_position.set_alpha(interpolated_Earth_center.get_alpha() + geocentric_hubble_position.get_x());
-            observatory_position.set_beta(interpolated_Earth_center.get_beta() + geocentric_hubble_position.get_y());
-            observatory_position.set_gamma(interpolated_Earth_center.get_gamma() + geocentric_hubble_position.get_z());
+            observatory_position.set_x(interpolated_Earth_center.get_x() + geocentric_hubble_position.get_x());
+            observatory_position.set_y(interpolated_Earth_center.get_y() + geocentric_hubble_position.get_y());
+            observatory_position.set_z(interpolated_Earth_center.get_z() + geocentric_hubble_position.get_z());
         }
 
         // set position for observatory
@@ -363,7 +330,7 @@ std::vector<IntegrationVector> Converter::interpolation_model_on_grid(std::vecto
         BarycentricCoord interpolated_position = interpolation_helper(interpolation_orbits[j], interpolation_orbits[j - 1], *observation_vector[i].get_date());
         Date new_date = *observation_vector[i].get_date();
         interpolated_vector.set_date(new_date);
-        interpolated_vector.set_barycentric_position(interpolated_position.get_alpha(), interpolated_position.get_beta(), interpolated_position.get_gamma());
+        interpolated_vector.set_barycentric_position(interpolated_position.get_x(), interpolated_position.get_y(), interpolated_position.get_z());
         interpolated_vector.set_velocity(interpolation_orbits[j].get_velocity().get_vx(), interpolation_orbits[j].get_velocity().get_vy(), interpolation_orbits[j].get_velocity().get_vz());
         result.push_back(interpolated_vector);
     }
@@ -392,7 +359,7 @@ std::map<std::string, std::vector<IntegrationVector>> Converter::interpolation_c
                     BarycentricCoord interpolated_position_1 = interpolation_helper(interpolation_planet.second[j], interpolation_planet.second[j - 1], current_date);
                     IntegrationVector interpolated_position;
                     interpolated_position.set_date(current_date);
-                    interpolated_position.set_barycentric_position(interpolated_position_1.get_alpha(), interpolated_position_1.get_beta(), interpolated_position_1.get_gamma());
+                    interpolated_position.set_barycentric_position(interpolated_position_1.get_x(), interpolated_position_1.get_y(), interpolated_position_1.get_z());
                     interpolated_center_planet.push_back(interpolated_position);
                     current_date.set_MJD(current_date.get_MJD() + step);
                     break;
@@ -417,25 +384,25 @@ BarycentricCoord Converter::interpolation_Earth_center(Date date_current, Date d
 
 BarycentricCoord Converter::interpolation_helper(IntegrationVector position_current, IntegrationVector position_previous, Date date)
 {
-    double f_current = position_current.get_barycentric_position().get_alpha();
-    double f_previous = position_previous.get_barycentric_position().get_alpha();
+    double f_current = position_current.get_barycentric_position().get_x();
+    double f_previous = position_previous.get_barycentric_position().get_x();
     double t_current = position_current.get_date().get_MJD();
     double t_previous = position_previous.get_date().get_MJD();
     double t_interpolate = date.get_MJD();
 
     double interpolation_alpha_term = f_previous + (f_current - f_previous) / (t_current - t_previous) * (t_interpolate - t_previous);
 
-    f_current = position_current.get_barycentric_position().get_beta();
-    f_previous = position_previous.get_barycentric_position().get_beta();
+    f_current = position_current.get_barycentric_position().get_y();
+    f_previous = position_previous.get_barycentric_position().get_y();
     double interpolation_beta_term = f_previous + (f_current - f_previous) / (t_current - t_previous) * (t_interpolate - t_previous);
 
-    f_current = position_current.get_barycentric_position().get_gamma();
-    f_previous = position_previous.get_barycentric_position().get_gamma();
+    f_current = position_current.get_barycentric_position().get_z();
+    f_previous = position_previous.get_barycentric_position().get_z();
     double interpolation_gamma_term = f_previous + (f_current - f_previous) / (t_current - t_previous) * (t_interpolate - t_previous);
 
     BarycentricCoord interpolated_position;
-    interpolated_position.set_alpha(interpolation_alpha_term);
-    interpolated_position.set_beta(interpolation_beta_term);
-    interpolated_position.set_gamma(interpolation_gamma_term);
+    interpolated_position.set_x(interpolation_alpha_term);
+    interpolated_position.set_y(interpolation_beta_term);
+    interpolated_position.set_z(interpolation_gamma_term);
     return interpolated_position;
 }

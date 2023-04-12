@@ -26,10 +26,4 @@ public:
     void set_longitude_from_string(std::string value);
     void set_cos_from_string(std::string value);
     void set_sin_from_string(std::string value);
-
-    //operators
-    CylindricalCoord(const CylindricalCoord& other);
-    CylindricalCoord& operator=(const CylindricalCoord& other);
-    CylindricalCoord(const CylindricalCoord&& other);
-    CylindricalCoord& operator=(const CylindricalCoord&& other);
 };

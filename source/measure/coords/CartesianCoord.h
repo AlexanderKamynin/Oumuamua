@@ -1,6 +1,5 @@
 #pragma once
 #include <string>
-#include "../../Helpers.h"
 
 
 /*
@@ -14,7 +13,6 @@ private:
     double x = 0;
     double y = 0;
     double z = 0;
-    Helpers help;
 public:
     CartesianCoord() = default;
 
@@ -24,13 +22,7 @@ public:
     double get_z();
 
     //setters
-    void set_x(double value);
-    void set_y(double value);
-    void set_z(double value);
-
-    //operators
-    CartesianCoord(const CartesianCoord& other);
-    CartesianCoord& operator=(const CartesianCoord& other);
-    CartesianCoord(const CartesianCoord&& other);
-    CartesianCoord& operator=(const CartesianCoord&& other);
+    void set_x(double);
+    void set_y(double);
+    void set_z(double);
 };
