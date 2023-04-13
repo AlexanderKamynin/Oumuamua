@@ -813,6 +813,9 @@
     <ClCompile Include="source\data_processing\LightCorrector.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="source\data_processing\Interpolator.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sofa\src\sofa.h">
@@ -878,6 +881,9 @@
     <ClInclude Include="source\data_processing\LightCorrector.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="source\data_processing\Interpolator.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="sofa\src\makefile" />
@@ -902,6 +908,8 @@
     <Text Include="input_data\JPL_base_mesuare.txt" />
     <Text Include="input_data\earth_velocity_info.txt" />
     <Text Include="output_data\delta.txt" />
+    <Text Include="output_data\base_barycentric.txt" />
+    <Text Include="output_data\model_barycentric.txt" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="visualization\DEC_compare.png">

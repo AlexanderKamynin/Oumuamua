@@ -1,5 +1,6 @@
 #pragma once
 #include "../measure/coords/Observatory.h"
+#include "../data_processing/Interpolator.h"
 #include "../measure/data_structures/IntegrationVector.h"
 #include "../measure/coords/Observation.h"
 #include "../measure/data_structures/HubbleData.h"
@@ -12,14 +13,16 @@
 #include <iostream>
 
 
+
 class LightCorrector
 {
 private:
 	Converter* converter;
+	Interpolator* interpolator;
 	Helpers help;
 public:
 	LightCorrector() = default;
-	LightCorrector(Converter*);
+	LightCorrector(Converter*, Interpolator*);
 
 	void light_correct(std::vector<Observation>* observation, std::map<std::string, Observatory>* observatory, std::vector<IntegrationVector>* model_measure, std::vector<IntegrationVector>* sun_info, std::vector<IntegrationVector>* earth_velocity_info);
 
@@ -29,8 +32,5 @@ public:
 
 	void aberration(BarycentricCoord* body_position, BarycentricCoord* observatory_position, BarycentricCoord* sun, Velocity* earth_velocity);
 
-	BarycentricCoord find_object_position(Date time, std::vector<IntegrationVector>* model_measure);
-
-	Velocity find_earth_velocity(Date time, std::vector<IntegrationVector>* earth_velocity_info);
 };
 

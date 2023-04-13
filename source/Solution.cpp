@@ -1,17 +1,21 @@
 #include "Solution.h"
 
 
+
 Solution::Solution()
 {
     // initial values was taken from here: https://ssd.jpl.nasa.gov/horizons/app.html#/
     initial_condition.set_barycentric(1.46966286538887E+08, 7.29982316871326E+07, 2.05657582369639E+07);
     initial_condition.set_velocity((4.467714995410097E+01) * 86400, (3.759100797623457E+00) * 86400, (1.726983438363074E+01) * 86400); // km/c -> km/day
 
-    Converter converter;
+    Interpolator interpolator;
+    this->interpolator = interpolator;
+    Converter converter = { &this->interpolator };
     this->converter = converter;
-    LightCorrector light_corrector = { &this->converter };
+    LightCorrector light_corrector = { &this->converter, &this->interpolator };
     this->light_corrector = light_corrector;
 }
+
 
 
 void Solution::read_data()
@@ -36,6 +40,7 @@ void Solution::read_data()
 }
 
 
+
 // convert time, celestial -> spherical and spherical -> geocentric coordinates
 void Solution::convert_observations()
 {
@@ -46,7 +51,7 @@ void Solution::convert_observations()
         converter.spherical_hours_to_spherical_radians(data_reader.get_observation(ind));
         converter.barycentric_spherical_to_geocentric_cartesian(data_reader.get_observation(ind));
     }
-     converter.interpolation_time(data_reader.get_observations()->at(0).get_date(), data, data_reader.get_interpolation_time());
+     this->interpolator.interpolation_time(data_reader.get_observations()->at(0).get_date(), data, data_reader.get_interpolation_time());
 }
 
 
@@ -73,7 +78,7 @@ void Solution::integrate()
     std::vector<SphericalCoord> model_spherical;
     std::vector<SphericalCoord> base_spherical;
 
-    std::map<std::string, std::vector<IntegrationVector>> map_planets = converter.interpolation_center_planet(data_reader.get_observations()->at(0).get_date(), data_reader.get_observations()->at(221).get_date(), step, data_reader.get_interpolation_planets());
+    std::map<std::string, std::vector<IntegrationVector>> map_planets = interpolator.interpolation_center_planet(data_reader.get_observations()->at(0).get_date(), data_reader.get_observations()->at(221).get_date(), step, data_reader.get_interpolation_planets());
     model_orbits = integration.dormand_prince(initial_condition, data_reader.get_observations()->at(0).get_date(), data_reader.get_observations()->at(221).get_date(), step, &map_planets);
     converter.cartesian_geocentric_to_cartesian_barycentric(data_reader.get_observations(), data_reader.get_obsevatory_map(), data_reader.get_earth_rotation_vector(), data_reader.get_interpolation_hubble(), map_planets["earth"]);
 
@@ -174,7 +179,7 @@ std::vector<IntegrationVector> Solution::interolate_JPL()
                 current_vector.set_date(*data_reader.get_JPL()->at(j + 1).get_date());
                 previous_vector.set_date(*data_reader.get_JPL()->at(j).get_date());
 
-                BarycentricCoord interpolated_position = converter.interpolation_helper(current_vector, previous_vector, *data_reader.get_observations_vector()[i].get_date());
+                BarycentricCoord interpolated_position = interpolator.interpolation_helper(current_vector, previous_vector, *data_reader.get_observations_vector()[i].get_date());
 
                 IntegrationVector current;
                 current.set_date(*data_reader.get_observations_vector()[i].get_date());

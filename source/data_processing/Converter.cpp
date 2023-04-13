@@ -2,6 +2,14 @@
 
 
 
+Converter::Converter(Interpolator* interpolator)
+{
+    this->interpolator = interpolator;
+}
+
+
+
+
 /*
     Method that convert cylindrical coordinates into cartesian coordinates
     https://ru.wikipedia.org/wiki/Цилиндрическая_система_координат
@@ -56,34 +64,6 @@ void Converter::UTC_to_TT(Date* date)
 
         date->set_TT(date->get_MJD() + (deltat + 32.184) / 86400); // TT in days
 
-    }
-}
-
-
-
-/*
-    Interpolation of time on a uniform grid for observations
-*/
-void Converter::interpolation_time(Date* date_start, std::vector<Observation>* observations, std::vector<InterpolationTime> time)
-{
-    double interpolation_time_term;
-    int last = 0;
-    for (int i = 0; i < observations->size(); i++)
-    {
-        int expected_j = 10 * int(observations->at(i).get_date()->get_day_fraction() * 10) + (int(observations->at(i).get_date()->get_MJD()) - int(time[0].get_date().get_MJD())) * 100 + 5; // constatnt find j
-        if (not (observations->at(i).get_date()->get_MJD() < time[expected_j].get_date().get_MJD() and observations->at(i).get_date()->get_MJD() > time[expected_j - 1].get_date().get_MJD())) //checking j
-        {
-            expected_j += 1;
-        }
-        double f_current = time[expected_j].get_TT_TDB();
-        double f_previous = time[expected_j - 1].get_TT_TDB();
-        double t_current = time[expected_j].get_date().get_MJD();
-        double t_previous = time[expected_j - 1].get_date().get_MJD();
-        double t_interpolate = observations->at(i).get_date()->get_MJD();
-
-        interpolation_time_term = f_previous + (f_current - f_previous) / (t_current - t_previous) * (t_interpolate - t_previous);
-        double TDB = observations->at(i).get_date()->get_TT() - (interpolation_time_term / 86400000);
-        observations->at(i).get_date()->set_TDB(TDB);
     }
 }
 
@@ -270,7 +250,7 @@ void Converter::cartesian_geocentric_to_cartesian_barycentric(std::vector<Observ
             GeocentricCoord geocentric_observatory_position = terrestial_to_geocentric_celestial(current_observatory->get_cartesian(), *current_date, earth_rotation_info);
             // interpolation observatory coordinates to Earth center
             // [barycentric position of the center of the Earth] + [celestial geocentric position of the observatory]
-            BarycentricCoord interpolated_Earth_center = interpolation_Earth_center(*current_date, *start_date, earth_position);
+            BarycentricCoord interpolated_Earth_center = interpolator->interpolation_Earth_center(*current_date, *start_date, earth_position);
             observatory_position.set_x(interpolated_Earth_center.get_x() + geocentric_observatory_position.get_x());
             observatory_position.set_y(interpolated_Earth_center.get_y() + geocentric_observatory_position.get_y());
             observatory_position.set_z(interpolated_Earth_center.get_z() + geocentric_observatory_position.get_z());
@@ -279,7 +259,7 @@ void Converter::cartesian_geocentric_to_cartesian_barycentric(std::vector<Observ
         {
             GeocentricCoord geocentric_hubble_position = find_needed_hubble_data(*current_date, hubble_data);
             // [barycentric position of the center of the Earth] + [celestial geocentric position of the observatory]
-            BarycentricCoord interpolated_Earth_center = interpolation_Earth_center(*current_date, *start_date, earth_position);
+            BarycentricCoord interpolated_Earth_center = interpolator->interpolation_Earth_center(*current_date, *start_date, earth_position);
             observatory_position.set_x(interpolated_Earth_center.get_x() + geocentric_hubble_position.get_x());
             observatory_position.set_y(interpolated_Earth_center.get_y() + geocentric_hubble_position.get_y());
             observatory_position.set_z(interpolated_Earth_center.get_z() + geocentric_hubble_position.get_z());
@@ -290,86 +270,3 @@ void Converter::cartesian_geocentric_to_cartesian_barycentric(std::vector<Observ
     }
 }
 
-
-
-/*
-    Interpolation numerical integraion result (model) on the time grid
-*/
-std::vector<IntegrationVector> Converter::interpolation_model_on_grid(std::vector<Observation> observation_vector, Date* date_start, std::vector<IntegrationVector> interpolation_orbits)
-{
-    int last = 0;
-    std::vector<IntegrationVector> result;
-    for (int i = 0; i < observation_vector.size(); i++)
-    {
-        IntegrationVector interpolated_vector;
-        int j = int((observation_vector[i].get_date()->get_MJD() - date_start->get_MJD()) / STEP) + 2;
-        BarycentricCoord interpolated_position = interpolation_helper(interpolation_orbits[j], interpolation_orbits[j - 1], *observation_vector[i].get_date());
-        Date new_date = *observation_vector[i].get_date();
-        interpolated_vector.set_date(new_date);
-        interpolated_vector.set_barycentric(interpolated_position.get_x(), interpolated_position.get_y(), interpolated_position.get_z());
-        interpolated_vector.set_velocity(interpolation_orbits[j].get_velocity().get_vx(), interpolation_orbits[j].get_velocity().get_vy(), interpolation_orbits[j].get_velocity().get_vz());
-        result.push_back(interpolated_vector);
-    }
-    return result;
-}
-
-
-/*
-    Interpolation all center planets coordinates
-*/
-std::map<std::string, std::vector<IntegrationVector>> Converter::interpolation_center_planet(Date* date_start, Date* date_end, double step, std::map<std::string, std::vector<IntegrationVector>> planets_position)
-{
-    std::map<std::string, std::vector<IntegrationVector>> interpolated_planet;
-    for (auto interpolation_planet : planets_position)
-    {
-        Date current_date = *date_start;
-        int last = 0;
-        std::vector<IntegrationVector> interpolated_center_planet;
-        while (current_date.get_MJD() < date_end->get_MJD() + 1)
-        {
-            for (int j = last; j < interpolation_planet.second.size(); j++)
-            {
-                if (current_date.get_MJD() < interpolation_planet.second[j].get_date().get_MJD())
-                {
-                    last = j - 1;
-                    BarycentricCoord interpolated_position_1 = interpolation_helper(interpolation_planet.second[j], interpolation_planet.second[j - 1], current_date);
-                    IntegrationVector interpolated_position;
-                    interpolated_position.set_date(current_date);
-                    interpolated_position.set_barycentric(interpolated_position_1.get_x(), interpolated_position_1.get_y(), interpolated_position_1.get_z());
-                    interpolated_center_planet.push_back(interpolated_position);
-                    current_date.set_MJD(current_date.get_MJD() + step);
-                    break;
-                }
-            }
-        }
-        interpolated_planet[interpolation_planet.first] = interpolated_center_planet;
-    }
-
-    return interpolated_planet;
-}
-
-/*
-    Interpolation of Earth center coordinates
-*/
-BarycentricCoord Converter::interpolation_Earth_center(Date date_current, Date date_start, std::vector<IntegrationVector> earth_position)
-{
-    int i = int((date_current.get_MJD() - date_start.get_MJD()) / STEP) + 1;
-    BarycentricCoord interpolated_position = interpolation_helper(earth_position[i], earth_position[i - 1], date_current);
-    return interpolated_position;
-}
-
-BarycentricCoord Converter::interpolation_helper(IntegrationVector position_current, IntegrationVector position_previous, Date date)
-{
-    BarycentricCoord f_current = position_current.get_barycentric();
-    BarycentricCoord f_previous = position_previous.get_barycentric();
-    double t_current = position_current.get_date().get_MJD();
-    double t_previous = position_previous.get_date().get_MJD();
-    double t_interpolate = date.get_MJD();
-
-    BarycentricCoord interpolated_position = f_previous + (f_current - f_previous) / (t_current - t_previous) * (t_interpolate - t_previous);
-
-    interpolated_position.set_x(interpolated_position.get_x());
-    interpolated_position.set_y(interpolated_position.get_y());
-    interpolated_position.set_z(interpolated_position.get_z());
-    return interpolated_position;
-}
