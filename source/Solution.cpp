@@ -67,7 +67,7 @@ void Solution::convert_observatory()
 }
 
 
-void Solution::integrate() 
+void Solution::direct_problem() 
 {
     double step = STEP; // MJD step
     std::vector<IntegrationVector> model_measures;
@@ -179,7 +179,7 @@ std::vector<IntegrationVector> Solution::interolate_JPL()
                 current_vector.set_date(*data_reader.get_JPL()->at(j + 1).get_date());
                 previous_vector.set_date(*data_reader.get_JPL()->at(j).get_date());
 
-                BarycentricCoord interpolated_position = interpolator.interpolation_helper(current_vector, previous_vector, *data_reader.get_observations_vector()[i].get_date());
+                BarycentricCoord interpolated_position = interpolator.interpolation_helper(*data_reader.get_observations_vector()[i].get_date(), current_vector, previous_vector);
 
                 IntegrationVector current;
                 current.set_date(*data_reader.get_observations_vector()[i].get_date());
@@ -204,5 +204,5 @@ void Solution::act()
     read_data();
     convert_observations();
     convert_observatory();
-    integrate();
+    direct_problem();
 }

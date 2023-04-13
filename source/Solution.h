@@ -33,7 +33,7 @@ public:
     void convert_observations();
     void convert_observatory();
     // integration
-    void integrate();
+    void direct_problem();
     void write_result(std::vector<IntegrationVector>* model, std::vector<IntegrationVector>* base_measures, std::vector<SphericalCoord>* model_spherical, std::vector<SphericalCoord>* base_spherical);
     std::vector<IntegrationVector> interolate_JPL();
 };
