@@ -37,10 +37,16 @@ void Observation::set_declination_from_string(std::string value)
 }
 
 
-void Observation::set_spherical(double longitude, double latitude) 
+void Observation::set_spherical(double RA, double DEC) 
 {
-    this->spherical_position.set_right_ascension(longitude);
-    this->spherical_position.set_declination(latitude);
+    this->spherical_position.set_right_ascension(RA);
+    this->spherical_position.set_declination(DEC);
+}
+
+
+void Observation::set_spherical(SphericalCoord coordinates)
+{
+    this->set_spherical(coordinates.get_right_ascension(), coordinates.get_declination());
 }
 
 
@@ -62,6 +68,11 @@ void Observation::set_geocentric(double x, double y, double z)
     this->geocentric_position.set_x(x);
     this->geocentric_position.set_y(y);
     this->geocentric_position.set_z(z);
+}
+
+void Observation::set_geocentric(GeocentricCoord coordinates)
+{
+    this->set_geocentric(coordinates.get_x(), coordinates.get_y(), coordinates.get_z());
 }
 
 

@@ -1,24 +1,27 @@
 #include "IntegrationVector.h"
 
 
-void IntegrationVector::set_barycentric_position(double x, double y, double z)
+void IntegrationVector::set_barycentric(double x, double y, double z)
 {
     this->barycentric_position.set_x(x);
     this->barycentric_position.set_y(y);
     this->barycentric_position.set_z(z);
 }
 
-
-//void IntegrationVector::set_spherical_position(double RA, double DEC)
-//{
-//    this->spherical_position.set_right_ascension(RA);
-//    this->spherical_position.set_declination(DEC);
-//}
+void IntegrationVector::set_barycentric(BarycentricCoord coordinates)
+{
+    this->set_barycentric(coordinates.get_x(), coordinates.get_y(), coordinates.get_z());
+}
 
 
 void IntegrationVector::set_velocity(double vx, double vy, double vz) 
 {
-    this->velocity.set_all(vx, vy, vz);
+    this->velocity.set_all_velocity(vx, vy, vz);
+}
+
+void IntegrationVector::set_velocity(Velocity v)
+{
+    this->set_velocity(v.get_vx(), v.get_vy(), v.get_vz());
 }
 
 
@@ -28,16 +31,12 @@ void IntegrationVector::set_date(Date date)
 }
 
 
-BarycentricCoord IntegrationVector::get_barycentric_position() 
+BarycentricCoord IntegrationVector::get_barycentric() 
 {
     return this->barycentric_position;
 }
 
 
-//SphericalCoord IntegrationVector::get_spherical_position() 
-//{
-//    return this->spherical_position;
-//}
 
 
 Velocity IntegrationVector::get_velocity() 

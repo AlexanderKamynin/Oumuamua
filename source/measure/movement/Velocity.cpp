@@ -19,7 +19,7 @@ double Velocity::get_vz()
 }
 
 
-void Velocity::set_all(double vx, double vy, double vz)
+void Velocity::set_all_velocity(double vx, double vy, double vz)
 {
     this->vx = vx;
     this->vy = vy;

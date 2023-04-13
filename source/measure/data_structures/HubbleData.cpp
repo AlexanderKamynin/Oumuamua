@@ -8,7 +8,7 @@ void HubbleData::set_date(Date date)
 
 void HubbleData::set_geocentric(GeocentricCoord coord) 
 {
-    this->geoncentric_position = coord;
+    this->geocentric_position = coord;
 }
 
 void HubbleData::set_barycentric(BarycentricCoord coord)
@@ -23,7 +23,7 @@ Date HubbleData::get_date()
 
 GeocentricCoord HubbleData::get_geocentric() 
 {
-    return this->geoncentric_position;
+    return this->geocentric_position;
 }
 
 BarycentricCoord HubbleData::get_barycentric()

@@ -26,7 +26,6 @@ class IntegrationVector
 {
 private:
     BarycentricCoord barycentric_position;
-    SphericalCoord spherical_position;
     Velocity velocity;
     Date date;
 public:
@@ -34,15 +33,15 @@ public:
 
 
     //setters
-    void set_barycentric_position(double, double, double);
-    //void set_spherical_position(double, double);
+    void set_barycentric(double, double, double);
+    void set_barycentric(BarycentricCoord);
     void set_velocity(double, double, double);
+    void set_velocity(Velocity);
     void set_date(Date);
 
 
     //geters
-    BarycentricCoord get_barycentric_position();
-    //SphericalCoord get_spherical_position();
+    BarycentricCoord get_barycentric();
     Velocity get_velocity();
     Date get_date();
 

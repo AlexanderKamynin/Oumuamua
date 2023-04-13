@@ -29,7 +29,9 @@ public:
     void set_ascension_from_string(std::string);
     void set_declination_from_string(std::string);
     void set_spherical(double, double);
+    void set_spherical(SphericalCoord);
     void set_geocentric(double, double, double);
+    void set_geocentric(GeocentricCoord);
     void set_barycentric(double, double, double);
     void set_barycentric(BarycentricCoord);
 

@@ -10,8 +10,8 @@ IntegrationVector Integration::derivate_function(IntegrationVector current_condi
 
     for (std::string planet_name : this->planet_list)
     {
-        BarycentricCoord planet_coordinates = planets->at(planet_name)[idx].get_barycentric_position();
-        BarycentricCoord Oumuamua_coordinates = current_condition.get_barycentric_position();
+        BarycentricCoord planet_coordinates = planets->at(planet_name)[idx].get_barycentric();
+        BarycentricCoord Oumuamua_coordinates = current_condition.get_barycentric();
         // Newton's formula:
         //                    -->
         //  a = dv / dx = GM * ri / ri ^ 3
@@ -19,7 +19,7 @@ IntegrationVector Integration::derivate_function(IntegrationVector current_condi
         a = a + this->GM[planet_name] * (planet_coordinates - Oumuamua_coordinates) / help.POW_3((planet_coordinates - Oumuamua_coordinates).length());
     }
 
-    d_vector.set_barycentric_position(current_condition.get_velocity().get_vx(), current_condition.get_velocity().get_vy(), current_condition.get_velocity().get_vz());
+    d_vector.set_barycentric(current_condition.get_velocity().get_vx(), current_condition.get_velocity().get_vy(), current_condition.get_velocity().get_vz());
     d_vector.set_velocity(a.get_x(), a.get_y(), a.get_z());
 
     return d_vector;

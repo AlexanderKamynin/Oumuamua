@@ -26,7 +26,7 @@ public:
     void set_vx(double);
     void set_vy(double);
     void set_vz(double);
-    void set_all(double, double, double);
+    void set_all_velocity(double, double, double);
 
 
     /*

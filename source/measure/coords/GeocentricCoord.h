@@ -27,10 +27,4 @@ public:
     void set_x(double value);
     void set_y(double value);
     void set_z(double value);
-
-    //operators
-    GeocentricCoord(const GeocentricCoord& other);
-    GeocentricCoord& operator=(const GeocentricCoord& other);
-    GeocentricCoord(const GeocentricCoord&& other);
-    GeocentricCoord& operator=(const GeocentricCoord&& other);
 };

@@ -149,7 +149,7 @@ BarycentricCoord LightCorrector::find_object_position(Date time, std::vector<Int
 	int idx = int(((time.get_MJD()) - model_measure->at(0).get_date().get_MJD()) / STEP); // search for needed time
 	if (idx == 0)
 	{
-		object_position = model_measure->at(0).get_barycentric_position();
+		object_position = model_measure->at(0).get_barycentric();
 	}
 	else
 	{
