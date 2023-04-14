@@ -191,7 +191,8 @@ void Converter::spherical_hours_to_spherical_radians(Observation* observation)
     double declination;
     iauAf2a(sign, degrees, arcminutes, arcseconds, &declination);
 
-    while ((ascension > PI) or (ascension < - PI)) {
+    while ((ascension > PI) or (ascension < - PI)) 
+    {
         int sign = ascension > PI ? -1 : 1;
         ascension = ascension + sign * 2 * PI;
     }
@@ -213,8 +214,7 @@ void Converter::barycentric_cartesian_to_barycentric_spherical(IntegrationVector
 
     iauC2s(barycentric_coord, &right_ascension, &declination);
     SphericalCoord temp_coords;
-    temp_coords.set_declination(declination);
-    temp_coords.set_right_ascension(right_ascension);
+    temp_coords.set_spherical(right_ascension, declination);
     coords->push_back(temp_coords);
 }
 
