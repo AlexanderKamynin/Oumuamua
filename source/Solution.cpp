@@ -107,13 +107,13 @@ void Solution::set_observation_position()
 {
     std::map<std::string, Observatory> observatory_data = data_reader.get_observatory();
     std::vector<Observation>* observation_data = data_reader.get_observations();
-    for (int i = 0; i < observation_data->size(); i++)
+    /*for (int i = 0; i < observation_data->size(); i++)
     {
         std::string code = observation_data->at(i).get_code();
         Observatory observatory = observatory_data.at(code);
-        //std::cout << observatory.get_barycentric().get_x();
+        std::cout << observatory.get_barycentric().get_x();
         observation_data->at(i).set_observatory_position(observatory.get_barycentric());   
-    }
+    }*/
 
     //для проверки записанных значений 
     for (int i = 0; i < observation_data->size(); i++)
@@ -226,6 +226,6 @@ void Solution::act()
     read_data();
     convert_observations();
     convert_observatory();
-    set_observation_position();
     direct_problem();
+    set_observation_position();
 }
