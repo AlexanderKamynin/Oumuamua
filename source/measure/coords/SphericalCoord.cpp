@@ -12,6 +12,12 @@ void SphericalCoord::set_declination(double declination)
     this->declination = declination;
 }
 
+void SphericalCoord::set_spherical(double RA, double DEC)
+{
+    this->right_ascension = RA;
+    this->declination = DEC;
+}
+
 
 void SphericalCoord::set_RA_in_hours_system_from_string(std::string string)
 {

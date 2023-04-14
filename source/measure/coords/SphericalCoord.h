@@ -29,6 +29,7 @@ public:
     //setters
     void set_right_ascension(double);
     void set_declination(double);
+    void set_spherical(double, double);
     void set_RA_in_hours_system_from_string(std::string);
     void set_DEC_in_hours_system_from_string(std::string);
 
