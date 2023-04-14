@@ -24,9 +24,9 @@ public:
 	LightCorrector() = default;
 	LightCorrector(Converter*, Interpolator*);
 
-	void light_correct(std::vector<Observation>* observation, std::map<std::string, Observatory>* observatory, std::vector<IntegrationVector>* model_measure, std::vector<IntegrationVector>* sun_info, std::vector<IntegrationVector>* earth_velocity_info);
+	void light_correct(std::vector<Observation>* observation, std::vector<IntegrationVector>* model_measure, std::vector<IntegrationVector>* sun_info, std::vector<IntegrationVector>* earth_velocity_info);
 
-	double light_time_correction(double t, Observatory* observatory, std::vector<IntegrationVector>* model_measure);
+	double light_time_correction(double t, BarycentricCoord* observatory_position, std::vector<IntegrationVector>* model_measure);
 
 	void gravitational_deflection(BarycentricCoord* body_position, BarycentricCoord* observatory_position, BarycentricCoord* sun);
 

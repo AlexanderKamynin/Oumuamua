@@ -267,9 +267,6 @@ void Converter::cartesian_geocentric_to_cartesian_barycentric(std::vector<Observ
             observatory_position.set_y(interpolated_Earth_center.get_y() + geocentric_hubble_position.get_y());
             observatory_position.set_z(interpolated_Earth_center.get_z() + geocentric_hubble_position.get_z());*/
         }
-
-        //std::cout << i << ":" << observatory_position.get_x() << "_" << observatory_position.get_y() << "_" << observatory_position.get_z() << std::endl;
-        observations->at(i).set_barycentric(observatory_position);
         observations->at(i).set_observatory_position(observatory_position);
     }
 }

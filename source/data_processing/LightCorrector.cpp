@@ -10,23 +10,17 @@ LightCorrector::LightCorrector(Converter* converter, Interpolator* interpolator)
 
 
 
-void LightCorrector::light_correct(std::vector<Observation>* observations, std::map<std::string, Observatory>* observatory, std::vector<IntegrationVector>* model_measure, std::vector<IntegrationVector>* sun_info, std::vector<IntegrationVector>* earth_velocity_info)
+void LightCorrector::light_correct(std::vector<Observation>* observations, std::vector<IntegrationVector>* model_measure, std::vector<IntegrationVector>* sun_info, std::vector<IntegrationVector>* earth_velocity_info)
 {
 	std::ofstream delta_output("./output_data/delta.txt");
 
 	for (int i = 0; i < observations->size(); i++)
 	{
-		Observatory current_observatory;
-		current_observatory.set_barycentric(observations->at(i).get_barycentric());
+		BarycentricCoord observatory_position = observations->at(i).get_observatory_position();
 		double t = observations->at(i).get_date()->get_MJD();
 
-		double delta = light_time_correction(t, &current_observatory, model_measure);
+		double delta = light_time_correction(t, &observatory_position, model_measure);
 		delta_output << "observatory_code= " << observations->at(i).get_code() << "\tdelta=" << delta << '\n';
-		if (observations->at(i).get_code() == "250" || observations->at(i).get_code() == "304") {
-			std::cout << "code= " << observations->at(i).get_code() << "\t";
-			current_observatory.get_barycentric().print();
-			std::cout << '\n';
-		}
 
 		t = t - delta;
 		Date time;
@@ -34,7 +28,6 @@ void LightCorrector::light_correct(std::vector<Observation>* observations, std::
 		BarycentricCoord object_position = interpolator->find_object_position(time, model_measure);
 		BarycentricCoord sun_position = interpolator->find_object_position(time, sun_info);
 
-		BarycentricCoord observatory_position = current_observatory.get_barycentric();
 		// gravitational deflection
 		this->gravitational_deflection(&object_position, &observatory_position, &sun_position);
 
@@ -47,7 +40,7 @@ void LightCorrector::light_correct(std::vector<Observation>* observations, std::
 }
 
 
-double LightCorrector::light_time_correction(double t, Observatory* observatory, std::vector<IntegrationVector>* model_measure)
+double LightCorrector::light_time_correction(double t, BarycentricCoord* observatory_position, std::vector<IntegrationVector>* model_measure)
 {
 	/*
 		| object (t - delta) - observer(t) | = c * delta
@@ -69,7 +62,7 @@ double LightCorrector::light_time_correction(double t, Observatory* observatory,
 	BarycentricCoord object_position = interpolator->find_object_position(time, model_measure);
 	
 	
-	double distance = (object_position - observatory->get_barycentric()).length();
+	double distance = (object_position - *observatory_position).length();
 	delta = distance / LIGHT_SPEED;
 
 	while (previous_delta == 0 or std::fabs(delta - previous_delta) / delta > 1e-15)
@@ -77,7 +70,7 @@ double LightCorrector::light_time_correction(double t, Observatory* observatory,
 		previous_delta = delta;
 		time.set_MJD(t - delta);
 		object_position = interpolator->find_object_position(time, model_measure);
-		distance = (object_position - observatory->get_barycentric()).length();
+		distance = (object_position - *observatory_position).length();
 		delta = distance / LIGHT_SPEED;
 	}
 

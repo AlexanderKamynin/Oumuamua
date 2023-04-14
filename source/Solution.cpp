@@ -83,13 +83,11 @@ void Solution::direct_problem()
     converter.cartesian_geocentric_to_cartesian_barycentric(data_reader.get_observations(), data_reader.get_obsevatory_map(), data_reader.get_earth_rotation_vector(), data_reader.get_interpolation_hubble(), map_planets["earth"]);
 
     // light time correction, gravitational deflection, abberation
-    light_corrector.light_correct(data_reader.get_observations(), data_reader.get_obsevatory_map(), &model_orbits, &map_planets["sun"], data_reader.get_earth_velocity_info());
+    light_corrector.light_correct(data_reader.get_observations(), &model_orbits, &map_planets["sun"], data_reader.get_earth_velocity_info());
 
     for (int i = 0; i < data_reader.get_observations()->size(); i++) {
         IntegrationVector new_vector;
-        new_vector.set_barycentric(data_reader.get_observations()->at(i).get_barycentric().get_x(), 
-                                            data_reader.get_observations()->at(i).get_barycentric().get_y(), 
-                                            data_reader.get_observations()->at(i).get_barycentric().get_z());
+        new_vector.set_barycentric(data_reader.get_observations()->at(i).get_barycentric());
         new_vector.set_date(*data_reader.get_observations()->at(i).get_date());
         model_measures.push_back(new_vector);
     }
