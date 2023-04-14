@@ -103,6 +103,28 @@ void Solution::direct_problem()
     write_result(&model_measures, &base_measures, &model_spherical, &base_spherical);
 }
 
+void Solution::set_observation_position()
+{
+    std::map<std::string, Observatory> observatory_data = data_reader.get_observatory();
+    std::vector<Observation>* observation_data = data_reader.get_observations();
+    for (int i = 0; i < observation_data->size(); i++)
+    {
+        std::string code = observation_data->at(i).get_code();
+        Observatory observatory = observatory_data.at(code);
+        //std::cout << observatory.get_barycentric().get_x();
+        observation_data->at(i).set_observatory_position(observatory.get_barycentric());   
+    }
+
+    //для проверки записанных значений 
+    for (int i = 0; i < observation_data->size(); i++)
+    {
+        std::string code = observation_data->at(i).get_code();
+        std::cout << "Observatin in observatory with code[" + code + "] located in {" << observation_data->at(i).get_observatory_position().get_x() << ", " << observation_data->at(i).get_observatory_position().get_y() << ", " << observation_data->at(i).get_observatory_position().get_z() << "} in time " << observation_data->at(i).get_date()->get_MJD() << std::endl;
+    
+    }
+
+}
+
 
 void Solution::write_result(std::vector<IntegrationVector>* model, std::vector<IntegrationVector>* base, std::vector<SphericalCoord>*model_spherical, std::vector<SphericalCoord>* base_spherical)
 {
@@ -204,5 +226,6 @@ void Solution::act()
     read_data();
     convert_observations();
     convert_observatory();
+    set_observation_position();
     direct_problem();
 }

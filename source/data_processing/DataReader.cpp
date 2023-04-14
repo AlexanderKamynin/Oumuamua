@@ -77,7 +77,7 @@ void DataReader::read_observatory_data()
             observatory_position.set_longitude_from_string(line.substr(4, 9));
             observatory_position.set_cos_from_string(line.substr(13, 8));
             observatory_position.set_sin_from_string(line.substr(21, 9));
-
+            //@gotta insert convertation from cylindrical to baricetrical coords!
             observatory[code].set_cylindrical(observatory_position);
         }
     }
