@@ -111,9 +111,10 @@ void LightCorrector::gravitational_deflection(BarycentricCoord* body_position, B
 	iauLd(1, observer_to_body, sun_to_body, sun_to_observer, sun_to_observer_length, 0, corrected_position);
 
 	double vector_length = body_position->length();
-	body_position->set_x(corrected_position[0] * vector_length);
+	body_position->set_all_coords(corrected_position[0] * vector_length, corrected_position[1] * vector_length, corrected_position[2] * vector_length);
+	/*body_position->set_x(corrected_position[0] * vector_length);
 	body_position->set_y(corrected_position[1] * vector_length);
-	body_position->set_z(corrected_position[2] * vector_length);
+	body_position->set_z(corrected_position[2] * vector_length);*/
 }
 
 
@@ -140,7 +141,8 @@ void LightCorrector::aberration(BarycentricCoord* body_position, BarycentricCoor
 	iauAb(observer_to_body, norm_v, sun_to_observer_length, bm1, corrected_position);
 
 	double vector_length = body_position->length();
-	body_position->set_x(corrected_position[0] * vector_length);
+	body_position->set_all_coords(corrected_position[0] * vector_length, corrected_position[1] * vector_length, corrected_position[2] * vector_length);
+	/*body_position->set_x(corrected_position[0] * vector_length);
 	body_position->set_y(corrected_position[1] * vector_length);
-	body_position->set_z(corrected_position[2] * vector_length);
+	body_position->set_z(corrected_position[2] * vector_length);*/
 }

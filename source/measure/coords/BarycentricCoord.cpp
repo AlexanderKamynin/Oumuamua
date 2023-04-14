@@ -37,6 +37,13 @@ void BarycentricCoord::set_z(double value)
 }
 
 
+void BarycentricCoord::set_all_coords(double x_val, double y_val, double z_val)
+{
+    this->x = x_val;
+    this->y = y_val;
+    this->z = z_val;
+}
+
 void BarycentricCoord::increase(double value)
 {
     this->x += value;
