@@ -16,11 +16,17 @@ void LightCorrector::light_correct(std::vector<Observation>* observations, std::
 
 	for (int i = 0; i < observations->size(); i++)
 	{
-		Observatory current_observatory = observatory->at(observations->at(i).get_code());
+		Observatory current_observatory;
+		current_observatory.set_barycentric(observations->at(i).get_barycentric());
 		double t = observations->at(i).get_date()->get_MJD();
 
 		double delta = light_time_correction(t, &current_observatory, model_measure);
-		delta_output << delta << '\n';
+		delta_output << "observatory_code= " << observations->at(i).get_code() << "\tdelta=" << delta << '\n';
+		if (observations->at(i).get_code() == "250" || observations->at(i).get_code() == "304") {
+			std::cout << "code= " << observations->at(i).get_code() << "\t";
+			current_observatory.get_barycentric().print();
+			std::cout << '\n';
+		}
 
 		t = t - delta;
 		Date time;

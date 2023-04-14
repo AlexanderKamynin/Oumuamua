@@ -1,6 +1,8 @@
 #pragma once
 #include <math.h>
 #include "../../Helpers.h"
+#include <iostream>
+#include <iomanip>
 
 
 /*
@@ -35,6 +37,8 @@ public:
     void increase(double);
     void multiply(double);
     double length();
+
+    void print();
 
     /*
         Operation between barycentric coordinates

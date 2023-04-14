@@ -237,9 +237,9 @@ void Converter::cartesian_geocentric_to_cartesian_barycentric(std::vector<Observ
         {
             // find earth rotation info for current date observation
             EarthRotation earth_rotation_info;
-            for (int j = 0; j < earth_rotation->size(); j++) 
+            for (int j = 0; j < earth_rotation->size(); j++)
             {
-                if (earth_rotation->at(j).get_MJD() >= current_date->get_MJD()) 
+                if (earth_rotation->at(j).get_MJD() >= current_date->get_MJD())
                 {
                     earth_rotation_info = earth_rotation->at(j);
                     break;
@@ -265,8 +265,7 @@ void Converter::cartesian_geocentric_to_cartesian_barycentric(std::vector<Observ
             observatory_position.set_z(interpolated_Earth_center.get_z() + geocentric_hubble_position.get_z());
         }
 
-        // set position for observatory
-        current_observatory->set_barycentric(observatory_position);
+        observations->at(i).set_barycentric(observatory_position);
     }
 }
 

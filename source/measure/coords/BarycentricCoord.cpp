@@ -58,6 +58,11 @@ double BarycentricCoord::length()
     return sqrt(help.POW_2(this->x) + help.POW_2(this->y) + help.POW_2(this->z));
 }
 
+void BarycentricCoord::print()
+{
+    std::cout << std::setprecision(15) << "x= " << this->x << " y= " << this->y << " z= " << this->z;
+}
+
 
 BarycentricCoord operator+(BarycentricCoord coordinate_1, BarycentricCoord coordinate_2)
 {

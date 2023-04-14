@@ -32,3 +32,8 @@ void CartesianCoord::set_z(double value)
 {
     this->z = value;
 }
+
+void CartesianCoord::print()
+{
+    std::cout << "x= " << this->x << " y= " << this->y << " z= " << this->z;
+}

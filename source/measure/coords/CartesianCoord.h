@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <iostream>
 
 
 /*
@@ -25,4 +26,6 @@ public:
     void set_x(double);
     void set_y(double);
     void set_z(double);
+
+    void print();
 };

@@ -1,222 +1,222 @@
-0.000773412
-0.0010748
-0.00120095
-0.00120095
-0.00120459
-0.00120459
-0.00132712
-0.00132712
-0.00132867
-0.00132867
-0.00133023
-0.00133023
-0.0013318
-0.0013318
-0.00161108
-0.00139557
-0.0013956
-0.00139571
-0.00161166
-0.00161222
-0.00140733
-0.00140733
-0.00140774
-0.00140774
-0.00144325
-0.00144339
-0.00144353
-0.00144366
-0.00182217
-0.00182252
-0.00182288
-0.00190194
-0.0019024
-0.00190285
-0.00179672
-0.00179731
-0.00179787
-0.00445458
-0.00445471
-0.00445487
-0.00182653
-0.00182721
-0.0018279
-0.00195554
-0.00195657
-0.0019576
-0.00457156
-0.00457171
-0.00457186
-0.00219249
-0.00219323
-0.00219397
-0.00219471
-0.00235384
-0.00235465
-0.00235626
-0.00236341
-0.00236419
-0.00243529
-0.00243695
-0.00243861
-0.00233421
-0.00233583
-0.00233621
-0.002336
-0.00233661
-0.00233702
-0.0024576
-0.00246049
-0.00246145
-0.0024786
-0.00247884
-0.00247908
-0.00248332
-0.00248356
-0.00248381
-0.00248655
-0.00248679
-0.00249778
-0.00249801
-0.00249856
-0.00249879
-0.00250798
-0.00250867
-0.00250933
-0.00251524
-0.00252753
-0.00252789
-0.00252826
-0.00252862
-0.0025354
-0.00253591
-0.00253642
-0.00258983
-0.00259035
-0.00259048
-0.00259171
-0.00259179
-0.00259224
-0.00259276
-0.00263942
-0.00264114
-0.00264285
-0.00270637
-0.00270678
-0.00270691
-0.00270731
-0.00270465
-0.00270698
-0.00270935
-0.00271672
-0.00272122
-0.00503177
-0.0050334
-0.00272893
-0.00272945
-0.00272997
-0.00503601
-0.0050391
-0.00504532
-0.00284115
-0.00284289
-0.00284377
-0.0028439
-0.00284416
-0.00284608
-0.00284634
-0.00284659
-0.00285801
-0.00287739
-0.00453704
-0.00453842
-0.00453924
-0.0045406
-0.00467295
-0.00467404
-0.00312836
-0.00467499
-0.00312928
-0.00467586
-0.00313022
-0.00313185
-0.00313277
-0.00313308
-0.00478249
-0.00478316
-0.0042304
-0.00478473
-0.00424437
-0.00424485
-0.00603671
-0.00603932
-0.00604221
-0.00617095
-0.00617193
-0.00617273
-0.00577168
-0.0057726
-0.00578025
-0.00578086
-0.00578117
-0.00578147
-0.0064249
-0.00642662
-0.00642961
-0.00739093
-0.00739134
-0.00739175
-0.00739215
-0.00750353
-0.00750394
-0.00750435
-0.00750475
-0.00705634
-0.00706143
-0.00807609
-0.00807678
-0.00807749
-0.00807821
-0.00808032
-0.00808097
-0.00808291
-0.0120421
-0.0120429
-0.0120436
-0.0120444
-0.0120452
-0.0120502
-0.012051
-0.0120517
-0.0120525
-0.0120533
-0.0082532
-0.0082561
-0.00825899
-0.00826188
-0.00826482
-0.0122125
-0.0122133
-0.0122141
-0.0122148
-0.0122156
-0.00832639
-0.00833033
-0.00838385
-0.00838558
-0.00839622
-0.0145732
-0.0145739
-0.0145747
-0.0145754
-0.0145762
-0.0170757
-0.0170764
-0.0170772
-0.0170779
-0.0170786
-0.0170911
-0.0170918
-0.0170926
-0.0170933
-0.017094
+observatory_code= 703	delta=0.000936406
+observatory_code= 703	delta=0.0010748
+observatory_code= F51	delta=0.0012008
+observatory_code= F51	delta=0.0012008
+observatory_code= F51	delta=0.00120424
+observatory_code= F51	delta=0.00120424
+observatory_code= F51	delta=0.00132689
+observatory_code= F51	delta=0.00132689
+observatory_code= F51	delta=0.00132851
+observatory_code= F51	delta=0.00132851
+observatory_code= F51	delta=0.00133015
+observatory_code= F51	delta=0.00133015
+observatory_code= F51	delta=0.0013318
+observatory_code= F51	delta=0.0013318
+observatory_code= 104	delta=0.00139516
+observatory_code= 246	delta=0.00139556
+observatory_code= 246	delta=0.0013956
+observatory_code= 246	delta=0.00139571
+observatory_code= 104	delta=0.00139579
+observatory_code= 104	delta=0.00139642
+observatory_code= J04	delta=0.00140729
+observatory_code= J04	delta=0.00140729
+observatory_code= J04	delta=0.00140774
+observatory_code= J04	delta=0.00140774
+observatory_code= I52	delta=0.0014432
+observatory_code= I52	delta=0.00144336
+observatory_code= I52	delta=0.00144351
+observatory_code= I52	delta=0.00144366
+observatory_code= 291	delta=0.00161282
+observatory_code= 291	delta=0.00161324
+observatory_code= 291	delta=0.00161366
+observatory_code= 926	delta=0.00163809
+observatory_code= 926	delta=0.00163864
+observatory_code= 926	delta=0.0016392
+observatory_code= H06	delta=0.00179646
+observatory_code= H06	delta=0.00179718
+observatory_code= H06	delta=0.00179787
+observatory_code= 568	delta=0.00180967
+observatory_code= 568	delta=0.00180987
+observatory_code= 568	delta=0.00181012
+observatory_code= Q62	delta=0.00182621
+observatory_code= Q62	delta=0.00182706
+observatory_code= Q62	delta=0.0018279
+observatory_code= 734	delta=0.00195501
+observatory_code= 734	delta=0.0019563
+observatory_code= 734	delta=0.0019576
+observatory_code= 568	delta=0.00199069
+observatory_code= 568	delta=0.00199091
+observatory_code= 568	delta=0.00199115
+observatory_code= G96	delta=0.00214651
+observatory_code= G96	delta=0.00214748
+observatory_code= G96	delta=0.00214845
+observatory_code= G96	delta=0.00214941
+observatory_code= 309	delta=0.00229798
+observatory_code= 309	delta=0.00229905
+observatory_code= 309	delta=0.0023012
+observatory_code= 309	delta=0.00231074
+observatory_code= 309	delta=0.00231178
+observatory_code= 926	delta=0.00232676
+observatory_code= 926	delta=0.00232899
+observatory_code= 926	delta=0.00233123
+observatory_code= V03	delta=0.00233362
+observatory_code= G96	delta=0.00233544
+observatory_code= G96	delta=0.00233594
+observatory_code= V03	delta=0.002336
+observatory_code= G96	delta=0.00233647
+observatory_code= G96	delta=0.00233702
+observatory_code= 104	delta=0.00245625
+observatory_code= 104	delta=0.00246016
+observatory_code= 104	delta=0.00246145
+observatory_code= 950	delta=0.0024757
+observatory_code= 950	delta=0.00247603
+observatory_code= 950	delta=0.00247635
+observatory_code= 950	delta=0.0024821
+observatory_code= 950	delta=0.00248242
+observatory_code= 950	delta=0.00248275
+observatory_code= 950	delta=0.00248646
+observatory_code= 950	delta=0.00248679
+observatory_code= 675	delta=0.00249742
+observatory_code= 675	delta=0.00249774
+observatory_code= 675	delta=0.00249847
+observatory_code= 675	delta=0.00249879
+observatory_code= 309	delta=0.00250539
+observatory_code= 309	delta=0.00250631
+observatory_code= 309	delta=0.00250722
+observatory_code= 309	delta=0.00251524
+observatory_code= V06	delta=0.00252714
+observatory_code= V06	delta=0.00252763
+observatory_code= V06	delta=0.00252813
+observatory_code= V06	delta=0.00252862
+observatory_code= 291	delta=0.00253503
+observatory_code= 291	delta=0.00253573
+observatory_code= 291	delta=0.00253642
+observatory_code= 926	delta=0.00253672
+observatory_code= 926	delta=0.00253743
+observatory_code= 926	delta=0.00253761
+observatory_code= 926	delta=0.00253929
+observatory_code= 926	delta=0.0025394
+observatory_code= 926	delta=0.00254001
+observatory_code= 926	delta=0.00254073
+observatory_code= 204	delta=0.00263813
+observatory_code= 204	delta=0.00264049
+observatory_code= 204	delta=0.00264285
+observatory_code= K93	delta=0.00265203
+observatory_code= K93	delta=0.00265259
+observatory_code= K93	delta=0.00265278
+observatory_code= K93	delta=0.00265334
+observatory_code= 850	delta=0.00269826
+observatory_code= 850	delta=0.00270149
+observatory_code= 850	delta=0.00270476
+observatory_code= 850	delta=0.00271498
+observatory_code= 850	delta=0.00272122
+observatory_code= 568	delta=0.00272555
+observatory_code= 568	delta=0.00272819
+observatory_code= 926	delta=0.00272853
+observatory_code= 926	delta=0.00272925
+observatory_code= 926	delta=0.00272997
+observatory_code= 568	delta=0.00273242
+observatory_code= 568	delta=0.00273742
+observatory_code= 568	delta=0.0027475
+observatory_code= J95	delta=0.00282649
+observatory_code= K93	delta=0.00284238
+observatory_code= K93	delta=0.00284362
+observatory_code= K93	delta=0.0028438
+observatory_code= K93	delta=0.00284416
+observatory_code= K91	delta=0.00284588
+observatory_code= K91	delta=0.00284623
+observatory_code= K91	delta=0.00284659
+observatory_code= J95	delta=0.00285015
+observatory_code= J95	delta=0.00287739
+observatory_code= H01	delta=0.00290591
+observatory_code= H01	delta=0.00290811
+observatory_code= H01	delta=0.00290941
+observatory_code= H01	delta=0.00291159
+observatory_code= H01	delta=0.00312338
+observatory_code= H01	delta=0.00312513
+observatory_code= 705	delta=0.00312631
+observatory_code= H01	delta=0.00312665
+observatory_code= 705	delta=0.00312763
+observatory_code= H01	delta=0.00312805
+observatory_code= 705	delta=0.00312898
+observatory_code= 705	delta=0.00313132
+observatory_code= 705	delta=0.00313264
+observatory_code= 705	delta=0.00313308
+observatory_code= H01	delta=0.00329928
+observatory_code= H01	delta=0.00330035
+observatory_code= G37	delta=0.00330186
+observatory_code= H01	delta=0.00330288
+observatory_code= G37	delta=0.0033237
+observatory_code= G37	delta=0.00332445
+observatory_code= H01	delta=0.00534535
+observatory_code= H01	delta=0.00534968
+observatory_code= H01	delta=0.00535445
+observatory_code= H01	delta=0.00556782
+observatory_code= H01	delta=0.00556945
+observatory_code= H01	delta=0.00557078
+observatory_code= G37	delta=0.00576549
+observatory_code= G37	delta=0.00576698
+observatory_code= G37	delta=0.00577948
+observatory_code= G37	delta=0.00578047
+observatory_code= G37	delta=0.00578097
+observatory_code= G37	delta=0.00578147
+observatory_code= H01	delta=0.00599059
+observatory_code= H01	delta=0.00599348
+observatory_code= H01	delta=0.00599847
+observatory_code= 568	delta=0.00665999
+observatory_code= 568	delta=0.00666068
+observatory_code= 568	delta=0.00666138
+observatory_code= 568	delta=0.00666208
+observatory_code= 568	delta=0.00685272
+observatory_code= 568	delta=0.00685341
+observatory_code= 568	delta=0.00685411
+observatory_code= 568	delta=0.00685481
+observatory_code= H01	delta=0.0070528
+observatory_code= H01	delta=0.00706143
+observatory_code= 304	delta=0.00788854
+observatory_code= 304	delta=0.00788974
+observatory_code= 304	delta=0.00789096
+observatory_code= 304	delta=0.00789221
+observatory_code= 304	delta=0.00789588
+observatory_code= 304	delta=0.00789701
+observatory_code= 304	delta=0.00790035
+observatory_code= 250	delta=0.00791301
+observatory_code= 250	delta=0.00791437
+observatory_code= 250	delta=0.00791572
+observatory_code= 250	delta=0.00791707
+observatory_code= 250	delta=0.00791842
+observatory_code= 250	delta=0.00792731
+observatory_code= 250	delta=0.00792866
+observatory_code= 250	delta=0.00793001
+observatory_code= 250	delta=0.00793137
+observatory_code= 250	delta=0.00793272
+observatory_code= 568	delta=0.00814713
+observatory_code= 568	delta=0.00815217
+observatory_code= 568	delta=0.00815721
+observatory_code= 568	delta=0.00816223
+observatory_code= 568	delta=0.00816735
+observatory_code= 250	delta=0.00821346
+observatory_code= 250	delta=0.00821482
+observatory_code= 250	delta=0.00821617
+observatory_code= 250	delta=0.00821753
+observatory_code= 250	delta=0.00821888
+observatory_code= 304	delta=0.00832347
+observatory_code= 304	delta=0.00833033
+observatory_code= 568	delta=0.00837465
+observatory_code= 568	delta=0.00837767
+observatory_code= 568	delta=0.00839622
+observatory_code= 250	delta=0.0124697
+observatory_code= 250	delta=0.0124711
+observatory_code= 250	delta=0.0124724
+observatory_code= 250	delta=0.0124738
+observatory_code= 250	delta=0.0124752
+observatory_code= 250	delta=0.0170606
+observatory_code= 250	delta=0.0170619
+observatory_code= 250	delta=0.0170633
+observatory_code= 250	delta=0.0170646
+observatory_code= 250	delta=0.0170659
+observatory_code= 250	delta=0.0170887
+observatory_code= 250	delta=0.01709
+observatory_code= 250	delta=0.0170914
+observatory_code= 250	delta=0.0170927
+observatory_code= 250	delta=0.017094
