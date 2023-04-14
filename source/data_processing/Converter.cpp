@@ -251,18 +251,21 @@ void Converter::cartesian_geocentric_to_cartesian_barycentric(std::vector<Observ
             // interpolation observatory coordinates to Earth center
             // [barycentric position of the center of the Earth] + [celestial geocentric position of the observatory]
             BarycentricCoord interpolated_Earth_center = interpolator->interpolation_Earth_center(*current_date, *start_date, earth_position);
-            observatory_position.set_x(interpolated_Earth_center.get_x() + geocentric_observatory_position.get_x());
+            observatory_position.set_all_coords(interpolated_Earth_center.get_x() + geocentric_observatory_position.get_x(), interpolated_Earth_center.get_y() + geocentric_observatory_position.get_y(), interpolated_Earth_center.get_z() + geocentric_observatory_position.get_z());
+            /*observatory_position.set_x(interpolated_Earth_center.get_x() + geocentric_observatory_position.get_x());
             observatory_position.set_y(interpolated_Earth_center.get_y() + geocentric_observatory_position.get_y());
-            observatory_position.set_z(interpolated_Earth_center.get_z() + geocentric_observatory_position.get_z());
+            observatory_position.set_z(interpolated_Earth_center.get_z() + geocentric_observatory_position.get_z());*/
+
         }
         else
         {
             GeocentricCoord geocentric_hubble_position = find_needed_hubble_data(*current_date, hubble_data);
             // [barycentric position of the center of the Earth] + [celestial geocentric position of the observatory]
             BarycentricCoord interpolated_Earth_center = interpolator->interpolation_Earth_center(*current_date, *start_date, earth_position);
-            observatory_position.set_x(interpolated_Earth_center.get_x() + geocentric_hubble_position.get_x());
+            observatory_position.set_all_coords(interpolated_Earth_center.get_x() + geocentric_hubble_position.get_x(), interpolated_Earth_center.get_y() + geocentric_hubble_position.get_y(), interpolated_Earth_center.get_z() + geocentric_hubble_position.get_z());
+           /* observatory_position.set_x(interpolated_Earth_center.get_x() + geocentric_hubble_position.get_x());
             observatory_position.set_y(interpolated_Earth_center.get_y() + geocentric_hubble_position.get_y());
-            observatory_position.set_z(interpolated_Earth_center.get_z() + geocentric_hubble_position.get_z());
+            observatory_position.set_z(interpolated_Earth_center.get_z() + geocentric_hubble_position.get_z());*/
         }
 
         //std::cout << i << ":" << observatory_position.get_x() << "_" << observatory_position.get_y() << "_" << observatory_position.get_z() << std::endl;
