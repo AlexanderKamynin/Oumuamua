@@ -32,7 +32,7 @@ void LightCorrector::light_correct(std::vector<Observation>* observations, std::
 		this->gravitational_deflection(&object_position, &observatory_position, &sun_position);
 
 		Velocity earth_velocity = interpolator->find_earth_velocity(time, earth_velocity_info);
-		//this->aberration(&object_position, &observatory_position, &sun_position, &earth_velocity);
+		this->aberration(&object_position, &observatory_position, &sun_position, &earth_velocity);
 
 		// set corrected position
 		observations->at(i).set_barycentric(object_position);
@@ -126,9 +126,9 @@ void LightCorrector::aberration(BarycentricCoord* body_position, BarycentricCoor
 		body_position->get_y() / body_position->length(),
 		body_position->get_z() / body_position->length()
 	};
-	double vx = earth_velocity->get_vx() * 86400; // km/s -> km/day
-	double vy = earth_velocity->get_vy() * 86400;
-	double vz = earth_velocity->get_vz() * 86400;
+	double vx = earth_velocity->get_vx(); // km/s -> km/day
+	double vy = earth_velocity->get_vy();
+	double vz = earth_velocity->get_vz();
 	double observer_velocity[3] = { vx, vy, vz};
 	double norm_v[3] = { vx / LIGHT_SPEED, vy / LIGHT_SPEED, vz / LIGHT_SPEED };
 
@@ -137,7 +137,7 @@ void LightCorrector::aberration(BarycentricCoord* body_position, BarycentricCoor
 	BarycentricCoord position = *observatory_position - *sun_position;
 	double sun_to_observer_length = position.length() * 6.684589E-09; // km -> au
 
-	iauAb(observer_to_body, observer_velocity, sun_to_observer_length, bm1, corrected_position);
+	iauAb(observer_to_body, norm_v, sun_to_observer_length, bm1, corrected_position);
 
 	double vector_length = body_position->length();
 	body_position->set_x(corrected_position[0] * vector_length);
