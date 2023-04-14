@@ -142,7 +142,4 @@ void LightCorrector::aberration(BarycentricCoord* body_position, BarycentricCoor
 
 	double vector_length = body_position->length();
 	body_position->set_all_coords(corrected_position[0] * vector_length, corrected_position[1] * vector_length, corrected_position[2] * vector_length);
-	/*body_position->set_x(corrected_position[0] * vector_length);
-	body_position->set_y(corrected_position[1] * vector_length);
-	body_position->set_z(corrected_position[2] * vector_length);*/
 }
