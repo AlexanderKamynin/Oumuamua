@@ -816,6 +816,9 @@
     <ClCompile Include="source\data_processing\Interpolator.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="source\data_processing\Matrix\Matrix.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sofa\src\sofa.h">
@@ -882,6 +885,12 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="source\data_processing\Interpolator.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="source\data_processing\Matrix\Matrix.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="source\data_processing\Matrix\MatrixRow.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
