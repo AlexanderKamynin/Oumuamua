@@ -4,6 +4,7 @@
 #include "./data_processing/Integration.h"
 #include "./data_processing/LightCorrector.h"
 #include "./data_processing/Interpolator.h"
+#include "../source/measure/data_structures/ModelMeasure.h"
 #include <iomanip>
 
 
@@ -22,7 +23,7 @@ private:
 
 
     IntegrationVector initial_condition;
-    std::vector<IntegrationVector> model_measures;
+    std::vector<ModelMeasure> model_measures;
 
     std::string model_file = "./output_data/model_measure.txt";
     std::string base_file = "./output_data/base_measure.txt";
@@ -35,6 +36,6 @@ public:
     void convert_observatory();
     // integration
     void direct_problem();
-    void write_result(std::vector<IntegrationVector>* model, std::vector<IntegrationVector>* base_measures, std::vector<SphericalCoord>* model_spherical, std::vector<SphericalCoord>* base_spherical);
+    void write_direct_problem_result(std::vector<IntegrationVector>* base_measures, std::vector<SphericalCoord>* base_spherical);
     std::vector<IntegrationVector> interolate_JPL();
 };

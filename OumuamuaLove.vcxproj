@@ -129,6 +129,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="source\measure\data_structures\ModelMeasure.cpp" />
     <ClCompile Include="source\data_processing\Matrix\Matrix.cpp" />
     <ClCompile Include="source\data_processing\Interpolator.cpp" />
     <ClCompile Include="source\data_processing\LightCorrector.cpp" />
@@ -399,6 +400,7 @@
     <ClCompile Include="source\measure\movement\Velocity.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="source\measure\data_structures\ModelMeasure.h" />
     <ClInclude Include="source\data_processing\Matrix\MatrixRow.h" />
     <ClInclude Include="source\data_processing\Matrix\Matrix.h" />
     <ClInclude Include="source\data_processing\Interpolator.h" />

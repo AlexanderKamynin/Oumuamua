@@ -74,7 +74,6 @@ void Solution::direct_problem()
     std::vector<IntegrationVector> model_orbits;
     std::vector<IntegrationVector> base_measures = interolate_JPL();
 
-    std::vector<SphericalCoord> model_spherical;
     std::vector<SphericalCoord> base_spherical;
 
     std::map<std::string, std::vector<IntegrationVector>> map_planets = interpolator.interpolation_center_planet(data_reader.get_observations()->at(0).get_date(), data_reader.get_observations()->at(221).get_date(), step, data_reader.get_interpolation_planets());
@@ -84,28 +83,28 @@ void Solution::direct_problem()
     light_corrector.light_correct(data_reader.get_observations(), &model_orbits, &map_planets["sun"], data_reader.get_earth_velocity_info());
 
     for (int i = 0; i < data_reader.get_observations()->size(); i++) {
-        IntegrationVector new_vector;
-        new_vector.set_barycentric(data_reader.get_observations()->at(i).get_barycentric());
-        new_vector.set_date(*data_reader.get_observations()->at(i).get_date());
+        ModelMeasure new_state;
+        new_state.set_barycentric(data_reader.get_observations()->at(i).get_barycentric());
+        new_state.set_date(*data_reader.get_observations()->at(i).get_date());
 
-        Velocity velocity = this->interpolator.find_orbit_velocity(new_vector.get_date(), &model_orbits);
+        Velocity velocity = this->interpolator.find_orbit_velocity(new_state.get_date(), &model_orbits);
         velocity.multiply(1.0 / 86400); // convert from km / day to km / s
-        new_vector.set_velocity(velocity);
-        this->model_measures.push_back(new_vector);
+        new_state.set_velocity(velocity);
+        this->model_measures.push_back(new_state);
     }
 
     for (int i = 0; i < this->model_measures.size(); i++)
     {
-        converter.barycentric_cartesian_to_barycentric_spherical(&this->model_measures[i], &model_spherical);
         converter.barycentric_cartesian_to_barycentric_spherical(&base_measures[i], &base_spherical);
+        converter.barycentric_cartesian_to_barycentric_spherical(&(this->model_measures.at(i)));
     }
 
-    write_result(&this->model_measures, &base_measures, &model_spherical, &base_spherical);
+    write_direct_problem_result(&base_measures, &base_spherical);
 }
 
 
 
-void Solution::write_result(std::vector<IntegrationVector>* model, std::vector<IntegrationVector>* base, std::vector<SphericalCoord>*model_spherical, std::vector<SphericalCoord>* base_spherical)
+void Solution::write_direct_problem_result(std::vector<IntegrationVector>* base, std::vector<SphericalCoord>* base_spherical)
 {
     std::ofstream model_out;
     std::ofstream model_barycentric_out;
@@ -115,12 +114,12 @@ void Solution::write_result(std::vector<IntegrationVector>* model, std::vector<I
     int counter = 0;
     if (model_out.is_open())
     {
-        for (int ind = 0; ind < model->size(); ind++)
+        for (int ind = 0; ind < this->model_measures.size(); ind++)
         {
             counter += 1;
-            model_out << std::setprecision(9) << model->at(ind).get_date().get_MJD() << "\tRA= " << model_spherical->at(ind).get_right_ascension() << "\tDEC= " << model_spherical->at(ind).get_declination() << '\n';
-            model_barycentric_out << std::setprecision(15) << model->at(ind).get_date().get_MJD() << "\tx= " << model->at(ind).get_barycentric().get_x() << "\ty= " << model->at(ind).get_barycentric().get_y() <<
-                "\tz= " << model->at(ind).get_barycentric().get_z() << std::endl;
+            model_out << std::setprecision(9) << this->model_measures[ind].get_date().get_MJD() << "\tRA= " << this->model_measures[ind].get_spherical().get_right_ascension() << "\tDEC= " << this->model_measures[ind].get_spherical().get_declination() << '\n';
+            model_barycentric_out << std::setprecision(15) << this->model_measures[ind].get_date().get_MJD() << "\tx= " << this->model_measures[ind].get_barycentric().get_x() << "\ty= " << this->model_measures[ind].get_barycentric().get_y() <<
+                "\tz= " << this->model_measures[ind].get_barycentric().get_z() << std::endl;
         }
         model_out.close();
         model_barycentric_out.close();
@@ -159,6 +158,7 @@ void Solution::write_result(std::vector<IntegrationVector>* model, std::vector<I
         std::cout << "Error of writing file\n";
     }
 }
+
 
 std::vector<IntegrationVector> Solution::interolate_JPL()
 {

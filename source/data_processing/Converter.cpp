@@ -219,6 +219,19 @@ void Converter::barycentric_cartesian_to_barycentric_spherical(IntegrationVector
 }
 
 
+void Converter::barycentric_cartesian_to_barycentric_spherical(ModelMeasure* model_measure)
+{
+    double barycentric_coord[3] = { model_measure->get_barycentric().get_x(), model_measure->get_barycentric().get_y(), model_measure->get_barycentric().get_z() };
+    double right_ascension;
+    double declination;
+
+    iauC2s(barycentric_coord, &right_ascension, &declination);
+    SphericalCoord temp_coords;
+    temp_coords.set_spherical(right_ascension, declination);
+    model_measure->set_spherical(temp_coords);
+}
+
+
 /*
     Convert geocentric to barycentric coordinates
     Used for base observation

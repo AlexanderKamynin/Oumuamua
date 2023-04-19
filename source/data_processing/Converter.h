@@ -6,6 +6,7 @@
 #include "../measure/coords/BarycentricCoord.h"
 #include "../measure/coords/Observation.h"
 #include "../measure/coords/Observatory.h"
+#include "../measure/data_structures/ModelMeasure.h"
 
 #include "../measure/time/InterpolationTime.h"
 
@@ -38,6 +39,7 @@ public:
     GeocentricCoord terrestial_to_geocentric_celestial(CartesianCoord, Date, EarthRotation);
     void spherical_hours_to_spherical_radians(Observation*);
     void barycentric_cartesian_to_barycentric_spherical(IntegrationVector* vector, std::vector<SphericalCoord>* coords);
+    void barycentric_cartesian_to_barycentric_spherical(ModelMeasure* model_measure);
     void barycentric_spherical_to_geocentric_cartesian(Observation*);
     void cartesian_geocentric_to_cartesian_barycentric(std::vector<Observation>*, std::map<std::string, Observatory>*, std::vector<EarthRotation>*, std::vector<HubbleData>, std::vector<IntegrationVector>);
     void UTC_to_TT(Date*);
