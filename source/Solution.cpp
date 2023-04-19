@@ -197,6 +197,12 @@ std::vector<IntegrationVector> Solution::interolate_JPL()
 }
 
 
+void Solution::inverse_problem()
+{
+    // method for solve inverse problem
+}
+
+
 /*
     Call all main method
 */
@@ -206,4 +212,5 @@ void Solution::act()
     convert_observations();
     convert_observatory();
     direct_problem();
+    inverse_problem();
 }

@@ -36,6 +36,7 @@ public:
     void convert_observatory();
     // integration
     void direct_problem();
+    void inverse_problem();
     void write_direct_problem_result(std::vector<IntegrationVector>* base_measures, std::vector<SphericalCoord>* base_spherical);
     std::vector<IntegrationVector> interolate_JPL();
 };
