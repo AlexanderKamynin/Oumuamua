@@ -60,6 +60,11 @@ void Velocity::multiply(double value)
     this->vz *= value;
 }
 
+void Velocity::print()
+{
+    std::cout << "vx= " << this->vx << " vy= " << this->vy << " vz= " << this->vz;
+}
+
 
 Velocity operator+(Velocity velocity1, Velocity velocity2) 
 {

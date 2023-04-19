@@ -22,6 +22,7 @@ private:
 
 
     IntegrationVector initial_condition;
+    std::vector<IntegrationVector> model_measures;
 
     std::string model_file = "./output_data/model_measure.txt";
     std::string base_file = "./output_data/base_measure.txt";

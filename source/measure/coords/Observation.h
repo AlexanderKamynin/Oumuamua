@@ -2,7 +2,7 @@
 #include "SphericalCoord.h"
 #include "BarycentricCoord.h"
 #include "GeocentricCoord.h"
-
+#include "../movement/Velocity.h"
 #include "../time/Date.h"
 
 #include <string>
@@ -21,6 +21,7 @@ private:
     SphericalCoord spherical_position;
     GeocentricCoord geocentric_position;
     BarycentricCoord barycentric_position;
+    Velocity velocity;
 public:
     Observation() = default;
 
@@ -36,6 +37,7 @@ public:
     void set_barycentric(double, double, double);
     void set_barycentric(BarycentricCoord);
     void set_observatory_position(BarycentricCoord);
+    void set_velocity(Velocity);
 
     //getters
     Date* get_date();
@@ -44,4 +46,5 @@ public:
     GeocentricCoord get_geocentric();
     BarycentricCoord get_barycentric();
     BarycentricCoord get_observatory_position();
+    Velocity get_velocity();
 };

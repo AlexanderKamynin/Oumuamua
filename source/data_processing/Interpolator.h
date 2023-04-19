@@ -5,6 +5,7 @@
 #include "../measure/coords/Observatory.h"
 #include "../measure/time/InterpolationTime.h"
 #include "../measure/time/Date.h"
+#include "../measure/movement/Velocity.h"
 
 #include <map>
 #include <iostream>
@@ -28,5 +29,6 @@ public:
 
     BarycentricCoord find_object_position(Date time, std::vector<IntegrationVector>* model_measure);
     Velocity find_earth_velocity(Date time, std::vector<IntegrationVector>* earth_velocity_info);
+    Velocity find_orbit_velocity(Date time, std::vector<IntegrationVector>* orbit_velocity_info);
 };
 

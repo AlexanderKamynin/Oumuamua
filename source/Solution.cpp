@@ -70,7 +70,6 @@ void Solution::convert_observatory()
 void Solution::direct_problem() 
 {
     double step = STEP; // MJD step
-    std::vector<IntegrationVector> model_measures;
     
     std::vector<IntegrationVector> model_orbits;
     std::vector<IntegrationVector> base_measures = interolate_JPL();
@@ -81,7 +80,6 @@ void Solution::direct_problem()
     std::map<std::string, std::vector<IntegrationVector>> map_planets = interpolator.interpolation_center_planet(data_reader.get_observations()->at(0).get_date(), data_reader.get_observations()->at(221).get_date(), step, data_reader.get_interpolation_planets());
     model_orbits = integration.dormand_prince(initial_condition, data_reader.get_observations()->at(0).get_date(), data_reader.get_observations()->at(221).get_date(), step, &map_planets);
     converter.cartesian_geocentric_to_cartesian_barycentric(data_reader.get_observations(), data_reader.get_obsevatory_map(), data_reader.get_earth_rotation_vector(), data_reader.get_interpolation_hubble(), map_planets["earth"]);
-
     // light time correction, gravitational deflection, abberation
     light_corrector.light_correct(data_reader.get_observations(), &model_orbits, &map_planets["sun"], data_reader.get_earth_velocity_info());
 
@@ -89,16 +87,20 @@ void Solution::direct_problem()
         IntegrationVector new_vector;
         new_vector.set_barycentric(data_reader.get_observations()->at(i).get_barycentric());
         new_vector.set_date(*data_reader.get_observations()->at(i).get_date());
-        model_measures.push_back(new_vector);
+
+        Velocity velocity = this->interpolator.find_orbit_velocity(new_vector.get_date(), &model_orbits);
+        velocity.multiply(1.0 / 86400); // convert from km / day to km / s
+        new_vector.set_velocity(velocity);
+        this->model_measures.push_back(new_vector);
     }
 
-    for (int i = 0; i < model_measures.size(); i++)
+    for (int i = 0; i < this->model_measures.size(); i++)
     {
-        converter.barycentric_cartesian_to_barycentric_spherical(&model_measures[i], &model_spherical);
+        converter.barycentric_cartesian_to_barycentric_spherical(&this->model_measures[i], &model_spherical);
         converter.barycentric_cartesian_to_barycentric_spherical(&base_measures[i], &base_spherical);
     }
 
-    write_result(&model_measures, &base_measures, &model_spherical, &base_spherical);
+    write_result(&this->model_measures, &base_measures, &model_spherical, &base_spherical);
 }
 
 

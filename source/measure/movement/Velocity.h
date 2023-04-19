@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 
 
 /*
@@ -34,6 +35,8 @@ public:
     */
     void increase(double);
     void multiply(double);
+
+    void print();
 
 
     /*

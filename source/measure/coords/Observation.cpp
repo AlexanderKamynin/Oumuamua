@@ -67,6 +67,11 @@ void Observation::set_observatory_position(BarycentricCoord position)
     this->observatory_position = position;
 }
 
+void Observation::set_velocity(Velocity v)
+{
+    this->velocity.set_all_velocity(v.get_vx(), v.get_vy(), v.get_vz());
+}
+
 
 void Observation::set_geocentric(double x, double y, double z)
 {
@@ -101,4 +106,9 @@ BarycentricCoord Observation::get_barycentric()
 BarycentricCoord Observation::get_observatory_position()
 {
     return this->observatory_position;
+}
+
+Velocity Observation::get_velocity()
+{
+    return this->velocity;
 }
