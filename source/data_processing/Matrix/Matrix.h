@@ -28,8 +28,8 @@ public:
 	friend Matrix operator+(Matrix const A, Matrix const B);
 	friend Matrix operator-(Matrix const A, Matrix const B);
 	friend Matrix operator*(Matrix const A, Matrix const B);
-	friend Matrix operator*(double const k, Matrix const A);
-	friend Matrix operator*(Matrix const A, double const k);
+	friend Matrix operator*(double const factor, Matrix const A);
+	friend Matrix operator*(Matrix const A, double const factor);
 	~Matrix();
 };
-std::ostream& operator<<(std::ostream& strm, Matrix mtr);
+std::ostream& operator<<(std::ostream& outstream, Matrix mtr);

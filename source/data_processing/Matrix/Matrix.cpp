@@ -280,44 +280,44 @@ Matrix operator*(Matrix const A, Matrix const B)
     return C;
 }
 
-Matrix operator*(double const k, Matrix const A)
+Matrix operator*(double const factor, Matrix const A)
 {
     Matrix C(A.n, A.m);
     for (int i = 0; i < A.n; i++) 
     {
         for (int j = 0; j < A.m; j++)
         {
-            C[i][j] = A[i][j] * k;
+            C[i][j] = A[i][j] * factor;
         }
     }
     return C;
 }
 
-Matrix operator*(Matrix const A, double const k) 
+Matrix operator*(Matrix const A, double const factor)
 {
     Matrix C(A.n, A.m);
     for (int i = 0; i < A.n; i++) 
     {
         for (int j = 0; j < A.m; j++) 
         {
-            C[i][j] = A[i][j] * k;
+            C[i][j] = A[i][j] * factor;
         }
     }
     return C;
 }
 
-std::ostream& operator<<(std::ostream& strm, Matrix mtr)
+std::ostream& operator<<(std::ostream& outstream, Matrix mtr)
 {
     for (int i = 0; i < mtr.rows(); i++) 
     {
         for (int j = 0; j < mtr.columns(); j++) 
         {
 
-            strm << mtr[i][j] << " ";
+            outstream << mtr[i][j] << " ";
         }
-        strm << "\n";
+        outstream << std::endl;
     }
-    return strm;
+    return outstream;
 }
 
 Matrix::~Matrix()
