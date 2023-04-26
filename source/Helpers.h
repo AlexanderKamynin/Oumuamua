@@ -62,6 +62,12 @@ public:
     }
 
 
+    double POW_N(double value, int degrees)
+    {
+        return pow(value, degrees);
+    }
+
+
     /*
         Method for transpose the matrix
         @param matrix - matrix to transpose

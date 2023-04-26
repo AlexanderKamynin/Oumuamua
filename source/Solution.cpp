@@ -200,6 +200,9 @@ std::vector<IntegrationVector> Solution::interolate_JPL()
 void Solution::inverse_problem()
 {
     // method for solve inverse problem
+
+    // step1. calculate difference between model and real (base) measures
+
 }
 
 

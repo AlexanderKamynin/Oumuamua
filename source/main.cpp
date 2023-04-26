@@ -6,7 +6,7 @@ int main()
     //I love Oumuamua!!!
     Solution solve;
     solve.act();
-    std::cout << "Program done" << std::endl;   
+    std::cout << "Program done" << std::endl;
     return 0;
 }
 

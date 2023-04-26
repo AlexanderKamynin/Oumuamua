@@ -2,6 +2,7 @@
 #include "../measure/data_structures/IntegrationVector.h"
 #include "DataReader.h"
 #include "../Helpers.h"
+#include "../data_processing/Matrix/Matrix.h"
 
 #include <vector>
 #include <map>
@@ -65,5 +66,6 @@ private:
     Date date_start;
 public:
     IntegrationVector derivate_function(IntegrationVector, std::map<std::string, std::vector<IntegrationVector>>*);
+    void calculate_partial_derivates(IntegrationVector, Matrix*, std::map<std::string, std::vector<IntegrationVector>>*);
     std::vector<IntegrationVector> dormand_prince(IntegrationVector, Date*, Date*, double, std::map<std::string, std::vector<IntegrationVector>>*);
 };

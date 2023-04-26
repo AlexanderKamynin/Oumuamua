@@ -4,6 +4,7 @@
 IntegrationVector Integration::derivate_function(IntegrationVector current_condition, std::map<std::string, std::vector<IntegrationVector>>* planets)
 {
     IntegrationVector d_vector;
+    BarycentricCoord Oumuamua_coordinates = current_condition.get_barycentric();
     BarycentricCoord a; // acceleration
 
     int idx = int((current_condition.get_date().get_MJD() - this->date_start.get_MJD()) / STEP); // search for needed time
@@ -11,7 +12,6 @@ IntegrationVector Integration::derivate_function(IntegrationVector current_condi
     for (std::string planet_name : this->planet_list)
     {
         BarycentricCoord planet_coordinates = planets->at(planet_name)[idx].get_barycentric();
-        BarycentricCoord Oumuamua_coordinates = current_condition.get_barycentric();
         // Newton's formula:
         //                    -->
         //  a = dv / dx = GM * ri / ri ^ 3
@@ -23,6 +23,45 @@ IntegrationVector Integration::derivate_function(IntegrationVector current_condi
     d_vector.set_velocity(a.get_x(), a.get_y(), a.get_z());
 
     return d_vector;
+}
+
+
+void Integration::calculate_partial_derivates(IntegrationVector current_condition, Matrix* partial_derivates, std::map<std::string, std::vector<IntegrationVector>>* planets)
+{
+        double dax[3] = { 0, 0, 0 }; // dax / dx, dax / dy, dax / dz
+        double day[3] = { 0, 0, 0 }; // day / dx, day / dy, day / dx
+        double daz[3] = { 0, 0, 0 }; // daz / dx, daz / dy, daz / dz
+
+        int idx = int((current_condition.get_date().get_MJD() - this->date_start.get_MJD()) / STEP); // search for needed time
+        BarycentricCoord Oumuamua_coordinates = current_condition.get_barycentric();
+        for (std::string planet_name : this->planet_list)
+        {
+            BarycentricCoord planet_coordinates = planets->at(planet_name)[idx].get_barycentric();
+            double length = help.POW_3((planet_coordinates - Oumuamua_coordinates).length());
+            dax[0] = dax[0] - this->GM[planet_name] * (planet_coordinates.get_x() - Oumuamua_coordinates.get_x()) / help.POW_N(length, 3) + 3 * this->GM[planet_name] * help.POW_N(planet_coordinates.get_x() - Oumuamua_coordinates.get_x(), 2) / help.POW_N(length, 5);
+            dax[1] = dax[1] + 3 * this->GM[planet_name] * (planet_coordinates.get_x() - Oumuamua_coordinates.get_x()) * (planet_coordinates.get_y() - Oumuamua_coordinates.get_y()) / help.POW_N(length, 5);
+            dax[2] = dax[2] + 3 * this->GM[planet_name] * (planet_coordinates.get_x() - Oumuamua_coordinates.get_x()) * (planet_coordinates.get_z() - Oumuamua_coordinates.get_z()) / help.POW_N(length, 5);
+
+            day[0] = day[0] + 3 * this->GM[planet_name] * (planet_coordinates.get_y() - Oumuamua_coordinates.get_y()) * (planet_coordinates.get_x() - Oumuamua_coordinates.get_x()) / help.POW_N(length, 5);
+            day[1] = day[1] - this->GM[planet_name] * (planet_coordinates.get_y() - Oumuamua_coordinates.get_y()) / help.POW_N(length, 3) + 3 * this->GM[planet_name] * help.POW_N(planet_coordinates.get_y() - Oumuamua_coordinates.get_y(), 2) / help.POW_N(length, 5);
+            day[2] = day[2] + 3 * this->GM[planet_name] * (planet_coordinates.get_y() - Oumuamua_coordinates.get_y()) * (planet_coordinates.get_z() - Oumuamua_coordinates.get_z()) / help.POW_N(length, 5);
+
+            daz[0] = daz[0] + 3 * this->GM[planet_name] * (planet_coordinates.get_z() - Oumuamua_coordinates.get_z()) * (planet_coordinates.get_x() - Oumuamua_coordinates.get_x()) / help.POW_N(length, 5);
+            daz[1] = daz[1] + 3 * this->GM[planet_name] * (planet_coordinates.get_z() - Oumuamua_coordinates.get_z()) * (planet_coordinates.get_y() - Oumuamua_coordinates.get_y()) / help.POW_N(length, 5);
+            daz[2] = daz[2] - this->GM[planet_name] * (planet_coordinates.get_z() - Oumuamua_coordinates.get_z()) / help.POW_N(length, 3) + 3 * this->GM[planet_name] * help.POW_N(planet_coordinates.get_z() - Oumuamua_coordinates.get_z(), 2) / help.POW_N(length, 5);
+        }
+
+        (*partial_derivates)[0][0] = dax[0];
+        (*partial_derivates)[0][1] = dax[1];
+        (*partial_derivates)[0][2] = dax[2];
+
+        (*partial_derivates)[1][0] = day[0];
+        (*partial_derivates)[1][1] = day[1];
+        (*partial_derivates)[1][2] = day[2];
+
+        (*partial_derivates)[2][0] = daz[0];
+        (*partial_derivates)[2][1] = daz[1];
+        (*partial_derivates)[2][2] = daz[2];
 }
 
 
