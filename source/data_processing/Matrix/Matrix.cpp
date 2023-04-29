@@ -90,7 +90,7 @@ Matrix Matrix::Cholesky_Banachiewicz_decomposition(Matrix A)
     Matrix L(A.rows(), A.columns());
     if (L.n != L.m)
     {
-        std::cout << "Error :: Not square matrix in Cholesky_Banachiewicz_decomposition!" << std::endl;
+        std::cout << "Error :: Not square matrix in Cholesky_decomposition!" << std::endl;
         return L;
     }
     int size = A.rows();
@@ -98,7 +98,7 @@ Matrix Matrix::Cholesky_Banachiewicz_decomposition(Matrix A)
     {
         for (int j = 0; j <= i; j++) 
         {
-            double sum = 0; // from wiki: there was float. 
+            double sum = 0;
             for (int k = 0; k < j; k++)
                 sum += L[i][k] * L[j][k];
 
@@ -288,6 +288,7 @@ Matrix operator*(Matrix const A, Matrix const B)
 {
     if (A.columns() != B.rows()) 
     {
+        std::cout << "Error in matrix size" << std::endl;
         return Matrix(1, 1);
     }
 

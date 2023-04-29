@@ -14,7 +14,7 @@ IntegrationVector Integration::derivate_function(IntegrationVector current_condi
         BarycentricCoord planet_coordinates = planets->at(planet_name)[idx].get_barycentric();
         // Newton's formula:
         //                    -->
-        //  a = dv / dx = GM * ri / ri ^ 3
+        //  a = dv / dt = GM * ri / |ri| ^ 3
         
         a = a + this->GM[planet_name] * (planet_coordinates - Oumuamua_coordinates) / help.POW_3((planet_coordinates - Oumuamua_coordinates).length());
     }
@@ -22,18 +22,51 @@ IntegrationVector Integration::derivate_function(IntegrationVector current_condi
     d_vector.set_barycentric(current_condition.get_velocity().get_vx(), current_condition.get_velocity().get_vy(), current_condition.get_velocity().get_vz());
     d_vector.set_velocity(a.get_x(), a.get_y(), a.get_z());
 
+    // calculate partial derivate
+
+    this->calculate_partial_derivates(&current_condition, d_vector.get_df_dx(), planets);
+    //@log
+    //std::cout << *d_vector.get_df_dx();
+    //std::cout << std::endl;
+
+    // dx/db = dx/dx0 = df/dx * dx/dx0
+    Matrix dx_db = (*d_vector.get_df_dx()) * (*current_condition.get_dx_dx0());
+    //@log
+    //std::cout << "dx/dx0:\n" << *current_condition.get_dx_dx0();
+    //std::cout << "\n\n";
+
+    //std::cout << "df/dx:\n" << *d_vector.get_df_dx();
+    //std::cout << "\n\n";
+    //d_vector.set_dx_dx0(dx_db);
+
     return d_vector;
 }
 
 
-void Integration::calculate_partial_derivates(IntegrationVector current_condition, Matrix* partial_derivates, std::map<std::string, std::vector<IntegrationVector>>* planets)
+
+void Integration::calculate_partial_derivates(IntegrationVector* current_condition, Matrix* partial_derivates, std::map<std::string, std::vector<IntegrationVector>>* planets)
 {
+        /*
+            This method used for calculate dF/dX = ( dv/dx, dv/dv ) = ( 0,    E)
+                                                   ( da/dx, da/dv )   (da/dx, 0)
+        */
+        for (int row_idx = 0; row_idx < 3; row_idx++)
+        {
+            for (int column_idx = 3; column_idx < 6; column_idx++)
+            {
+                if (column_idx == row_idx + 3)
+                {
+                    (*partial_derivates)[row_idx][column_idx] = 1;
+                }
+            }
+        }
+
         double dax[3] = { 0, 0, 0 }; // dax / dx, dax / dy, dax / dz
         double day[3] = { 0, 0, 0 }; // day / dx, day / dy, day / dx
         double daz[3] = { 0, 0, 0 }; // daz / dx, daz / dy, daz / dz
 
-        int idx = int((current_condition.get_date().get_MJD() - this->date_start.get_MJD()) / STEP); // search for needed time
-        BarycentricCoord Oumuamua_coordinates = current_condition.get_barycentric();
+        int idx = int((current_condition->get_date().get_MJD() - this->date_start.get_MJD()) / STEP); // search for needed time
+        BarycentricCoord Oumuamua_coordinates = current_condition->get_barycentric();
         for (std::string planet_name : this->planet_list)
         {
             BarycentricCoord planet_coordinates = planets->at(planet_name)[idx].get_barycentric();
@@ -65,6 +98,42 @@ void Integration::calculate_partial_derivates(IntegrationVector current_conditio
 }
 
 
+
+void Integration::calculate_dg_dx(IntegrationVector* condition, Matrix* dg_dx)
+{
+    double dRA_dx[6] = { 0, 0, 0, 0, 0, 0 }; // dRA / dx, dRA / dy, dRA / dz, dRA / vx, dRA / vy, dRA / vz
+    double dDEC_dx[6] = { 0, 0, 0, 0, 0, 0 }; // dDEC / dx, dDEC / dy, dDEC / dz, dDEC / vx, dDEC / vy, dDEC / vz
+
+    /*
+        RA = arctan(y/x)
+        DEC = arctan (z / sqrt(x^2 + y^2))
+    */
+
+    double x = condition->get_barycentric().get_x();
+    double y = condition->get_barycentric().get_y();
+    double z = condition->get_barycentric().get_z();
+
+    dRA_dx[0] = -1 * y / (help.POW_N(x, 2) + help.POW_N(y, 2));
+    dRA_dx[1] = x / (help.POW_N(x, 2) + help.POW_N(y, 2));
+    // dRA_dx[2] = 0, this dRA/dz
+    // all dRA_dv = 0
+
+    double a = help.POW_N(x, 2) + help.POW_N(y, 2) + help.POW_N(z, 2);
+    double b = std::sqrt(help.POW_N(x, 2) + help.POW_N(y, 2));
+    dDEC_dx[0] = -1 * x * z / (a * b);
+    dDEC_dx[1] = -1 * y * z / (a * b);
+    dDEC_dx[2] = (help.POW_N(x, 2) + help.POW_N(y, 2)) / (a * b);
+
+    (*dg_dx)[0][0] = dRA_dx[0];
+    (*dg_dx)[0][1] = dRA_dx[1];
+    (*dg_dx)[0][2] = dRA_dx[2];
+
+    (*dg_dx)[1][0] = dDEC_dx[0];
+    (*dg_dx)[1][1] = dDEC_dx[1];
+    (*dg_dx)[1][2] = dDEC_dx[2];
+}
+
+
 /*
     Method for numerical integrate
 */
@@ -75,6 +144,7 @@ std::vector<IntegrationVector> Integration::dormand_prince(IntegrationVector ini
 
     IntegrationVector new_condition = initial_condition;
     new_condition.set_date(*start);
+    new_condition.get_dx_dx0()->make_identity(); // dx0/dx0 = E
     result.push_back(new_condition);
     this->date_start = *start;
 

@@ -1,7 +1,7 @@
 #pragma once
 #include "../coords/BarycentricCoord.h"
 #include "../coords/SphericalCoord.h"
-
+#include "../../data_processing/Matrix/Matrix.h"
 #include "../movement/Velocity.h"
 
 #include "../time/Date.h"
@@ -12,7 +12,7 @@
     The problem is described by the following system of differential equations:
 
     X(t) = (x, y, z, vx, vy, vz)
-    X(0) = (initial_condition, y0, z0, vx0, vy0, vz0)
+    X(0) = (x0, y0, z0, vx0, vy0, vz0)
     dX/dt = (vx, vy, vz, ax, ay, az)
 
     @param spherical_position - position of the Oumuamua in the Spherical coordinates
@@ -28,6 +28,9 @@ private:
     BarycentricCoord barycentric_position;
     Velocity velocity;
     Date date;
+
+    Matrix df_dx = Matrix(6, 6); // matrix for saving partial derivates
+    Matrix dx_dx0 = Matrix(6, 6);
 public:
     IntegrationVector() = default;
 
@@ -38,13 +41,14 @@ public:
     void set_velocity(double, double, double);
     void set_velocity(Velocity);
     void set_date(Date);
-
+    void set_dx_dx0(Matrix);
 
     //geters
     BarycentricCoord get_barycentric();
     Velocity get_velocity();
     Date get_date();
-
+    Matrix* get_df_dx();
+    Matrix* get_dx_dx0();
 
     /*
         Operation between integration vectors

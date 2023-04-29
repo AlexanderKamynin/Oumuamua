@@ -30,6 +30,11 @@ void IntegrationVector::set_date(Date date)
     this->date = date;
 }
 
+void IntegrationVector::set_dx_dx0(Matrix dx_dx0)
+{
+    this->dx_dx0 = dx_dx0;
+}
+
 
 BarycentricCoord IntegrationVector::get_barycentric() 
 {
@@ -50,6 +55,16 @@ Date IntegrationVector::get_date()
     return this->date;
 }
 
+Matrix* IntegrationVector::get_df_dx()
+{
+    return &this->df_dx;
+}
+
+Matrix* IntegrationVector::get_dx_dx0()
+{
+    return &this->dx_dx0;
+}
+
 
 IntegrationVector operator+(IntegrationVector vector, double value)
 {
@@ -66,6 +81,8 @@ IntegrationVector operator+(IntegrationVector vector1, IntegrationVector vector2
     result.barycentric_position = vector1.barycentric_position + vector2.barycentric_position;
     result.velocity = vector1.velocity + vector2.velocity;
     result.date = vector1.date;
+    result.df_dx = (*vector1.get_df_dx()) + (*vector2.get_df_dx());
+    result.dx_dx0 = (*vector1.get_dx_dx0()) + (*vector2.get_dx_dx0());
     return result;
 }
 
@@ -74,6 +91,8 @@ IntegrationVector operator*(double value, IntegrationVector vector)
 {
     vector.barycentric_position.multiply(value);
     vector.velocity.multiply(value);
+    vector.df_dx = value * (*vector.get_df_dx());
+    vector.dx_dx0 = value * (*vector.get_dx_dx0());
     return vector;
 }
 

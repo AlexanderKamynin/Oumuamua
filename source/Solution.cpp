@@ -69,18 +69,18 @@ void Solution::convert_observatory()
 
 void Solution::direct_problem() 
 {
-    double step = STEP; // MJD step
-    
     std::vector<IntegrationVector> model_orbits;
     std::vector<IntegrationVector> base_measures = interolate_JPL();
-
     std::vector<SphericalCoord> base_spherical;
+    std::map<std::string, std::vector<IntegrationVector>> map_planets = interpolator.interpolation_center_planet(data_reader.get_observations()->at(0).get_date(), data_reader.get_observations()->at(221).get_date(), STEP, data_reader.get_interpolation_planets());
 
-    std::map<std::string, std::vector<IntegrationVector>> map_planets = interpolator.interpolation_center_planet(data_reader.get_observations()->at(0).get_date(), data_reader.get_observations()->at(221).get_date(), step, data_reader.get_interpolation_planets());
-    model_orbits = integration.dormand_prince(initial_condition, data_reader.get_observations()->at(0).get_date(), data_reader.get_observations()->at(221).get_date(), step, &map_planets);
+
+    model_orbits = integration.dormand_prince(initial_condition, data_reader.get_observations()->at(0).get_date(), data_reader.get_observations()->at(221).get_date(), STEP, &map_planets);
+
+
     converter.cartesian_geocentric_to_cartesian_barycentric(data_reader.get_observations(), data_reader.get_obsevatory_map(), data_reader.get_earth_rotation_vector(), data_reader.get_interpolation_hubble(), map_planets["earth"]);
-    // light time correction, gravitational deflection, abberation
     light_corrector.light_correct(data_reader.get_observations(), &model_orbits, &map_planets["sun"], data_reader.get_earth_velocity_info());
+
 
     for (int i = 0; i < data_reader.get_observations()->size(); i++) {
         ModelMeasure new_state;
@@ -93,11 +93,13 @@ void Solution::direct_problem()
         this->model_measures.push_back(new_state);
     }
 
+
     for (int i = 0; i < this->model_measures.size(); i++)
     {
         converter.barycentric_cartesian_to_barycentric_spherical(&base_measures[i], &base_spherical);
         converter.barycentric_cartesian_to_barycentric_spherical(&(this->model_measures.at(i)));
     }
+
 
     write_direct_problem_result(&base_measures, &base_spherical);
 }

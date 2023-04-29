@@ -24,8 +24,10 @@ public:
 	Matrix(const Matrix&& other);
 	Matrix& operator=(const Matrix&& other);
 
+
 	MatrixRow operator[](int i) const;
 
+	friend std::ostream& operator<<(std::ostream& outstream, const Matrix mtr);
 	friend Matrix operator+(Matrix const A, Matrix const B);
 	friend Matrix operator-(Matrix const A, Matrix const B);
 	friend Matrix operator*(Matrix const A, Matrix const B);
@@ -33,4 +35,3 @@ public:
 	friend Matrix operator*(Matrix const A, double const factor);
 	~Matrix();
 };
-std::ostream& operator<<(std::ostream& outstream, Matrix mtr);
