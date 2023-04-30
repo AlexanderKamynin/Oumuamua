@@ -30,7 +30,7 @@ private:
     Date date;
 
     Matrix df_dx = Matrix(6, 6); // matrix for saving partial derivates
-    Matrix dx_dx0 = Matrix(6, 6);
+    Matrix dx_db = Matrix(6, 6);
 public:
     IntegrationVector() = default;
 
@@ -41,14 +41,14 @@ public:
     void set_velocity(double, double, double);
     void set_velocity(Velocity);
     void set_date(Date);
-    void set_dx_dx0(Matrix);
+    void set_dx_db(Matrix);
 
     //geters
     BarycentricCoord get_barycentric();
     Velocity get_velocity();
     Date get_date();
     Matrix* get_df_dx();
-    Matrix* get_dx_dx0();
+    Matrix* get_dx_db();
 
     /*
         Operation between integration vectors

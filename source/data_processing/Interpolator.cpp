@@ -180,3 +180,24 @@ Velocity Interpolator::find_orbit_velocity(Date time, std::vector<IntegrationVec
     }
     return earth_velocity;
 }
+
+Matrix Interpolator::interpolate_dx_db(Date time, std::vector<IntegrationVector>* model)
+{
+    Matrix interpolated_dx_db = Matrix(6, 6);
+    double step = STEP;
+    int idx = int(((time.get_MJD()) - model->at(0).get_date().get_MJD()) / step);
+    if (idx == 0)
+    {
+        interpolated_dx_db = *model->at(0).get_dx_db();
+    }
+    else
+    {
+        double t_current = model->at(idx).get_date().get_MJD();
+        double t_previous = model->at(idx - 1).get_date().get_MJD();
+        double t_interpolate = time.get_MJD();
+
+        interpolated_dx_db = (*model->at(idx-1).get_dx_db()) + ((*model->at(idx).get_dx_db()) - (*model->at(idx - 1).get_dx_db())) * (1 / (t_current - t_previous)) * (t_interpolate - t_previous);
+    }
+
+    return interpolated_dx_db;
+}

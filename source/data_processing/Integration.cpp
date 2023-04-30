@@ -30,14 +30,21 @@ IntegrationVector Integration::derivate_function(IntegrationVector current_condi
     //std::cout << std::endl;
 
     // dx/db = dx/dx0 = df/dx * dx/dx0
-    Matrix dx_db = (*d_vector.get_df_dx()) * (*current_condition.get_dx_dx0());
+    
+    /*
+        df/db = (dv/dx0 dv/dv0) = (0 0)
+                (da/dx0 da/dv0)   (0 0)
+    */
+    Matrix df_db(6, 6);
+
+    Matrix dx_db = (*d_vector.get_df_dx()) * (*current_condition.get_dx_db()) + df_db;
     //@log
-    //std::cout << "dx/dx0:\n" << *current_condition.get_dx_dx0();
+    //std::cout << "dx/dx0:\n" << *current_condition.get_dx_db();
     //std::cout << "\n\n";
 
     //std::cout << "df/dx:\n" << *d_vector.get_df_dx();
     //std::cout << "\n\n";
-    //d_vector.set_dx_dx0(dx_db);
+    d_vector.set_dx_db(dx_db);
 
     return d_vector;
 }
@@ -99,41 +106,6 @@ void Integration::calculate_partial_derivates(IntegrationVector* current_conditi
 
 
 
-void Integration::calculate_dg_dx(IntegrationVector* condition, Matrix* dg_dx)
-{
-    double dRA_dx[6] = { 0, 0, 0, 0, 0, 0 }; // dRA / dx, dRA / dy, dRA / dz, dRA / vx, dRA / vy, dRA / vz
-    double dDEC_dx[6] = { 0, 0, 0, 0, 0, 0 }; // dDEC / dx, dDEC / dy, dDEC / dz, dDEC / vx, dDEC / vy, dDEC / vz
-
-    /*
-        RA = arctan(y/x)
-        DEC = arctan (z / sqrt(x^2 + y^2))
-    */
-
-    double x = condition->get_barycentric().get_x();
-    double y = condition->get_barycentric().get_y();
-    double z = condition->get_barycentric().get_z();
-
-    dRA_dx[0] = -1 * y / (help.POW_N(x, 2) + help.POW_N(y, 2));
-    dRA_dx[1] = x / (help.POW_N(x, 2) + help.POW_N(y, 2));
-    // dRA_dx[2] = 0, this dRA/dz
-    // all dRA_dv = 0
-
-    double a = help.POW_N(x, 2) + help.POW_N(y, 2) + help.POW_N(z, 2);
-    double b = std::sqrt(help.POW_N(x, 2) + help.POW_N(y, 2));
-    dDEC_dx[0] = -1 * x * z / (a * b);
-    dDEC_dx[1] = -1 * y * z / (a * b);
-    dDEC_dx[2] = (help.POW_N(x, 2) + help.POW_N(y, 2)) / (a * b);
-
-    (*dg_dx)[0][0] = dRA_dx[0];
-    (*dg_dx)[0][1] = dRA_dx[1];
-    (*dg_dx)[0][2] = dRA_dx[2];
-
-    (*dg_dx)[1][0] = dDEC_dx[0];
-    (*dg_dx)[1][1] = dDEC_dx[1];
-    (*dg_dx)[1][2] = dDEC_dx[2];
-}
-
-
 /*
     Method for numerical integrate
 */
@@ -144,7 +116,7 @@ std::vector<IntegrationVector> Integration::dormand_prince(IntegrationVector ini
 
     IntegrationVector new_condition = initial_condition;
     new_condition.set_date(*start);
-    new_condition.get_dx_dx0()->make_identity(); // dx0/dx0 = E
+    new_condition.get_dx_db()->make_identity(); // dx0/dx0 = E
     result.push_back(new_condition);
     this->date_start = *start;
 

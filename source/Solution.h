@@ -5,6 +5,7 @@
 #include "./data_processing/LightCorrector.h"
 #include "./data_processing/Interpolator.h"
 #include "../source/measure/data_structures/ModelMeasure.h"
+#include "data_processing/MNK.h"
 #include <iomanip>
 
 
@@ -20,10 +21,11 @@ private:
     Integration integration;
     Interpolator interpolator;
     LightCorrector light_corrector;
-
+    MNK mnk;
 
     IntegrationVector initial_condition;
     std::vector<ModelMeasure> model_measures;
+    std::vector<ModelMeasure> base_measures;
 
     std::string model_file = "./output_data/model_measure.txt";
     std::string base_file = "./output_data/base_measure.txt";

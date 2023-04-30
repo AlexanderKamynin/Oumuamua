@@ -30,9 +30,9 @@ void IntegrationVector::set_date(Date date)
     this->date = date;
 }
 
-void IntegrationVector::set_dx_dx0(Matrix dx_dx0)
+void IntegrationVector::set_dx_db(Matrix dx_db)
 {
-    this->dx_dx0 = dx_dx0;
+    this->dx_db = dx_db;
 }
 
 
@@ -60,9 +60,9 @@ Matrix* IntegrationVector::get_df_dx()
     return &this->df_dx;
 }
 
-Matrix* IntegrationVector::get_dx_dx0()
+Matrix* IntegrationVector::get_dx_db()
 {
-    return &this->dx_dx0;
+    return &this->dx_db;
 }
 
 
@@ -82,7 +82,7 @@ IntegrationVector operator+(IntegrationVector vector1, IntegrationVector vector2
     result.velocity = vector1.velocity + vector2.velocity;
     result.date = vector1.date;
     result.df_dx = (*vector1.get_df_dx()) + (*vector2.get_df_dx());
-    result.dx_dx0 = (*vector1.get_dx_dx0()) + (*vector2.get_dx_dx0());
+    result.dx_db = (*vector1.get_dx_db()) + (*vector2.get_dx_db());
     return result;
 }
 
@@ -92,7 +92,7 @@ IntegrationVector operator*(double value, IntegrationVector vector)
     vector.barycentric_position.multiply(value);
     vector.velocity.multiply(value);
     vector.df_dx = value * (*vector.get_df_dx());
-    vector.dx_dx0 = value * (*vector.get_dx_dx0());
+    vector.dx_db = value * (*vector.get_dx_db());
     return vector;
 }
 

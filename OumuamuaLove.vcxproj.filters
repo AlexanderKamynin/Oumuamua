@@ -819,6 +819,12 @@
     <ClCompile Include="source\data_processing\Matrix\Matrix.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="source\measure\data_structures\ModelMeasure.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="source\data_processing\MNK.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sofa\src\sofa.h">
@@ -891,6 +897,12 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="source\data_processing\Matrix\MatrixRow.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="source\measure\data_structures\ModelMeasure.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="source\data_processing\MNK.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

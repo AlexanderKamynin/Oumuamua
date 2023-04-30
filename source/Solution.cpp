@@ -90,6 +90,9 @@ void Solution::direct_problem()
         Velocity velocity = this->interpolator.find_orbit_velocity(new_state.get_date(), &model_orbits);
         velocity.multiply(1.0 / 86400); // convert from km / day to km / s
         new_state.set_velocity(velocity);
+
+        Matrix interpolated_dx_db = this->interpolator.interpolate_dx_db(new_state.get_date(), &model_orbits);
+        new_state.set_dx_db(interpolated_dx_db);
         this->model_measures.push_back(new_state);
     }
 
@@ -98,6 +101,10 @@ void Solution::direct_problem()
     {
         converter.barycentric_cartesian_to_barycentric_spherical(&base_measures[i], &base_spherical);
         converter.barycentric_cartesian_to_barycentric_spherical(&(this->model_measures.at(i)));
+        ModelMeasure base_state;
+        base_state.set_barycentric(base_measures[i].get_barycentric());
+        base_state.set_spherical(base_spherical[i]);
+        this->base_measures.push_back(base_state);
     }
 
 
@@ -203,7 +210,25 @@ void Solution::inverse_problem()
 {
     // method for solve inverse problem
 
-    // step1. calculate difference between model and real (base) measures
+    /* step1: calculate dr / db
+       step2: calculate delta r
+        
+        
+    */
+
+    Matrix R = Matrix(444, 1); // r(B) = real data - model data
+
+    for (int i = 0; i < this->model_measures.size(); i++)
+    {
+        this->mnk.calculate_dg_dx(&this->model_measures[i]);
+        this->mnk.calculate_dr_db(&this->model_measures[i]);
+
+        R[i * 2][0] = this->base_measures[i].get_spherical().get_right_ascension() - this->model_measures[i].get_spherical().get_right_ascension();
+        R[i * 2 + 1][0] = this->base_measures[i].get_spherical().get_declination() - this->model_measures[i].get_spherical().get_declination();
+    }
+
+    // Gauss-Newton
+
 
 }
 

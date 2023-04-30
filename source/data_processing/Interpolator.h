@@ -6,6 +6,7 @@
 #include "../measure/time/InterpolationTime.h"
 #include "../measure/time/Date.h"
 #include "../measure/movement/Velocity.h"
+#include "../data_processing/Matrix/Matrix.h"
 
 #include <map>
 #include <iostream>
@@ -30,5 +31,7 @@ public:
     BarycentricCoord find_object_position(Date time, std::vector<IntegrationVector>* model_measure);
     Velocity find_earth_velocity(Date time, std::vector<IntegrationVector>* earth_velocity_info);
     Velocity find_orbit_velocity(Date time, std::vector<IntegrationVector>* orbit_velocity_info);
+
+    Matrix interpolate_dx_db(Date time, std::vector<IntegrationVector>* model);
 };
 

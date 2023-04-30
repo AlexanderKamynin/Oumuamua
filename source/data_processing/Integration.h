@@ -67,6 +67,6 @@ private:
 public:
     IntegrationVector derivate_function(IntegrationVector, std::map<std::string, std::vector<IntegrationVector>>*);
     void calculate_partial_derivates(IntegrationVector*, Matrix*, std::map<std::string, std::vector<IntegrationVector>>*);
-    void calculate_dg_dx(IntegrationVector*, Matrix*);
     std::vector<IntegrationVector> dormand_prince(IntegrationVector, Date*, Date*, double, std::map<std::string, std::vector<IntegrationVector>>*);
+
 };

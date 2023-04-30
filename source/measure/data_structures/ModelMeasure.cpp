@@ -36,6 +36,16 @@ void ModelMeasure::set_date(Date date)
     this->date = date;
 }
 
+void ModelMeasure::set_dx_db(Matrix other)
+{
+    this->dx_db = other;
+}
+
+void ModelMeasure::set_dr_db(Matrix other)
+{
+    this->dr_db = other;
+}
+
 
 BarycentricCoord ModelMeasure::get_barycentric()
 {
@@ -59,4 +69,19 @@ Velocity ModelMeasure::get_velocity()
 Date ModelMeasure::get_date()
 {
     return this->date;
+}
+
+Matrix* ModelMeasure::get_dx_db()
+{
+    return &this->dx_db;
+}
+
+Matrix* ModelMeasure::get_dr_db()
+{
+    return &this->dr_db;
+}
+
+Matrix* ModelMeasure::get_dg_dx()
+{
+    return &this->dg_dx;
 }
