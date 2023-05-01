@@ -85,7 +85,7 @@ void Matrix::make_identity()
     }
 }
 
-Matrix Matrix::Cholesky_Banachiewicz_decomposition(Matrix A)
+Matrix Matrix::Cholesky_decomposition(Matrix A)
 {
     Matrix L(A.rows(), A.columns());
     if (L.n != L.m)

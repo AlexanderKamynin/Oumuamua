@@ -43,7 +43,11 @@ void MNK::calculate_dr_db(ModelMeasure* condition)
     condition->set_dr_db(-1 * (*condition->get_dg_dx()) * (*condition->get_dx_db()));
 }
 
-std::vector<IntegrationVector> MNK::Gauss_Newton()
+IntegrationVector MNK::Gauss_Newton(IntegrationVector x0, Matrix* A, Matrix* W, Matrix* R)
 {
-    return std::vector<IntegrationVector>();
+    IntegrationVector new_x0;
+
+
+
+    return new_x0;
 }

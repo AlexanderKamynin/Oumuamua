@@ -70,7 +70,7 @@ void Solution::convert_observatory()
 void Solution::direct_problem() 
 {
     std::vector<IntegrationVector> model_orbits;
-    std::vector<IntegrationVector> base_measures = interolate_JPL();
+    std::vector<IntegrationVector> base_measures_vector = interolate_JPL();
     std::vector<SphericalCoord> base_spherical;
     std::map<std::string, std::vector<IntegrationVector>> map_planets = interpolator.interpolation_center_planet(data_reader.get_observations()->at(0).get_date(), data_reader.get_observations()->at(221).get_date(), STEP, data_reader.get_interpolation_planets());
 
@@ -99,16 +99,16 @@ void Solution::direct_problem()
 
     for (int i = 0; i < this->model_measures.size(); i++)
     {
-        converter.barycentric_cartesian_to_barycentric_spherical(&base_measures[i], &base_spherical);
+        converter.barycentric_cartesian_to_barycentric_spherical(&base_measures_vector[i], &base_spherical);
         converter.barycentric_cartesian_to_barycentric_spherical(&(this->model_measures.at(i)));
         ModelMeasure base_state;
-        base_state.set_barycentric(base_measures[i].get_barycentric());
+        base_state.set_barycentric(base_measures_vector[i].get_barycentric());
         base_state.set_spherical(base_spherical[i]);
         this->base_measures.push_back(base_state);
     }
 
 
-    write_direct_problem_result(&base_measures, &base_spherical);
+    write_direct_problem_result(&base_measures_vector, &base_spherical);
 }
 
 
@@ -210,25 +210,45 @@ void Solution::inverse_problem()
 {
     // method for solve inverse problem
 
-    /* step1: calculate dr / db
-       step2: calculate delta r
-        
-        
+    /* 
+       step1: calculate dr / db
+       step2: save dr/db in matrix A
+       step3: calculate delta r
+       step4: calculate matrix W
+       step5: Gauss-Newton
     */
 
     Matrix R = Matrix(444, 1); // r(B) = real data - model data
+    Matrix W = Matrix(444, 444); // W is diagoanal matrix with 1/
+    Matrix A = Matrix(444, 6);
+    double accuracy = 1e-5;
 
     for (int i = 0; i < this->model_measures.size(); i++)
     {
         this->mnk.calculate_dg_dx(&this->model_measures[i]);
         this->mnk.calculate_dr_db(&this->model_measures[i]);
 
-        R[i * 2][0] = this->base_measures[i].get_spherical().get_right_ascension() - this->model_measures[i].get_spherical().get_right_ascension();
-        R[i * 2 + 1][0] = this->base_measures[i].get_spherical().get_declination() - this->model_measures[i].get_spherical().get_declination();
+        for (int j = 0; j < 6; j++)
+        {
+            A[2 * i][j] = (*this->model_measures[i].get_dr_db())[0][j];  // RA row in matrix
+            A[2 * i + 1][j] = (*this->model_measures[i].get_dr_db())[1][j]; // the next is DEC row
+        }
+
+        //@log
+        /*if (i < 3)
+        {
+            std::cout << "Matrix dr/db was:\n" << *this->model_measures[i].get_dr_db() << '\n';
+            std::cout << "Matrix A now:\n" << A << std::endl;
+        }*/
+
+        R[2 * i][0] = this->base_measures[i].get_spherical().get_right_ascension() - this->model_measures[i].get_spherical().get_right_ascension();
+        R[2 * i + 1][0] = this->base_measures[i].get_spherical().get_declination() - this->model_measures[i].get_spherical().get_declination();
+        W[2 * i][2 * i] = 1.0 / (4 * accuracy * accuracy);
+        W[2 * i + 1][2 * i + 1] = 1.0 / (4 * accuracy * accuracy);
     }
 
     // Gauss-Newton
-
+    this->initial_condition = this->mnk.Gauss_Newton(this->initial_condition, &A, &W, &R);
 
 }
 

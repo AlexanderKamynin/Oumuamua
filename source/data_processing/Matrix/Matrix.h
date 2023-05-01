@@ -17,7 +17,7 @@ public:
 	bool is_empty();
 	Matrix transpose();
 	void make_identity();
-	Matrix Cholesky_Banachiewicz_decomposition(Matrix);
+	Matrix Cholesky_decomposition(Matrix);
 
 	Matrix(const Matrix& other);
 	Matrix& operator=(const Matrix& other);

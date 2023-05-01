@@ -1,4 +1,7 @@
 #pragma once
+
+
+
 class MatrixRow
 {
 private:
@@ -16,5 +19,10 @@ public:
 	{
 		return row[j];
 	}
+
+	MatrixRow(const MatrixRow& other);
+	MatrixRow& operator=(const MatrixRow& other);
+	MatrixRow(const MatrixRow&& other);
+	MatrixRow& operator=(const MatrixRow&& other);
 };
 
