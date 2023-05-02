@@ -5,7 +5,7 @@
 Solution::Solution()
 {
     // initial values was taken from here: https://ssd.jpl.nasa.gov/horizons/app.html#/
-    initial_condition.set_barycentric(1.469662678584988E+08, 7.299822249002472E+07, 2.056575565443711E+07);
+    initial_condition.set_barycentric(1.46966286538887E+08, 7.29982316871326E+07, 2.05657582369639E+07);
     initial_condition.set_velocity((4.467714995410097E+01) * 86400, (3.759100797623457E+00) * 86400, (1.726983438363074E+01) * 86400); // km/c -> km/day
 
     Interpolator interpolator;
@@ -295,6 +295,12 @@ void Solution::act()
         std::cout << "DEC wrms delta: " << std::abs(this->wrms.second - old_wrms.second) << "\n";
         if (std::abs(this->wrms.first - old_wrms.first) <= accuracy or std::abs(this->wrms.second - old_wrms.second) <= accuracy)
         {
+            std::cout << std::setprecision(15) << "x0 with accuracy=" << accuracy << " now is equal\n";
+            std::cout << "position:\n";
+            this->initial_condition.get_barycentric().print();
+            std::cout << "\nvelocity\n";
+            this->initial_condition.get_velocity().print();
+            std::cout << '\n';
             break;
         }
     }
