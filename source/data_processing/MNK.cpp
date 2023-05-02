@@ -45,9 +45,75 @@ void MNK::calculate_dr_db(ModelMeasure* condition)
 
 IntegrationVector MNK::Gauss_Newton(IntegrationVector x0, Matrix* A, Matrix* W, Matrix* R)
 {
+    
+    Matrix gradient_f = ((*A).transpose()) * (*W) * (*A); // 6x6 matrix
+    Matrix f_b = ((*A).transpose()) * (*W) * (*R); // ф от бетта с крышечкой (вектор 1 на 6)
+    Matrix solution_system = solve_system(&gradient_f, &f_b);
+
     IntegrationVector new_x0;
-
-
+    new_x0.set_barycentric(x0.get_barycentric().get_x() - solution_system[0][0], x0.get_barycentric().get_y() - solution_system[1][0], x0.get_barycentric().get_z() - solution_system[2][0]);
+    new_x0.set_velocity(x0.get_velocity().get_vx() - solution_system[3][0], x0.get_velocity().get_vy() - solution_system[4][0], x0.get_velocity().get_vz() - solution_system[5][0]);
+    //@log
+   /* std::cout << "_________POS__________" << std::endl;
+    x0.get_barycentric().print();
+    std::cout << std::endl << "____________________________" << std::endl;
+    new_x0.get_barycentric().print();
+    std::cout << std::endl;
+    std::cout << std::endl;
+    std::cout << std::endl;
+    std::cout << "_________VELO__________" << std::endl;
+    x0.get_velocity().print();
+    std::cout << std::endl << "____________________________" << std::endl;
+    new_x0.get_velocity().print();
+    std::cout << std::endl;*/
 
     return new_x0;
+}
+
+Matrix MNK::solve_system(Matrix* gradient_f, Matrix* f_b)
+{
+    Matrix decomposed_matrix = f_b->Cholesky_decomposition(*gradient_f);
+
+    Matrix y(decomposed_matrix.rows(), f_b->columns()); // find Y
+
+    for (int i = 0; i < decomposed_matrix.rows(); i++)
+    {
+        double sum = 0;
+        for (int j = 0; j < i; j++) 
+        {
+            sum += decomposed_matrix[i][j] * y[j][0];
+        }
+        if (decomposed_matrix[i][i] == 0)
+        {
+            y[i][0] = 0;
+        }
+        else 
+        {
+            y[i][0] = ((*f_b)[i][0] - sum) / decomposed_matrix[i][i];
+        }
+    }
+
+
+    decomposed_matrix = decomposed_matrix.transpose(); // Find X
+
+    Matrix solution_system(decomposed_matrix.rows(), y.columns());
+
+
+    for (int i = decomposed_matrix.rows() - 1; i > -1; i--)
+    {
+        double sum = 0;
+        for (int j = i; j < decomposed_matrix.rows(); j++)
+        {
+            sum += decomposed_matrix[i][j] * solution_system[j][0];
+        }
+        if (decomposed_matrix[i][i] == 0) 
+        {
+            solution_system[i][0] = 0;
+        }
+        else 
+        {
+            solution_system[i][0] = (y[i][0] - sum) / decomposed_matrix[i][i];
+        }
+    }
+    return solution_system;
 }
