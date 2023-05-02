@@ -825,6 +825,9 @@
     <ClCompile Include="source\data_processing\MNK.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="source\data_processing\Matrix\MatrixRow.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sofa\src\sofa.h">

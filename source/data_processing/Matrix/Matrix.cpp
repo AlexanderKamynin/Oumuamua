@@ -103,7 +103,7 @@ Matrix Matrix::Cholesky_decomposition(Matrix A)
                 sum += L[i][k] * L[j][k];
 
             if (i == j)
-                L[i][j] = sqrt(A[i][i] - sum);
+                L[i][j] = std::sqrt(A[i][i] - sum);
             else
                 L[i][j] = (1.0 / L[j][j] * (A[i][j] - sum));
         }

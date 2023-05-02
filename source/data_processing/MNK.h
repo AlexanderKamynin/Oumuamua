@@ -3,6 +3,7 @@
 #include "../measure/data_structures/IntegrationVector.h"
 #include "Matrix/Matrix.h"
 #include "../Helpers.h"
+#include <math.h>
 
 
 class MNK

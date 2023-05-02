@@ -117,7 +117,5 @@ Matrix MNK::solve_system(Matrix* gradient_f, Matrix* f_b)
         }
     }
 
-    std::cout << y << std::endl;
-    std::cout << solution_system << std::endl;
     return solution_system;
 }

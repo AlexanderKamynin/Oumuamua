@@ -1,7 +1,10 @@
 #pragma once
 #include <iostream>
-#include <Vector>
+#include <math.h>
+#include <vector>
 #include "MatrixRow.h"
+
+
 class Matrix
 {
 private:

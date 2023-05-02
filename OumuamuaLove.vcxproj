@@ -129,6 +129,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="source\data_processing\Matrix\MatrixRow.cpp" />
     <ClCompile Include="source\data_processing\MNK.cpp" />
     <ClCompile Include="source\measure\data_structures\ModelMeasure.cpp" />
     <ClCompile Include="source\data_processing\Matrix\Matrix.cpp" />
