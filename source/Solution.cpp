@@ -5,7 +5,7 @@
 Solution::Solution()
 {
     // initial values was taken from here: https://ssd.jpl.nasa.gov/horizons/app.html#/
-    initial_condition.set_barycentric(1.46966286538887E+08, 7.29982316871326E+07, 2.05657582369639E+07);
+    initial_condition.set_barycentric(1.469662678584988E+08, 7.299822249002472E+07, 2.056575565443711E+07);
     initial_condition.set_velocity((4.467714995410097E+01) * 86400, (3.759100797623457E+00) * 86400, (1.726983438363074E+01) * 86400); // km/c -> km/day
 
     Interpolator interpolator;
@@ -83,7 +83,6 @@ void Solution::direct_problem(std::map<std::string, std::vector<IntegrationVecto
         new_state.set_date(*data_reader.get_observations()->at(i).get_date());
 
         Velocity velocity = this->interpolator.find_orbit_velocity(new_state.get_date(), &model_orbits);
-        velocity.multiply(1.0 / 86400); // convert from km / day to km / s
         new_state.set_velocity(velocity);
 
         Matrix interpolated_dx_db = this->interpolator.interpolate_dx_db(new_state.get_date(), &model_orbits);
@@ -221,7 +220,6 @@ void Solution::inverse_problem()
     double delta_DEC = 0;
     double delta_RA_sum = 0;
     double delta_DEC_sum = 0;
-    double accuracy = 1e-10;
 
     for (int i = 0; i < this->model_measures.size(); i++)
     {
@@ -235,7 +233,7 @@ void Solution::inverse_problem()
 
         for (int j = 0; j < 6; j++)
         {
-            A[2 * i][j] = (*this->model_measures[i].get_dr_db())[0][j];  // RA row in matrix
+            A[2 * i][j] = - (*this->model_measures[i].get_dr_db())[0][j];  // RA row in matrix
             A[2 * i + 1][j] = (*this->model_measures[i].get_dr_db())[1][j]; // the next is DEC row
         }
 
@@ -248,11 +246,21 @@ void Solution::inverse_problem()
 
         R[2 * i][0] = delta_RA;
         R[2 * i + 1][0] = delta_DEC;
-        W[2 * i][2 * i] = 1.0 / (4 * accuracy * accuracy);
-        W[2 * i + 1][2 * i + 1] = 1.0 / (4 * accuracy * accuracy);
+
+        double accuracy = 1e15;
+        //Если наблюдение дано с точностью N знаков, то можете считать, что стандартное отклонение равно удвоенному значению единицы в (N+1)-м знаке.
+        double w_ra = 2 * this->model_measures[i].get_spherical().get_right_ascension() / accuracy / 10;
+        double w_dec = 2 * this->model_measures[i].get_spherical().get_declination() / accuracy / 10;
+        W[2 * i][2 * i] = 1.0 / (w_ra * w_ra);
+        W[2 * i + 1][2 * i + 1] = 1.0 / (w_dec * w_dec);
     }
+
     this->wrms.first = std::sqrt(delta_RA_sum / this->model_measures.size()); // RA
     this->wrms.second = std::sqrt(delta_DEC_sum / this->model_measures.size()); // DEC
+
+    //@log
+    //std::cout << A << std::endl;
+    //std::cout << R << std::endl;
 
     // Gauss-Newton
     this->initial_condition = this->mnk.Gauss_Newton(this->initial_condition, &A, &W, &R);
@@ -272,22 +280,14 @@ void Solution::act()
 
 
     int iteration = 1;
-    double accuracy = 1e-10;
+    double accuracy = 1e-15;
     std::pair<double, double> old_wrms = { 0, 0 };
 
     while (true)
     {
-        if (iteration == 1)
-        {
-            direct_problem(&map_planets);
-            inverse_problem();
-        }
-        else
-        {
-            old_wrms = this->wrms;
-            direct_problem(&map_planets);
-            inverse_problem();
-        }
+        old_wrms = this->wrms;
+        direct_problem(&map_planets);
+        inverse_problem();
         this->clear_space();
         iteration++;
 

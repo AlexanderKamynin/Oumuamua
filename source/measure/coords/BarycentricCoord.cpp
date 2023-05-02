@@ -62,7 +62,7 @@ void BarycentricCoord::multiply(double value)
 
 double BarycentricCoord::length()
 {
-    return sqrt(help.POW_2(this->x) + help.POW_2(this->y) + help.POW_2(this->z));
+    return sqrt(help.POW_N(this->x, 2) + help.POW_N(this->y, 2) + help.POW_N(this->z, 2));
 }
 
 void BarycentricCoord::print()

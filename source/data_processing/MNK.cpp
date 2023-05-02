@@ -53,6 +53,7 @@ IntegrationVector MNK::Gauss_Newton(IntegrationVector x0, Matrix* A, Matrix* W, 
     IntegrationVector new_x0;
     new_x0.set_barycentric(x0.get_barycentric().get_x() - solution_system[0][0], x0.get_barycentric().get_y() - solution_system[1][0], x0.get_barycentric().get_z() - solution_system[2][0]);
     new_x0.set_velocity(x0.get_velocity().get_vx() - solution_system[3][0], x0.get_velocity().get_vy() - solution_system[4][0], x0.get_velocity().get_vz() - solution_system[5][0]);
+
     //@log
    /* std::cout << "_________POS__________" << std::endl;
     x0.get_barycentric().print();
@@ -115,5 +116,8 @@ Matrix MNK::solve_system(Matrix* gradient_f, Matrix* f_b)
             solution_system[i][0] = (y[i][0] - sum) / decomposed_matrix[i][i];
         }
     }
+
+    std::cout << y << std::endl;
+    std::cout << solution_system << std::endl;
     return solution_system;
 }
