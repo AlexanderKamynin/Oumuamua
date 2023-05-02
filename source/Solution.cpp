@@ -67,19 +67,14 @@ void Solution::convert_observatory()
 }
 
 
-void Solution::direct_problem() 
+void Solution::direct_problem(std::map<std::string, std::vector<IntegrationVector>>* map_planets)
 {
     std::vector<IntegrationVector> model_orbits;
     std::vector<IntegrationVector> base_measures_vector = interolate_JPL();
     std::vector<SphericalCoord> base_spherical;
-    std::map<std::string, std::vector<IntegrationVector>> map_planets = interpolator.interpolation_center_planet(data_reader.get_observations()->at(0).get_date(), data_reader.get_observations()->at(221).get_date(), STEP, data_reader.get_interpolation_planets());
 
-
-    model_orbits = integration.dormand_prince(initial_condition, data_reader.get_observations()->at(0).get_date(), data_reader.get_observations()->at(221).get_date(), STEP, &map_planets);
-
-
-    converter.cartesian_geocentric_to_cartesian_barycentric(data_reader.get_observations(), data_reader.get_obsevatory_map(), data_reader.get_earth_rotation_vector(), data_reader.get_interpolation_hubble(), map_planets["earth"]);
-    light_corrector.light_correct(data_reader.get_observations(), &model_orbits, &map_planets["sun"], data_reader.get_earth_velocity_info());
+    model_orbits = integration.dormand_prince(initial_condition, data_reader.get_observations()->at(0).get_date(), data_reader.get_observations()->at(221).get_date(), STEP, map_planets);
+    light_corrector.light_correct(data_reader.get_observations(), &model_orbits, &map_planets->at("sun"), data_reader.get_earth_velocity_info());
 
 
     for (int i = 0; i < data_reader.get_observations()->size(); i++) {
@@ -132,7 +127,7 @@ void Solution::write_direct_problem_result(std::vector<IntegrationVector>* base,
         }
         model_out.close();
         model_barycentric_out.close();
-        std::cout << "Model:: " << counter << " strings was written in the file {" + model_file + "}" << std::endl;
+        //std::cout << "Model:: " << counter << " strings was written in the file {" + model_file + "}" << std::endl;
         counter = 0;
     }
     else
@@ -159,7 +154,7 @@ void Solution::write_direct_problem_result(std::vector<IntegrationVector>* base,
         }
         base_out.close();
         base_barycentric_out.close();
-        std::cout << "Base:: " << counter << " strings was written in the file {" + base_file + "}" << std::endl;
+        //std::cout << "Base:: " << counter << " strings was written in the file {" + base_file + "}" << std::endl;
         counter = 0;
     }
     else
@@ -206,6 +201,7 @@ std::vector<IntegrationVector> Solution::interolate_JPL()
 }
 
 
+
 void Solution::inverse_problem()
 {
     // method for solve inverse problem
@@ -221,12 +217,21 @@ void Solution::inverse_problem()
     Matrix R = Matrix(444, 1); // r(B) = real data - model data
     Matrix W = Matrix(444, 444); // W is diagoanal matrix with 1/
     Matrix A = Matrix(444, 6);
-    double accuracy = 1e-5;
+    double delta_RA = 0;
+    double delta_DEC = 0;
+    double delta_RA_sum = 0;
+    double delta_DEC_sum = 0;
+    double accuracy = 1e-10;
 
     for (int i = 0; i < this->model_measures.size(); i++)
     {
         this->mnk.calculate_dg_dx(&this->model_measures[i]);
         this->mnk.calculate_dr_db(&this->model_measures[i]);
+
+        delta_RA = this->model_measures[i].get_spherical().get_right_ascension() - this->base_measures[i].get_spherical().get_right_ascension();
+        delta_DEC = this->base_measures[i].get_spherical().get_declination() - this->model_measures[i].get_spherical().get_declination();
+        delta_RA_sum += delta_RA * delta_RA;
+        delta_DEC_sum += delta_DEC * delta_DEC;
 
         for (int j = 0; j < 6; j++)
         {
@@ -241,15 +246,16 @@ void Solution::inverse_problem()
             std::cout << "Matrix A now:\n" << A << std::endl;
         }*/
 
-        R[2 * i][0] = this->base_measures[i].get_spherical().get_right_ascension() - this->model_measures[i].get_spherical().get_right_ascension();
-        R[2 * i + 1][0] = this->base_measures[i].get_spherical().get_declination() - this->model_measures[i].get_spherical().get_declination();
+        R[2 * i][0] = delta_RA;
+        R[2 * i + 1][0] = delta_DEC;
         W[2 * i][2 * i] = 1.0 / (4 * accuracy * accuracy);
         W[2 * i + 1][2 * i + 1] = 1.0 / (4 * accuracy * accuracy);
     }
+    this->wrms.first = std::sqrt(delta_RA_sum / this->model_measures.size()); // RA
+    this->wrms.second = std::sqrt(delta_DEC_sum / this->model_measures.size()); // DEC
 
     // Gauss-Newton
     this->initial_condition = this->mnk.Gauss_Newton(this->initial_condition, &A, &W, &R);
-
 }
 
 
@@ -261,6 +267,42 @@ void Solution::act()
     read_data();
     convert_observations();
     convert_observatory();
-    direct_problem();
-    inverse_problem();
+    std::map<std::string, std::vector<IntegrationVector>> map_planets = interpolator.interpolation_center_planet(data_reader.get_observations()->at(0).get_date(), data_reader.get_observations()->at(221).get_date(), STEP, data_reader.get_interpolation_planets());
+    converter.cartesian_geocentric_to_cartesian_barycentric(data_reader.get_observations(), data_reader.get_obsevatory_map(), data_reader.get_earth_rotation_vector(), data_reader.get_interpolation_hubble(), map_planets["earth"]);
+
+
+    int iteration = 1;
+    double accuracy = 1e-10;
+    std::pair<double, double> old_wrms = { 0, 0 };
+
+    while (true)
+    {
+        if (iteration == 1)
+        {
+            direct_problem(&map_planets);
+            inverse_problem();
+        }
+        else
+        {
+            old_wrms = this->wrms;
+            direct_problem(&map_planets);
+            inverse_problem();
+        }
+        this->clear_space();
+        iteration++;
+
+        std::cout << "RA wrms delta: " << std::abs(this->wrms.first - old_wrms.first) << "\n";
+        std::cout << "DEC wrms delta: " << std::abs(this->wrms.second - old_wrms.second) << "\n";
+        if (std::abs(this->wrms.first - old_wrms.first) <= accuracy or std::abs(this->wrms.second - old_wrms.second) <= accuracy)
+        {
+            break;
+        }
+    }
+}
+
+
+void Solution::clear_space()
+{
+    this->model_measures.clear();
+    this->base_measures.clear();
 }
