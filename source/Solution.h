@@ -41,7 +41,7 @@ public:
     // integration
     void direct_problem(std::map<std::string, std::vector<IntegrationVector>>* map_planets);
     void inverse_problem();
-    void write_direct_problem_result(std::vector<IntegrationVector>* base_measures, std::vector<SphericalCoord>* base_spherical);
-    std::vector<IntegrationVector> interolate_JPL();
+    void write_direct_problem_result();
+    void interolate_JPL();
     void clear_space();
 };

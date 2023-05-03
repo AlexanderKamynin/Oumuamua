@@ -22,28 +22,16 @@ IntegrationVector Integration::derivate_function(IntegrationVector current_condi
     d_vector.set_barycentric(current_condition.get_velocity().get_vx(), current_condition.get_velocity().get_vy(), current_condition.get_velocity().get_vz());
     d_vector.set_velocity(a.get_x(), a.get_y(), a.get_z());
 
-    // calculate partial derivate
-
-    this->calculate_partial_derivates(&current_condition, d_vector.get_df_dx(), planets);
-    //@log
-    //std::cout << *d_vector.get_df_dx();
-    //std::cout << std::endl;
-
-    // dx/db = dx/dx0 = df/dx * dx/dx0
-    
+    this->calculate_partial_derivates(&current_condition, d_vector.get_df_dx(), planets); // save partial derivates in df_dx
+   
     /*
         df/db = (dv/dx0 dv/dv0) = (0 0)
                 (da/dx0 da/dv0)   (0 0)
     */
-    Matrix df_db(6, 6);
+    Matrix df_db(6, 6); // zero matrix
 
+    // dx/db = dx/dx0 = df/dx * dx/dx0 + df/db
     Matrix dx_db = (*d_vector.get_df_dx()) * (*current_condition.get_dx_db()) + df_db;
-    //@log
-    //std::cout << "dx/dx0:\n" << *current_condition.get_dx_db();
-    //std::cout << "\n\n";
-
-    //std::cout << "df/dx:\n" << *d_vector.get_df_dx();
-    //std::cout << "\n\n";
     d_vector.set_dx_db(dx_db);
 
     return d_vector;

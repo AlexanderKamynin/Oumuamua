@@ -16,16 +16,16 @@ void MNK::calculate_dg_dx(ModelMeasure* condition)
     double y = condition->get_barycentric().get_y();
     double z = condition->get_barycentric().get_z();
 
-    dRA_dx[0] = -1 * y / (help.POW_N(x, 2) + help.POW_N(y, 2));
-    dRA_dx[1] = x / (help.POW_N(x, 2) + help.POW_N(y, 2));
+    dRA_dx[0] = -1 * y / (x * x + y * y);
+    dRA_dx[1] = x / (x * x + y * y);
     // dRA_dx[2] = 0, this dRA/dz
     // all dRA_dv = 0
 
-    double a = help.POW_N(x, 2) + help.POW_N(y, 2) + help.POW_N(z, 2);
-    double b = std::sqrt(help.POW_N(x, 2) + help.POW_N(y, 2));
+    double a = x * x + y * y + z * z;
+    double b = std::sqrt(x * x + y * y);
     dDEC_dx[0] = -1 * x * z / (a * b);
     dDEC_dx[1] = -1 * y * z / (a * b);
-    dDEC_dx[2] = (help.POW_N(x, 2) + help.POW_N(y, 2)) / (a * b);
+    dDEC_dx[2] = (x * x + y * y) / (a * b);
 
     (*condition->get_dg_dx())[0][0] = dRA_dx[0];
     (*condition->get_dg_dx())[0][1] = dRA_dx[1];
@@ -43,31 +43,17 @@ void MNK::calculate_dr_db(ModelMeasure* condition)
     condition->set_dr_db(-1 * (*condition->get_dg_dx()) * (*condition->get_dx_db()));
 }
 
+
 IntegrationVector MNK::Gauss_Newton(IntegrationVector x0, Matrix* A, Matrix* W, Matrix* R)
 {
     
     Matrix gradient_f = ((*A).transpose()) * (*W) * (*A); // 6x6 matrix
-    Matrix f_b = ((*A).transpose()) * (*W) * (*R); // ф от бетта с крышечкой (вектор 1 на 6)
+    Matrix f_b = ((*A).transpose()) * (*W) * (*R); // f(^b) is vector 6x1
     Matrix solution_system = solve_system(&gradient_f, &f_b);
 
     IntegrationVector new_x0;
     new_x0.set_barycentric(x0.get_barycentric().get_x() - solution_system[0][0], x0.get_barycentric().get_y() - solution_system[1][0], x0.get_barycentric().get_z() - solution_system[2][0]);
     new_x0.set_velocity(x0.get_velocity().get_vx() - solution_system[3][0], x0.get_velocity().get_vy() - solution_system[4][0], x0.get_velocity().get_vz() - solution_system[5][0]);
-
-    //@log
-   /* std::cout << "_________POS__________" << std::endl;
-    x0.get_barycentric().print();
-    std::cout << std::endl << "____________________________" << std::endl;
-    new_x0.get_barycentric().print();
-    std::cout << std::endl;
-    std::cout << std::endl;
-    std::cout << std::endl;
-    std::cout << "_________VELO__________" << std::endl;
-    x0.get_velocity().print();
-    std::cout << std::endl << "____________________________" << std::endl;
-    new_x0.get_velocity().print();
-    std::cout << std::endl;*/
-
     return new_x0;
 }
 
@@ -75,7 +61,7 @@ Matrix MNK::solve_system(Matrix* gradient_f, Matrix* f_b)
 {
     Matrix decomposed_matrix = f_b->Cholesky_decomposition(*gradient_f);
 
-    Matrix y(decomposed_matrix.rows(), f_b->columns()); // find Y
+    Matrix y(decomposed_matrix.rows(), f_b->columns()); // find y
 
     for (int i = 0; i < decomposed_matrix.rows(); i++)
     {
@@ -95,7 +81,7 @@ Matrix MNK::solve_system(Matrix* gradient_f, Matrix* f_b)
     }
 
 
-    decomposed_matrix = decomposed_matrix.transpose(); // Find X
+    decomposed_matrix = decomposed_matrix.transpose(); // find x0
 
     Matrix solution_system(decomposed_matrix.rows(), y.columns());
 
