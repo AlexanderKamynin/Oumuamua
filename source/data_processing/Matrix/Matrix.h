@@ -8,8 +8,8 @@
 class Matrix
 {
 private:
-	int n = 0;
-	int m = 0;
+	int rows_count = 0;
+	int columns_count = 0;
 	double** matrix = nullptr;
 public:
 	Matrix(int n, int m);
@@ -17,19 +17,14 @@ public:
 
 	int rows() const;
 	int columns() const;
-	bool is_empty();
 	Matrix transpose();
 	void make_identity();
 	Matrix Cholesky_decomposition(Matrix);
-
 	Matrix(const Matrix& other);
 	Matrix& operator=(const Matrix& other);
 	Matrix(const Matrix&& other);
 	Matrix& operator=(const Matrix&& other);
-
-
 	MatrixRow operator[](int i) const;
-
 	friend std::ostream& operator<<(std::ostream& outstream, const Matrix mtr);
 	friend Matrix operator+(Matrix const A, Matrix const B);
 	friend Matrix operator-(Matrix const A, Matrix const B);

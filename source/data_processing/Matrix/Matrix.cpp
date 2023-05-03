@@ -3,8 +3,8 @@
 Matrix::Matrix(int n, int m) 
 {
     this->matrix = new double* [n];
-    this->n = n;
-    this->m = m;
+    this->rows_count = n;
+    this->columns_count = m;
     for (int i = 0; i < n; i++)
     {
         this->matrix[i] = new double[m];
@@ -15,60 +15,19 @@ Matrix::Matrix(int n, int m)
     }
 }
 
-Matrix::Matrix(int n, int m, std::vector<std::vector<double>> vector_matrix)
-{
-    this->matrix = new double* [n];
-    for (int i = 0; i < n; i++) 
-    {
-        this->matrix[i] = new double[m];
-    }
-
-    if (n == vector_matrix.size())
-    {
-        for (int i = 0; i < n; i++) 
-        {
-            if (vector_matrix[i].size() == m)
-            {
-                for (int j = 0; j < m; j++)
-                {
-                    this->matrix[i][j] = vector_matrix[i][j];
-                }
-            }
-            else 
-            {
-                std::cout<<"Error in matrix constructor by vector :: error of row size!"<<std::endl;
-                return;
-            }
-        }
-        this->n = n;
-        this->m = m;
-    }
-    else
-    {
-        std::cout << "Error in matrix constructor by vector :: error of columns size!" << std::endl;
-    }
-}
-
-bool Matrix::is_empty()
-{
-    return matrix == nullptr;
-}
-
 int Matrix::rows() const
 {
-    return n;
+    return rows_count;
 }
 
 int Matrix::columns() const
 {
-    return m;
+    return columns_count;
 }
-
-
 
 void Matrix::make_identity()
 {
-    int min_dimension = std::min(n, m);
+    int min_dimension = std::min(rows_count, columns_count);
     for (int i = 0; i < min_dimension; i++)
     {
         for (int j = 0; j < min_dimension; j++)
@@ -83,12 +42,14 @@ void Matrix::make_identity()
             }
         }
     }
+    std::cout << "make identyn\n";
+
 }
 
 Matrix Matrix::Cholesky_decomposition(Matrix A)
 {
     Matrix L(A.rows(), A.columns());
-    if (L.n != L.m)
+    if (L.rows_count != L.columns_count)
     {
         std::cout << "Error :: Not square matrix in Cholesky_decomposition!" << std::endl;
         return L;
@@ -113,10 +74,10 @@ Matrix Matrix::Cholesky_decomposition(Matrix A)
 
 Matrix Matrix::transpose()
 {
-    Matrix transposed_matrix(m, n);
-    for (int i = 0; i < n; i++)
+    Matrix transposed_matrix(columns_count, rows_count);
+    for (int i = 0; i < rows_count; i++)
     {
-        for (int j = 0; j < m; j++)
+        for (int j = 0; j < columns_count; j++)
         {
             transposed_matrix[j][i] = this->matrix[i][j];
         }
@@ -127,26 +88,26 @@ Matrix Matrix::transpose()
 
 Matrix::Matrix(const Matrix& other)
 {
-    if ((this->n != other.n) or (this->m != other.m))
+    if ((this->rows_count != other.rows_count) or (this->columns_count != other.columns_count))
     {
-        for (int i = 0; i < this->n; i++)
+        for (int i = 0; i < this->rows_count; i++)
         {
             delete matrix[i];
         }
-        matrix = new double* [other.n];
-        for (int i = 0; i < other.n; i++)
+        matrix = new double* [other.rows_count];
+        for (int i = 0; i < other.rows_count; i++)
         {
-            matrix[i] = new double[other.m];
+            matrix[i] = new double[other.columns_count];
         }
     }
 
-    this->n = other.n;
-    this->m = other.m;
+    this->rows_count = other.rows_count;
+    this->columns_count = other.columns_count;
 
 
-    for (int i = 0; i < this->n; i++)
+    for (int i = 0; i < this->rows_count; i++)
     {
-        for (int j = 0; j < this->m; j++)
+        for (int j = 0; j < this->columns_count; j++)
         {
             matrix[i][j] = other[i][j];
         }
@@ -156,25 +117,25 @@ Matrix::Matrix(const Matrix& other)
 
 Matrix& Matrix::operator=(const Matrix& other)
 {
-    if ((this->n != other.n) or (this->m != other.m))
+    if ((this->rows_count != other.rows_count) or (this->columns_count != other.columns_count))
     {
-        for (int i = 0; i < this->n; i++)
+        for (int i = 0; i < this->rows_count; i++)
         {
             delete matrix[i];
         }
-        matrix = new double* [other.n];
-        for (int i = 0; i < other.n; i++)
+        matrix = new double* [other.rows_count];
+        for (int i = 0; i < other.rows_count; i++)
         {
-            matrix[i] = new double[other.m];
+            matrix[i] = new double[other.columns_count];
         }
     }
 
-    this->n = other.n;
-    this->m = other.m;
+    this->rows_count = other.rows_count;
+    this->columns_count = other.columns_count;
 
-    for (int i = 0; i < this->n; i++) 
+    for (int i = 0; i < this->rows_count; i++) 
     {
-        for (int j = 0; j < this->m; j++)
+        for (int j = 0; j < this->columns_count; j++)
         {
             matrix[i][j] = other[i][j];
         }
@@ -184,25 +145,25 @@ Matrix& Matrix::operator=(const Matrix& other)
 
 Matrix::Matrix(const Matrix&& other) 
 {
-    if ((this->n != other.n) or (this->m != other.m))
+    if ((this->rows_count != other.rows_count) or (this->columns_count != other.columns_count))
     {
-        for (int i = 0; i < this->n; i++) 
+        for (int i = 0; i < this->rows_count; i++) 
         {
             delete matrix[i];
         }
-        matrix = new double* [other.n];
-        for (int i = 0; i < other.n; i++) 
+        matrix = new double* [other.rows_count];
+        for (int i = 0; i < other.rows_count; i++) 
         {
-            matrix[i] = new double[other.m];
+            matrix[i] = new double[other.columns_count];
         }
     }
 
-    this->n = other.n;
-    this->m = other.m;
+    this->rows_count = other.rows_count;
+    this->columns_count = other.columns_count;
 
-    for (int i = 0; i < this->n; i++) 
+    for (int i = 0; i < this->rows_count; i++) 
     {
-        for (int j = 0; j < this->m; j++)
+        for (int j = 0; j < this->columns_count; j++)
         {
             matrix[i][j] = other[i][j];
         }
@@ -211,25 +172,25 @@ Matrix::Matrix(const Matrix&& other)
 
 Matrix& Matrix::operator=(const Matrix&& other) 
 {
-    if ((this->n != other.n) or (this->m != other.m)) 
+    if ((this->rows_count != other.rows_count) or (this->columns_count != other.columns_count)) 
     {
-        for (int i = 0; i < this->n; i++)
+        for (int i = 0; i < this->rows_count; i++)
         {
             delete matrix[i];
         }
-        matrix = new double* [other.n];
-        for (int i = 0; i < other.n; i++) 
+        matrix = new double* [other.rows_count];
+        for (int i = 0; i < other.rows_count; i++) 
         {
-            matrix[i] = new double[other.m];
+            matrix[i] = new double[other.columns_count];
         }
     }
 
-    this->n = other.n;
-    this->m = other.m;
+    this->rows_count = other.rows_count;
+    this->columns_count = other.columns_count;
 
-    for (int i = 0; i < this->n; i++) 
+    for (int i = 0; i < this->rows_count; i++) 
     {
-        for (int j = 0; j < this->m; j++) 
+        for (int j = 0; j < this->columns_count; j++) 
         {
             matrix[i][j] = other[i][j];
         }
@@ -309,10 +270,10 @@ Matrix operator*(Matrix const A, Matrix const B)
 
 Matrix operator*(double const factor, Matrix const A)
 {
-    Matrix C(A.n, A.m);
-    for (int i = 0; i < A.n; i++) 
+    Matrix C(A.rows_count, A.columns_count);
+    for (int i = 0; i < A.rows_count; i++) 
     {
-        for (int j = 0; j < A.m; j++)
+        for (int j = 0; j < A.columns_count; j++)
         {
             C[i][j] = A[i][j] * factor;
         }
@@ -322,10 +283,10 @@ Matrix operator*(double const factor, Matrix const A)
 
 Matrix operator*(Matrix const A, double const factor)
 {
-    Matrix C(A.n, A.m);
-    for (int i = 0; i < A.n; i++) 
+    Matrix C(A.rows_count, A.columns_count);
+    for (int i = 0; i < A.rows_count; i++) 
     {
-        for (int j = 0; j < A.m; j++) 
+        for (int j = 0; j < A.columns_count; j++) 
         {
             C[i][j] = A[i][j] * factor;
         }
@@ -335,6 +296,7 @@ Matrix operator*(Matrix const A, double const factor)
 
 std::ostream& operator<<(std::ostream& outstream, Matrix mtr)
 {
+    
     for (int i = 0; i < mtr.rows(); i++) 
     {
         for (int j = 0; j < mtr.columns(); j++) 
@@ -351,7 +313,7 @@ Matrix::~Matrix()
 {
     if (matrix != nullptr)
     {
-        for (int i = 0; i < n; i++)
+        for (int i = 0; i < rows_count; i++)
         {
             delete[] matrix[i];
         }
