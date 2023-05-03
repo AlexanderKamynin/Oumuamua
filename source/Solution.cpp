@@ -77,6 +77,7 @@ void Solution::direct_problem(std::map<std::string, std::vector<IntegrationVecto
     for (int i = 0; i < data_reader.get_observations()->size(); i++) {
         ModelMeasure new_state;
         new_state.set_barycentric(data_reader.get_observations()->at(i).get_barycentric());
+        data_reader.get_observations()->at(i).set_barycentric(0, 0, 0); // set zero for next iteration of inverse problem
         new_state.set_date(*data_reader.get_observations()->at(i).get_date());
 
         Velocity velocity = this->interpolator.find_orbit_velocity(new_state.get_date(), &model_orbits);
@@ -223,26 +224,22 @@ void Solution::inverse_problem()
             A[2 * i + 1][j] = (*this->model_measures[i].get_dr_db())[1][j]; // the next is DEC row
         }
 
-        //@log
-        /*if (i < 3)
-        {
-            std::cout << "Matrix dr/db was:\n" << *this->model_measures[i].get_dr_db() << '\n';
-            std::cout << "Matrix A now:\n" << A << std::endl;
-        }*/
-
         R[2 * i][0] = delta_RA;
         R[2 * i + 1][0] = delta_DEC;
 
-        double accuracy = 1e5;
+        double accuracy = 1e4;
         //Если наблюдение дано с точностью N знаков, то можете считать, что стандартное отклонение равно удвоенному значению единицы в (N+1)-м знаке.
-        double w_ra = 2 * this->model_measures[i].get_spherical().get_right_ascension() / accuracy / 10;
-        double w_dec = 2 * this->model_measures[i].get_spherical().get_declination() / accuracy / 10;
+        int last_digit = int(std::abs(delta_RA) * accuracy * 10) % 10;
+        double w_ra = last_digit != 0 ? (2 * last_digit) / (accuracy * 10) : (2 * (last_digit + 1)) / (accuracy * 10);
+        last_digit = int(std::abs(delta_DEC) * accuracy * 10) % 10;
+        double w_dec = last_digit != 0 ? (2 * last_digit) / (accuracy * 10) : (2 * (last_digit + 1)) / (accuracy * 10);
         W[2 * i][2 * i] = 1.0 / (w_ra * w_ra);
         W[2 * i + 1][2 * i + 1] = 1.0 / (w_dec * w_dec);
     }
 
     this->wrms.first = std::sqrt(delta_RA_sum / this->model_measures.size()); // RA
     this->wrms.second = std::sqrt(delta_DEC_sum / this->model_measures.size()); // DEC
+
     // Gauss-Newton
     this->initial_condition = this->mnk.Gauss_Newton(this->initial_condition, &A, &W, &R);
 }
@@ -261,34 +258,19 @@ void Solution::act()
     converter.cartesian_geocentric_to_cartesian_barycentric(data_reader.get_observations(), data_reader.get_obsevatory_map(), data_reader.get_earth_rotation_vector(), data_reader.get_interpolation_hubble(), map_planets["earth"]);
 
 
-    int iteration = 1;
-    double accuracy = 1e-15;
+    double accuracy = 1e-8;
     std::pair<double, double> old_wrms = { 0, 0 };
-
     while (true)
     {
         old_wrms = this->wrms;
         direct_problem(&map_planets);
         inverse_problem();
-        //this->clear_space();
-        iteration++;
 
         std::cout << "RA wrms delta: " << std::abs(this->wrms.first - old_wrms.first) << "\n";
         std::cout << "DEC wrms delta: " << std::abs(this->wrms.second - old_wrms.second) << "\n";
-        if (std::abs(this->wrms.first - old_wrms.first) <= accuracy or std::abs(this->wrms.second - old_wrms.second) <= accuracy)
+
+        if (std::abs(this->wrms.first - old_wrms.first) <= accuracy and std::abs(this->wrms.second - old_wrms.second) <= accuracy)
         {
-            
-            std::cout << std::setprecision(15) << "x0 with accuracy=" << accuracy << " now is equal\n";
-            std::cout << "position:\n";
-            this->initial_condition.get_barycentric().print();
-            std::cout << "\nvelocity\n";
-            this->initial_condition.get_velocity().print();
-            std::cout << '\n';
-            //for (int i = 0; i < this->model_measures.size(); i++)
-            //{
-                //std::cout << "RA=" << this->model_measures[i].get_spherical().get_right_ascension() - this->base_measures[i].get_spherical().get_right_ascension();
-                //std::cout << " DEC=" << this->model_measures[i].get_spherical().get_declination() - this->base_measures[i].get_spherical().get_declination() << std::endl;
-            //}
             break;
         }
         this->clear_space();

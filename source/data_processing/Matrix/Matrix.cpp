@@ -42,8 +42,6 @@ void Matrix::make_identity()
             }
         }
     }
-    std::cout << "make identyn\n";
-
 }
 
 Matrix Matrix::Cholesky_decomposition(Matrix A)
