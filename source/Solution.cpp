@@ -229,9 +229,9 @@ void Solution::inverse_problem()
 
         double accuracy = 1e4;
         //Если наблюдение дано с точностью N знаков, то можете считать, что стандартное отклонение равно удвоенному значению единицы в (N+1)-м знаке.
-        int last_digit = int(std::abs(delta_RA) * accuracy * 10) % 10;
+        int last_digit = int(delta_RA * accuracy * 10) % 10;
         double w_ra = last_digit != 0 ? (2 * last_digit) / (accuracy * 10) : (2 * (last_digit + 1)) / (accuracy * 10);
-        last_digit = int(std::abs(delta_DEC) * accuracy * 10) % 10;
+        last_digit = int(delta_DEC * accuracy * 10) % 10;
         double w_dec = last_digit != 0 ? (2 * last_digit) / (accuracy * 10) : (2 * (last_digit + 1)) / (accuracy * 10);
         W[2 * i][2 * i] = 1.0 / (w_ra * w_ra);
         W[2 * i + 1][2 * i + 1] = 1.0 / (w_dec * w_dec);
@@ -271,6 +271,7 @@ void Solution::act()
 
         if (std::abs(this->wrms.first - old_wrms.first) <= accuracy and std::abs(this->wrms.second - old_wrms.second) <= accuracy)
         {
+            std::cout << "Complete weighted-root-mean-square values is equal for RA=" << this->wrms.first << ", for DEC=" << this->wrms.second << '\n';
             break;
         }
         this->clear_space();

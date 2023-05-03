@@ -105,7 +105,6 @@ std::vector<IntegrationVector> Integration::dormand_prince(IntegrationVector ini
     IntegrationVector new_condition = initial_condition;
     new_condition.set_date(*start);
     new_condition.get_dx_db()->make_identity(); // dx0/dx0 = E
-    result.push_back(new_condition);
     this->date_start = *start;
 
     for (double t = start->get_MJD(); t <= end->get_MJD() + step; t += step)
