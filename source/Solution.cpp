@@ -257,7 +257,7 @@ void Solution::act()
     std::map<std::string, std::vector<IntegrationVector>> map_planets = interpolator.interpolation_center_planet(data_reader.get_observations()->at(0).get_date(), data_reader.get_observations()->at(221).get_date(), STEP, data_reader.get_interpolation_planets());
     converter.cartesian_geocentric_to_cartesian_barycentric(data_reader.get_observations(), data_reader.get_obsevatory_map(), data_reader.get_earth_rotation_vector(), data_reader.get_interpolation_hubble(), map_planets["earth"]);
 
-
+    int iteration = 1;
     double accuracy = 1e-8;
     std::pair<double, double> old_wrms = { 0, 0 };
     while (true)
@@ -266,14 +266,16 @@ void Solution::act()
         direct_problem(&map_planets);
         inverse_problem();
 
-        std::cout << "RA wrms delta: " << std::abs(this->wrms.first - old_wrms.first) << "\n";
-        std::cout << "DEC wrms delta: " << std::abs(this->wrms.second - old_wrms.second) << "\n";
+        std::cout << "_____Iteration " << iteration << "_____\n";
+        std::cout << "RA wrms delta: [" << std::abs(this->wrms.first - old_wrms.first) << "]\n";
+        std::cout << "DEC wrms delta: [" << std::abs(this->wrms.second - old_wrms.second) << "]\n\n";
 
         if (std::abs(this->wrms.first - old_wrms.first) <= accuracy and std::abs(this->wrms.second - old_wrms.second) <= accuracy)
         {
-            std::cout << "Complete weighted-root-mean-square values is equal for RA=" << this->wrms.first << ", for DEC=" << this->wrms.second << '\n';
+            std::cout << "Complete weighted-root-mean-square values is equal for RA=[" << this->wrms.first << "], for DEC=[" << this->wrms.second << "]\n";
             break;
         }
+        iteration++;
         this->clear_space();
     }
 }
