@@ -213,14 +213,14 @@ void Solution::inverse_problem()
         this->mnk.calculate_dg_dx(&this->model_measures[i]);
         this->mnk.calculate_dr_db(&this->model_measures[i]);
 
-        delta_RA = this->model_measures[i].get_spherical().get_right_ascension() - this->base_measures[i].get_spherical().get_right_ascension();
+        delta_RA = this->base_measures[i].get_spherical().get_right_ascension() - this->model_measures[i].get_spherical().get_right_ascension();
         delta_DEC = this->base_measures[i].get_spherical().get_declination() - this->model_measures[i].get_spherical().get_declination();
         delta_RA_sum += delta_RA * delta_RA;
         delta_DEC_sum += delta_DEC * delta_DEC;
 
         for (int j = 0; j < 6; j++)
         {
-            A[2 * i][j] = - (*this->model_measures[i].get_dr_db())[0][j];  // RA row in matrix
+            A[2 * i][j] = (*this->model_measures[i].get_dr_db())[0][j];  // RA row in matrix
             A[2 * i + 1][j] = (*this->model_measures[i].get_dr_db())[1][j]; // the next is DEC row
         }
 
@@ -273,6 +273,13 @@ void Solution::act()
         if (std::abs(this->wrms.first - old_wrms.first) <= accuracy and std::abs(this->wrms.second - old_wrms.second) <= accuracy)
         {
             std::cout << "Complete weighted-root-mean-square values is equal for RA=[" << this->wrms.first << "], for DEC=[" << this->wrms.second << "]\n";
+            std::cout << "Difference between real and model measures:\n";
+            for (int i = 0; i < this->model_measures.size(); i++)
+            {
+                double RA_delta = this->model_measures[i].get_spherical().get_right_ascension() - this->base_measures[i].get_spherical().get_right_ascension();
+                double DEC_delta = this->model_measures[i].get_spherical().get_declination() - this->base_measures[i].get_spherical().get_declination();
+                std::cout << "For observation " << i + 1 << " difference in RA=[" << RA_delta << "], in DEC=[" << DEC_delta << "]\n";
+            }
             break;
         }
         iteration++;
