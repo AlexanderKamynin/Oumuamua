@@ -213,7 +213,7 @@ void DataReader::read_earth_velocity()
             earth_velocity.push_back(vector);
         }
 
-        std::cout << "Earth velocity info read " << earth_velocity.size() << " \n";
+        std::cout << "Earth velocity information read " << earth_velocity.size() << " \n";
     }
     else
     {

@@ -250,8 +250,8 @@ void Solution::inverse_problem()
 */
 void Solution::act()
 {
-
-    std::cout << "\t>>----- Reading data -----<<\n";
+    clock_t temp = clock();
+    std::cout << "\t>>----- Reading data -----<<\n\n";
     read_data();
     convert_observations();
     convert_observatory();
@@ -262,7 +262,9 @@ void Solution::act()
     int iteration = 1;
     double accuracy = 1e-8;
     std::pair<double, double> old_wrms = { 0, 0 };
-    std::cout << "\t>>----- Inverse problem -----<<\n";
+    std::cout << "It takes {" << (clock() - temp)/CLOCKS_PER_SEC << "} seconds to data preparation\n\n";
+    temp = clock();
+    std::cout << "\t>>----- Inverse problem -----<<\n\n";
     while (true)
     {
         old_wrms = this->wrms;
@@ -271,11 +273,13 @@ void Solution::act()
 
         std::cout << "\t>>~~~~~Iteration [" << iteration << "]~~~~~<<\n";
         std::cout << "RA wrms delta: [" << std::abs(this->wrms.first - old_wrms.first) << "]\n";
-        std::cout << "DEC wrms delta: [" << std::abs(this->wrms.second - old_wrms.second) << "]\n\n";
+        std::cout << "DEC wrms delta: [" << std::abs(this->wrms.second - old_wrms.second) << "]\n";
+        std::cout << "It takes {" << (clock() - temp) / CLOCKS_PER_SEC << "} seconds for this iteration\n\n";
+        temp = clock();
 
         if (std::abs(this->wrms.first - old_wrms.first) <= accuracy and std::abs(this->wrms.second - old_wrms.second) <= accuracy)
         {
-            std::cout << "\t>>----- Inverse problem done -----<<\n";
+            std::cout << "\n\t>>----- Inverse problem done -----<<\n\n";
             std::cout << "Complete weighted-root-mean-square values is equal for RA=[" << this->wrms.first << "], for DEC=[" << this->wrms.second << "]\n";
             std::cout << "Difference between real and model measures:\n";
             for (int i = 0; i < this->model_measures.size(); i++)
