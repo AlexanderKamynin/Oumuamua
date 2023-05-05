@@ -262,9 +262,10 @@ void Solution::act()
     int iteration = 1;
     double accuracy = 1e-8;
     std::pair<double, double> old_wrms = { 0, 0 };
-    std::cout << "It takes {" << (clock() - temp)/CLOCKS_PER_SEC << "} seconds to data preparation\n\n";
+
     temp = clock();
     std::cout << "\t>>----- Inverse problem -----<<\n\n";
+
     while (true)
     {
         old_wrms = this->wrms;
