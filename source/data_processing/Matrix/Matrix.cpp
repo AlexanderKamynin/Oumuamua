@@ -279,6 +279,20 @@ Matrix operator*(double const factor, Matrix const A)
     return C;
 }
 
+Matrix operator*(Matrix const A, double const vector[])
+{
+    Matrix C(A.rows_count, A.columns_count);
+    for (int i = 0; i < A.rows_count; i++)
+    {
+        for (int j = 0; j < A.columns_count; j++)
+        {
+            C[i][j] = A[i][j] * vector[j];
+        }
+    }
+    return C;
+}
+
+
 Matrix operator*(Matrix const A, double const factor)
 {
     Matrix C(A.rows_count, A.columns_count);

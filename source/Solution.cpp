@@ -71,21 +71,17 @@ void Solution::direct_problem(std::map<std::string, std::vector<IntegrationVecto
 {
     std::vector<IntegrationVector> model_orbits;
     model_orbits = integration.dormand_prince(initial_condition, data_reader.get_observations()->at(0).get_date(), data_reader.get_observations()->at(221).get_date(), STEP, map_planets);
-    light_corrector.light_correct(data_reader.get_observations(), &model_orbits, &map_planets->at("sun"), data_reader.get_earth_velocity_info());
+    light_corrector.light_correct(data_reader.get_observations(), &model_orbits, &this->model_measures, &map_planets->at("sun"), data_reader.get_earth_velocity_info());
 
 
-    for (int i = 0; i < data_reader.get_observations()->size(); i++) {
-        ModelMeasure new_state;
-        new_state.set_barycentric(data_reader.get_observations()->at(i).get_barycentric());
-        data_reader.get_observations()->at(i).set_barycentric(0, 0, 0); // set zero for next iteration of inverse problem
-        new_state.set_date(*data_reader.get_observations()->at(i).get_date());
+    for (int i = 0; i < this->model_measures.size(); i++) {
+        this->model_measures.at(i).set_date(*data_reader.get_observations()->at(i).get_date());
 
-        Velocity velocity = this->interpolator.find_orbit_velocity(new_state.get_date(), &model_orbits);
-        new_state.set_velocity(velocity);
+        Velocity velocity = this->interpolator.find_orbit_velocity(this->model_measures.at(i).get_date(), &model_orbits);
+        this->model_measures.at(i).set_velocity(velocity);
 
-        Matrix interpolated_dx_db = this->interpolator.interpolate_dx_db(new_state.get_date(), &model_orbits);
-        new_state.set_dx_db(interpolated_dx_db);
-        this->model_measures.push_back(new_state);
+        Matrix interpolated_dx_db = this->interpolator.interpolate_dx_db(this->model_measures.at(i).get_date(), &model_orbits);
+        this->model_measures.at(i).set_dx_db(interpolated_dx_db);
     }
 
 
@@ -201,12 +197,14 @@ void Solution::inverse_problem()
     */
 
     Matrix R = Matrix(444, 1); // r(B) = real data - model data
-    Matrix W = Matrix(444, 444); // W is diagoanal matrix with 1/
+    double W[444]; // W is diagonal matrix with 1/sigma^2 elements 
     Matrix A = Matrix(444, 6);
+
     double delta_RA = 0;
     double delta_DEC = 0;
     double delta_RA_sum = 0;
     double delta_DEC_sum = 0;
+
 
     for (int i = 0; i < this->model_measures.size(); i++)
     {
@@ -233,15 +231,15 @@ void Solution::inverse_problem()
         double w_ra = last_digit != 0 ? (2 * last_digit) / (accuracy * 10) : (2 * (last_digit + 1)) / (accuracy * 10);
         last_digit = int(delta_DEC * accuracy * 10) % 10;
         double w_dec = last_digit != 0 ? (2 * last_digit) / (accuracy * 10) : (2 * (last_digit + 1)) / (accuracy * 10);
-        W[2 * i][2 * i] = 1.0 / (w_ra * w_ra);
-        W[2 * i + 1][2 * i + 1] = 1.0 / (w_dec * w_dec);
+        W[2 * i] = 1.0 / (w_ra * w_ra);
+        W[2 * i + 1] = 1.0 / (w_dec * w_dec);
     }
 
     this->wrms.first = std::sqrt(delta_RA_sum / this->model_measures.size()); // RA
     this->wrms.second = std::sqrt(delta_DEC_sum / this->model_measures.size()); // DEC
 
     // Gauss-Newton
-    this->initial_condition = this->mnk.Gauss_Newton(this->initial_condition, &A, &W, &R);
+    this->initial_condition = this->mnk.Gauss_Newton(this->initial_condition, &A, &R, W);
 }
 
 

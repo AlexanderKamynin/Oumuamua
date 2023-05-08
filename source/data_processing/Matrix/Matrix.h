@@ -30,6 +30,7 @@ public:
 	friend Matrix operator-(Matrix const A, Matrix const B);
 	friend Matrix operator*(Matrix const A, Matrix const B);
 	friend Matrix operator*(double const factor, Matrix const A);
+	friend Matrix operator*(Matrix const A, double const vector[]);
 	friend Matrix operator*(Matrix const A, double const factor);
 	~Matrix();
 };

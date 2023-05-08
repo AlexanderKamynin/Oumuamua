@@ -30,7 +30,8 @@ IntegrationVector Integration::derivate_function(IntegrationVector current_condi
     */
     Matrix df_db(6, 6); // zero matrix
 
-    // dx/db = dx/dx0 = df/dx * dx/dx0 + df/db
+    // b = x0
+    // dx/db = df/dx * dx/db + df/db
     Matrix dx_db = (*d_vector.get_df_dx()) * (*current_condition.get_dx_db()) + df_db;
     d_vector.set_dx_db(dx_db);
 

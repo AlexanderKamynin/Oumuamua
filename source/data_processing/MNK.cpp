@@ -44,11 +44,11 @@ void MNK::calculate_dr_db(ModelMeasure* condition)
 }
 
 
-IntegrationVector MNK::Gauss_Newton(IntegrationVector x0, Matrix* A, Matrix* W, Matrix* R)
+IntegrationVector MNK::Gauss_Newton(IntegrationVector x0, Matrix* A, Matrix* R, double* W)
 {
     
-    Matrix gradient_f = ((*A).transpose()) * (*W) * (*A); // 6x6 matrix
-    Matrix f_b = ((*A).transpose()) * (*W) * (*R); // f(^b) is vector 6x1
+    Matrix gradient_f = ((*A).transpose()) * W * (*A); // 6x6 matrix
+    Matrix f_b = ((*A).transpose()) * W * (*R); // f(^b) is vector 6x1
     Matrix solution_system = solve_system(&gradient_f, &f_b);
 
     IntegrationVector new_x0;

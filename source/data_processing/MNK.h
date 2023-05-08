@@ -16,7 +16,7 @@ public:
 	void calculate_dg_dx(ModelMeasure*);
 	void calculate_dr_db(ModelMeasure*);
 
-	IntegrationVector Gauss_Newton(IntegrationVector x0, Matrix* A, Matrix* W, Matrix* R);
+	IntegrationVector Gauss_Newton(IntegrationVector x0, Matrix* A, Matrix* R, double* W);
 	Matrix solve_system(Matrix* gradient_f, Matrix* f_b);
 };
 

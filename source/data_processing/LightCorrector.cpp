@@ -10,7 +10,7 @@ LightCorrector::LightCorrector(Converter* converter, Interpolator* interpolator)
 
 
 
-void LightCorrector::light_correct(std::vector<Observation>* observations, std::vector<IntegrationVector>* model_measure, std::vector<IntegrationVector>* sun_info, std::vector<IntegrationVector>* earth_velocity_info)
+void LightCorrector::light_correct(std::vector<Observation>* observations, std::vector<IntegrationVector>* model_orbits, std::vector<ModelMeasure>* model_measures, std::vector<IntegrationVector>* sun_info, std::vector<IntegrationVector>* earth_velocity_info)
 {
 	std::ofstream delta_output("./output_data/delta.txt");
 
@@ -19,13 +19,13 @@ void LightCorrector::light_correct(std::vector<Observation>* observations, std::
 		BarycentricCoord observatory_position = observations->at(i).get_observatory_position();
 		double t = observations->at(i).get_date()->get_MJD();
 
-		double delta = light_time_correction(t, &observatory_position, model_measure);
+		double delta = light_time_correction(t, &observatory_position, model_orbits);
 		delta_output << "observatory_code= " << observations->at(i).get_code() << "\tdelta=" << delta << '\n';
 
 		t = t - delta;
 		Date time;
 		time.set_MJD(t);
-		BarycentricCoord object_position = interpolator->find_object_position(time, model_measure);
+		BarycentricCoord object_position = interpolator->find_object_position(time, model_orbits);
 		BarycentricCoord sun_position = interpolator->find_object_position(time, sun_info);
 
 		// gravitational deflection
@@ -35,7 +35,9 @@ void LightCorrector::light_correct(std::vector<Observation>* observations, std::
 		this->aberration(&object_position, &observatory_position, &sun_position, &earth_velocity);
 
 		// set corrected position
-		observations->at(i).set_barycentric(object_position);
+		ModelMeasure new_state;
+		new_state.set_barycentric(object_position);
+		model_measures->push_back(new_state);
 	}
 }
 
