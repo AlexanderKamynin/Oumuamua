@@ -19,6 +19,13 @@ void ModelMeasure::set_spherical(SphericalCoord coord)
     this->spherical_position.set_spherical(coord.get_right_ascension(), coord.get_declination());
 }
 
+void ModelMeasure::set_geocentric(GeocentricCoord coord)
+{
+    this->geocentric_position.set_x(coord.get_x());
+    this->geocentric_position.set_y(coord.get_y());
+    this->geocentric_position.set_z(coord.get_z());
+}
+
 
 void ModelMeasure::set_velocity(double vx, double vy, double vz)
 {
@@ -55,6 +62,11 @@ BarycentricCoord ModelMeasure::get_barycentric()
 SphericalCoord ModelMeasure::get_spherical()
 {
     return this->spherical_position;
+}
+
+GeocentricCoord ModelMeasure::get_geocentric()
+{
+    return this->geocentric_position;
 }
 
 

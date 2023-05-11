@@ -45,13 +45,21 @@ void Solution::read_data()
 void Solution::convert_observations()
 {
     std::vector<Observation>* data = data_reader.get_observations();
-    for (int ind = 0; ind < data->size(); ind++) 
+    for (int i = 0; i < data->size(); i++) 
     {
-        converter.UTC_to_TT(data->at(ind).get_date());
-        converter.spherical_hours_to_spherical_radians(data_reader.get_observation(ind));
-        converter.barycentric_spherical_to_geocentric_cartesian(data_reader.get_observation(ind));
+        converter.UTC_to_TT(data->at(i).get_date());
+        converter.spherical_hours_to_spherical_radians(data_reader.get_observation(i));
+        converter.barycentric_spherical_to_geocentric_cartesian(data_reader.get_observation(i));
     }
      this->interpolator.interpolation_time(data_reader.get_observations()->at(0).get_date(), data, data_reader.get_interpolation_time());
+
+     for (int i = 0; i < data->size(); i++) 
+     {
+         ModelMeasure base_state;
+         base_state.set_date(*data->at(i).get_date());
+         base_state.set_spherical(data->at(i).get_spherical_position());
+         this->base_measures.push_back(base_state);
+     }
 }
 
 
@@ -87,8 +95,8 @@ void Solution::direct_problem(std::map<std::string, std::vector<IntegrationVecto
 
     for (int i = 0; i < this->model_measures.size(); i++)
     {
-        converter.barycentric_cartesian_to_barycentric_spherical(&(this->base_measures.at(i)));
-        converter.barycentric_cartesian_to_barycentric_spherical(&(this->model_measures.at(i)));
+        converter.barycentric_cartesian_to_geocentric_cartesian(&(this->model_measures[i]), &map_planets->at("earth"));
+        converter.geocentric_cartesian_to_geocentric_spherical(&(this->model_measures[i]));
     }
 
 
@@ -128,19 +136,15 @@ void Solution::write_direct_problem_result()
     std::ofstream base_out;
     std::ofstream base_barycentric_out;
     base_out.open(base_file);
-    base_barycentric_out.open("./output_data/base_barycentric.txt");
 
     if (base_out.is_open())
     {
         for (int ind = 0; ind < this->base_measures.size(); ind++)
         {
             counter += 1;
-            base_barycentric_out << std::setprecision(15) << this->base_measures.at(ind).get_date().get_MJD() << "\tx= " << this->base_measures.at(ind).get_barycentric().get_x() << "\ty= " << this->base_measures.at(ind).get_barycentric().get_y() <<
-               "\tz= " << this->base_measures.at(ind).get_barycentric().get_z() << std::endl;
             base_out << std::setprecision(9) << this->base_measures.at(ind).get_date().get_MJD() << "\tRA= " << this->base_measures.at(ind).get_spherical().get_right_ascension() << "\tDEC= " << this->base_measures.at(ind).get_spherical().get_declination() << "\n";
         }
         base_out.close();
-        base_barycentric_out.close();
         //std::cout << "Base:: " << counter << " strings was written in the file {" + base_file + "}" << std::endl;
         counter = 0;
     }
@@ -216,6 +220,15 @@ void Solution::inverse_problem()
         delta_RA_sum += delta_RA * delta_RA;
         delta_DEC_sum += delta_DEC * delta_DEC;
 
+        // normilize delta RA to [-pi;pi]
+        while ((delta_RA > PI) or (delta_RA < -PI))
+        {
+            int sign = delta_RA > PI ? -1 : 1;
+            delta_RA = delta_RA + sign * 2 * PI;
+        }
+
+        //std::cout << delta_RA << " " << delta_DEC << "\n";
+
         for (int j = 0; j < 6; j++)
         {
             A[2 * i][j] = (*this->model_measures[i].get_dr_db())[0][j];  // RA row in matrix
@@ -253,7 +266,7 @@ void Solution::act()
     read_data();
     convert_observations();
     convert_observatory();
-    this->interolate_JPL();
+    //this->interolate_JPL();
     std::map<std::string, std::vector<IntegrationVector>> map_planets = interpolator.interpolation_center_planet(data_reader.get_observations()->at(0).get_date(), data_reader.get_observations()->at(221).get_date(), STEP, data_reader.get_interpolation_planets());
     converter.cartesian_geocentric_to_cartesian_barycentric(data_reader.get_observations(), data_reader.get_obsevatory_map(), data_reader.get_earth_rotation_vector(), data_reader.get_interpolation_hubble(), map_planets["earth"]);
 
