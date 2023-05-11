@@ -210,16 +210,6 @@ void Converter::spherical_hours_to_spherical_radians(Observation* observation)
     double degrees = 15 * RA_in_hours_system[0];
     double arcminutes = 0.25 * RA_in_hours_system[1];
     double arcseconds = 0.25 * RA_in_hours_system[2];
-    char sign;
-    if (RA_in_hours_system[0] < 0)
-    {
-        sign = '-';
-        degrees *= -1;
-    }
-    else
-    {
-        sign = '+';
-    }
 
     degrees = degrees + int(arcminutes);
     arcminutes = (arcminutes - int(arcminutes)) * 60 + int(arcseconds);
@@ -234,25 +224,12 @@ void Converter::spherical_hours_to_spherical_radians(Observation* observation)
         << " arcseconds=" << arcseconds << "\n";*/
     iauAf2a('+', degrees, arcminutes, arcseconds, &ascension);
 
-    double* DEC_in_hours_system = observation->get_spherical_position().get_DEC_in_hours_system();
+    double* DEC_in_degrees_system = observation->get_spherical_position().get_DEC_in_degrees_system();
+    char sign = DEC_in_degrees_system[0] < 0 ? '-' : '+';
 
-    if (DEC_in_hours_system[0] < 0)
-    {
-        sign = '-';
-        degrees = 15 * DEC_in_hours_system[0] * (-1);
-    }
-    else
-    {
-        degrees = 15 * DEC_in_hours_system[0];
-        sign = '+';
-    }
-
-    arcminutes = 0.25 * DEC_in_hours_system[1];
-    arcseconds = 0.25 * DEC_in_hours_system[2];
-
-    degrees = degrees + int(arcminutes);
-    arcminutes = (arcminutes - int(arcminutes)) * 60 + int(arcseconds);
-    arcseconds = (arcseconds - int(arcseconds)) * 60;
+    degrees = DEC_in_degrees_system[0];
+    arcminutes = DEC_in_degrees_system[1];
+    arcseconds = DEC_in_degrees_system[2];
 
     double declination;
     //@CHECK
@@ -276,11 +253,8 @@ void Converter::spherical_hours_to_spherical_radians(Observation* observation)
 
 
 
-/*
-    Convert from barycentric to spherical coodinates
-    Method for IntegrationVector
-*/
-void Converter::barycentric_cartesian_to_barycentric_spherical(IntegrationVector* vector, std::vector<SphericalCoord>* coords)
+
+void Converter::barycentric_cartesian_to_barycentric_spherical(ModelMeasure* model_measure)
 {
     //std::cout << "Before convertation:" << vector->get_barycentric_position().get_alpha() << "|" << vector->get_barycentric_position().get_beta() << "|" << vector->get_barycentric_position().get_gamma() << std::endl;
     double barycentric_coord[3] = { vector->get_barycentric_position().get_alpha(), vector->get_barycentric_position().get_beta(), vector->get_barycentric_position().get_gamma() };

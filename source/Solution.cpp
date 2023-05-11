@@ -45,6 +45,11 @@ void Solution::convert_observations()
         converter.UTC_to_TT(data->at(ind).get_date());
         converter.spherical_hours_to_spherical_radians(data_reader.get_observation(ind));
         converter.barycentric_spherical_to_geocentric_cartesian(data_reader.get_observation(ind));
+        ModelMeasure base_state;
+
+        base_state.set_date(*data_reader.get_observation(ind)->get_date());
+        base_state.set_spherical(data_reader.get_observation(ind)->get_spherical_position());
+        this->base_measures.push_back(base_state);
     }
      converter.interpolation_time(data_reader.get_observations()->at(0).get_date(), data, data_reader.get_interpolation_time());
 }
