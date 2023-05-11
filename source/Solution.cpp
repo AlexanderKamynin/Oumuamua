@@ -96,8 +96,13 @@ void Solution::integrate()
 
     for (int i = 0; i < model_measures.size(); i++)
     {
+<<<<<<< Updated upstream
         converter.barycentric_cartesian_to_barycentric_spherical(&model_measures[i], &model_spherical);
         converter.barycentric_cartesian_to_barycentric_spherical(&base_measures[i], &base_spherical);
+=======
+        converter.barycentric_cartesian_to_geocentric_cartesian(&(this->model_measures.at(i)), &map_planets->at("earth"));
+        converter.geocentric_cartesian_to_geocentric_spherical(&(this->model_measures.at(i)));
+>>>>>>> Stashed changes
     }
 
     write_result(&model_measures, &base_measures, &model_spherical, &base_spherical);
@@ -139,6 +144,7 @@ void Solution::write_result(std::vector<IntegrationVector>* model, std::vector<I
         for (int ind = 0; ind < base->size(); ind++)
         {
             counter += 1;
+<<<<<<< Updated upstream
             std::cout << "Diference between base and model measure (in km): "
                 << " alpha = " << std::abs(base->at(ind).get_barycentric_position().get_alpha() - model->at(ind).get_barycentric_position().get_alpha())
                 << " beta = " << std::abs(base->at(ind).get_barycentric_position().get_beta() - model->at(ind).get_barycentric_position().get_beta())
@@ -149,6 +155,12 @@ void Solution::write_result(std::vector<IntegrationVector>* model, std::vector<I
         }
         base_out.close();
         std::cout << "Base:: " << counter << " strings was written in the file {" + base_file + "}" << std::endl;
+=======
+       some     base_out << std::setprecision(9) << this->base_measures.at(ind).get_date().get_MJD() << "\tRA= " << this->base_measures.at(ind).get_spherical().get_right_ascension() << "\tDEC= " << this->base_measures.at(ind).get_spherical().get_declination() << "\n";
+        }
+        base_out.close();
+        //std::cout << "Base:: " << counter << " strings was written in the file {" + base_file + "}" << std::endl;
+>>>>>>> Stashed changes
         counter = 0;
     }
     else
@@ -157,6 +169,7 @@ void Solution::write_result(std::vector<IntegrationVector>* model, std::vector<I
     }
 }
 
+<<<<<<< Updated upstream
 std::vector<IntegrationVector> Solution::interolate_JPL()
 {
     int last = 0;
@@ -197,6 +210,82 @@ std::vector<IntegrationVector> Solution::interolate_JPL()
     }
     
     return result;
+=======
+
+void Solution::inverse_problem()
+{
+    // method for solve inverse problem
+
+    /* 
+       step1: calculate dr / db
+       step2: save dr/db in matrix A
+       step3: calculate delta r
+       step4: calculate matrix W
+       step5: Gauss-Newton
+    */
+
+    Matrix R = Matrix(444, 1); // r(B) = real data - model data
+    double W[444]; // W is diagonal matrix with 1/sigma^2 elements 
+    Matrix A = Matrix(444, 6);
+
+    double delta_RA = 0;
+    double delta_DEC = 0;
+    double delta_RA_sum = 0;
+    double delta_DEC_sum = 0;
+
+
+    for (int i = 0; i < this->model_measures.size(); i++)
+    {
+
+        this->mnk.calculate_dg_dx(&this->model_measures[i]);
+        this->mnk.calculate_dr_db(&this->model_measures[i]);
+
+        delta_RA = this->base_measures[i].get_spherical().get_right_ascension() - this->model_measures[i].get_spherical().get_right_ascension();
+        delta_DEC = this->base_measures[i].get_spherical().get_declination() - this->model_measures[i].get_spherical().get_declination();
+
+        // normalization values to [-pi, pi]
+        while ((delta_RA > PI) or (delta_RA < -PI))
+        {
+            int sign = delta_RA > PI ? -1 : 1;
+            delta_RA = delta_RA + sign * 2 * PI;
+        }
+
+        //std::cout << delta_RA << " " << delta_DEC << "\n";
+
+        delta_RA_sum += delta_RA * delta_RA;
+        delta_DEC_sum += delta_DEC * delta_DEC;
+
+        for (int j = 0; j < 6; j++)
+        {
+            A[2 * i][j] = (*this->model_measures[i].get_dr_db())[0][j];  // RA row in matrix
+            A[2 * i + 1][j] = (*this->model_measures[i].get_dr_db())[1][j]; // the next is DEC row
+        }
+
+        R[2 * i][0] = delta_RA;
+        R[2 * i + 1][0] = delta_DEC;
+
+        double accuracy = 1e1;
+        //Если наблюдение дано с точностью N знаков, то можете считать, что стандартное отклонение равно удвоенному значению единицы в (N+1)-м знаке.
+        int last_digit = int(delta_RA * accuracy * 10) % 10;
+        double w_ra = last_digit != 0 ? (2 * last_digit) / (accuracy * 10) : (2 * (last_digit + 1)) / (accuracy * 10);
+        last_digit = int(delta_DEC * accuracy * 10) % 10;
+        double w_dec = last_digit != 0 ? (2 * last_digit) / (accuracy * 10) : (2 * (last_digit + 1)) / (accuracy * 10);
+        W[2 * i] = 1.0 / (w_ra * w_ra);
+        W[2 * i + 1] = 1.0 / (w_dec * w_dec);
+    }
+
+    this->wrms.first = std::sqrt(delta_RA_sum / this->model_measures.size()); // RA
+    this->wrms.second = std::sqrt(delta_DEC_sum / this->model_measures.size()); // DEC
+
+    initial_condition.get_barycentric().print();
+    initial_condition.get_velocity().print();
+
+    // Gauss-Newton
+    this->initial_condition = this->mnk.Gauss_Newton(this->initial_condition, &A, &R, W);
+
+    initial_condition.get_barycentric().print();
+    initial_condition.get_velocity().print();
+>>>>>>> Stashed changes
 }
 
 
@@ -208,5 +297,46 @@ void Solution::act()
     read_data();
     convert_observations();
     convert_observatory();
+<<<<<<< Updated upstream
     integrate();
+=======
+    std::map<std::string, std::vector<IntegrationVector>> map_planets = interpolator.interpolation_center_planet(data_reader.get_observations()->at(0).get_date(), data_reader.get_observations()->at(221).get_date(), STEP, data_reader.get_interpolation_planets());
+    converter.cartesian_geocentric_to_cartesian_barycentric(data_reader.get_observations(), data_reader.get_obsevatory_map(), data_reader.get_earth_rotation_vector(), data_reader.get_interpolation_hubble(), map_planets["earth"]);
+
+    int iteration = 1;
+    double accuracy = 1e-8;
+    std::pair<double, double> old_wrms = { 0, 0 };
+
+    temp = clock();
+    std::cout << "\t>>----- Inverse problem -----<<\n\n";
+
+    while (true)
+    {
+        old_wrms = this->wrms;
+        direct_problem(&map_planets);
+        inverse_problem();
+
+        std::cout << "\t>>~~~~~Iteration [" << iteration << "]~~~~~<<\n";
+        std::cout << "RA wrms delta: [" << std::abs(this->wrms.first - old_wrms.first) << "]\n";
+        std::cout << "DEC wrms delta: [" << std::abs(this->wrms.second - old_wrms.second) << "]\n";
+        std::cout << "It takes {" << (clock() - temp) / CLOCKS_PER_SEC << "} seconds for this iteration\n\n";
+        temp = clock();
+
+        if (std::abs(this->wrms.first - old_wrms.first) <= accuracy and std::abs(this->wrms.second - old_wrms.second) <= accuracy)
+        {
+            std::cout << "\n\t>>----- Inverse problem done -----<<\n\n";
+            std::cout << "Complete weighted-root-mean-square values is equal for RA=[" << this->wrms.first << "], for DEC=[" << this->wrms.second << "]\n";
+            std::cout << "Difference between real and model measures:\n";
+            for (int i = 0; i < this->model_measures.size(); i++)
+            {
+                double RA_delta = this->model_measures[i].get_spherical().get_right_ascension() - this->base_measures[i].get_spherical().get_right_ascension();
+                double DEC_delta = this->model_measures[i].get_spherical().get_declination() - this->base_measures[i].get_spherical().get_declination();
+                std::cout << "For observation " << i + 1 << " difference in RA=[" << RA_delta << "], in DEC=[" << DEC_delta << "]\n";
+            }
+            break;
+        }
+        iteration++;
+        this->clear_space();
+    }
+>>>>>>> Stashed changes
 }
