@@ -12,9 +12,10 @@ void MNK::calculate_dg_dx(ModelMeasure* condition)
         DEC = arctan (z / sqrt(x^2 + y^2))
     */
 
-    double x = condition->get_barycentric().get_x();
-    double y = condition->get_barycentric().get_y();
-    double z = condition->get_barycentric().get_z();
+    double x = condition->get_geocentric().get_x();
+    double y = condition->get_geocentric().get_y();
+    double z = condition->get_geocentric().get_z();
+
 
     dRA_dx[0] = -1 * y / (x * x + y * y);
     dRA_dx[1] = x / (x * x + y * y);

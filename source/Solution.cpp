@@ -5,8 +5,8 @@
 Solution::Solution()
 {
     // initial values was taken from here: https://ssd.jpl.nasa.gov/horizons/app.html#/
-    initial_condition.set_barycentric(1.469591208242925E+08, 7.299762167917201E+07, 2.056299266163284E+07);
-    initial_condition.set_velocity(3.859428549646102E+06, 3.244525935598258E+05, 1.492020244998816E+06); // km/c -> km/day
+    initial_condition.set_barycentric(1.46966286538887E+08, 7.29982316871326E+07, 2.05657582369639E+07);
+    initial_condition.set_velocity((4.467714995410097E+01) * 86400, (3.759100797623457E+00) * 86400, (1.726983438363074E+01) * 86400); // km/c -> km/day
 
     Interpolator interpolator;
     this->interpolator = interpolator;
@@ -155,39 +155,6 @@ void Solution::write_direct_problem_result()
 }
 
 
-
-void Solution::interolate_JPL()
-{
-    int last = 0;
-    for (int i = 0; i < data_reader.get_observations_vector().size(); i++)
-    {
-        for (int j = last; j < data_reader.get_JPL()->size(); j++)
-        {
-            if (data_reader.get_observations_vector().at(i).get_date()->get_MJD() < data_reader.get_JPL()->at(j).get_date()->get_MJD())
-            {
-                last = j;
-                IntegrationVector current_vector;
-                IntegrationVector previous_vector;
-                current_vector.set_barycentric(data_reader.get_JPL()->at(j+1).get_barycentric().get_x(), data_reader.get_JPL()->at(j+1).get_barycentric().get_y(), data_reader.get_JPL()->at(j+1).get_barycentric().get_z());
-                previous_vector.set_barycentric(data_reader.get_JPL()->at(j).get_barycentric().get_x(), data_reader.get_JPL()->at(j).get_barycentric().get_y(), data_reader.get_JPL()->at(j).get_barycentric().get_z());
-                current_vector.set_date(*data_reader.get_JPL()->at(j + 1).get_date());
-                previous_vector.set_date(*data_reader.get_JPL()->at(j).get_date());
-
-                BarycentricCoord interpolated_position = interpolator.interpolation_helper(*data_reader.get_observations_vector()[i].get_date(), current_vector, previous_vector);
-
-                ModelMeasure base_state;
-                base_state.set_barycentric(interpolated_position.get_x(), interpolated_position.get_y(), interpolated_position.get_z());
-                base_state.set_date(*data_reader.get_observations_vector()[i].get_date());
-                this->base_measures.push_back(base_state);
-                break;
-            }
-            
-        }
-    }
-}
-
-
-
 void Solution::inverse_problem()
 {
     // method for solve inverse problem
@@ -212,11 +179,6 @@ void Solution::inverse_problem()
 
     for (int i = 0; i < this->model_measures.size(); i++)
     {
-        std::cout << std::setprecision(15) << "Model measure: " << model_measures[i].get_date().get_MJD() << "\t";
-        model_measures[i].get_spherical().print();
-        std::cout << std::setprecision(15) << "Base measure: " << base_measures[i].get_date().get_MJD() << "\t";
-        base_measures[i].get_spherical().print();
-
         this->mnk.calculate_dg_dx(&this->model_measures[i]);
         this->mnk.calculate_dr_db(&this->model_measures[i]);
 
@@ -232,8 +194,6 @@ void Solution::inverse_problem()
 
         delta_RA_sum += delta_RA * delta_RA;
         delta_DEC_sum += delta_DEC * delta_DEC;
-
-        std::cout << "delta: " << delta_RA << " " << delta_DEC << "\n\n";
 
         for (int j = 0; j < 6; j++)
         {
@@ -259,8 +219,6 @@ void Solution::inverse_problem()
 
     // Gauss-Newton
     this->initial_condition = this->mnk.Gauss_Newton(this->initial_condition, &A, &R, W);
-    initial_condition.get_barycentric().print();
-    initial_condition.get_velocity().print();
 }
 
 
@@ -274,12 +232,11 @@ void Solution::act()
     read_data();
     convert_observations();
     convert_observatory();
-    //this->interolate_JPL();
     std::map<std::string, std::vector<IntegrationVector>> map_planets = interpolator.interpolation_center_planet(data_reader.get_observations()->at(0).get_date(), data_reader.get_observations()->at(221).get_date(), STEP, data_reader.get_interpolation_planets());
     converter.cartesian_geocentric_to_cartesian_barycentric(data_reader.get_observations(), data_reader.get_obsevatory_map(), data_reader.get_earth_rotation_vector(), data_reader.get_interpolation_hubble(), map_planets["earth"]);
 
     int iteration = 1;
-    double accuracy = 1e-8;
+    double accuracy = 1e-12;
     std::pair<double, double> old_wrms = { 0, 0 };
 
     temp = clock();
@@ -294,7 +251,7 @@ void Solution::act()
         std::cout << "\t>>~~~~~Iteration [" << iteration << "]~~~~~<<\n";
         std::cout << "RA wrms delta: [" << std::abs(this->wrms.first - old_wrms.first) << "]\n";
         std::cout << "DEC wrms delta: [" << std::abs(this->wrms.second - old_wrms.second) << "]\n";
-        std::cout << "It takes {" << (clock() - temp) / CLOCKS_PER_SEC << "} seconds for this iteration\n\n";
+        //std::cout << "It takes {" << (clock() - temp) / CLOCKS_PER_SEC << "} seconds for this iteration\n\n";
         temp = clock();
 
         if (std::abs(this->wrms.first - old_wrms.first) <= accuracy and std::abs(this->wrms.second - old_wrms.second) <= accuracy)
