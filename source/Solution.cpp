@@ -5,8 +5,8 @@
 Solution::Solution()
 {
     // initial values was taken from here: https://ssd.jpl.nasa.gov/horizons/app.html#/
-    initial_condition.set_barycentric(1.46966286538887E+08, 7.29982316871326E+07, 2.05657582369639E+07);
-    initial_condition.set_velocity((4.467714995410097E+01) * 86400, (3.759100797623457E+00) * 86400, (1.726983438363074E+01) * 86400); // km/c -> km/day
+    initial_condition.set_barycentric(1.469591208242925E+08, 7.299762167917201E+07, 2.056299266163284E+07);
+    initial_condition.set_velocity(3.859428549646102E+06, 3.244525935598258E+05, 1.492020244998816E+06); // km/c -> km/day
 
     Interpolator interpolator;
     this->interpolator = interpolator;
@@ -212,13 +212,16 @@ void Solution::inverse_problem()
 
     for (int i = 0; i < this->model_measures.size(); i++)
     {
+        std::cout << std::setprecision(15) << "Model measure: " << model_measures[i].get_date().get_MJD() << "\t";
+        model_measures[i].get_spherical().print();
+        std::cout << std::setprecision(15) << "Base measure: " << base_measures[i].get_date().get_MJD() << "\t";
+        base_measures[i].get_spherical().print();
+
         this->mnk.calculate_dg_dx(&this->model_measures[i]);
         this->mnk.calculate_dr_db(&this->model_measures[i]);
 
         delta_RA = this->base_measures[i].get_spherical().get_right_ascension() - this->model_measures[i].get_spherical().get_right_ascension();
         delta_DEC = this->base_measures[i].get_spherical().get_declination() - this->model_measures[i].get_spherical().get_declination();
-        delta_RA_sum += delta_RA * delta_RA;
-        delta_DEC_sum += delta_DEC * delta_DEC;
 
         // normilize delta RA to [-pi;pi]
         while ((delta_RA > PI) or (delta_RA < -PI))
@@ -227,7 +230,10 @@ void Solution::inverse_problem()
             delta_RA = delta_RA + sign * 2 * PI;
         }
 
-        //std::cout << delta_RA << " " << delta_DEC << "\n";
+        delta_RA_sum += delta_RA * delta_RA;
+        delta_DEC_sum += delta_DEC * delta_DEC;
+
+        std::cout << "delta: " << delta_RA << " " << delta_DEC << "\n\n";
 
         for (int j = 0; j < 6; j++)
         {
@@ -238,7 +244,7 @@ void Solution::inverse_problem()
         R[2 * i][0] = delta_RA;
         R[2 * i + 1][0] = delta_DEC;
 
-        double accuracy = 1e4;
+        double accuracy = 1e-4;
         //Если наблюдение дано с точностью N знаков, то можете считать, что стандартное отклонение равно удвоенному значению единицы в (N+1)-м знаке.
         int last_digit = int(delta_RA * accuracy * 10) % 10;
         double w_ra = last_digit != 0 ? (2 * last_digit) / (accuracy * 10) : (2 * (last_digit + 1)) / (accuracy * 10);
@@ -253,6 +259,8 @@ void Solution::inverse_problem()
 
     // Gauss-Newton
     this->initial_condition = this->mnk.Gauss_Newton(this->initial_condition, &A, &R, W);
+    initial_condition.get_barycentric().print();
+    initial_condition.get_velocity().print();
 }
 
 
