@@ -38,7 +38,8 @@ public:
     CartesianCoord cylindrical_to_cartesian(CylindricalCoord);
     GeocentricCoord terrestial_to_geocentric_celestial(CartesianCoord, Date, EarthRotation);
     void spherical_hours_to_spherical_radians(Observation*);
-    void barycentric_cartesian_to_barycentric_spherical(IntegrationVector* vector, std::vector<SphericalCoord>* coords);
+    void barycentric_cartesian_to_geocentric_cartesian(ModelMeasure* model_measure, std::vector<IntegrationVector>* earth);
+    void geocentric_cartesian_to_geocentric_spherical(ModelMeasure* model_measure);
     void barycentric_cartesian_to_barycentric_spherical(ModelMeasure* model_measure);
     void barycentric_spherical_to_geocentric_cartesian(Observation*);
     void cartesian_geocentric_to_cartesian_barycentric(std::vector<Observation>*, std::map<std::string, Observatory>*, std::vector<EarthRotation>*, std::vector<HubbleData>, std::vector<IntegrationVector>);

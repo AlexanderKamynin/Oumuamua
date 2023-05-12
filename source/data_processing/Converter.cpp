@@ -150,16 +150,6 @@ void Converter::spherical_hours_to_spherical_radians(Observation* observation)
     double degrees = 15 * RA_in_hours_system[0];
     double arcminutes = 0.25 * RA_in_hours_system[1];
     double arcseconds = 0.25 * RA_in_hours_system[2];
-    char sign;
-    if (RA_in_hours_system[0] < 0)
-    {
-        sign = '-';
-        degrees *= -1;
-    }
-    else
-    {
-        sign = '+';
-    }
 
     degrees = degrees + int(arcminutes);
     arcminutes = (arcminutes - int(arcminutes)) * 60 + int(arcseconds);
@@ -168,30 +158,17 @@ void Converter::spherical_hours_to_spherical_radians(Observation* observation)
     double ascension;
     iauAf2a('+', degrees, arcminutes, arcseconds, &ascension);
 
-    double* DEC_in_hours_system = observation->get_spherical_position().get_DEC_in_hours_system();
+    double* DEC_in_degrees_system = observation->get_spherical_position().get_DEC_in_degrees_system();
+    char sign = DEC_in_degrees_system[0] < 0 ? '-' : '+';
 
-    if (DEC_in_hours_system[0] < 0)
-    {
-        sign = '-';
-        degrees = 15 * DEC_in_hours_system[0] * (-1);
-    }
-    else
-    {
-        degrees = 15 * DEC_in_hours_system[0];
-        sign = '+';
-    }
-
-    arcminutes = 0.25 * DEC_in_hours_system[1];
-    arcseconds = 0.25 * DEC_in_hours_system[2];
-
-    degrees = degrees + int(arcminutes);
-    arcminutes = (arcminutes - int(arcminutes)) * 60 + int(arcseconds);
-    arcseconds = (arcseconds - int(arcseconds)) * 60;
+    degrees = DEC_in_degrees_system[0];
+    arcminutes = DEC_in_degrees_system[1];
+    arcseconds = DEC_in_degrees_system[2];
 
     double declination;
     iauAf2a(sign, degrees, arcminutes, arcseconds, &declination);
 
-    while ((ascension > PI) or (ascension < - PI)) 
+    while ((ascension > PI) or (ascension < -PI))
     {
         int sign = ascension > PI ? -1 : 1;
         ascension = ascension + sign * 2 * PI;
@@ -200,22 +177,34 @@ void Converter::spherical_hours_to_spherical_radians(Observation* observation)
     observation->set_spherical(ascension, declination);
 }
 
-
-
-/*
-    Convert from barycentric to spherical coodinates
-    Method for IntegrationVector
-*/
-void Converter::barycentric_cartesian_to_barycentric_spherical(IntegrationVector* vector, std::vector<SphericalCoord>* coords)
+void Converter::barycentric_cartesian_to_geocentric_cartesian(ModelMeasure* model_measure, std::vector<IntegrationVector>* earth)
 {
-    double barycentric_coord[3] = { vector->get_barycentric().get_x(), vector->get_barycentric().get_y(), vector->get_barycentric().get_z() };
+    BarycentricCoord earth_position = this->interpolator->find_object_position(model_measure->get_date(), earth);
+    GeocentricCoord oumuamua_position;
+    oumuamua_position.set_x(model_measure->get_barycentric().get_x() - earth_position.get_x());
+    oumuamua_position.set_y(model_measure->get_barycentric().get_y() - earth_position.get_y());
+    oumuamua_position.set_z(model_measure->get_barycentric().get_z() - earth_position.get_z());
+    model_measure->set_geocentric(oumuamua_position);
+}
+
+
+void Converter::geocentric_cartesian_to_geocentric_spherical(ModelMeasure* model_measure)
+{
+    double geocentric_coord[3] = { model_measure->get_geocentric().get_x(), model_measure->get_geocentric().get_y(), model_measure->get_geocentric().get_z() };
     double right_ascension;
     double declination;
 
-    iauC2s(barycentric_coord, &right_ascension, &declination);
+    iauC2s(geocentric_coord, &right_ascension, &declination);
+
+    while ((right_ascension > PI) or (right_ascension < -PI))
+    {
+        int sign = right_ascension > PI ? -1 : 1;
+        right_ascension = right_ascension + sign * 2 * PI;
+    }
+
     SphericalCoord temp_coords;
     temp_coords.set_spherical(right_ascension, declination);
-    coords->push_back(temp_coords);
+    model_measure->set_spherical(temp_coords);
 }
 
 
@@ -265,9 +254,6 @@ void Converter::cartesian_geocentric_to_cartesian_barycentric(std::vector<Observ
             // [barycentric position of the center of the Earth] + [celestial geocentric position of the observatory]
             BarycentricCoord interpolated_Earth_center = interpolator->interpolation_Earth_center(*current_date, *start_date, earth_position);
             observatory_position.set_all_coords(interpolated_Earth_center.get_x() + geocentric_observatory_position.get_x(), interpolated_Earth_center.get_y() + geocentric_observatory_position.get_y(), interpolated_Earth_center.get_z() + geocentric_observatory_position.get_z());
-            /*observatory_position.set_x(interpolated_Earth_center.get_x() + geocentric_observatory_position.get_x());
-            observatory_position.set_y(interpolated_Earth_center.get_y() + geocentric_observatory_position.get_y());
-            observatory_position.set_z(interpolated_Earth_center.get_z() + geocentric_observatory_position.get_z());*/
 
         }
         else
@@ -276,9 +262,6 @@ void Converter::cartesian_geocentric_to_cartesian_barycentric(std::vector<Observ
             // [barycentric position of the center of the Earth] + [celestial geocentric position of the observatory]
             BarycentricCoord interpolated_Earth_center = interpolator->interpolation_Earth_center(*current_date, *start_date, earth_position);
             observatory_position.set_all_coords(interpolated_Earth_center.get_x() + geocentric_hubble_position.get_x(), interpolated_Earth_center.get_y() + geocentric_hubble_position.get_y(), interpolated_Earth_center.get_z() + geocentric_hubble_position.get_z());
-           /* observatory_position.set_x(interpolated_Earth_center.get_x() + geocentric_hubble_position.get_x());
-            observatory_position.set_y(interpolated_Earth_center.get_y() + geocentric_hubble_position.get_y());
-            observatory_position.set_z(interpolated_Earth_center.get_z() + geocentric_hubble_position.get_z());*/
         }
         observations->at(i).set_observatory_position(observatory_position);
     }

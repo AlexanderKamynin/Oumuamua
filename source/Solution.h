@@ -42,6 +42,5 @@ public:
     void direct_problem(std::map<std::string, std::vector<IntegrationVector>>* map_planets);
     void inverse_problem();
     void write_direct_problem_result();
-    void interolate_JPL();
     void clear_space();
 };

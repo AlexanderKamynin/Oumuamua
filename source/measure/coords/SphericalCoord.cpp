@@ -29,13 +29,13 @@ void SphericalCoord::set_RA_in_hours_system_from_string(std::string string)
 }
 
 
-void SphericalCoord::set_DEC_in_hours_system_from_string(std::string string)
+void SphericalCoord::set_DEC_in_degrees_system_from_string(std::string string)
 {
     std::vector<double> vector_of_coords;
     vector_of_coords = help.split(string, ' ', '\0');
-    this->DEC_in_hours_system[0] = vector_of_coords[0];
-    this->DEC_in_hours_system[1] = vector_of_coords[1];
-    this->DEC_in_hours_system[2] = vector_of_coords[2];
+    this->DEC_in_degrees_system[0] = vector_of_coords[0];
+    this->DEC_in_degrees_system[1] = vector_of_coords[1];
+    this->DEC_in_degrees_system[2] = vector_of_coords[2];
 }
 
 
@@ -55,7 +55,12 @@ double* SphericalCoord::get_RA_in_hours_system()
     return this->RA_in_hours_system;
 }
 
-double* SphericalCoord::get_DEC_in_hours_system()
+double* SphericalCoord::get_DEC_in_degrees_system()
 {
-    return this->DEC_in_hours_system;
+    return this->DEC_in_degrees_system;
+}
+
+void SphericalCoord::print()
+{
+    std::cout << "RA=" << this->right_ascension << " DEC=" << this->declination << "\n";
 }

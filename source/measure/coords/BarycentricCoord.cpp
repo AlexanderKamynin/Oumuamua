@@ -67,7 +67,7 @@ double BarycentricCoord::length()
 
 void BarycentricCoord::print()
 {
-    std::cout << std::setprecision(15) << "x= " << this->x << " y= " << this->y << " z= " << this->z;
+    std::cout << std::setprecision(15) << "x= " << this->x << " y= " << this->y << " z= " << this->z << "\n";
 }
 
 

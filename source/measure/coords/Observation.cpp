@@ -33,7 +33,7 @@ void Observation::set_ascension_from_string(std::string value)
 
 void Observation::set_declination_from_string(std::string value) 
 {
-    this->spherical_position.set_DEC_in_hours_system_from_string(value);
+    this->spherical_position.set_DEC_in_degrees_system_from_string(value);
 }
 
 

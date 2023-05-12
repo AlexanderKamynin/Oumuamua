@@ -62,7 +62,7 @@ void Velocity::multiply(double value)
 
 void Velocity::print()
 {
-    std::cout << "vx= " << this->vx << " vy= " << this->vy << " vz= " << this->vz;
+    std::cout << "vx= " << this->vx / 86400 << " vy= " << this->vy / 86400 << " vz= " << this->vz / 86400 << " in km/s\n";
 }
 
 
