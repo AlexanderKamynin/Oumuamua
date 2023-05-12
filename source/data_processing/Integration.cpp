@@ -28,11 +28,10 @@ IntegrationVector Integration::derivate_function(IntegrationVector current_condi
         df/db = (dv/dx0 dv/dv0) = (0 0)
                 (da/dx0 da/dv0)   (0 0)
     */
-    Matrix df_db(6, 6); // zero matrix
 
     // b = x0
-    // dx/db = df/dx * dx/db + df/db
-    Matrix dx_db = (*d_vector.get_df_dx()) * (*current_condition.get_dx_db()) + df_db;
+    // dx/db = df/dx * dx/db + df/db = df/dx * dx/db + 0 
+    Matrix dx_db = (*d_vector.get_df_dx()) * (*current_condition.get_dx_db());
     d_vector.set_dx_db(dx_db);
 
     return d_vector;
@@ -46,16 +45,10 @@ void Integration::calculate_partial_derivates(IntegrationVector* current_conditi
             This method used for calculate dF/dX = ( dv/dx, dv/dv ) = ( 0,    E)
                                                    ( da/dx, da/dv )   (da/dx, 0)
         */
-        for (int row_idx = 0; row_idx < 3; row_idx++)
-        {
-            for (int column_idx = 3; column_idx < 6; column_idx++)
-            {
-                if (column_idx == row_idx + 3)
-                {
-                    (*partial_derivates)[row_idx][column_idx] = 1;
-                }
-            }
-        }
+
+        (*partial_derivates)[0][3] = 1;
+        (*partial_derivates)[1][4] = 1;
+        (*partial_derivates)[2][5] = 1;
 
         double dax[3] = { 0, 0, 0 }; // dax / dx, dax / dy, dax / dz
         double day[3] = { 0, 0, 0 }; // day / dx, day / dy, day / dx
