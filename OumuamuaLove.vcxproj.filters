@@ -933,6 +933,8 @@
     <Text Include="output_data\delta.txt" />
     <Text Include="output_data\model_barycentric.txt" />
     <Text Include="output_data\base_measure.txt" />
+    <Text Include="output_data\after_mnk.txt" />
+    <Text Include="output_data\before_mnk.txt" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="visualization\DEC_compare.png">

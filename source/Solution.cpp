@@ -246,6 +246,15 @@ void Solution::act()
     {
         old_wrms = this->wrms;
         direct_problem(&map_planets);
+        if (iteration == 1) {
+            std::ofstream before_mnk;
+            before_mnk.open("./output_data/before_mnk.txt");
+            for (int i = 0; i < this->model_measures.size(); i++) {
+                double RA_delta = this->model_measures[i].get_spherical().get_right_ascension() - this->base_measures[i].get_spherical().get_right_ascension();
+                double DEC_delta = this->model_measures[i].get_spherical().get_declination() - this->base_measures[i].get_spherical().get_declination();
+                before_mnk << RA_delta << " " << DEC_delta << "\n";
+            }
+        }
         inverse_problem();
 
         std::cout << "\t>>~~~~~Iteration [" << iteration << "]~~~~~<<\n";
@@ -259,11 +268,15 @@ void Solution::act()
             std::cout << "\n\t>>----- Inverse problem done -----<<\n\n";
             std::cout << "Complete weighted-root-mean-square values is equal for RA=[" << this->wrms.first << "], for DEC=[" << this->wrms.second << "]\n";
             std::cout << "Difference between real and model measures:\n";
+            std::ofstream after_mnk;
+            after_mnk.open("./output_data/after_mnk.txt");
             for (int i = 0; i < this->model_measures.size(); i++)
             {
                 double RA_delta = this->model_measures[i].get_spherical().get_right_ascension() - this->base_measures[i].get_spherical().get_right_ascension();
                 double DEC_delta = this->model_measures[i].get_spherical().get_declination() - this->base_measures[i].get_spherical().get_declination();
                 std::cout << "For observation " << i + 1 << " difference in RA=[" << RA_delta << "], in DEC=[" << DEC_delta << "]\n";
+
+                after_mnk << RA_delta << " " << DEC_delta << "\n";
             }
             break;
         }

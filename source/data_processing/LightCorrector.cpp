@@ -67,7 +67,7 @@ double LightCorrector::light_time_correction(double t, BarycentricCoord* observa
 	double distance = (object_position - *observatory_position).length();
 	delta = distance / LIGHT_SPEED;
 
-	while (previous_delta == 0 or std::fabs(delta - previous_delta) / delta > 1e-15)
+	while (previous_delta == 0 or std::fabs(delta - previous_delta) > 1e-6)
 	{
 		previous_delta = delta;
 		time.set_MJD(t - delta);
