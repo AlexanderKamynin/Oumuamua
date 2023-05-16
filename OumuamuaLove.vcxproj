@@ -431,6 +431,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="sofa\src\makefile" />
+    <None Include="visualization\after_befor_mnk.py" />
     <None Include="visualization\graphics.py" />
   </ItemGroup>
   <ItemGroup>
@@ -457,8 +458,12 @@
     <Text Include="output_data\model_measure.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="visualization\DEC_after.png" />
+    <Image Include="visualization\DEC_before.png" />
     <Image Include="visualization\DEC_compare.png" />
     <Image Include="visualization\DEC_delta.png" />
+    <Image Include="visualization\RA_after.png" />
+    <Image Include="visualization\RA_before.png" />
     <Image Include="visualization\RA_compare.png" />
     <Image Include="visualization\RA_delta.png" />
   </ItemGroup>

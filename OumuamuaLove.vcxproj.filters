@@ -912,6 +912,7 @@
   <ItemGroup>
     <None Include="sofa\src\makefile" />
     <None Include="visualization\graphics.py" />
+    <None Include="visualization\after_befor_mnk.py" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="input_data\hubble_data.txt" />
@@ -947,6 +948,18 @@
       <Filter>Файлы ресурсов</Filter>
     </Image>
     <Image Include="visualization\RA_delta.png">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+    <Image Include="visualization\RA_after.png">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+    <Image Include="visualization\RA_before.png">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+    <Image Include="visualization\DEC_before.png">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+    <Image Include="visualization\DEC_after.png">
       <Filter>Файлы ресурсов</Filter>
     </Image>
   </ItemGroup>

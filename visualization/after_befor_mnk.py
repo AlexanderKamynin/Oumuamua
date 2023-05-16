@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-
+# import matplotlib.pyplot.errorbar
 
 class BaseSave:
     def __init__(self, name):
@@ -87,8 +87,8 @@ def draw_2D_graphics(title, time, measure1, measure2, label1, label2, output_fil
     plt.figure()
     plt.grid()
     plt.title(title)
-    plt.plot(time, measure1, label=label1)
-    plt.plot(time, measure2, label=label2)
+    plt.scatter(time, measure1, label=label1)
+    plt.scatter(time, measure2, label=label2)
 
     plt.xlabel('time, MJD')
     plt.ylabel('Position, radians')
@@ -98,12 +98,14 @@ def draw_2D_graphics(title, time, measure1, measure2, label1, label2, output_fil
     plt.close()
 
 
-def draw_2D_graphic_one_param(title, time, measure1, label1, output_file):
+def draw_2D_graphic_with_errorbar(title, time, measure1, label1, err, output_file):
     plt.figure()
     plt.grid()
     plt.title(title)
+    err = [err] * len(measure1)
     plt.scatter(time, measure1, label=label1)
     # plt.plot(time, measure2, label=label2)
+    plt.errorbar(x=time, y=measure1, yerr=err, linestyle='none')
 
     plt.xlabel('time, MJD')
     plt.ylabel('Position, radians')
@@ -125,9 +127,10 @@ if __name__ == '__main__':
     model_after.base_time = base.base_time.copy()
     model_before.base_time = base.base_time.copy()
 
-    draw_2D_graphics("RA delta before and RA delta after", base.base_time, model_before.base_RA, model_after.base_RA,
-                     "Before", "After", "./RA_BA")
-
-    draw_2D_graphics("DEC delta before and DEC delta after", base.base_time, model_before.base_DEC, model_after.base_DEC,
-                     "Before", "After", "./DEC_BA")
+    RA_err = 7.27 * 10e-7
+    DEC_err = 4.84 * 10e-7
+    draw_2D_graphic_with_errorbar("RA delta before MNK", base.base_time, model_before.base_RA, "Before", RA_err, "./RA_before")
+    draw_2D_graphic_with_errorbar("RA delta after MNK", base.base_time, model_after.base_RA, "After", RA_err, "./RA_after")
+    draw_2D_graphic_with_errorbar("DEC delta before MNK", base.base_time, model_before.base_DEC, "Before", DEC_err, "./DEC_before")
+    draw_2D_graphic_with_errorbar("DEC delta after MNK", base.base_time, model_after.base_DEC, "After", DEC_err, "./DEC_after")
 
