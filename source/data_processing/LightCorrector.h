@@ -21,6 +21,8 @@ private:
 	Converter* converter;
 	Interpolator* interpolator;
 	Helpers help;
+
+	ModelMeasure check;
 public:
 	LightCorrector() = default;
 	LightCorrector(Converter*, Interpolator*);

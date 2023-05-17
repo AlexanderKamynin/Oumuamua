@@ -26,6 +26,11 @@ void LightCorrector::light_correct(std::vector<Observation>* observations, std::
 		Date time;
 		time.set_MJD(t);
 		BarycentricCoord object_position = interpolator->find_object_position(time, model_orbits);
+		// check radians difference
+		/*ModelMeasure before_light_correction;
+		before_light_correction.set_barycentric(object_position);
+		this->converter->barycentric_cartesian_to_barycentric_spherical(&before_light_correction);*/
+
 		BarycentricCoord sun_position = interpolator->find_object_position(time, sun_info);
 
 		// gravitational deflection
@@ -37,6 +42,19 @@ void LightCorrector::light_correct(std::vector<Observation>* observations, std::
 		// set corrected position
 		ModelMeasure new_state;
 		new_state.set_barycentric(object_position);
+
+		//check after light corrections
+		this->converter->barycentric_cartesian_to_barycentric_spherical(&new_state);
+
+
+		std::cout << "Difference: RA=" << new_state.get_spherical().get_right_ascension() - check.get_spherical().get_right_ascension()
+			<< " DEC=" << new_state.get_spherical().get_declination() - check.get_spherical().get_declination() << "\n";
+		std::cout << "Before:\n";
+		this->check.get_spherical().print();
+		std::cout << "After:\n";
+		new_state.get_spherical().print();
+		std::cout << "\n\n";
+
 		model_measures->push_back(new_state);
 	}
 }
@@ -62,8 +80,10 @@ double LightCorrector::light_time_correction(double t, BarycentricCoord* observa
 	Date time;
 	time.set_MJD(t - delta);
 	BarycentricCoord object_position = interpolator->find_object_position(time, model_measure);
-	
-	
+
+	check.set_barycentric(object_position);
+	this->converter->barycentric_cartesian_to_barycentric_spherical(&check);
+
 	double distance = (object_position - *observatory_position).length();
 	delta = distance / LIGHT_SPEED;
 

@@ -79,6 +79,7 @@ void Solution::direct_problem(std::map<std::string, std::vector<IntegrationVecto
 {
     std::vector<IntegrationVector> model_orbits;
     model_orbits = integration.dormand_prince(initial_condition, data_reader.get_observations()->at(0).get_date(), data_reader.get_observations()->at(221).get_date(), STEP, map_planets);
+
     light_corrector.light_correct(data_reader.get_observations(), &model_orbits, &this->model_measures, &map_planets->at("sun"), data_reader.get_earth_velocity_info());
 
 
@@ -153,6 +154,7 @@ void Solution::write_direct_problem_result()
         std::cout << "Error of writing file\n";
     }
 }
+
 
 
 void Solution::inverse_problem()

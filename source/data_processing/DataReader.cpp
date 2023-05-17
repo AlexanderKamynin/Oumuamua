@@ -237,6 +237,14 @@ void DataReader::read_earth_rotation()
             rotation.set_MJD(std::stoi(data_line.substr(14, 5)));
             rotation.set_x(std::stod(data_line.substr(22, 8)));
             rotation.set_y(std::stod(data_line.substr(33, 8)));
+            std::cout << "x=" << rotation.get_x() << " y=" << rotation.get_y() << " angle seconds\n";
+
+
+            // convert from angle seconds to radians
+            rotation.set_x(rotation.get_x() * PI / (3600 * 180));
+            rotation.set_y(rotation.get_y() * PI / (3600 * 180));
+            std::cout << "x=" << rotation.get_x() << " y=" << rotation.get_y() << " radians\n";
+
             rotation.set_UT1_UTC(std::stod(data_line.substr(44, 9)));
             
             earth_rotation.push_back(rotation);

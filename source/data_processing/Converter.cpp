@@ -103,6 +103,7 @@ GeocentricCoord Converter::terrestial_to_geocentric_celestial(CartesianCoord pos
     iauUtcut1(earth_rotation.get_MJD() + 2400000.5, 0, earth_rotation.get_UT1_UTC(), &uta, &utb);
 
     // Input: tta=TT, ttb=0, uta=UT1_UTC, utb=0, xp=0, yp=0 -> return matrix for converting
+    
     iauC2t06a(date.get_TT(), 2400000.5, uta, utb, earth_rotation.get_x(), earth_rotation.get_y(), celestial_to_terestial);
 
     // transpose for convert from cartesian to geocentric
@@ -176,6 +177,7 @@ void Converter::spherical_hours_to_spherical_radians(Observation* observation)
 
     observation->set_spherical(ascension, declination);
 }
+
 
 void Converter::barycentric_cartesian_to_geocentric_cartesian(ModelMeasure* model_measure, std::vector<IntegrationVector>* earth)
 {
