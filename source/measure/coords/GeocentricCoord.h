@@ -27,4 +27,6 @@ public:
     void set_x(double value);
     void set_y(double value);
     void set_z(double value);
+
+    void print();
 };

@@ -5,8 +5,12 @@
 Solution::Solution()
 {
     // initial values was taken from here: https://ssd.jpl.nasa.gov/horizons/app.html#/
-    initial_condition.set_barycentric(1.46966286538887E+08, 7.29982316871326E+07, 2.05657582369639E+07);
-    initial_condition.set_velocity((4.467714995410097E+01) * 86400, (3.759100797623457E+00) * 86400, (1.726983438363074E+01) * 86400); // km/c -> km/day
+
+    //initial_condition.set_barycentric(1.46966286538887E+08, 7.29982316871326E+07, 2.05657582369639E+07);
+    //initial_condition.set_velocity((4.467714995410097E+01) * 86400, (3.759100797623457E+00) * 86400, (1.726983438363074E+01) * 86400); // km/c -> km/day
+
+    initial_condition.set_barycentric(1.468787090096414E+08, 7.299085877471100E+07, 2.053190793311784E+07);
+    initial_condition.set_velocity(3.860105756034324E+06, 3.247863089146682E+05, 1.492113690745696E+06); // km/c -> km/day
 
     Interpolator interpolator;
     this->interpolator = interpolator;
@@ -21,7 +25,6 @@ Solution::Solution()
 void Solution::read_data()
 {
     data_reader.read_earth_rotation();
-    data_reader.read_earth_velocity();
     data_reader.read_observations();
     data_reader.read_observatory_data();
     data_reader.read_hubble_data();
@@ -37,6 +40,8 @@ void Solution::read_data()
     data_reader.read_interpolation_center_planet("./input_data/moon.txt", "moon");
     data_reader.read_interpolation_center_planet("./input_data/saturn.txt", "saturn");
     data_reader.read_interpolation_center_planet("./input_data/venus.txt", "venus");
+    data_reader.read_interpolation_center_planet("./input_data/neptune.txt", "neptune");
+    data_reader.read_interpolation_center_planet("./input_data/uranus.txt", "uranus");
 }
 
 

@@ -58,8 +58,8 @@ private:
     double a76 = (11.0 / 84.0);
 
     // GM you can see here: https://iaaras.ru/en/dept/ephemeris/epm/2017/#5
-    std::map<std::string, double> GM = { {"earth", 398600.43552 * help.POW_2(86400)}, {"sun", 132712440043.85333 * help.POW_2(86400)}, {"jupiter", 126712764.13345 * help.POW_2(86400)}, {"mars", 42828.37521 * help.POW_2(86400)}, {"mercury", 22031.78000 * help.POW_2(86400)}, {"moon", 4902.80008 * help.POW_2(86400)}, {"saturn",37940585.20000
- * help.POW_2(86400)}, {"venus", 324858.59200 * help.POW_2(86400)} }; // km^3 / sec^2 -> km^3 / day^2
+    std::map<std::string, double> GM = { {"earth", 398600.435507 * help.POW_2(86400)}, {"sun", 132712440041.279419 * help.POW_2(86400)}, {"jupiter", 126712764.100000 * help.POW_2(86400)}, {"mars", 42828.375816 * help.POW_2(86400)}, {"mercury", 22031.868551 * help.POW_2(86400)}, {"moon", 4902.800118 * help.POW_2(86400)}, {"saturn",37940584.841800
+ * help.POW_2(86400)}, {"venus", 324858.592000 * help.POW_2(86400)}, {"neptune", 6836527.100580 * help.POW_2(86400)}, {"uranus", 5794556.400000 * help.POW_2(86400)} }; // km^3 / sec^2 -> km^3 / day^2
     std::vector<std::string> planet_list = { "earth", "sun", "jupiter", "mars", "mercury", "moon", "saturn", "venus"};
 
     Helpers help;

@@ -94,29 +94,32 @@ GeocentricCoord Converter::terrestial_to_geocentric_celestial(CartesianCoord pos
 
     double uta;
     double utb;
+
+    double ut1;
+    double ut2;
     /*  Given:
             utc1,utc2  double   UTC as a 2-part quasi Julian Date (Notes 1-4)
             dut1       double   Delta UT1 = UT1-UTC in seconds (Note 5)
         Returned:
             ut11,ut12  double   UT1 as a 2-part Julian Date (Note 6)
     */
-    iauUtcut1(earth_rotation.get_MJD() + 2400000.5, 0, earth_rotation.get_UT1_UTC(), &uta, &utb);
 
-    // Input: tta=TT, ttb=0, uta=UT1_UTC, utb=0, xp=0, yp=0 -> return matrix for converting
-    
+    iauDtf2d("UTC", date.get_year(), date.get_month(), date.get_day(), date.get_hours(), date.get_minutes(), date.get_seconds(), &ut1, &ut2);
+    iauUtcut1(ut1, ut2, earth_rotation.get_UT1_UTC(), &uta, &utb);
+    //std::cout << std::setprecision(8) << "ut1=" << ut1 << " ut2=" << ut2 << " UT1-UTC=" << earth_rotation.get_UT1_UTC() << " uta=" << uta << " utb=" << utb << '\n';
+
+    // Input: tta=TT, ttb=0, uta=UT1_UTC, utb=0, xp, yp -> return matrix for converting
+    //std::cout << std::setprecision(15) << date.get_TT() + 2400000.5 << " " << uta << " " << utb << " " << earth_rotation.get_x() << " " << earth_rotation.get_y() << " " << "\n";
     iauC2t06a(date.get_TT(), 2400000.5, uta, utb, earth_rotation.get_x(), earth_rotation.get_y(), celestial_to_terestial);
-
-    // transpose for convert from cartesian to geocentric
-    this->help.transpose_matrix(celestial_to_terestial);
 
     /*
                    (x)
         (matrix) * (y)
                    (z)
     */
-    double x = celestial_to_terestial[0][0] * position.get_x() + celestial_to_terestial[0][1] * position.get_y() + celestial_to_terestial[0][2] * position.get_z();
-    double y = celestial_to_terestial[1][0] * position.get_x() + celestial_to_terestial[1][1] * position.get_y() + celestial_to_terestial[1][2] * position.get_z();
-    double z = celestial_to_terestial[2][0] * position.get_x() + celestial_to_terestial[2][1] * position.get_y() + celestial_to_terestial[2][2] * position.get_z();
+    double x = celestial_to_terestial[0][0] * position.get_x() + celestial_to_terestial[1][0] * position.get_y() + celestial_to_terestial[2][0] * position.get_z();
+    double y = celestial_to_terestial[0][1] * position.get_x() + celestial_to_terestial[1][1] * position.get_y() + celestial_to_terestial[2][1] * position.get_z();
+    double z = celestial_to_terestial[0][2] * position.get_x() + celestial_to_terestial[1][2] * position.get_y() + celestial_to_terestial[2][2] * position.get_z();
 
     GeocentricCoord geocentric_position;
     geocentric_position.set_x(x);
@@ -252,11 +255,16 @@ void Converter::cartesian_geocentric_to_cartesian_barycentric(std::vector<Observ
 
             // convert observatory coordinates from cartesian to geocentric
             GeocentricCoord geocentric_observatory_position = terrestial_to_geocentric_celestial(current_observatory->get_cartesian(), *current_date, earth_rotation_info);
+            //geocentric_observatory_position.print();
             // interpolation observatory coordinates to Earth center
             // [barycentric position of the center of the Earth] + [celestial geocentric position of the observatory]
             BarycentricCoord interpolated_Earth_center = interpolator->interpolation_Earth_center(*current_date, *start_date, earth_position);
             observatory_position.set_all_coords(interpolated_Earth_center.get_x() + geocentric_observatory_position.get_x(), interpolated_Earth_center.get_y() + geocentric_observatory_position.get_y(), interpolated_Earth_center.get_z() + geocentric_observatory_position.get_z());
-
+            std::cout << "Earth: " << "\t";
+            interpolated_Earth_center.print();
+            std::cout << " sum: " << "\t";
+            observatory_position.print();
+            std::cout << '\n';
         }
         else
         {

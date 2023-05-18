@@ -18,6 +18,8 @@ void LightCorrector::light_correct(std::vector<Observation>* observations, std::
 	{
 		BarycentricCoord observatory_position = observations->at(i).get_observatory_position();
 		double t = observations->at(i).get_date()->get_MJD();
+		//std::cout << "time=" << t + JD_TO_MJD << " \t";
+		//observatory_position.print();
 
 		double delta = light_time_correction(t, &observatory_position, model_orbits);
 		delta_output << "observatory_code= " << observations->at(i).get_code() << "\tdelta=" << delta << '\n';
@@ -47,13 +49,13 @@ void LightCorrector::light_correct(std::vector<Observation>* observations, std::
 		this->converter->barycentric_cartesian_to_barycentric_spherical(&new_state);
 
 
-		std::cout << "Difference: RA=" << new_state.get_spherical().get_right_ascension() - check.get_spherical().get_right_ascension()
-			<< " DEC=" << new_state.get_spherical().get_declination() - check.get_spherical().get_declination() << "\n";
-		std::cout << "Before:\n";
-		this->check.get_spherical().print();
-		std::cout << "After:\n";
-		new_state.get_spherical().print();
-		std::cout << "\n\n";
+		//std::cout << "Difference: RA=" << new_state.get_spherical().get_right_ascension() - check.get_spherical().get_right_ascension()
+		//	<< " DEC=" << new_state.get_spherical().get_declination() - check.get_spherical().get_declination() << "\n";
+		//std::cout << "Before:\n";
+		//this->check.get_spherical().print();
+		//std::cout << "After:\n";
+		//new_state.get_spherical().print();
+		//std::cout << "\n\n";
 
 		model_measures->push_back(new_state);
 	}
@@ -81,7 +83,7 @@ double LightCorrector::light_time_correction(double t, BarycentricCoord* observa
 	time.set_MJD(t - delta);
 	BarycentricCoord object_position = interpolator->find_object_position(time, model_measure);
 
-	check.set_barycentric(object_position);
+	/*check.set_barycentric(object_position);*/
 	this->converter->barycentric_cartesian_to_barycentric_spherical(&check);
 
 	double distance = (object_position - *observatory_position).length();
@@ -149,9 +151,9 @@ void LightCorrector::aberration(BarycentricCoord* body_position, BarycentricCoor
 		body_position->get_y() / body_position->length(),
 		body_position->get_z() / body_position->length()
 	};
-	double vx = earth_velocity->get_vx(); // km/s -> km/day
-	double vy = earth_velocity->get_vy();
-	double vz = earth_velocity->get_vz();
+	double vx = earth_velocity->get_vx() * 86400; // km/s -> km/day
+	double vy = earth_velocity->get_vy() * 86400;
+	double vz = earth_velocity->get_vz() * 86400;
 	double observer_velocity[3] = { vx, vy, vz};
 	double norm_v[3] = { vx / LIGHT_SPEED, vy / LIGHT_SPEED, vz / LIGHT_SPEED };
 
@@ -161,6 +163,7 @@ void LightCorrector::aberration(BarycentricCoord* body_position, BarycentricCoor
 	double sun_to_observer_length = position.length() * 6.684589E-09; // km -> au
 
 	iauAb(observer_to_body, norm_v, sun_to_observer_length, bm1, corrected_position);
+	//std::cout << corrected_position[0] << " " << corrected_position[1] << " " << corrected_position[2] << '\n';
 
 	double vector_length = body_position->length();
 	body_position->set_all_coords(corrected_position[0] * vector_length, corrected_position[1] * vector_length, corrected_position[2] * vector_length);

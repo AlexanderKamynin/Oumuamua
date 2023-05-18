@@ -45,3 +45,8 @@ void GeocentricCoord::set_z(double value)
 {
     this->z = value;
 }
+
+void GeocentricCoord::print()
+{
+    std::cout << "x= " << this->x << " y= " << this->y << " z= " << this->z << "\n";
+}
