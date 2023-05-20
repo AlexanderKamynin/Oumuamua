@@ -14,7 +14,7 @@ private:
     int day;
     int hours;
     int minutes;
-    int seconds;
+    double seconds;
     double day_fraction;
 
     double MJD; // Modified Julian date
@@ -37,7 +37,7 @@ public:
     int get_day();
     int get_hours();
     int get_minutes();
-    int get_seconds();
+    double get_seconds();
     double get_day_fraction();
     double get_MJD();
     double get_TT();
@@ -45,6 +45,13 @@ public:
 
 
     //setters
+    void set_year(int year);
+    void set_month(int month);
+    void set_day(int day);
+    void set_hours(int h);
+    void set_minutes(int m);
+    void set_seconds(double s);
+    void set_day_fraction(double df);
     void set_UTC_from_day_fraction();
     void set_UTC_from_string(std::string);
     void set_MJD(double);

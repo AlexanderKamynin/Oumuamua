@@ -47,10 +47,10 @@ public:
     void read_interpolation_center_planet(std::string filename, std::string name);
     void read_earth_rotation();
 
-    std::vector<InterpolationTime> get_interpolation_time();
+    std::vector<InterpolationTime>* get_interpolation_time();
 
     std::vector<IntegrationVector> get_interpolation_earth();
-    std::map<std::string, std::vector<IntegrationVector>> get_interpolation_planets();
+    std::map<std::string, std::vector<IntegrationVector>>* get_interpolation_planets();
     std::vector<IntegrationVector>* get_planet_by_name(std::string);
 
     std::vector<Observation>* get_observations();

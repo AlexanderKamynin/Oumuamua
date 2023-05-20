@@ -33,6 +33,8 @@ public:
     void set_spherical(double, double);
     void set_RA_in_hours_system_from_string(std::string);
     void set_DEC_in_degrees_system_from_string(std::string);
+    void set_RA_in_hours_system_from_string(double, double, double);
+    void set_DEC_in_degrees_system_from_string(double, double, double);
 
     //getters
     double get_right_ascension();

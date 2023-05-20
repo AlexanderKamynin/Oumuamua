@@ -4,22 +4,40 @@
 void DataReader::read_observations() 
 {
     std::ifstream file(this->observations_file);
-    std::string line;
+    int observation_number = 0;
 
     if (file.is_open())
     {
-        while (getline(file, line)) 
+        while (!file.eof()) 
         {
-            if (line[14] != 's') 
+            observation_number++;
+            Observation observation;
+            int year, month;
+            double day, tmp;
+            double RA_in_hours_systems[3];
+            double DEC_in_degrees_systems[3];
+            std::string observatory_code;
+            file >> year >> month >> day;
+            file >> RA_in_hours_systems[0] >> RA_in_hours_systems[1] >> RA_in_hours_systems[2];
+            file >> DEC_in_degrees_systems[0] >> DEC_in_degrees_systems[1] >> DEC_in_degrees_systems[2];
+
+            if (!((observation_number >= 183 && observation_number <= 192) || (observation_number >= 198 && observation_number <= 202) || (observation_number >= 208))) 
             {
-                Date observation_date(line.substr(15, 17));
-                Observation observation;
-                observation.set_date(observation_date);
-                observation.set_code(line.substr(77, 3));
-                observation.set_ascension_from_string(line.substr(32, 12));
-                observation.set_declination_from_string(line.substr(44, 12));
-                observations.push_back(observation);
+                file >> tmp >> tmp >> tmp >> tmp >> tmp >> tmp;
             }
+
+            file >> observatory_code;
+
+            std::string date_line;
+            date_line = std::to_string(year) + " " + std::to_string(month) + " " + std::to_string(day);
+            Date date(date_line);
+            
+            observation.set_date(date_line);
+            observation.set_RA_in_hours_systems(RA_in_hours_systems[0], RA_in_hours_systems[1], RA_in_hours_systems[2]);
+            observation.set_DEC_in_degrees_systems(DEC_in_degrees_systems[0], DEC_in_degrees_systems[1], DEC_in_degrees_systems[2]);
+            observation.set_code(observatory_code);
+
+            observations.push_back(observation);
         }
     }
     else
@@ -190,26 +208,43 @@ void DataReader::read_interpolation_center_planet(std::string filename, std::str
 
 void DataReader::read_earth_rotation()
 {
-    std::ifstream file(earth_rotation_file);
-    std::string data_line;
+    std::ifstream file(this->observations_file);
+    int observation_number = 0;
 
     if (file.is_open())
     {
-        while (getline(file, data_line))
+        while (!file.eof())
         {
-            EarthRotation rotation;
+            observation_number++;
+            if (!((observation_number >= 183 && observation_number <= 192) || (observation_number >= 198 && observation_number <= 202) || (observation_number >= 208)))
+            {
+                int year, month;
+                double day, tmp, xp, yp, UT1_UTC;
+                std::string code;
+                file >> year >> month >> day;
+                file >> tmp >> tmp >> tmp >> tmp >> tmp >> tmp >> tmp >> tmp >> tmp; // skip reading ra and dec and observatory data
+                file >> xp >> yp >> UT1_UTC;
+                file >> code;
 
-            rotation.set_MJD(std::stoi(data_line.substr(14, 5)));
-            rotation.set_x(std::stod(data_line.substr(22, 8)));
-            rotation.set_y(std::stod(data_line.substr(33, 8)));
+                EarthRotation rotation;
+                std::string date_line;
+                date_line = std::to_string(year) + " " + std::to_string(month) + " " + std::to_string(day);
+                Date date(date_line);
 
-            // convert from angle seconds to radians
-            rotation.set_x(rotation.get_x() * PI / (3600 * 180));
-            rotation.set_y(rotation.get_y() * PI / (3600 * 180));
+                rotation.set_MJD(date.get_MJD());
+                rotation.set_x(xp);
+                rotation.set_y(yp);
+                rotation.set_UT1_UTC(UT1_UTC);
 
-            rotation.set_UT1_UTC(std::stod(data_line.substr(44, 9)));
-            
-            earth_rotation.push_back(rotation);
+                earth_rotation.push_back(rotation);
+            }
+            else {
+                int year, month;
+                double day, tmp;
+                std::string code;
+                file >> year >> month >> day;
+                file >> tmp >> tmp >> tmp >> tmp >> tmp >> tmp >> code;
+            }
         }
     }
     else
@@ -223,9 +258,9 @@ void DataReader::read_earth_rotation()
 
 
 
-std::vector<InterpolationTime> DataReader::get_interpolation_time() 
+std::vector<InterpolationTime>* DataReader::get_interpolation_time() 
 {
-    return interpolation_time;
+    return &interpolation_time;
 }
 
 
@@ -241,9 +276,9 @@ std::vector<Observation>* DataReader::get_observations()
 }
 
 
-std::map<std::string, std::vector<IntegrationVector>> DataReader::get_interpolation_planets() 
+std::map<std::string, std::vector<IntegrationVector>>* DataReader::get_interpolation_planets() 
 {
-    return InterpolationPlanets;
+    return &this->InterpolationPlanets;
 }
 
 

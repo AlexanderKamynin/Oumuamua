@@ -30,20 +30,24 @@ class Converter
 private:
     Helpers help;
     Interpolator* interpolator;
+    std::vector<InterpolationTime>* tdb_grid;
 public:
     Converter() = default;
     Converter(Interpolator*);
 
+    void set_tdb_grid(std::vector<InterpolationTime>* tdb_grid);
+
     // convert
     CartesianCoord cylindrical_to_cartesian(CylindricalCoord);
-    GeocentricCoord terrestial_to_geocentric_celestial(CartesianCoord, Date, EarthRotation);
+    GeocentricCoord terrestial_to_geocentric_celestial(CartesianCoord, Date, Date, EarthRotation);
     void spherical_hours_to_spherical_radians(Observation*);
     void barycentric_cartesian_to_geocentric_cartesian(ModelMeasure* model_measure, std::vector<IntegrationVector>* earth);
+    void barycentric_cartesian_to_geocentric_cartesian(IntegrationVector* model_measure, std::vector<IntegrationVector>* earth);
     void geocentric_cartesian_to_geocentric_spherical(ModelMeasure* model_measure);
     void barycentric_cartesian_to_barycentric_spherical(ModelMeasure* model_measure);
     void barycentric_spherical_to_geocentric_cartesian(Observation*);
     void cartesian_geocentric_to_cartesian_barycentric(std::vector<Observation>*, std::map<std::string, Observatory>*, std::vector<EarthRotation>*, std::vector<HubbleData>, std::vector<IntegrationVector>);
-    void UTC_to_TT(Date*);
+    void UTC_to_TT(Date*, Observation* observation);
 
     // others
     GeocentricCoord find_needed_hubble_data(Date, std::vector<HubbleData>);

@@ -52,11 +52,10 @@ void Solution::convert_observations()
     std::vector<Observation>* data = data_reader.get_observations();
     for (int i = 0; i < data->size(); i++) 
     {
-        converter.UTC_to_TT(data->at(i).get_date());
+        converter.UTC_to_TT(data->at(i).get_date(), data_reader.get_observation(i));
         converter.spherical_hours_to_spherical_radians(data_reader.get_observation(i));
         converter.barycentric_spherical_to_geocentric_cartesian(data_reader.get_observation(i));
     }
-     this->interpolator.interpolation_time(data_reader.get_observations()->at(0).get_date(), data, data_reader.get_interpolation_time());
 
      for (int i = 0; i < data->size(); i++) 
      {
@@ -85,7 +84,7 @@ void Solution::direct_problem(std::map<std::string, std::vector<IntegrationVecto
     std::vector<IntegrationVector> model_orbits;
     model_orbits = integration.dormand_prince(initial_condition, data_reader.get_observations()->at(0).get_date(), data_reader.get_observations()->at(221).get_date(), STEP, map_planets);
 
-    light_corrector.light_correct(data_reader.get_observations(), &model_orbits, &this->model_measures, &map_planets->at("sun"), data_reader.get_earth_velocity_info());
+    light_corrector.light_correct(data_reader.get_observations(), &model_orbits, &this->model_measures, &map_planets->at("sun"), &map_planets->at("earth"), data_reader.get_earth_velocity_info());
 
 
     for (int i = 0; i < this->model_measures.size(); i++) {
@@ -96,13 +95,20 @@ void Solution::direct_problem(std::map<std::string, std::vector<IntegrationVecto
 
         Matrix interpolated_dx_db = this->interpolator.interpolate_dx_db(this->model_measures.at(i).get_date(), &model_orbits);
         this->model_measures.at(i).set_dx_db(interpolated_dx_db);
+
+        BarycentricCoord p_vector = this->model_measures.at(i).get_barycentric();
+        GeocentricCoord geo_position;
+        geo_position.set_x(p_vector.get_x() * EARTH_RADIUS);
+        geo_position.set_y(p_vector.get_y() * EARTH_RADIUS);
+        geo_position.set_z(p_vector.get_z() * EARTH_RADIUS);
+        this->model_measures.at(i).set_geocentric(geo_position);
     }
 
 
     for (int i = 0; i < this->model_measures.size(); i++)
     {
-        converter.barycentric_cartesian_to_geocentric_cartesian(&(this->model_measures[i]), &map_planets->at("earth"));
-        converter.geocentric_cartesian_to_geocentric_spherical(&(this->model_measures[i]));
+        //converter.barycentric_cartesian_to_geocentric_cartesian(&(this->model_measures[i]), &map_planets->at("earth"));
+        //converter.geocentric_cartesian_to_geocentric_spherical(&(this->model_measures[i]));
     }
 
 
@@ -239,8 +245,10 @@ void Solution::act()
     read_data();
     convert_observations();
     convert_observatory();
-    std::map<std::string, std::vector<IntegrationVector>> map_planets = interpolator.interpolation_center_planet(data_reader.get_observations()->at(0).get_date(), data_reader.get_observations()->at(221).get_date(), STEP, data_reader.get_interpolation_planets());
-    converter.cartesian_geocentric_to_cartesian_barycentric(data_reader.get_observations(), data_reader.get_obsevatory_map(), data_reader.get_earth_rotation_vector(), data_reader.get_interpolation_hubble(), map_planets["earth"]);
+    //std::map<std::string, std::vector<IntegrationVector>> map_planets = interpolator.interpolation_center_planet(data_reader.get_observations()->at(0).get_date(), data_reader.get_observations()->at(221).get_date(), STEP, data_reader.get_interpolation_planets());
+    std::map<std::string, std::vector<IntegrationVector>>* map_planets = data_reader.get_interpolation_planets();
+    converter.set_tdb_grid(data_reader.get_interpolation_time());
+    converter.cartesian_geocentric_to_cartesian_barycentric(data_reader.get_observations(), data_reader.get_obsevatory_map(), data_reader.get_earth_rotation_vector(), data_reader.get_interpolation_hubble(), map_planets->at("earth"));
 
     int iteration = 1;
     double accuracy = 1e-12;
@@ -252,7 +260,7 @@ void Solution::act()
     while (true)
     {
         old_wrms = this->wrms;
-        direct_problem(&map_planets);
+        direct_problem(map_planets);
         if (iteration == 1) {
             std::ofstream before_mnk;
             before_mnk.open("./output_data/before_mnk.txt");

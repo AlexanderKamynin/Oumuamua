@@ -21,9 +21,7 @@ private:
 public:
 	Interpolator() = default;
 
-    std::vector<IntegrationVector> interolate_JPL();
-    void interpolation_time(Date* date_start, std::vector<Observation>* observations, std::vector<InterpolationTime> time);
-    BarycentricCoord interpolation_Earth_center(Date date_current, Date date_start, std::vector<IntegrationVector> earth_position);
+    double interpolation_time(double time, std::vector<InterpolationTime>* tdb_grid);
     BarycentricCoord interpolation_helper(Date date, IntegrationVector position_previous, IntegrationVector position_current);
     std::vector<IntegrationVector> interpolation_model_on_grid(std::vector<Observation> observation_vector, Date* date_start, std::vector<IntegrationVector> interpolation_orbits);
     std::map<std::string, std::vector<IntegrationVector>> interpolation_center_planet(Date*, Date*, double, std::map<std::string, std::vector<IntegrationVector>>);

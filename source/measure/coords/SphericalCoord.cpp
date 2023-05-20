@@ -39,6 +39,22 @@ void SphericalCoord::set_DEC_in_degrees_system_from_string(std::string string)
 }
 
 
+void SphericalCoord::set_RA_in_hours_system_from_string(double h, double m, double s)
+{
+    this->RA_in_hours_system[0] = h;
+    this->RA_in_hours_system[1] = m;
+    this->RA_in_hours_system[2] = s;
+}
+
+
+void SphericalCoord::set_DEC_in_degrees_system_from_string(double g, double m, double s)
+{
+    this->DEC_in_degrees_system[0] = g;
+    this->DEC_in_degrees_system[1] = m;
+    this->DEC_in_degrees_system[2] = s;
+}
+
+
 double SphericalCoord::get_right_ascension()
 {
     return right_ascension;

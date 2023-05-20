@@ -16,6 +16,7 @@ class Observation
 {
 private:
     Date date;
+    Date TT;
     BarycentricCoord observatory_position;
     std::string observatory_code;
     SphericalCoord spherical_position;
@@ -28,8 +29,8 @@ public:
     //setters
     void set_date(Date);
     void set_code(std::string);
-    void set_ascension_from_string(std::string);
-    void set_declination_from_string(std::string);
+    void set_RA_in_hours_systems(double, double, double);
+    void set_DEC_in_degrees_systems(double, double, double);
     void set_spherical(double, double);
     void set_spherical(SphericalCoord);
     void set_geocentric(double, double, double);
@@ -38,9 +39,11 @@ public:
     void set_barycentric(BarycentricCoord);
     void set_observatory_position(BarycentricCoord);
     void set_velocity(Velocity);
+    void set_TT(Date);
 
     //getters
     Date* get_date();
+    Date* get_TT();
     std::string get_code();
     SphericalCoord get_spherical_position();
     GeocentricCoord get_geocentric();

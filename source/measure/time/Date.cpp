@@ -24,6 +24,12 @@ Date::Date(std::string date)
 }   
 
 
+void Date::set_day_fraction(double df)
+{
+    this->day_fraction = df;
+}
+
+
 void Date::set_UTC_from_day_fraction()
 {
     double delta_t = day_fraction * 24;
@@ -31,7 +37,7 @@ void Date::set_UTC_from_day_fraction()
     delta_t = (delta_t - hours) * 60;
     minutes = int(delta_t);
     delta_t = (delta_t - minutes) * 60;
-    seconds = int(delta_t);
+    seconds = delta_t;
 }
 
 
@@ -77,7 +83,7 @@ int Date::get_minutes()
     return this->minutes;
 }
 
-int Date::get_seconds()
+double Date::get_seconds()
 {
     return this->seconds;
 }
@@ -102,6 +108,36 @@ double Date::get_TT()
 double Date::get_TDB()
 {
     return TDB;
+}
+
+void Date::set_year(int year)
+{
+    this->year = year;
+}
+
+void Date::set_month(int month)
+{
+    this->month = month;
+}
+
+void Date::set_day(int day)
+{
+    this->day = day;
+}
+
+void Date::set_hours(int h)
+{
+    this->hours = h;
+}
+
+void Date::set_minutes(int m)
+{
+    this->minutes = m;
+}
+
+void Date::set_seconds(double s)
+{
+    this->seconds = s;
 }
 
 

@@ -6,6 +6,11 @@ Date* Observation::get_date()
     return &date;
 }
 
+Date* Observation::get_TT()
+{
+    return &TT;
+}
+
 
 std::string Observation::get_code() 
 {
@@ -25,15 +30,15 @@ void Observation::set_code(std::string code)
 }
 
 
-void Observation::set_ascension_from_string(std::string value) 
+void Observation::set_RA_in_hours_systems(double h, double m, double s) 
 {
-    this->spherical_position.set_RA_in_hours_system_from_string(value);
+    this->spherical_position.set_RA_in_hours_system_from_string(h, m, s);
 }
 
 
-void Observation::set_declination_from_string(std::string value) 
+void Observation::set_DEC_in_degrees_systems(double g, double m, double s) 
 {
-    this->spherical_position.set_DEC_in_degrees_system_from_string(value);
+    this->spherical_position.set_DEC_in_degrees_system_from_string(g, m, s);
 }
 
 
@@ -70,6 +75,11 @@ void Observation::set_observatory_position(BarycentricCoord position)
 void Observation::set_velocity(Velocity v)
 {
     this->velocity.set_all_velocity(v.get_vx(), v.get_vy(), v.get_vz());
+}
+
+void Observation::set_TT(Date TT)
+{
+    this->TT = TT;
 }
 
 

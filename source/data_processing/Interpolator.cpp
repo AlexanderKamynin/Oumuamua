@@ -1,31 +1,24 @@
 #include "Interpolator.h"
 
 
-/*
-    Interpolation of time on a uniform grid for observations
-*/
-void Interpolator::interpolation_time(Date* date_start, std::vector<Observation>* observations, std::vector<InterpolationTime> time)
-{
-    double interpolation_time_term;
-    int last = 0;
-    for (int i = 0; i < observations->size(); i++)
-    {
-        int expected_j = 10 * int(observations->at(i).get_date()->get_day_fraction() * 10) + (int(observations->at(i).get_date()->get_MJD()) - int(time[0].get_date().get_MJD())) * 100 + 5; // constatnt find j
-        if (not (observations->at(i).get_date()->get_MJD() < time[expected_j].get_date().get_MJD() and observations->at(i).get_date()->get_MJD() > time[expected_j - 1].get_date().get_MJD())) //checking j
-        {
-            expected_j += 1;
-        }
-        double f_current = time[expected_j].get_TT_TDB();
-        double f_previous = time[expected_j - 1].get_TT_TDB();
-        double t_current = time[expected_j].get_date().get_MJD();
-        double t_previous = time[expected_j - 1].get_date().get_MJD();
-        double t_interpolate = observations->at(i).get_date()->get_MJD();
 
-        interpolation_time_term = f_previous + (f_current - f_previous) / (t_current - t_previous) * (t_interpolate - t_previous);
-        double TDB = observations->at(i).get_date()->get_TT() - (interpolation_time_term / 86400000);
-        observations->at(i).get_date()->set_TDB(TDB);
+double interpolation_time(double time, std::vector<InterpolationTime>* tdb_grid)
+{
+    double step = tdb_grid->at(1).get_date().get_MJD() - tdb_grid->at(0).get_date().get_MJD();
+    int idx = int((time - tdb_grid->at(0).get_date().get_MJD()) / step);
+    if (idx == 0) {
+        return tdb_grid->at(0).get_TT_TDB();
     }
-}
+    else
+    {
+        double f_current = tdb_grid->at(idx).get_TT_TDB();
+        double f_previous = tdb_grid->at(idx - 1).get_TT_TDB();
+        double t_current = tdb_grid->at(idx).get_date().get_MJD();
+        double t_previous = tdb_grid->at(idx - 1).get_date().get_MJD();
+
+        return f_previous + (f_current - f_previous) / (t_current - t_previous) * (time - t_previous);
+    }
+};
 
 
 
@@ -88,18 +81,6 @@ std::map<std::string, std::vector<IntegrationVector>> Interpolator::interpolatio
 
 
 
-/*
-    Interpolation of Earth center coordinates
-*/
-BarycentricCoord Interpolator::interpolation_Earth_center(Date date_current, Date date_start, std::vector<IntegrationVector> earth_position)
-{
-    int i = int((date_current.get_MJD() - date_start.get_MJD()) / STEP) + 1;
-    BarycentricCoord interpolated_position = interpolation_helper(date_current, earth_position[i], earth_position[i - 1]);
-    return interpolated_position;
-}
-
-
-
 BarycentricCoord Interpolator::interpolation_helper(Date date, IntegrationVector position_current, IntegrationVector position_previous)
 {
     BarycentricCoord f_current = position_current.get_barycentric();
@@ -117,17 +98,18 @@ BarycentricCoord Interpolator::interpolation_helper(Date date, IntegrationVector
 }
 
 
-BarycentricCoord Interpolator::find_object_position(Date time, std::vector<IntegrationVector>* model_measure)
+BarycentricCoord Interpolator::find_object_position(Date time, std::vector<IntegrationVector>* object)
 {
     BarycentricCoord object_position;
-    int idx = int(((time.get_MJD()) - model_measure->at(0).get_date().get_MJD()) / STEP); // search for needed time
+    double step = object->at(1).get_date().get_MJD() - object->at(0).get_date().get_MJD();
+    int idx = int(((time.get_MJD()) - object->at(0).get_date().get_MJD()) / step); // search for needed time
     if (idx == 0)
     {
-        object_position = model_measure->at(0).get_barycentric();
+        object_position = object->at(0).get_barycentric();
     }
     else
     {
-        object_position = this->interpolation_helper(time, model_measure->at(idx), model_measure->at(idx - 1));
+        object_position = this->interpolation_helper(time, object->at(idx), object->at(idx - 1));
     }
 
     return object_position;
