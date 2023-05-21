@@ -70,6 +70,7 @@ void Converter::UTC_to_TT(Date* date, Observation* observation)
         Date TT;
         date->set_TT(date->get_MJD() + (deltat + 32.184) / 86400); // TT in days
         double day_fraction = date->get_day_fraction() + (deltat + 32.184) / 86400;
+        TT.set_MJD(date->get_TT());
         TT.set_day(date->get_day());
         TT.set_month(date->get_month());
         if (day_fraction >= 1.0)
@@ -288,18 +289,20 @@ void Converter::cartesian_geocentric_to_cartesian_barycentric(std::vector<Observ
                     break;
                 }
             }
-
+            
+            Date TT = *observations->at(i).get_TT();
             // convert observatory coordinates from cartesian to geocentric
-            GeocentricCoord geocentric_observatory_position = terrestial_to_geocentric_celestial(current_observatory->get_cartesian(), *current_date, *observations->at(i).get_TT(), earth_rotation_info);
+            GeocentricCoord geocentric_observatory_position = terrestial_to_geocentric_celestial(current_observatory->get_cartesian(), *current_date, TT, earth_rotation_info);
             //geocentric_observatory_position.print();
             // interpolation observatory coordinates to Earth center
             // [barycentric position of the center of the Earth] + [celestial geocentric position of the observatory]
             
             //TT -> TDB
-            double TDB = observations->at(i).get_TT()->get_MJD() - this->interpolator->interpolation_time(observations->at(i).get_TT()->get_MJD(), this->tdb_grid) / 86400000;
+            double TDB = TT.get_MJD() - this->interpolator->interpolation_time(TT.get_MJD(), this->tdb_grid) / 86400000;
 
             Date tdb_time;
             tdb_time.set_MJD(TDB);
+
             BarycentricCoord interpolated_Earth_center = interpolator->find_object_position(tdb_time, &earth_position);
             observatory_position.set_all_coords(interpolated_Earth_center.get_x() + geocentric_observatory_position.get_x(), interpolated_Earth_center.get_y() + geocentric_observatory_position.get_y(), interpolated_Earth_center.get_z() + geocentric_observatory_position.get_z());
         }

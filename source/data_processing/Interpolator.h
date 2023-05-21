@@ -7,6 +7,7 @@
 #include "../measure/time/Date.h"
 #include "../measure/movement/Velocity.h"
 #include "../data_processing/Matrix/Matrix.h"
+#include "../measure/time/InterpolationTime.h"
 
 #include <map>
 #include <iostream>

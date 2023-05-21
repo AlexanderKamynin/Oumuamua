@@ -150,13 +150,16 @@ void DataReader::read_interpolation_time_data()
 
     if (file.is_open())
     {
-        while (getline(file, line)) 
+        while (!file.eof()) 
         {
-            InterpolationTime time;
-            Date observation_date(line.substr(0, 12));
-            time.set_date(observation_date);
-            time.set_TT_TDB(line.substr(13, 9));
-            interpolation_time.push_back(time);
+            InterpolationTime interpolation_time;
+            Date date;
+            double time, tdb_tt;
+            file >> time >> tdb_tt;
+            date.set_MJD(time - JD_TO_MJD);
+            interpolation_time.set_date(date);
+            interpolation_time.set_TT_TDB(tdb_tt);
+            this->interpolation_time.push_back(interpolation_time);
         }
     }
     else
