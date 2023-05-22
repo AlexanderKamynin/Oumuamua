@@ -30,7 +30,12 @@ void LightCorrector::light_correct(std::vector<Observation>* observations, std::
 
 		BarycentricCoord object_position = interpolator->find_object_position(time, model_orbits);
 		BarycentricCoord sun_position = interpolator->find_object_position(time, sun_info);
+		
+		std::cout << "OBJECT POSITION:\t";
+		object_position.print();
 
+		std::cout << "SUN POSITION:\t";
+		sun_position.print();
 
 		// gravitational deflection
 		this->gravitational_deflection(&object_position, &observatory_position, &sun_position);

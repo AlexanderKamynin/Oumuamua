@@ -101,7 +101,7 @@ std::vector<IntegrationVector> Integration::dormand_prince(IntegrationVector ini
     new_condition.get_dx_db()->make_identity(); // dx0/dx0 = E
     this->date_start = *start;
 
-    for (double t = start->get_MJD(); t <= end->get_MJD() + step; t += step)
+    for (double t = start->get_MJD(); t <= end->get_MJD() + 1; t += step)
     {
         k1 = derivate_function(new_condition, planets);
         k2 = derivate_function(new_condition + step * (a21 * k1), planets);

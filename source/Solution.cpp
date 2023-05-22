@@ -9,8 +9,9 @@ Solution::Solution()
     //initial_condition.set_barycentric(1.46966286538887E+08, 7.29982316871326E+07, 2.05657582369639E+07);
     //initial_condition.set_velocity((4.467714995410097E+01) * 86400, (3.759100797623457E+00) * 86400, (1.726983438363074E+01) * 86400); // km/c -> km/day
 
-    initial_condition.set_barycentric(1.468787090096414E+08, 7.299085877471100E+07, 2.053190793311784E+07);
-    initial_condition.set_velocity(3.860105756034324E+06, 3.247863089146682E+05, 1.492113690745696E+06); // km/c -> km/day
+    //1.469591208242925E+08,  7.299762167917201E+07,  2.056299266163284E+07,  3.859428549646102E+06,  3.244525935598258E+05,  1.492020244998816E+06
+    initial_condition.set_barycentric(1.469591208242925E+08, 7.299762167917201E+07, 2.056299266163284E+07);
+    initial_condition.set_velocity(3.859428549646102E+06, 3.244525935598258E+05, 1.492020244998816E+06); // km/c -> km/day
 
     Interpolator interpolator;
     this->interpolator = interpolator;
@@ -82,10 +83,11 @@ void Solution::convert_observatory()
 void Solution::direct_problem(std::map<std::string, std::vector<IntegrationVector>>* map_planets)
 {
     std::vector<IntegrationVector> model_orbits;
-    model_orbits = integration.dormand_prince(initial_condition, data_reader.get_observations()->at(0).get_date(), data_reader.get_observations()->at(221).get_date(), STEP, map_planets);
+    Date start;
+    start.set_MJD(START_DATE);
+    model_orbits = integration.dormand_prince(initial_condition, &start, data_reader.get_observations()->at(221).get_date(), STEP, map_planets);
 
     light_corrector.light_correct(data_reader.get_observations(), &model_orbits, &this->model_measures, &map_planets->at("sun"), &map_planets->at("earth"), data_reader.get_earth_velocity_info());
-
 
     for (int i = 0; i < this->model_measures.size(); i++) {
         this->model_measures.at(i).set_date(*data_reader.get_observations()->at(i).get_date());
@@ -251,11 +253,12 @@ void Solution::act()
     converter.cartesian_geocentric_to_cartesian_barycentric(data_reader.get_observations(), data_reader.get_obsevatory_map(), data_reader.get_earth_rotation_vector(), data_reader.get_interpolation_hubble(), map_planets->at("earth"));
 
     int iteration = 1;
-    double accuracy = 1e-12;
+    double accuracy = 1e-8;
     std::pair<double, double> old_wrms = { 0, 0 };
 
     temp = clock();
     std::cout << "\t>>----- Inverse problem -----<<\n\n";
+
 
     while (true)
     {
