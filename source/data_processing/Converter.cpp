@@ -299,6 +299,7 @@ void Converter::cartesian_geocentric_to_cartesian_barycentric(std::vector<Observ
             
             //TT -> TDB
             double TDB = TT.get_MJD() - this->interpolator->interpolation_time(TT.get_MJD(), this->tdb_grid) / 86400000;
+            observations->at(i).set_TDB(TDB);
 
             Date tdb_time;
             tdb_time.set_MJD(TDB);
@@ -308,9 +309,17 @@ void Converter::cartesian_geocentric_to_cartesian_barycentric(std::vector<Observ
         }
         else
         {
-            GeocentricCoord geocentric_hubble_position = find_needed_hubble_data(*current_date, hubble_data);
+            Date TT = *observations->at(i).get_TT();
+            //TT -> TDB
+            double TDB = TT.get_MJD() - this->interpolator->interpolation_time(TT.get_MJD(), this->tdb_grid) / 86400000;
+            observations->at(i).set_TDB(TDB);
+
+            Date tdb_time;
+            tdb_time.set_MJD(TDB);
+
+            GeocentricCoord geocentric_hubble_position = find_needed_hubble_data(tdb_time, hubble_data);
             // [barycentric position of the center of the Earth] + [celestial geocentric position of the observatory]
-            BarycentricCoord interpolated_Earth_center = interpolator->find_object_position(*current_date, &earth_position);
+            BarycentricCoord interpolated_Earth_center = interpolator->find_object_position(tdb_time, &earth_position);
             observatory_position.set_all_coords(interpolated_Earth_center.get_x() + geocentric_hubble_position.get_x(), interpolated_Earth_center.get_y() + geocentric_hubble_position.get_y(), interpolated_Earth_center.get_z() + geocentric_hubble_position.get_z());
         }
         observations->at(i).set_observatory_position(observatory_position);

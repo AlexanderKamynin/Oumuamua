@@ -11,6 +11,11 @@ Date* Observation::get_TT()
     return &TT;
 }
 
+double Observation::get_TDB()
+{
+    return this->TDB;
+}
+
 
 std::string Observation::get_code() 
 {
@@ -80,6 +85,11 @@ void Observation::set_velocity(Velocity v)
 void Observation::set_TT(Date TT)
 {
     this->TT = TT;
+}
+
+void Observation::set_TDB(double tdb)
+{
+    this->TDB = tdb;
 }
 
 

@@ -17,6 +17,7 @@ class Observation
 private:
     Date date;
     Date TT;
+    double TDB; // in MJD format
     BarycentricCoord observatory_position;
     std::string observatory_code;
     SphericalCoord spherical_position;
@@ -40,10 +41,12 @@ public:
     void set_observatory_position(BarycentricCoord);
     void set_velocity(Velocity);
     void set_TT(Date);
+    void set_TDB(double);
 
     //getters
     Date* get_date();
     Date* get_TT();
+    double get_TDB();
     std::string get_code();
     SphericalCoord get_spherical_position();
     GeocentricCoord get_geocentric();

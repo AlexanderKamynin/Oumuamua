@@ -43,12 +43,17 @@ BarycentricCoord Interpolator::find_object_position(Date time, std::vector<Integ
     BarycentricCoord object_position;
     double step = object->at(1).get_date().get_MJD() - object->at(0).get_date().get_MJD();
     int idx = int(((time.get_MJD()) - object->at(0).get_date().get_MJD()) / step) + 1; // search for needed time
-    if (idx == 0)
+    if (idx <= 0)
     {
         object_position = object->at(0).get_barycentric();
     }
     else
     {
+        std::cout << "time=" << time.get_MJD() + JD_TO_MJD << "\n";
+        std::cout << "object i=\t";
+        object->at(idx).get_barycentric().print();
+        std::cout << "object i - 1 =\t";
+        object->at(idx - 1).get_barycentric().print();
         object_position = this->interpolation_helper(time, object->at(idx), object->at(idx - 1));
     }
 
