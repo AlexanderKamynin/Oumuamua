@@ -20,7 +20,15 @@ void LightCorrector::light_correct(std::vector<Observation>* observations, std::
 		double t = observations->at(i).get_TDB();
 
 		double delta = light_time_correction(t, &observatory_position, model_orbits);
+		if (i == 2) {
+			std::cout << "PIZDA PAVLOV SUKA\n\nt=" << t + JD_TO_MJD << "\n";
+			Date date;
+			date.set_MJD(t);
+			BarycentricCoord object_position = interpolator->find_object_position(date, model_orbits);
+			exit(1);
+		}
 		delta_output << "observatory_code= " << observations->at(i).get_code() << "\tdelta=" << delta << '\n';
+		//std::cout << delta * 24 * 60 * 60 << '\n';
 
 		//std::cout << std::setprecision(15) << t + JD_TO_MJD << "\t" << (t - delta) + JD_TO_MJD << "\t" << delta + JD_TO_MJD << "\n";
 		t = t - delta;
@@ -106,7 +114,7 @@ double LightCorrector::light_time_correction(double t, BarycentricCoord* observa
 		delta = distance / LIGHT_SPEED;
 	}
 
-	std::cout << std::setprecision(15) << delta << "\n";
+	//std::cout << std::setprecision(15) << delta << "\n";
 
 	return delta;
 }

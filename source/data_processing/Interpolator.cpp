@@ -50,10 +50,10 @@ BarycentricCoord Interpolator::find_object_position(Date time, std::vector<Integ
     else
     {
         std::cout << "time=" << time.get_MJD() + JD_TO_MJD << "\n";
-        std::cout << "object i=\t";
-        object->at(idx).get_barycentric().print();
-        std::cout << "object i - 1 =\t";
+        std::cout << "object i - 1 =" << idx - 1 << "\t";
         object->at(idx - 1).get_barycentric().print();
+        std::cout << "object i=" << idx << "\t";
+        object->at(idx).get_barycentric().print();
         object_position = this->interpolation_helper(time, object->at(idx), object->at(idx - 1));
     }
 
