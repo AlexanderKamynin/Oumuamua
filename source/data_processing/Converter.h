@@ -46,7 +46,7 @@ public:
     void geocentric_cartesian_to_geocentric_spherical(ModelMeasure* model_measure);
     void barycentric_cartesian_to_barycentric_spherical(ModelMeasure* model_measure);
     void barycentric_spherical_to_geocentric_cartesian(Observation*);
-    void cartesian_geocentric_to_cartesian_barycentric(std::vector<Observation>*, std::map<std::string, Observatory>*, std::vector<EarthRotation>*, std::vector<HubbleData>, std::vector<IntegrationVector>);
+    void cartesian_geocentric_to_cartesian_barycentric(std::vector<Observation>*, std::map<std::string, Observatory>*, std::vector<EarthRotation>*, std::vector<HubbleData>, std::vector<IntegrationVector>*);
     void UTC_to_TT(Date*, Observation* observation);
 
     // others

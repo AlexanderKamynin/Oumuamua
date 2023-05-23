@@ -438,7 +438,7 @@
     <Text Include="input_data\earth_rotation_data.txt" />
     <Text Include="input_data\hubble_data.txt" />
     <Text Include="input_data\earth.txt" />
-    <Text Include="input_data\JPL_base_mesuare.txt" />
+    <Text Include="input_data\JPL_base_measuare.txt" />
     <Text Include="input_data\jupyter.txt" />
     <Text Include="input_data\mars.txt" />
     <Text Include="input_data\mercury.txt" />

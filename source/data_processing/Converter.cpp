@@ -267,7 +267,7 @@ void Converter::barycentric_cartesian_to_barycentric_spherical(ModelMeasure* mod
     Convert geocentric to barycentric coordinates
     Used for base observation
 */
-void Converter::cartesian_geocentric_to_cartesian_barycentric(std::vector<Observation>* observations, std::map<std::string, Observatory>* observatory, std::vector<EarthRotation>* earth_rotation, std::vector<HubbleData> hubble_data, std::vector<IntegrationVector> earth_position)
+void Converter::cartesian_geocentric_to_cartesian_barycentric(std::vector<Observation>* observations, std::map<std::string, Observatory>* observatory, std::vector<EarthRotation>* earth_rotation, std::vector<HubbleData> hubble_data, std::vector<IntegrationVector>* earth_position)
 {
     Date* start_date = observations->at(0).get_date();
     for (int i = 0; i < observations->size(); i++)
@@ -303,7 +303,7 @@ void Converter::cartesian_geocentric_to_cartesian_barycentric(std::vector<Observ
             Date tdb_time;
             tdb_time.set_MJD(TDB);
 
-            BarycentricCoord interpolated_Earth_center = interpolator->find_object_position(tdb_time, &earth_position);
+            BarycentricCoord interpolated_Earth_center = interpolator->find_object_position(tdb_time, earth_position);
             observatory_position.set_all_coords(interpolated_Earth_center.get_x() + geocentric_observatory_position.get_x(), interpolated_Earth_center.get_y() + geocentric_observatory_position.get_y(), interpolated_Earth_center.get_z() + geocentric_observatory_position.get_z());
         }
         else
@@ -318,7 +318,7 @@ void Converter::cartesian_geocentric_to_cartesian_barycentric(std::vector<Observ
 
             GeocentricCoord geocentric_hubble_position = find_needed_hubble_data(tdb_time, hubble_data);
             // [barycentric position of the center of the Earth] + [celestial geocentric position of the observatory]
-            BarycentricCoord interpolated_Earth_center = interpolator->find_object_position(tdb_time, &earth_position);
+            BarycentricCoord interpolated_Earth_center = interpolator->find_object_position(tdb_time, earth_position);
             observatory_position.set_all_coords(interpolated_Earth_center.get_x() + geocentric_hubble_position.get_x(), interpolated_Earth_center.get_y() + geocentric_hubble_position.get_y(), interpolated_Earth_center.get_z() + geocentric_hubble_position.get_z());
         }
         observations->at(i).set_observatory_position(observatory_position);

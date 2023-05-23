@@ -50,7 +50,7 @@ void DataReader::read_observations()
 }
 
 
-void DataReader::read_JPL_base_mesuare()
+void DataReader::read_JPL_base_measuare()
 {
     std::ifstream file(this->JPL_mesuare_file);
     std::string line;

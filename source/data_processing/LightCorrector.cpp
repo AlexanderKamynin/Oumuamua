@@ -28,6 +28,7 @@ void LightCorrector::light_correct(std::vector<Observation>* observations, std::
 		BarycentricCoord object_position = interpolator->find_object_position(time, model_orbits);
 		BarycentricCoord sun_position = interpolator->find_object_position(time, sun_info);
 
+		//BarycentricCoord position = object_position - observatory_position;
 		//double observer_to_body[3] =
 		//{
 		//	position.get_x() / position.length(),

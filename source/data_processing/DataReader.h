@@ -36,11 +36,11 @@ private:
     std::string hubble_file = "./input_data/hubble_data.txt";
     std::string interpolation_time_file= "./input_data/interpolation_time_data.txt";
     std::string earth_rotation_file = "./input_data/earth_rotation_data.txt";
-    std::string JPL_mesuare_file = "./input_data/JPL_base_mesuare.txt";
+    std::string JPL_mesuare_file = "./input_data/JPL_base_measuare.txt";
 
 public:
     void read_observations();
-    void read_JPL_base_mesuare();
+    void read_JPL_base_measuare();
     void read_observatory_data();
     void read_hubble_data();
     void read_interpolation_time_data();

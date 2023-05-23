@@ -26,7 +26,7 @@ void Solution::read_data()
     data_reader.read_observatory_data();
     data_reader.read_hubble_data();
     data_reader.read_interpolation_time_data();
-    data_reader.read_JPL_base_mesuare();
+    data_reader.read_JPL_base_measuare();
 
 
     data_reader.read_interpolation_center_planet("./input_data/earth.txt", "earth");
@@ -113,6 +113,38 @@ void Solution::direct_problem(std::map<std::string, std::vector<IntegrationVecto
 }
 
 
+void Solution::check_on_JPL_data(std::vector<IntegrationVector>* earth)
+{
+    int last = 0;
+    for (int i = 0; i < data_reader.get_observations_vector().size(); i++)
+    {
+        for (int j = last; j < data_reader.get_JPL()->size(); j++)
+        {
+            if (data_reader.get_observations_vector().at(i).get_date()->get_MJD() < data_reader.get_JPL()->at(j).get_date()->get_MJD())
+            {
+                last = j;
+                IntegrationVector current_vector;
+                IntegrationVector previous_vector;
+                current_vector.set_barycentric(data_reader.get_JPL()->at(j + 1).get_barycentric().get_x(), data_reader.get_JPL()->at(j + 1).get_barycentric().get_y(), data_reader.get_JPL()->at(j + 1).get_barycentric().get_z());
+                previous_vector.set_barycentric(data_reader.get_JPL()->at(j).get_barycentric().get_x(), data_reader.get_JPL()->at(j).get_barycentric().get_y(), data_reader.get_JPL()->at(j).get_barycentric().get_z());
+                current_vector.set_date(*data_reader.get_JPL()->at(j + 1).get_date());
+                previous_vector.set_date(*data_reader.get_JPL()->at(j).get_date());
+
+                BarycentricCoord interpolated_position = interpolator.interpolation_helper(*data_reader.get_observations_vector()[i].get_date(), current_vector, previous_vector);
+
+                this->base_measures[i].set_barycentric(interpolated_position.get_x(), interpolated_position.get_y(), interpolated_position.get_z());
+                this->base_measures[i].set_date(*data_reader.get_observations_vector()[i].get_date());
+
+                this->converter.barycentric_cartesian_to_geocentric_cartesian(&base_measures[i], earth);
+                this->converter.geocentric_cartesian_to_geocentric_spherical(&base_measures[i]);
+                break;
+            }
+
+        }
+    }
+}
+
+
 
 void Solution::write_direct_problem_result()
 {
@@ -133,7 +165,6 @@ void Solution::write_direct_problem_result()
         }
         model_out.close();
         model_barycentric_out.close();
-        //std::cout << "Model:: " << counter << " strings was written in the file {" + model_file + "}" << std::endl;
         counter = 0;
     }
     else
@@ -154,7 +185,6 @@ void Solution::write_direct_problem_result()
             base_out << std::setprecision(9) << this->base_measures.at(ind).get_date().get_MJD() << "\tRA= " << this->base_measures.at(ind).get_spherical().get_right_ascension() << "\tDEC= " << this->base_measures.at(ind).get_spherical().get_declination() << "\n";
         }
         base_out.close();
-        //std::cout << "Base:: " << counter << " strings was written in the file {" + base_file + "}" << std::endl;
         counter = 0;
     }
     else
@@ -244,7 +274,9 @@ void Solution::act()
     convert_observatory();
     std::map<std::string, std::vector<IntegrationVector>>* map_planets = data_reader.get_interpolation_planets();
     converter.set_tdb_grid(data_reader.get_interpolation_time());
-    converter.cartesian_geocentric_to_cartesian_barycentric(data_reader.get_observations(), data_reader.get_obsevatory_map(), data_reader.get_earth_rotation_vector(), data_reader.get_interpolation_hubble(), map_planets->at("earth"));
+    converter.cartesian_geocentric_to_cartesian_barycentric(data_reader.get_observations(), data_reader.get_obsevatory_map(), data_reader.get_earth_rotation_vector(), data_reader.get_interpolation_hubble(), &map_planets->at("earth"));
+    //uncomment for make JPL base measure
+    //this->check_on_JPL_data(&map_planets->at("earth"));
 
     int iteration = 1;
     double accuracy = 1e-8;
