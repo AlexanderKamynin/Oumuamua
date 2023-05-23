@@ -145,9 +145,9 @@ if __name__ == '__main__':
     model = ModelSave("../output_data/model_measure.txt")
     model.read_data()
 
-    draw_2D_graphics('Right ascension in compare', model.model_time, base.base_RA, model.model_RA,
+    draw_2D_graphics('Right ascension in compare', model.model_time[1:], base.base_RA[1:], model.model_RA[1:],
                      'Base', 'Model', './RA_compare')
-    draw_2D_graphics('Declination in compare', model.model_time, base.base_DEC, model.model_DEC,
+    draw_2D_graphics('Declination in compare', model.model_time[1:], base.base_DEC[1:], model.model_DEC[1:],
                      'Base', 'Model', './DEC_compare')
     
     
@@ -156,5 +156,5 @@ if __name__ == '__main__':
     for i in range(len(model.model_RA)):
         delta_RA_list.append(abs(model.model_RA[i] - base.base_RA[i]))
         delta_DEC_list.append(abs(model.model_DEC[i] - base.base_DEC[i]))
-    draw_2D_graphic_one_param("Base-Model delta [RA]", model.model_time, delta_RA_list, "RA delta", "./RA_delta")
-    draw_2D_graphic_one_param("Base-Model delta [DEC]", model.model_time, delta_DEC_list, "DEC delta","./DEC_delta")
+    draw_2D_graphic_one_param("Base-Model delta [RA]", model.model_time[1:], delta_RA_list[1:], "RA delta", "./RA_delta")
+    draw_2D_graphic_one_param("Base-Model delta [DEC]", model.model_time[1:], delta_DEC_list[1:], "DEC delta","./DEC_delta")

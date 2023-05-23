@@ -129,8 +129,8 @@ if __name__ == '__main__':
 
     RA_err = 7.27 * 10e-7
     DEC_err = 4.84 * 10e-7
-    draw_2D_graphic_with_errorbar("RA delta before MNK", base.base_time, model_before.base_RA, "Before", RA_err, "./RA_before")
-    draw_2D_graphic_with_errorbar("RA delta after MNK", base.base_time, model_after.base_RA, "After", RA_err, "./RA_after")
-    draw_2D_graphic_with_errorbar("DEC delta before MNK", base.base_time, model_before.base_DEC, "Before", DEC_err, "./DEC_before")
-    draw_2D_graphic_with_errorbar("DEC delta after MNK", base.base_time, model_after.base_DEC, "After", DEC_err, "./DEC_after")
+    draw_2D_graphic_with_errorbar("RA delta before MNK", base.base_time[1:], model_before.base_RA[1:], "Before", RA_err, "./RA_before")
+    draw_2D_graphic_with_errorbar("RA delta after MNK", base.base_time[1:], model_after.base_RA[1:], "After", RA_err, "./RA_after")
+    draw_2D_graphic_with_errorbar("DEC delta before MNK", base.base_time[1:], model_before.base_DEC[1:], "Before", DEC_err, "./DEC_before")
+    draw_2D_graphic_with_errorbar("DEC delta after MNK", base.base_time[1:], model_after.base_DEC[1:], "After", DEC_err, "./DEC_after")
 
