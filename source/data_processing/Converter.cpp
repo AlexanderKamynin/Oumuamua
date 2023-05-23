@@ -293,7 +293,6 @@ void Converter::cartesian_geocentric_to_cartesian_barycentric(std::vector<Observ
             Date TT = *observations->at(i).get_TT();
             // convert observatory coordinates from cartesian to geocentric
             GeocentricCoord geocentric_observatory_position = terrestial_to_geocentric_celestial(current_observatory->get_cartesian(), *current_date, TT, earth_rotation_info);
-            //geocentric_observatory_position.print();
             // interpolation observatory coordinates to Earth center
             // [barycentric position of the center of the Earth] + [celestial geocentric position of the observatory]
             

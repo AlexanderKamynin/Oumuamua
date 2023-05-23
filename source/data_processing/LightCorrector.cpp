@@ -17,20 +17,10 @@ void LightCorrector::light_correct(std::vector<Observation>* observations, std::
 	for (int i = 0; i < observations->size(); i++)
 	{
 		BarycentricCoord observatory_position = observations->at(i).get_observatory_position();
+
 		double t = observations->at(i).get_TDB();
-
 		double delta = light_time_correction(t, &observatory_position, model_orbits);
-		if (i == 2) {
-			std::cout << "PIZDA PAVLOV SUKA\n\nt=" << t + JD_TO_MJD << "\n";
-			Date date;
-			date.set_MJD(t);
-			BarycentricCoord object_position = interpolator->find_object_position(date, model_orbits);
-			exit(1);
-		}
 		delta_output << "observatory_code= " << observations->at(i).get_code() << "\tdelta=" << delta << '\n';
-		//std::cout << delta * 24 * 60 * 60 << '\n';
-
-		//std::cout << std::setprecision(15) << t + JD_TO_MJD << "\t" << (t - delta) + JD_TO_MJD << "\t" << delta + JD_TO_MJD << "\n";
 		t = t - delta;
 		Date time;
 		time.set_MJD(t);
@@ -38,29 +28,25 @@ void LightCorrector::light_correct(std::vector<Observation>* observations, std::
 		BarycentricCoord object_position = interpolator->find_object_position(time, model_orbits);
 		BarycentricCoord sun_position = interpolator->find_object_position(time, sun_info);
 		
+		// if need to convert to geocentric then uncomment
+		//ModelMeasure geocentric_object_position;
+		//geocentric_object_position.set_barycentric(object_position);
+		//this->converter->barycentric_cartesian_to_geocentric_cartesian(&geocentric_object_position, earth_info);
 		BarycentricCoord position = object_position - observatory_position;
 
 		double observer_to_body[3] =
 		{
-			position.get_x(),
-			position.get_y(),
-			position.get_z()
+			position.get_x() / position.length(),
+			position.get_y() / position.length(),
+			position.get_z() / position.length()
 		};
-
-		/*std::cout << "OBJ AND OBS:\n";
-		std::cout << object_position.get_x() << " - " << observatory_position.get_x() << "\n";
-		std::cout << object_position.get_y() << " - " << observatory_position.get_y() << "\n";
-		std::cout << object_position.get_z() << " - " << observatory_position.get_z() << "\n";*/
 
 		for (int i = 0; i < 3; i++) {
 			this->corrected_position[i] = observer_to_body[i];
-			//std::cout << std::setprecision(15) << corrected_position[i] << " ";
 		}
-		//std::cout << '\n';
 		
-		// gravitational deflection
-		//this->gravitational_deflection(&object_position, &observatory_position, &sun_position);
 
+		//this->gravitational_deflection(&object_position, &observatory_position, &sun_position);
 		Velocity earth_velocity = interpolator->find_earth_velocity(time, earth_velocity_info);
 		//this->aberration(&observatory_position, &sun_position, &earth_velocity);
 
@@ -68,9 +54,7 @@ void LightCorrector::light_correct(std::vector<Observation>* observations, std::
 		ModelMeasure new_state;
 		new_state.set_barycentric(this->corrected_position[0], this->corrected_position[1], this->corrected_position[2]);
 
-		//check after light corrections
 		this->converter->barycentric_cartesian_to_barycentric_spherical(&new_state);
-		
 		model_measures->push_back(new_state);
 	}
 }
@@ -114,7 +98,6 @@ double LightCorrector::light_time_correction(double t, BarycentricCoord* observa
 		delta = distance / LIGHT_SPEED;
 	}
 
-	//std::cout << std::setprecision(15) << delta << "\n";
 
 	return delta;
 }
