@@ -6,9 +6,6 @@ Solution::Solution()
 {
     // initial values was taken from here: https://ssd.jpl.nasa.gov/horizons/app.html#/
 
-    //initial_condition.set_barycentric(1.46966286538887E+08, 7.29982316871326E+07, 2.05657582369639E+07);
-    //initial_condition.set_velocity((4.467714995410097E+01) * 86400, (3.759100797623457E+00) * 86400, (1.726983438363074E+01) * 86400); // km/c -> km/day
-
     initial_condition.set_barycentric(1.469591208242925E+08, 7.299762167917201E+07, 2.056299266163284E+07);
     initial_condition.set_velocity(3.859428549646102E+06, 3.244525935598258E+05, 1.492020244998816E+06); // km/day
 
@@ -105,11 +102,11 @@ void Solution::direct_problem(std::map<std::string, std::vector<IntegrationVecto
     }
 
 
-    for (int i = 0; i < this->model_measures.size(); i++)
-    {
-        converter.barycentric_cartesian_to_geocentric_cartesian(&(this->model_measures[i]), &map_planets->at("earth"));
-        converter.geocentric_cartesian_to_geocentric_spherical(&(this->model_measures[i]));
-    }
+    //for (int i = 0; i < this->model_measures.size(); i++)
+    //{
+    //    converter.barycentric_cartesian_to_geocentric_cartesian(&(this->model_measures[i]), &map_planets->at("earth"));
+    //    converter.geocentric_cartesian_to_geocentric_spherical(&(this->model_measures[i]));
+    //}
 
 
     write_direct_problem_result();
@@ -217,7 +214,7 @@ void Solution::inverse_problem()
         R[2 * i][0] = delta_RA;
         R[2 * i + 1][0] = delta_DEC;
 
-        double accuracy = 1e8;
+        double accuracy = 1e6;
         //Если наблюдение дано с точностью N знаков, то можете считать, что стандартное отклонение равно удвоенному значению единицы в (N+1)-м знаке.
         int last_digit = int(delta_RA * accuracy * 10) % 10;
         double w_ra = last_digit != 0 ? (2 * last_digit) / (accuracy * 10) : (2 * (last_digit + 1)) / (accuracy * 10);
