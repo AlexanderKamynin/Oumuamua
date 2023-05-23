@@ -109,7 +109,7 @@ std::vector<IntegrationVector> Integration::dormand_prince(IntegrationVector ini
         k4 = derivate_function(new_condition + step * (a41 * k1 + a42 * k2 + a43 * k3), planets);
         k5 = derivate_function(new_condition + step * (a51 * k1 + a52 * k2 + a53 * k3 + a54 * k4), planets);
         k6 = derivate_function(new_condition + step * (a61 * k1 + a62 * k2 + a63 * k3 + a64 * k4 + a65 * k5), planets);
-        k7 = derivate_function(new_condition + step * (a71 * k1 + a72 * k2 + a73 * k3 + a74 * k4 + a75 * k5 + a76 * k6), planets);
+        //k7 = derivate_function(new_condition + step * (a71 * k1 + a72 * k2 + a73 * k3 + a74 * k4 + a75 * k5 + a76 * k6), planets);
 
         new_condition = new_condition + step * (b1 * k1 + b3 * k3 + b4 * k4 + b5 * k5 + b6 * k6);
 

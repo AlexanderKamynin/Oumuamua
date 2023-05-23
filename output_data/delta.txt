@@ -204,7 +204,7 @@ observatory_code= 304	delta=0.00832267
 observatory_code= 304	delta=0.00832954
 observatory_code= 568	delta=0.00837359
 observatory_code= 568	delta=0.00837662
-observatory_code= 568	delta=0.00839524
+observatory_code= 568	delta=0.00839523
 observatory_code= 250	delta=0.0124683
 observatory_code= 250	delta=0.0124696
 observatory_code= 250	delta=0.012471
