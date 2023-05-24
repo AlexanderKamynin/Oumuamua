@@ -1,31 +1,31 @@
 #include "InterpolationTime.h"
 
 
-Date InterpolationTime::get_date()
+Date TT_TDB_obj::get_date()
 {
     return this->date;
 }
 
 
-double InterpolationTime::get_TT_TDB()
+double TT_TDB_obj::get_TT_TDB()
 {
     return this->TT_TDB;
 }
 
 
-void InterpolationTime::set_date(Date date) 
+void TT_TDB_obj::set_date(Date date) 
 {
     this->date = date;
 }
 
 
-void InterpolationTime::set_TT_TDB(std::string value) 
+void TT_TDB_obj::set_TT_TDB(std::string value) 
 {
     this->TT_TDB = std::stod(value);
 }
 
 
-void InterpolationTime::set_TT_TDB(double value) 
+void TT_TDB_obj::set_TT_TDB(double value) 
 {
     this->TT_TDB = value;
 }

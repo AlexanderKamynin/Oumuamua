@@ -2,7 +2,7 @@
 
 
 
-double Interpolator::interpolation_time(double time, std::vector<InterpolationTime>* tdb_grid)
+double Interpolator::interpolation_time(double time, std::vector<TT_TDB_obj>* tdb_grid)
 {
     double step = tdb_grid->at(1).get_date().get_MJD() - tdb_grid->at(0).get_date().get_MJD();
     int idx = int((time - tdb_grid->at(0).get_date().get_MJD()) / step);

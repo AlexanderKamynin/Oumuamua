@@ -7,13 +7,13 @@
 /*
     The class whose objects store the interpolated time
 */
-class InterpolationTime 
+class TT_TDB_obj 
 {
 private:
     Date date;
     double TT_TDB; // dynamical barycentric time
 public:
-    InterpolationTime() = default;
+    TT_TDB_obj() = default;
 
     //getters
     Date get_date();

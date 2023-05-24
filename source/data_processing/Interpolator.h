@@ -22,7 +22,7 @@ private:
 public:
 	Interpolator() = default;
 
-    double interpolation_time(double time, std::vector<InterpolationTime>* tdb_grid);
+    double interpolation_time(double time, std::vector<TT_TDB_obj>* tdb_grid);
     BarycentricCoord interpolation_helper(Date date, IntegrationVector position_previous, IntegrationVector position_current);
     std::vector<IntegrationVector> interpolation_model_on_grid(std::vector<Observation> observation_vector, Date* date_start, std::vector<IntegrationVector> interpolation_orbits);
     std::map<std::string, std::vector<IntegrationVector>> interpolation_center_planet(Date*, Date*, double, std::map<std::string, std::vector<IntegrationVector>>);

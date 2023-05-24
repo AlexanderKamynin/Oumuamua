@@ -141,7 +141,6 @@
     <ClCompile Include="source\measure\coords\Observatory.cpp" />
     <ClCompile Include="source\measure\coords\BarycentricCoord.cpp" />
     <ClCompile Include="source\data_processing\Integration.cpp" />
-    <ClCompile Include="source\measure\data_structures\HubbleData.cpp" />
     <ClCompile Include="source\measure\coords\GeocentricCoord.cpp" />
     <ClCompile Include="source\measure\time\InterpolationTime.cpp" />
     <ClCompile Include="source\measure\time\Date.cpp" />
@@ -415,7 +414,6 @@
     <ClInclude Include="source\measure\coords\Observatory.h" />
     <ClInclude Include="source\measure\coords\BarycentricCoord.h" />
     <ClInclude Include="source\data_processing\Integration.h" />
-    <ClInclude Include="source\measure\data_structures\HubbleData.h" />
     <ClInclude Include="source\measure\coords\GeocentricCoord.h" />
     <ClInclude Include="source\measure\time\InterpolationTime.h" />
     <ClInclude Include="source\measure\time\Date.h" />

@@ -25,20 +25,20 @@ void Solution::read_data()
     data_reader.read_observations();
     data_reader.read_observatory_data();
     data_reader.read_hubble_data();
-    data_reader.read_interpolation_time_data();
+    data_reader.read_TT_TDB_data();
     data_reader.read_JPL_base_measuare();
 
 
-    data_reader.read_interpolation_center_planet("./input_data/earth.txt", "earth");
-    data_reader.read_interpolation_center_planet("./input_data/sun.txt", "sun");
-    data_reader.read_interpolation_center_planet("./input_data/jupyter.txt", "jupiter");
-    data_reader.read_interpolation_center_planet("./input_data/mars.txt", "mars");
-    data_reader.read_interpolation_center_planet("./input_data/mercury.txt", "mercury");
-    data_reader.read_interpolation_center_planet("./input_data/moon.txt", "moon");
-    data_reader.read_interpolation_center_planet("./input_data/saturn.txt", "saturn");
-    data_reader.read_interpolation_center_planet("./input_data/venus.txt", "venus");
-    data_reader.read_interpolation_center_planet("./input_data/neptune.txt", "neptune");
-    data_reader.read_interpolation_center_planet("./input_data/uranus.txt", "uranus");
+    data_reader.read_planet_data("./input_data/earth.txt", "earth");
+    data_reader.read_planet_data("./input_data/sun.txt", "sun");
+    data_reader.read_planet_data("./input_data/jupyter.txt", "jupiter");
+    data_reader.read_planet_data("./input_data/mars.txt", "mars");
+    data_reader.read_planet_data("./input_data/mercury.txt", "mercury");
+    data_reader.read_planet_data("./input_data/moon.txt", "moon");
+    data_reader.read_planet_data("./input_data/saturn.txt", "saturn");
+    data_reader.read_planet_data("./input_data/venus.txt", "venus");
+    data_reader.read_planet_data("./input_data/neptune.txt", "neptune");
+    data_reader.read_planet_data("./input_data/uranus.txt", "uranus");
 }
 
 
@@ -215,7 +215,7 @@ void Solution::inverse_problem()
         R[2 * i][0] = delta_RA;
         R[2 * i + 1][0] = delta_DEC;
 
-        double accuracy = 1e5;
+        double accuracy = 1e4;
         //Если наблюдение дано с точностью N знаков, то можете считать, что стандартное отклонение равно удвоенному значению единицы в (N+1)-м знаке.
         int last_digit = int(delta_RA * accuracy * 10) % 10;
         double w_ra = last_digit != 0 ? (2 * last_digit) / (accuracy * 10) : (2 * (last_digit + 1)) / (accuracy * 10);
@@ -243,9 +243,9 @@ void Solution::act()
 
     convert_observations();
     convert_observatory();
-    std::map<std::string, std::vector<IntegrationVector>>* map_planets = data_reader.get_interpolation_planets();
-    converter.set_tdb_grid(data_reader.get_interpolation_time());
-    converter.cartesian_geocentric_to_cartesian_barycentric(data_reader.get_observations(), data_reader.get_obsevatory_map(), data_reader.get_earth_rotation_vector(), data_reader.get_interpolation_hubble(), &map_planets->at("earth"));
+    std::map<std::string, std::vector<IntegrationVector>>* map_planets = data_reader.get_planets_data();
+    converter.set_tdb_grid(data_reader.get_TT_TDB_data());
+    converter.cartesian_geocentric_to_cartesian_barycentric(data_reader.get_observations(), data_reader.get_obsevatory_map(), data_reader.get_earth_rotation_vector(), data_reader.get_hubble_data(), &map_planets->at("earth"));
 
     int iteration = 1;
     double accuracy = 1e-10;

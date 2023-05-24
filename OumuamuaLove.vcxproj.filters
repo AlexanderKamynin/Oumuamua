@@ -774,9 +774,6 @@
     <ClCompile Include="source\data_processing\Integration.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="source\measure\data_structures\HubbleData.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="source\measure\coords\GeocentricCoord.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
@@ -849,9 +846,6 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="source\data_processing\Integration.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="source\measure\data_structures\HubbleData.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="source\measure\coords\GeocentricCoord.h">

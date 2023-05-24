@@ -3,7 +3,6 @@
 #include "../data_processing/Interpolator.h"
 #include "../measure/data_structures/IntegrationVector.h"
 #include "../measure/coords/Observation.h"
-#include "../measure/data_structures/HubbleData.h"
 #include "../measure/data_structures/ModelMeasure.h"
 #include "../../sofa/src/sofa.h"
 #include <map>
