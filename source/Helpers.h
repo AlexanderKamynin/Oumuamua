@@ -17,7 +17,6 @@
 #define PI 3.14159265358979323846
 #define JD_TO_MJD 2400000.5
 #define STEP 0.0013888889
-#define START_DATE 58040.4375
 
 
 class Helpers

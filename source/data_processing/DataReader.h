@@ -27,7 +27,7 @@ private:
     std::vector<HubbleData> interpolation_hubble;
     std::vector<EarthRotation> earth_rotation;
     std::vector<IntegrationVector> earth_velocity;
-    std::vector<Observation> JPL_mesuare;
+    std::vector<IntegrationVector> JPL_measuare;
 
     Helpers help;
 
@@ -64,6 +64,6 @@ public:
     Observatory* get_observatory_data_by_code(std::string);
     std::map<std::string, Observatory>* get_obsevatory_map();
 
-    std::vector<Observation>* get_JPL();
+    std::vector<IntegrationVector>* get_JPL();
     std::vector<IntegrationVector>* get_earth_velocity_info();
 };

@@ -5,7 +5,7 @@
 double Interpolator::interpolation_time(double time, std::vector<InterpolationTime>* tdb_grid)
 {
     double step = tdb_grid->at(1).get_date().get_MJD() - tdb_grid->at(0).get_date().get_MJD();
-    int idx = int((time - tdb_grid->at(0).get_date().get_MJD()) / step) + 1;
+    int idx = int((time - tdb_grid->at(0).get_date().get_MJD()) / step);
     if (idx == 0) {
         return tdb_grid->at(0).get_TT_TDB();
     }
@@ -42,7 +42,7 @@ BarycentricCoord Interpolator::find_object_position(Date time, std::vector<Integ
 {
     BarycentricCoord object_position;
     double step = object->at(1).get_date().get_MJD() - object->at(0).get_date().get_MJD();
-    int idx = int(((time.get_MJD()) - object->at(0).get_date().get_MJD()) / step) + 1; // search for needed time
+    int idx = int(((time.get_MJD()) - object->at(0).get_date().get_MJD()) / step); // search for needed time
     if (idx <= 0)
     {
         object_position = object->at(0).get_barycentric();
@@ -61,7 +61,7 @@ Velocity Interpolator::find_earth_velocity(Date time, std::vector<IntegrationVec
     Velocity earth_velocity;
     std::vector<IntegrationVector> result;
     double step = earth_velocity_info->at(1).get_date().get_MJD() - earth_velocity_info->at(0).get_date().get_MJD();
-    int idx = int(((time.get_MJD()) - earth_velocity_info->at(0).get_date().get_MJD()) / step) + 1; // search for needed time
+    int idx = int(((time.get_MJD()) - earth_velocity_info->at(0).get_date().get_MJD()) / step); // search for needed time
     if (idx == 0)
     {
         earth_velocity = earth_velocity_info->at(0).get_velocity();
@@ -85,7 +85,7 @@ Velocity Interpolator::find_orbit_velocity(Date time, std::vector<IntegrationVec
     Velocity earth_velocity;
     std::vector<IntegrationVector> result;
     double step = STEP; // set step from integration
-    int idx = int(((time.get_MJD()) - orbit_velocity_info->at(0).get_date().get_MJD()) / step) + 1; // search for needed time
+    int idx = int(((time.get_MJD()) - orbit_velocity_info->at(0).get_date().get_MJD()) / step); // search for needed time
     if (idx == 0)
     {
         earth_velocity = orbit_velocity_info->at(0).get_velocity();
@@ -107,7 +107,7 @@ Matrix Interpolator::interpolate_dx_db(Date time, std::vector<IntegrationVector>
 {
     Matrix interpolated_dx_db = Matrix(6, 6);
     double step = STEP;
-    int idx = int(((time.get_MJD()) - model->at(0).get_date().get_MJD()) / step) + 1;
+    int idx = int(((time.get_MJD()) - model->at(0).get_date().get_MJD()) / step);
     if (idx == 0)
     {
         interpolated_dx_db = *model->at(0).get_dx_db();

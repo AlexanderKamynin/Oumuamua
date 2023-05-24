@@ -40,7 +40,6 @@ public:
     void convert_observatory();
     // integration
     void direct_problem(std::map<std::string, std::vector<IntegrationVector>>* map_planets);
-    void check_on_JPL_data(std::vector<IntegrationVector>* earth);
     void inverse_problem();
     void write_direct_problem_result();
     void clear_space();

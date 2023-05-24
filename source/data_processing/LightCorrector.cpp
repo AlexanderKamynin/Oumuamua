@@ -26,28 +26,35 @@ void LightCorrector::light_correct(std::vector<Observation>* observations, std::
 		time.set_MJD(t);
 
 		BarycentricCoord object_position = interpolator->find_object_position(time, model_orbits);
+		//time.set_MJD(t + delta);
 		BarycentricCoord sun_position = interpolator->find_object_position(time, sun_info);
 
-		//BarycentricCoord position = object_position - observatory_position;
-		//double observer_to_body[3] =
-		//{
-		//	position.get_x() / position.length(),
-		//	position.get_y() / position.length(),
-		//	position.get_z() / position.length()
-		//};
+		BarycentricCoord position = object_position - observatory_position;
+		double observer_to_body[3] =
+		{
+			position.get_x() / position.length(),
+			position.get_y() / position.length(),
+			position.get_z() / position.length()
+		};
 
-		//for (int i = 0; i < 3; i++) {
-		//	this->corrected_position[i] = observer_to_body[i];
-		//}
+		for (int i = 0; i < 3; i++) {
+			this->corrected_position[i] = observer_to_body[i];
+		}
 		
-
-		this->gravitational_deflection(&object_position, &observatory_position, &sun_position);
-		Velocity earth_velocity = interpolator->find_earth_velocity(time, earth_velocity_info);
-		this->aberration(&observatory_position, &sun_position, &earth_velocity);
+		//time.set_MJD(t + delta);
+		//this->gravitational_deflection(&object_position, &observatory_position, &sun_position);
+		//Velocity earth_velocity = interpolator->find_earth_velocity(time, earth_velocity_info);
+		//this->aberration(&observatory_position, &sun_position, &earth_velocity);
 
 		// set corrected position
 		ModelMeasure new_state;
 		new_state.set_barycentric(this->corrected_position[0], this->corrected_position[1], this->corrected_position[2]);
+
+		GeocentricCoord pos;
+		pos.set_x((object_position - observatory_position).get_x());
+		pos.set_y((object_position - observatory_position).get_y());
+		pos.set_z((object_position - observatory_position).get_z());
+		new_state.set_geocentric(pos);
 
 		this->converter->barycentric_cartesian_to_barycentric_spherical(&new_state);
 		model_measures->push_back(new_state);

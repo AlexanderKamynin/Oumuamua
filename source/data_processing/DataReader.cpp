@@ -60,14 +60,18 @@ void DataReader::read_JPL_base_measuare()
         while (getline(file, line))
         {
             Date JPL_date;
-            JPL_date.set_MJD(std::stod(line.substr(0,17)) - 2400000.5);
-            Observation observation;
+            JPL_date.set_MJD(std::stod(line.substr(0,17)) - JD_TO_MJD);
+            IntegrationVector observation;
             observation.set_date(JPL_date);
-            double x = std::stod(line.substr(52, 21));
-            double y = std::stod(line.substr(76, 21));
-            double z = std::stod(line.substr(100, 21));
+            double x = std::stod(line.substr(20, 21));
+            double y = std::stod(line.substr(44, 21));
+            double z = std::stod(line.substr(68, 21));
+            double vx = std::stod(line.substr(92, 21));
+            double vy = std::stod(line.substr(116, 21));
+            double vz = std::stod(line.substr(140, 21));
             observation.set_barycentric(x, y, z);
-            JPL_mesuare.push_back(observation);
+            observation.set_velocity(vx, vy, vz);
+            JPL_measuare.push_back(observation);
         }
     }
     else
@@ -75,7 +79,7 @@ void DataReader::read_JPL_base_measuare()
         std::cout << "Error reading file! {" << JPL_mesuare_file << "}\n";
     }
     file.close();
-    std::cout << "JPL_mesuare read: " << JPL_mesuare.size() << " \n";
+    std::cout << "JPL_measuare read: " << JPL_measuare.size() << " \n";
 }
 
 
@@ -336,9 +340,9 @@ std::map<std::string, Observatory>* DataReader::get_obsevatory_map()
     return &observatory;
 }
 
-std::vector<Observation>* DataReader::get_JPL()
+std::vector<IntegrationVector>* DataReader::get_JPL()
 {
-    return &this->JPL_mesuare;
+    return &this->JPL_measuare;
 }
 
 std::vector<IntegrationVector>* DataReader::get_earth_velocity_info()
