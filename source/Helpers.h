@@ -16,8 +16,7 @@
 #define LIGHT_SPEED 25902068371.2 // km / h * 24 = km / day
 #define PI 3.14159265358979323846
 #define JD_TO_MJD 2400000.5
-#define STEP 0.0013888889
-//#define STEP 0.05
+#define STEP 0.0015
 
 class Helpers
 {

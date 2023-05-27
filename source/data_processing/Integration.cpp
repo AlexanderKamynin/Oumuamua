@@ -7,7 +7,8 @@ IntegrationVector Integration::derivate_function(IntegrationVector current_condi
     BarycentricCoord Oumuamua_coordinates = current_condition.get_barycentric();
     BarycentricCoord a; // acceleration
 
-    int idx = int((current_condition.get_date().get_MJD() - this->date_start.get_MJD()) / STEP); // search for needed time
+    double step = planets->at("earth")[1].get_date().get_MJD() - planets->at("earth")[0].get_date().get_MJD();
+    int idx = int((current_condition.get_date().get_MJD() - planets->at("earth")[0].get_date().get_MJD()) / step); // search for needed time
 
     for (std::string planet_name : this->planet_list)
     {
@@ -54,7 +55,8 @@ void Integration::calculate_partial_derivates(IntegrationVector* current_conditi
         double day[3] = { 0, 0, 0 }; // day / dx, day / dy, day / dx
         double daz[3] = { 0, 0, 0 }; // daz / dx, daz / dy, daz / dz
 
-        int idx = int((current_condition->get_date().get_MJD() - this->date_start.get_MJD()) / STEP); // search for needed time
+        double step = planets->at("earth")[1].get_date().get_MJD() - planets->at("earth")[0].get_date().get_MJD();
+        int idx = int((current_condition->get_date().get_MJD() - this->date_start.get_MJD()) / step); // search for needed time
         BarycentricCoord Oumuamua_coordinates = current_condition->get_barycentric();
         for (std::string planet_name : this->planet_list)
         {
