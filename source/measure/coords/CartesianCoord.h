@@ -28,4 +28,6 @@ public:
     void set_z(double);
 
     void print();
+
+    ~CartesianCoord() = default;
 };

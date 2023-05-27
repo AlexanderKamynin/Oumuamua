@@ -62,4 +62,6 @@ public:
     Date& operator=(const Date& other);
     Date(const Date&& other);
     Date& operator=(const Date&& other);
+
+    ~Date() = default;
 };

@@ -43,4 +43,6 @@ public:
     double* get_DEC_in_degrees_system();
 
     void print();
+
+    ~SphericalCoord() = default;
 };

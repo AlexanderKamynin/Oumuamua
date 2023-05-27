@@ -52,4 +52,6 @@ public:
     friend BarycentricCoord operator*(double, BarycentricCoord);
     friend BarycentricCoord operator/(BarycentricCoord, BarycentricCoord);
     friend BarycentricCoord operator/(BarycentricCoord, double);
+
+    ~BarycentricCoord() = default;
 };

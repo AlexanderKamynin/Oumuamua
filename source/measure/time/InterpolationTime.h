@@ -23,4 +23,6 @@ public:
     void set_date(Date);
     void set_TT_TDB(std::string);
     void set_TT_TDB(double);
+
+    ~TT_TDB_obj() = default;
 };

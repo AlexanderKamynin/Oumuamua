@@ -47,4 +47,6 @@ public:
     friend Velocity operator*(Velocity, double);
     friend Velocity operator/(Velocity, Velocity);
     friend Velocity operator/(Velocity, double);
+
+    ~Velocity() = default;
 };

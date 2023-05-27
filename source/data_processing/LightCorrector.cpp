@@ -37,16 +37,54 @@ void LightCorrector::light_correct(std::vector<Observation>* observations, std::
 			position.get_z() / position.length()
 		};
 
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 3; i++) 
+		{
 			this->corrected_position[i] = observer_to_body[i];
 		}
 		
-		//time.set_MJD(t + delta);
-		//this->gravitational_deflection(&object_position, &observatory_position, &sun_position);
-		//Velocity earth_velocity = interpolator->find_earth_velocity(time, earth_velocity_info);
-		//this->aberration(&observatory_position, &sun_position, &earth_velocity);
+		/*
+		time.set_MJD(t + delta);
+		this->gravitational_deflection(&object_position, &observatory_position, &sun_position);
+		Velocity earth_velocity = interpolator->find_earth_velocity(time, earth_velocity_info);
+		this->aberration(&observatory_position, &sun_position, &earth_velocity);
 
 		// set corrected position
+
+		//precession
+		Date TT = *observations->at(i).get_TT();
+		double tt1, tt2;
+		double rb[3][3], rp[3][3], rbp[3][3];
+		iauDtf2d("TT", TT.get_year(), TT.get_month(), TT.get_day(), TT.get_hours(), TT.get_minutes(), TT.get_seconds(), &tt1, &tt2);
+		iauBp06(tt1, tt2, rb, rp, rbp); // rp - precession matrix
+
+		double new_pos[3];
+		for (int i = 0; i < 3; i++)
+		{
+			new_pos[i] = rbp[i][0] * this->corrected_position[0] + rbp[i][1] * this->corrected_position[1] + rbp[i][2] * this->corrected_position[2];
+		}
+
+		for (int i = 0; i < 3; i++)
+		{
+			this->corrected_position[i] = new_pos[i];
+		}
+
+		//nutation
+		double dpsi, deps;
+		iauNut06a(tt1, tt2, &dpsi, &deps);
+		double obliquity = iauObl06(tt1, tt2);
+
+		double nutation_matrix[3][3];
+		iauNumat(obliquity, dpsi, deps, nutation_matrix);
+		for (int i = 0; i < 3; i++)
+		{
+			new_pos[i] = nutation_matrix[i][0] * this->corrected_position[0] + nutation_matrix[i][1] * this->corrected_position[1] + nutation_matrix[i][2] * this->corrected_position[2];
+		}
+
+		for (int i = 0; i < 3; i++)
+		{
+			this->corrected_position[i] = new_pos[i];
+		}
+		*/
 		ModelMeasure new_state;
 		new_state.set_barycentric(this->corrected_position[0], this->corrected_position[1], this->corrected_position[2]);
 

@@ -56,4 +56,6 @@ public:
     friend IntegrationVector operator+(IntegrationVector, double);
     friend IntegrationVector operator+(IntegrationVector, IntegrationVector);
     friend IntegrationVector operator*(double, IntegrationVector);
+
+    ~IntegrationVector() = default;
 };

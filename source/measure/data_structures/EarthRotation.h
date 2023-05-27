@@ -25,6 +25,7 @@ public:
 	double get_x();
 	double get_y();
 	double get_UT1_UTC();
-	
+
+	~EarthRotation() = default;
 };
 

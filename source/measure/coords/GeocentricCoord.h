@@ -29,4 +29,6 @@ public:
     void set_z(double value);
 
     void print();
+
+    ~GeocentricCoord() = default;
 };

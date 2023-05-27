@@ -248,7 +248,7 @@ void Solution::act()
     converter.cartesian_geocentric_to_cartesian_barycentric(data_reader.get_observations(), data_reader.get_obsevatory_map(), data_reader.get_earth_rotation_vector(), data_reader.get_hubble_data(), &map_planets->at("earth"));
 
     int iteration = 1;
-    double accuracy = 1e-10;
+    double accuracy = 1.5e-6;
     std::pair<double, double> old_wrms = { 0, 0 };
 
 
